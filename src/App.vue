@@ -10,7 +10,7 @@
                     Top
                 </md-bottom-bar-item>
                 <md-bottom-bar-item md-icon="books" v-on:click="changeView('my-guesses')">
-                    Your Guesses
+                    Gusessing
                 </md-bottom-bar-item>
                 <md-bottom-bar-item md-icon="create" v-on:click="changeView('create')">
                     Create
