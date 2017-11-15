@@ -1,42 +1,73 @@
 <template>
     <div>
-<vue-pull-refresh :on-refresh="onRefresh"></vue-pull-refresh>
     <!--Here ends the pull to refresh-->
     <div id='content' class="container">
         <SearchHeaderBar/>
         <div class='cards'>
-            <GuessCard/>
-            <GuessCard/>
-            <GuessCard/>
-            <GuessCard/>
-            <GuessCard/>
-            <GuessCard/>
-            <GuessCard/>
+            <div v-for='title in titles'>
+                      <GuessCard :title="title"/>
+            </div>
         </div>
+        
     </div>
     </div>
 </template>
 
 <script>
+// Contract helpers
+import Guess from '@/js/Guess'
+
+// Vue components
 import SearchHeaderBar from './SearchHeaderBar.vue'
 import GuessCard from './GuessCard.vue'
-import VuePullRefresh from 'vue-pull-refresh'
 
 export default {
   name: 'home',
+  data () {
+    return {
+      titles: [],
+      totalGuesses: 0, // This is total number of guesses
+      totalGuessesLoading: false
+    }
+  },
   components: {
     SearchHeaderBar,
-    GuessCard,
-    VuePullRefresh
+    GuessCard
   },
   methods: {
-    onRefresh: function () {
-      return new Promise(function (resolve, reject) {
-        setTimeout(function () {
-          resolve()
-        }, 1000)
+    getTitle () {
+      for (var i = 0; i < this.totalGuesses; i++) {
+        Guess.getTitleFront(i).then((title) => {
+          console.log(title)
+          this.titles.push(title)
+        }).catch(err => {
+          console.log(err)
+        })
+      }
+    },
+    getGuessesNumber () {
+      this.totalGuessesLoading = true
+      return Guess.getGuessesNumber().then((number) => {
+        console.log(number.c[0])
+        this.totalGuesses = number.c[0]
+        return this.totalGuesses
+      }).catch(err => {
+        console.log(err)
+        this.totalGuessesLoading = false
       })
     }
+
+  },
+  mounted: function () {
+    let self = this
+    this.getGuessesNumber().then(function (number) {
+      self.getTitle()
+    })
+  },
+  beforeCreate: function () {
+    Guess.init().catch(err => {
+      console.log(err)
+    })
   }
 }
 </script>

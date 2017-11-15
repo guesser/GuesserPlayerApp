@@ -11,7 +11,7 @@
             <md-textarea></md-textarea>
         </md-input-container>
 
-        <md-button class="md-raised md-primary" @click="getTitle"><h3>Create</h3></md-button>
+        <md-button class="md-raised md-primary" @click="setTitle"><h3>Create</h3></md-button>
     </form>
 </template>
 
@@ -27,7 +27,7 @@ export default {
     }
   },
   methods: {
-    getTitle () {
+    setTitle () {
       Guess.setTitleFront(this.title).then((title) => {
         console.log(title)
       }).catch(err => {
@@ -36,16 +36,9 @@ export default {
     }
   },
   beforeCreate: function () {
-    Guess.init().then(() => {
-      Guess.setTitleFront(window.web3.eth.accounts[0]).then((setTitleFront) => {
-        console.log(setTitleFront)
-      }).catch(err => {
-        console.log(err)
-      })
-    }).catch(err => {
+    Guess.init().catch(err => {
       console.log(err)
     })
   }
-
 }
 </script>

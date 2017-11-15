@@ -2,7 +2,7 @@
     <md-card class="md-accent shape md-with-hover">
         <md-card-header>
             <md-card-header-text>
-                <div class="md-title">Pi encuentra churri</div>
+                <div class="md-title">{{title}}</div>
             </md-card-header-text>
 
             <md-chip class="md-warn">69 
@@ -35,7 +35,8 @@
 
 <script>
 export default {
-  name: 'GuessCard'
+  name: 'GuessCard',
+  props: ['title']
 }
 </script>
 
