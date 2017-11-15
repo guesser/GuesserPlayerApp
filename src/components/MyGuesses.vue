@@ -1,5 +1,7 @@
 <template>
     <div class="cards">
+
+        <h2> Your guesses</h2>
         <GuessCard/>
         <GuessCard/>
         <GuessCard/>

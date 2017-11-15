@@ -7,8 +7,10 @@ import router from './router'
 // Css for the material
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.css'
+import VuePullRefresh from 'vue-pull-refresh'
 
 Vue.use(VueMaterial)
+Vue.use(VuePullRefresh)
 
 Vue.material.registerTheme({
   default: {

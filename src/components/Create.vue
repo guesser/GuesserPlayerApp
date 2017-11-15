@@ -11,29 +11,41 @@
             <md-textarea></md-textarea>
         </md-input-container>
 
-        <md-stepper >
-            <md-step>
-                <p>Select the first option:</p>
-            <md-input v-model="option1"></md-input>
-            </md-step>
-            <md-step>
-                <p>Select the second option:</p>
-            <md-input v-model="option2"></md-input>
-            </md-step>
-            <md-step>
-                <p>Select the third option:</p>
-            <md-input v-model="option3"></md-input>
-            </md-step>
-            <md-step>
-                <p>Select the fourth option:</p>
-            <md-input v-model="option4"></md-input>
-            </md-step>
-        </md-stepper>
+        <md-button class="md-raised md-primary" @click="getTitle"><h3>Create</h3></md-button>
     </form>
 </template>
 
 <script>
+import Guess from '@/js/Guess'
+
 export default {
-  name: 'create'
+  name: 'Create',
+  data () {
+    return {
+      title: '',
+      description: ''
+    }
+  },
+  methods: {
+    getTitle () {
+      Guess.setTitleFront(this.title).then((title) => {
+        console.log(title)
+      }).catch(err => {
+        console.log(err)
+      })
+    }
+  },
+  beforeCreate: function () {
+    Guess.init().then(() => {
+      Guess.setTitleFront(window.web3.eth.accounts[0]).then((setTitleFront) => {
+        console.log(setTitleFront)
+      }).catch(err => {
+        console.log(err)
+      })
+    }).catch(err => {
+      console.log(err)
+    })
+  }
+
 }
 </script>

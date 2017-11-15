@@ -1,5 +1,5 @@
 <template>
-    <md-card class="md-accent">
+    <md-card class="md-accent shape md-with-hover">
         <md-card-header>
             <md-card-header-text>
                 <div class="md-title">Pi encuentra churri</div>
@@ -43,5 +43,10 @@ export default {
 .md-progress{
     width: 55%;
     margin-left: 3%;
+}
+.md-card{
+    max-width: 800px;
+    display: inline-block;
+    vertical-align:top;
 }
 </style>

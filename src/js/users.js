@@ -15,6 +15,7 @@ const Users = {
       self.contract.setProvider(window.web3.currentProvider)
 
       self.contract.deployed().then(instance => {
+        console.log('Hola')
         self.instance = instance
         resolve()
       }).catch(err => {

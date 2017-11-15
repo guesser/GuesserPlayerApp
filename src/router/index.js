@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import Dashboard from '@/components/Dashboard'
+import Dashboard from '@/components/Dashboard'
 import Signup from '@/components/Signup'
 import Profile from '@/components/Profile'
 import Create from '@/components/Create'
@@ -35,6 +35,11 @@ export default new Router({
       path: '/my-guesses',
       name: 'my-guesses',
       component: MyGuesses
+    },
+    {
+      path: '/dashboard',
+      name: 'Dashboard',
+      component: Dashboard
     }
   ]
 })

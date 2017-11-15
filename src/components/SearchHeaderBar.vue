@@ -11,7 +11,12 @@
 
 <script>
 export default{
-  name: 'SearchHeaderBar'
+  name: 'SearchHeaderBar',
+  data () {
+    return {
+      initialValue: ''
+    }
+  }
 }
 </script>
 
