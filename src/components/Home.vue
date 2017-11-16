@@ -4,8 +4,8 @@
     <div id='content' class="container">
         <SearchHeaderBar/>
         <div class='cards'>
-            <div v-for='title in titles'>
-                      <GuessCard :title="title"/>
+            <div v-for='guess in guesses'>
+                    <GuessCard :title="guess.title" :description="guess.description"/>
             </div>
         </div>
         
@@ -25,7 +25,7 @@ export default {
   name: 'home',
   data () {
     return {
-      titles: [],
+      guesses: [],
       totalGuesses: 0, // This is total number of guesses
       totalGuessesLoading: false
     }
@@ -35,11 +35,13 @@ export default {
     GuessCard
   },
   methods: {
-    getTitle () {
+    getGuesses () {
       for (var i = 0; i < this.totalGuesses; i++) {
-        Guess.getTitleFront(i).then((title) => {
-          console.log(title)
-          this.titles.push(title)
+        Guess.getGuessFront(i).then((guess) => {
+          this.guesses.push({
+            'title': guess[0],
+            'description': guess[1]
+          })
         }).catch(err => {
           console.log(err)
         })
@@ -48,7 +50,6 @@ export default {
     getGuessesNumber () {
       this.totalGuessesLoading = true
       return Guess.getGuessesNumber().then((number) => {
-        console.log(number.c[0])
         this.totalGuesses = number.c[0]
         return this.totalGuesses
       }).catch(err => {
@@ -61,7 +62,7 @@ export default {
   mounted: function () {
     let self = this
     this.getGuessesNumber().then(function (number) {
-      self.getTitle()
+      self.getGuesses()
     })
   },
   beforeCreate: function () {

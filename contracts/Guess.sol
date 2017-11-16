@@ -1,16 +1,25 @@
 pragma solidity ^0.4.15;
 
 contract Guess {
-    string[] titles;
+    struct GuessStruct{
+        bytes32 title;
+        bytes32 description;
+    }
+    GuessStruct[] guesses;
 
-    function getTitles(uint256 index) public view returns(string){
-        return titles[index];
+    function getGuess(uint256 index) public view returns(bytes32, bytes32){
+        return (guesses[index].title, guesses[index].description);
     }
-    function setTitle(string _title) public returns (string){
-        titles.push(_title);
-        return titles[titles.length-1];
+    function setGuess(bytes32 _title, bytes32 _description) public returns (bytes32, bytes32){
+        GuessStruct memory _guess = GuessStruct({
+            title: _title,
+            description: _description
+        });
+        guesses.push(_guess);
+
+        return (guesses[guesses.length-1].title, guesses[guesses.length-1].description);
     }
-    function getTitlesLength() public view returns (uint256){
-        return titles.length;
+    function getGuessesLength() public view returns (uint256){
+        return guesses.length;
     }
 }

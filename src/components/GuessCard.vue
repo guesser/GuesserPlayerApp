@@ -20,9 +20,7 @@
             </md-card-actions>
 
             <md-card-content>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea, nostrum odio. Dolores, sed accusantium quasi non, voluptas eius illo quas, saepe voluptate pariatur in deleniti minus sint. Excepturi.
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea, nostrum odio. Dolores, sed accusantium quasi non, voluptas eius illo quas, saepe voluptate pariatur in deleniti minus sint. Excepturi.
-
+                {{description}}
                 <h3> Votes: </h3>
                 <md-button class="md-raised md-primary" md-theme="green">No fucking way</md-button>
                 <md-button class="md-raised md-primary" md-theme="orange">No</md-button>
@@ -36,7 +34,7 @@
 <script>
 export default {
   name: 'GuessCard',
-  props: ['title']
+  props: ['title', 'description']
 }
 </script>
 

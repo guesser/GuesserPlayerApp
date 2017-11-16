@@ -8,10 +8,10 @@
 
         <md-input-container>
             <label>Description</label>
-            <md-textarea></md-textarea>
+            <md-textarea v-model="description"></md-textarea>
         </md-input-container>
 
-        <md-button class="md-raised md-primary" @click="setTitle"><h3>Create</h3></md-button>
+        <md-button class="md-raised md-primary" @click="setGuess"><h3>Create</h3></md-button>
     </form>
 </template>
 
@@ -27,8 +27,8 @@ export default {
     }
   },
   methods: {
-    setTitle () {
-      Guess.setTitleFront(this.title).then((title) => {
+    setGuess () {
+      Guess.setGuessFront(this.title, this.description).then((title) => {
         console.log(title)
       }).catch(err => {
         console.log(err)

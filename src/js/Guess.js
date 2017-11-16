@@ -24,32 +24,31 @@ const Guess = {
     })
   },
 
-  setTitleFront: function (newTitle) {
+  setGuessFront: function (newTitle, newDescription) {
     let self = this
 
     return new Promise((resolve, reject) => {
-      self.instance.setTitle(
-        newTitle,
+      self.instance.setGuess(
+        window.web3.fromAscii(newTitle),
+        window.web3.fromAscii(newDescription),
         {from: window.web3.eth.accounts[0]}
       ).then(title => {
-        console.log(title)
-        resolve(title)
+        resolve(window.web3.toAscii(title))
       }).catch(err => {
         reject(err)
       })
     })
   },
 
-  getTitleFront: function (index) {
+  getGuessFront: function (index) {
     let self = this
 
     return new Promise((resolve, reject) => {
-      self.instance.getTitles.call(
+      self.instance.getGuess.call(
         index,
         {from: window.web3.eth.accounts[0]}
       ).then(title => {
-        console.log(title)
-        resolve(title)
+        resolve([window.web3.toAscii(title[0]), window.web3.toAscii(title[1])])
       }).catch(err => {
         reject(err)
       })
@@ -59,7 +58,7 @@ const Guess = {
     let self = this
 
     return new Promise((resolve, reject) => {
-      self.instance.getTitlesLength.call(
+      self.instance.getGuessesLength.call(
         {from: window.web3.eth.accounts[0]}
       ).then(number => {
         resolve(number)
