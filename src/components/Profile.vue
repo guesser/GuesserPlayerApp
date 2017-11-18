@@ -48,21 +48,20 @@
           </div>
          </md-list-item>
        </md-list>
-       
-       <md-divider class=""></md-divider>
-
-        <div>
-            <md-button class="md-primary">Current</md-button>
-            <md-button class="md-primary">Past</md-button>
-         </div>
     </div>
-
+       <GuessesBottomProfile/>
 </div>
 </template>
 
 <script>
+// Vue components
+import GuessesBottomProfile from './ProfileComponents/GuessesBottomProfile.vue'
+
 export default {
-  name: 'profile'
+  name: 'profile',
+  components: {
+    GuessesBottomProfile
+  }
 }
 </script>
 
