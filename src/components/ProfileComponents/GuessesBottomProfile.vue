@@ -8,12 +8,20 @@
             <h3>Past</h3>
         </md-bottom-bar-item>
       </md-bottom-bar>
+      <GuessCard/>
+      <GuessCard/>
+      <GuessCard/>
     </div>
 </template>
 
 <script>
+import GuessCard from '../GuessCard.vue'
+
 export default{
-  name: 'GuessesBottomProfile'
+  name: 'GuessesBottomProfile',
+  components: {
+    GuessCard
+  }
 }
 </script>
 

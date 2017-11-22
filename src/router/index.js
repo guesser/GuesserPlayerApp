@@ -4,8 +4,8 @@ import Dashboard from '@/components/Dashboard'
 import Signup from '@/components/Signup'
 import Profile from '@/components/Profile'
 import Create from '@/components/Create'
-import MyGuesses from '@/components/MyGuesses'
 import Home from '@/components/Home'
+import Ranking from '@/components/Ranking'
 
 Vue.use(Router)
 
@@ -32,9 +32,9 @@ export default new Router({
       component: Create
     },
     {
-      path: '/my-guesses',
-      name: 'my-guesses',
-      component: MyGuesses
+      path: '/ranking',
+      name: 'ranking',
+      component: Ranking
     },
     {
       path: '/dashboard',

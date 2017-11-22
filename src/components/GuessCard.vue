@@ -22,10 +22,10 @@
             <md-card-content>
                 {{description}}
                 <h3> Votes: </h3>
-                <md-button class="md-raised md-primary" md-theme="green">No fucking way</md-button>
-                <md-button class="md-raised md-primary" md-theme="orange">No</md-button>
-                <md-button class="md-raised md-primary">Being Gay</md-button>
-
+                <md-button class="md-raised md-primary" v-if='option1 !== "" '>{{option1}}</md-button>
+                <md-button class="md-raised md-primary" v-if='option2 !== "" '>{{option2}}</md-button>
+                <md-button class="md-raised md-primary" v-if="option3 !== '' ">{{option3}}</md-button>
+                <md-button class="md-raised md-primary" v-if='option4'>{{option4}}</md-button>
             </md-card-content>
         </md-card-expand>
     </md-card>
@@ -34,7 +34,7 @@
 <script>
 export default {
   name: 'GuessCard',
-  props: ['title', 'description']
+  props: ['title', 'description', 'option1', 'option2', 'option3', 'option4']
 }
 </script>
 

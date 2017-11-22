@@ -5,7 +5,13 @@
         <SearchHeaderBar/>
         <div class='cards'>
             <div v-for='guess in guesses'>
-                    <GuessCard :title="guess.title" :description="guess.description"/>
+                    <GuessCard 
+                        :title="guess.title" 
+                        :description="guess.description"
+                        :option1="guess.option1"
+                        :option2="guess.option2"
+                        :option3="guess.option3"
+                        :option4="guess.option4"/>
             </div>
         </div>
         
@@ -38,9 +44,14 @@ export default {
     getGuesses () {
       for (var i = 0; i < this.totalGuesses; i++) {
         Guess.getGuessFront(i).then((guess) => {
+          console.log(guess)
           this.guesses.push({
             'title': guess[0],
-            'description': guess[1]
+            'description': guess[1],
+            'option1': guess[2],
+            'option2': guess[3],
+            'option3': guess[4],
+            'option4': guess[5]
           })
         }).catch(err => {
           console.log(err)

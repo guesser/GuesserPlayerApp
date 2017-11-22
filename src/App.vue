@@ -6,11 +6,11 @@
 
         <footer>
             <md-bottom-bar md-shift>
-                <md-bottom-bar-item md-icon="grade" md-active v-on:click="changeView('')">
+                <md-bottom-bar-item md-icon="book" md-active v-on:click="changeView('')">
                     Top
                 </md-bottom-bar-item>
-                <md-bottom-bar-item md-icon="books" v-on:click="changeView('my-guesses')">
-                    Gusessing
+                <md-bottom-bar-item md-icon="stars" v-on:click="changeView('ranking')">
+                    Ranking
                 </md-bottom-bar-item>
                 <md-bottom-bar-item md-icon="create" v-on:click="changeView('create')">
                     Create

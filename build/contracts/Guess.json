@@ -2,6 +2,45 @@
   "contractName": "Guess",
   "abi": [
     {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_title",
+          "type": "bytes32"
+        },
+        {
+          "name": "_description",
+          "type": "bytes32"
+        },
+        {
+          "name": "_option1",
+          "type": "bytes32"
+        },
+        {
+          "name": "_option2",
+          "type": "bytes32"
+        },
+        {
+          "name": "_option3",
+          "type": "bytes32"
+        },
+        {
+          "name": "_option4",
+          "type": "bytes32"
+        }
+      ],
+      "name": "setGuess",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "constant": true,
       "inputs": [],
       "name": "getGuessesLength",
@@ -13,33 +52,6 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_title",
-          "type": "bytes32"
-        },
-        {
-          "name": "_description",
-          "type": "bytes32"
-        }
-      ],
-      "name": "setGuess",
-      "outputs": [
-        {
-          "name": "",
-          "type": "bytes32"
-        },
-        {
-          "name": "",
-          "type": "bytes32"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -59,6 +71,22 @@
         {
           "name": "",
           "type": "bytes32"
+        },
+        {
+          "name": "",
+          "type": "bytes32"
+        },
+        {
+          "name": "",
+          "type": "bytes32"
+        },
+        {
+          "name": "",
+          "type": "bytes32"
+        },
+        {
+          "name": "",
+          "type": "bytes32"
         }
       ],
       "payable": false,
@@ -66,18 +94,18 @@
       "type": "function"
     }
   ],
-  "bytecode": "0x6060604052341561000f57600080fd5b61030e8061001e6000396000f300606060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063548963401461005c578063b749108914610085578063e9e6de2a146100e4575b600080fd5b341561006757600080fd5b61006f610132565b6040518082815260200191505060405180910390f35b341561009057600080fd5b6100b76004808035600019169060200190919080356000191690602001909190505061013e565b60405180836000191660001916815260200182600019166000191681526020019250505060405180910390f35b34156100ef57600080fd5b6101056004808035906020019091905050610213565b60405180836000191660001916815260200182600019166000191681526020019250505060405180910390f35b60008080549050905090565b600080610149610261565b604080519081016040528086600019168152602001856000191681525090506000805480600101828161017c9190610281565b91600052602060002090600202016000839091909150600082015181600001906000191690556020820151816001019060001916905550505060006001600080549050038154811015156101cc57fe5b90600052602060002090600202016000015460006001600080549050038154811015156101f557fe5b90600052602060002090600202016001015492509250509250929050565b60008060008381548110151561022557fe5b90600052602060002090600202016000015460008481548110151561024657fe5b90600052602060002090600202016001015491509150915091565b604080519081016040528060008019168152602001600080191681525090565b8154818355818115116102ae576002028160020283600052602060002091820191016102ad91906102b3565b5b505050565b6102df91905b808211156102db576000808201600090556001820160009055506002016102b9565b5090565b905600a165627a7a72305820d1c284d36f86b375554ef199aa898dd06c037811eae048b83aefa5dce831446c0029",
-  "deployedBytecode": "0x606060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063548963401461005c578063b749108914610085578063e9e6de2a146100e4575b600080fd5b341561006757600080fd5b61006f610132565b6040518082815260200191505060405180910390f35b341561009057600080fd5b6100b76004808035600019169060200190919080356000191690602001909190505061013e565b60405180836000191660001916815260200182600019166000191681526020019250505060405180910390f35b34156100ef57600080fd5b6101056004808035906020019091905050610213565b60405180836000191660001916815260200182600019166000191681526020019250505060405180910390f35b60008080549050905090565b600080610149610261565b604080519081016040528086600019168152602001856000191681525090506000805480600101828161017c9190610281565b91600052602060002090600202016000839091909150600082015181600001906000191690556020820151816001019060001916905550505060006001600080549050038154811015156101cc57fe5b90600052602060002090600202016000015460006001600080549050038154811015156101f557fe5b90600052602060002090600202016001015492509250509250929050565b60008060008381548110151561022557fe5b90600052602060002090600202016000015460008481548110151561024657fe5b90600052602060002090600202016001015491509150915091565b604080519081016040528060008019168152602001600080191681525090565b8154818355818115116102ae576002028160020283600052602060002091820191016102ad91906102b3565b5b505050565b6102df91905b808211156102db576000808201600090556001820160009055506002016102b9565b5090565b905600a165627a7a72305820d1c284d36f86b375554ef199aa898dd06c037811eae048b83aefa5dce831446c0029",
-  "sourceMap": "26:725:0:-;;;;;;;;;;;;;;;;;",
-  "deployedSourceMap": "26:725:0:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;654:95;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;306:343;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;157:144;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;654:95;703:7;728;:14;;;;721:21;;654:95;:::o;306:343::-;378:7;387;405:25;;:::i;:::-;433:89;;;;;;;;;466:6;433:89;;;;;;;499:12;433:89;;;;;;405:117;;532:7;:20;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;545:6;532:20;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;571:7;594:1;579:7;:14;;;;:16;571:25;;;;;;;;;;;;;;;;;;;;:31;;;604:7;627:1;612:7;:14;;;;:16;604:25;;;;;;;;;;;;;;;;;;;;:37;;;563:79;;;;306:343;;;;;;:::o;157:144::-;210:7;219;245;253:5;245:14;;;;;;;;;;;;;;;;;;;;:20;;;267:7;275:5;267:14;;;;;;;;;;;;;;;;;;;;:26;;;237:57;;;;157:144;;;:::o;26:725::-;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o",
-  "source": "pragma solidity ^0.4.15;\n\ncontract Guess {\n    struct GuessStruct{\n        bytes32 title;\n        bytes32 description;\n    }\n    GuessStruct[] guesses;\n\n    function getGuess(uint256 index) public view returns(bytes32, bytes32){\n        return (guesses[index].title, guesses[index].description);\n    }\n    function setGuess(bytes32 _title, bytes32 _description) public returns (bytes32, bytes32){\n        GuessStruct memory _guess = GuessStruct({\n            title: _title,\n            description: _description\n        });\n        guesses.push(_guess);\n\n        return (guesses[guesses.length-1].title, guesses[guesses.length-1].description);\n    }\n    function getGuessesLength() public view returns (uint256){\n        return guesses.length;\n    }\n}\n",
+  "bytecode": "0x6060604052341561000f57600080fd5b6104678061001e6000396000f300606060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806341b907881461005c57806354896340146100d8578063e9e6de2a14610101575b600080fd5b341561006757600080fd5b6100c2600480803560001916906020019091908035600019169060200190919080356000191690602001909190803560001916906020019091908035600019169060200190919080356000191690602001909190505061018b565b6040518082815260200191505060405180910390f35b34156100e357600080fd5b6100eb610280565b6040518082815260200191505060405180910390f35b341561010c57600080fd5b610122600480803590602001909190505061028d565b60405180876000191660001916815260200186600019166000191681526020018560001916600019168152602001846000191660001916815260200183600019166000191681526020018260001916600019168152602001965050505050505060405180910390f35b6000610195610371565b60c060405190810160405280896000191681526020018860001916815260200187600019168152602001866000191681526020018560001916815260200184600019168152509050600680548060010182816101f191906103ba565b91600052602060002090600602016000839091909150600082015181600001906000191690556020820151816001019060001916905560408201518160020190600019169055606082015181600301906000191690556080820151816004019060001916905560a082015181600501906000191690555050506001600680549050039150509695505050505050565b6000600680549050905090565b6000806000806000806006878154811015156102a557fe5b9060005260206000209060060201600001546006888154811015156102c657fe5b9060005260206000209060060201600101546006898154811015156102e757fe5b90600052602060002090600602016002015460068a81548110151561030857fe5b90600052602060002090600602016003015460068b81548110151561032957fe5b90600052602060002090600602016004015460068c81548110151561034a57fe5b90600052602060002090600602016005015495509550955095509550955091939550919395565b60c0604051908101604052806000801916815260200160008019168152602001600080191681526020016000801916815260200160008019168152602001600080191681525090565b8154818355818115116103e7576006028160060283600052602060002091820191016103e691906103ec565b5b505050565b61043891905b808211156104345760008082016000905560018201600090556002820160009055600382016000905560048201600090556005820160009055506006016103f2565b5090565b905600a165627a7a7230582079420439a8e1c8ea38b73ae989a96e06c86e18cc689e934333c339a67b6f51cb0029",
+  "deployedBytecode": "0x606060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806341b907881461005c57806354896340146100d8578063e9e6de2a14610101575b600080fd5b341561006757600080fd5b6100c2600480803560001916906020019091908035600019169060200190919080356000191690602001909190803560001916906020019091908035600019169060200190919080356000191690602001909190505061018b565b6040518082815260200191505060405180910390f35b34156100e357600080fd5b6100eb610280565b6040518082815260200191505060405180910390f35b341561010c57600080fd5b610122600480803590602001909190505061028d565b60405180876000191660001916815260200186600019166000191681526020018560001916600019168152602001846000191660001916815260200183600019166000191681526020018260001916600019168152602001965050505050505060405180910390f35b6000610195610371565b60c060405190810160405280896000191681526020018860001916815260200187600019168152602001866000191681526020018560001916815260200184600019168152509050600680548060010182816101f191906103ba565b91600052602060002090600602016000839091909150600082015181600001906000191690556020820151816001019060001916905560408201518160020190600019169055606082015181600301906000191690556080820151816004019060001916905560a082015181600501906000191690555050506001600680549050039150509695505050505050565b6000600680549050905090565b6000806000806000806006878154811015156102a557fe5b9060005260206000209060060201600001546006888154811015156102c657fe5b9060005260206000209060060201600101546006898154811015156102e757fe5b90600052602060002090600602016002015460068a81548110151561030857fe5b90600052602060002090600602016003015460068b81548110151561032957fe5b90600052602060002090600602016004015460068c81548110151561034a57fe5b90600052602060002090600602016005015495509550955095509550955091939550919395565b60c0604051908101604052806000801916815260200160008019168152602001600080191681526020016000801916815260200160008019168152602001600080191681525090565b8154818355818115116103e7576006028160060283600052602060002091820191016103e691906103ec565b5b505050565b61043891905b808211156104345760008082016000905560018201600090556002820160009055600382016000905560048201600090556005820160009055506006016103f2565b5090565b905600a165627a7a7230582079420439a8e1c8ea38b73ae989a96e06c86e18cc689e934333c339a67b6f51cb0029",
+  "sourceMap": "26:1270:0:-;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "26:1270:0:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;664:530;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1199:95;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;285:374;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;664:530;864:7;882:25;;:::i;:::-;910:213;;;;;;;;;943:6;910:213;;;;;;;976:12;910:213;;;;;;;1011:8;910:213;;;;;;;1042:8;910:213;;;;;;;1073:8;910:213;;;;;;;1104:8;910:213;;;;;;882:241;;1134:7;:20;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;1147:6;1134:20;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1186:1;1171:7;:14;;;;:16;1164:23;;664:530;;;;;;;;;:::o;1199:95::-;1248:7;1273;:14;;;;1266:21;;1199:95;:::o;285:374::-;338:7;347;356;365;374;383;409;417:5;409:14;;;;;;;;;;;;;;;;;;;;:20;;;448:7;456:5;448:14;;;;;;;;;;;;;;;;;;;;:26;;;493:7;501:5;493:14;;;;;;;;;;;;;;;;;;;;:22;;;533:7;541:5;533:14;;;;;;;;;;;;;;;;;;;;:22;;;573:7;581:5;573:14;;;;;;;;;;;;;;;;;;;;:22;;;613:7;621:5;613:14;;;;;;;;;;;;;;;;;;;;:22;;;401:251;;;;;;;;;;;;285:374;;;;;;;:::o;26:1270::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o",
+  "source": "pragma solidity ^0.4.15;\n\ncontract Guess {\n    struct GuessStruct{\n        bytes32 title;\n        bytes32 description;\n        bytes32 option1;\n        bytes32 option2;\n        bytes32 option3;\n        bytes32 option4;\n    }\n    GuessStruct _guessTemp;\n    GuessStruct[] guesses;\n\n    function getGuess(uint256 index) public view returns(bytes32, bytes32, bytes32, bytes32, bytes32, bytes32){\n        return (guesses[index].title, \n                guesses[index].description, \n                guesses[index].option1,\n                guesses[index].option2,\n                guesses[index].option3,\n                guesses[index].option4\n               );\n    }\n    function setGuess(\n        bytes32 _title, \n        bytes32 _description, \n        bytes32 _option1,\n        bytes32 _option2,\n        bytes32 _option3,\n        bytes32 _option4\n    ) public returns (uint256){\n        GuessStruct memory _guess = GuessStruct({\n            title: _title,\n            description: _description,\n            option1: _option1,\n            option2: _option2,\n            option3: _option3,\n            option4: _option4\n        });\n\n        guesses.push(_guess);\n        return guesses.length-1;\n    }\n    function getGuessesLength() public view returns (uint256){\n        return guesses.length;\n    }\n}\n",
   "sourcePath": "/Users/carlosgj94/Development/Solidity/VueGuesser/contracts/Guess.sol",
   "ast": {
     "attributes": {
       "absolutePath": "/Users/carlosgj94/Development/Solidity/VueGuesser/contracts/Guess.sol",
       "exportedSymbols": {
         "Guess": [
-          80
+          113
         ]
       }
     },
@@ -107,34 +135,28 @@
           "documentation": null,
           "fullyImplemented": true,
           "linearizedBaseContracts": [
-            80
+            113
           ],
           "name": "Guess",
-          "scope": 81
+          "scope": 114
         },
         "children": [
           {
             "attributes": {
-              "constant": false,
+              "canonicalName": "Guess.GuessStruct",
               "name": "GuessStruct",
-              "scope": 80,
-              "stateVariable": true,
-              "storageLocation": "default",
-              "type": "bytes32[] storage ref",
-              "value": null,
-              "visibility": "public",
-              "canonicalName": "Guess.GuessStruct"
+              "scope": 113,
+              "visibility": "public"
             },
             "children": [
               {
                 "attributes": {
-                  "length": null,
-                  "type": "bytes32",
                   "constant": false,
                   "name": "title",
-                  "scope": 6,
+                  "scope": 14,
                   "stateVariable": false,
                   "storageLocation": "default",
+                  "type": "bytes32",
                   "value": null,
                   "visibility": "internal"
                 },
@@ -157,7 +179,7 @@
                 "attributes": {
                   "constant": false,
                   "name": "description",
-                  "scope": 6,
+                  "scope": 14,
                   "stateVariable": false,
                   "storageLocation": "default",
                   "type": "bytes32",
@@ -178,168 +200,182 @@
                 "id": 5,
                 "name": "VariableDeclaration",
                 "src": "98:19:0"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "option1",
+                  "scope": 14,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "bytes32",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "bytes32",
+                      "type": "bytes32"
+                    },
+                    "id": 6,
+                    "name": "ElementaryTypeName",
+                    "src": "127:7:0"
+                  }
+                ],
+                "id": 7,
+                "name": "VariableDeclaration",
+                "src": "127:15:0"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "option2",
+                  "scope": 14,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "bytes32",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "bytes32",
+                      "type": "bytes32"
+                    },
+                    "id": 8,
+                    "name": "ElementaryTypeName",
+                    "src": "152:7:0"
+                  }
+                ],
+                "id": 9,
+                "name": "VariableDeclaration",
+                "src": "152:15:0"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "option3",
+                  "scope": 14,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "bytes32",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "bytes32",
+                      "type": "bytes32"
+                    },
+                    "id": 10,
+                    "name": "ElementaryTypeName",
+                    "src": "177:7:0"
+                  }
+                ],
+                "id": 11,
+                "name": "VariableDeclaration",
+                "src": "177:15:0"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "option4",
+                  "scope": 14,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "bytes32",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "bytes32",
+                      "type": "bytes32"
+                    },
+                    "id": 12,
+                    "name": "ElementaryTypeName",
+                    "src": "202:7:0"
+                  }
+                ],
+                "id": 13,
+                "name": "VariableDeclaration",
+                "src": "202:15:0"
               }
             ],
-            "id": 6,
+            "id": 14,
             "name": "StructDefinition",
-            "src": "47:77:0"
+            "src": "47:177:0"
           },
           {
             "attributes": {
               "constant": false,
-              "implemented": true,
-              "isConstructor": false,
-              "modifiers": [
-                null
-              ],
-              "name": "guesses",
-              "payable": false,
-              "scope": 80,
-              "stateMutability": "view",
-              "superFunction": null,
-              "visibility": "internal",
+              "name": "_guessTemp",
+              "scope": 113,
               "stateVariable": true,
               "storageLocation": "default",
-              "type": "struct Guess.GuessStruct storage ref[] storage ref",
-              "value": null
+              "type": "struct Guess.GuessStruct storage ref",
+              "value": null,
+              "visibility": "internal"
             },
             "children": [
               {
-                "children": [
-                  {
-                    "attributes": {
-                      "constant": false,
-                      "name": "GuessStruct",
-                      "scope": 16,
-                      "stateVariable": false,
-                      "storageLocation": "default",
-                      "type": "struct Guess.GuessStruct storage pointer",
-                      "value": null,
-                      "visibility": "internal",
-                      "contractScope": null,
-                      "referencedDeclaration": 6
-                    },
-                    "children": [
-                      {
-                        "attributes": {
-                          "name": "uint256",
-                          "type": "uint256"
-                        },
-                        "id": 5,
-                        "name": "ElementaryTypeName",
-                        "src": "89:7:0"
-                      }
-                    ],
-                    "id": 7,
-                    "name": "UserDefinedTypeName",
-                    "src": "129:11:0"
-                  }
-                ],
-                "id": 8,
-                "name": "ArrayTypeName",
-                "src": "129:13:0",
+                "attributes": {
+                  "contractScope": null,
+                  "name": "GuessStruct",
+                  "referencedDeclaration": 14,
+                  "type": "struct Guess.GuessStruct storage pointer"
+                },
+                "id": 15,
+                "name": "UserDefinedTypeName",
+                "src": "229:11:0"
+              }
+            ],
+            "id": 16,
+            "name": "VariableDeclaration",
+            "src": "229:22:0"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "name": "guesses",
+              "scope": 113,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "struct Guess.GuessStruct storage ref[] storage ref",
+              "value": null,
+              "visibility": "internal"
+            },
+            "children": [
+              {
                 "attributes": {
                   "length": null,
                   "type": "struct Guess.GuessStruct storage ref[] storage pointer"
-                }
-              },
-              {
+                },
                 "children": [
                   {
                     "attributes": {
-                      "constant": false,
-                      "name": "",
-                      "scope": 16,
-                      "stateVariable": false,
-                      "storageLocation": "default",
-                      "type": "bytes32",
-                      "value": null,
-                      "visibility": "internal"
+                      "contractScope": null,
+                      "name": "GuessStruct",
+                      "referencedDeclaration": 14,
+                      "type": "struct Guess.GuessStruct storage pointer"
                     },
-                    "children": [
-                      {
-                        "attributes": {
-                          "name": "bytes32",
-                          "type": "bytes32"
-                        },
-                        "id": 8,
-                        "name": "ElementaryTypeName",
-                        "src": "124:7:0"
-                      }
-                    ],
-                    "id": 9,
-                    "name": "VariableDeclaration",
-                    "src": "124:7:0"
+                    "id": 17,
+                    "name": "UserDefinedTypeName",
+                    "src": "257:11:0"
                   }
                 ],
-                "id": 10,
-                "name": "ParameterList",
-                "src": "123:9:0"
-              },
-              {
-                "children": [
-                  {
-                    "attributes": {
-                      "functionReturnParameters": 10
-                    },
-                    "children": [
-                      {
-                        "attributes": {
-                          "argumentTypes": null,
-                          "isConstant": false,
-                          "isLValue": true,
-                          "isPure": false,
-                          "lValueRequested": false,
-                          "type": "bytes32"
-                        },
-                        "children": [
-                          {
-                            "attributes": {
-                              "argumentTypes": null,
-                              "overloadedDeclarations": [
-                                null
-                              ],
-                              "referencedDeclaration": 4,
-                              "type": "bytes32[] storage ref",
-                              "value": "titles"
-                            },
-                            "id": 11,
-                            "name": "Identifier",
-                            "src": "149:6:0"
-                          },
-                          {
-                            "attributes": {
-                              "argumentTypes": null,
-                              "overloadedDeclarations": [
-                                null
-                              ],
-                              "referencedDeclaration": 6,
-                              "type": "uint256",
-                              "value": "index"
-                            },
-                            "id": 12,
-                            "name": "Identifier",
-                            "src": "156:5:0"
-                          }
-                        ],
-                        "id": 13,
-                        "name": "IndexAccess",
-                        "src": "149:13:0"
-                      }
-                    ],
-                    "id": 14,
-                    "name": "Return",
-                    "src": "142:20:0"
-                  }
-                ],
-                "id": 15,
-                "name": "Block",
-                "src": "132:37:0"
+                "id": 18,
+                "name": "ArrayTypeName",
+                "src": "257:13:0"
               }
             ],
-            "id": 9,
+            "id": 19,
             "name": "VariableDeclaration",
-            "src": "129:21:0"
+            "src": "257:21:0"
           },
           {
             "attributes": {
@@ -351,7 +387,7 @@
               ],
               "name": "getGuess",
               "payable": false,
-              "scope": 80,
+              "scope": 113,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "public"
@@ -363,7 +399,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "index",
-                      "scope": 29,
+                      "scope": 63,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
@@ -376,19 +412,19 @@
                           "name": "uint256",
                           "type": "uint256"
                         },
-                        "id": 10,
+                        "id": 20,
                         "name": "ElementaryTypeName",
-                        "src": "175:7:0"
+                        "src": "303:7:0"
                       }
                     ],
-                    "id": 11,
+                    "id": 21,
                     "name": "VariableDeclaration",
-                    "src": "175:13:0"
+                    "src": "303:13:0"
                   }
                 ],
-                "id": 12,
+                "id": 22,
                 "name": "ParameterList",
-                "src": "174:15:0"
+                "src": "302:15:0"
               },
               {
                 "children": [
@@ -396,7 +432,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 29,
+                      "scope": 63,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bytes32",
@@ -409,20 +445,20 @@
                           "name": "bytes32",
                           "type": "bytes32"
                         },
-                        "id": 13,
+                        "id": 23,
                         "name": "ElementaryTypeName",
-                        "src": "210:7:0"
+                        "src": "338:7:0"
                       }
                     ],
-                    "id": 14,
+                    "id": 24,
                     "name": "VariableDeclaration",
-                    "src": "210:7:0"
+                    "src": "338:7:0"
                   },
                   {
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 29,
+                      "scope": 63,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bytes32",
@@ -435,40 +471,140 @@
                           "name": "bytes32",
                           "type": "bytes32"
                         },
-                        "id": 15,
+                        "id": 25,
                         "name": "ElementaryTypeName",
-                        "src": "219:7:0"
+                        "src": "347:7:0"
                       }
                     ],
-                    "id": 16,
+                    "id": 26,
                     "name": "VariableDeclaration",
-                    "src": "219:7:0"
+                    "src": "347:7:0"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 63,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bytes32",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes32",
+                          "type": "bytes32"
+                        },
+                        "id": 27,
+                        "name": "ElementaryTypeName",
+                        "src": "356:7:0"
+                      }
+                    ],
+                    "id": 28,
+                    "name": "VariableDeclaration",
+                    "src": "356:7:0"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 63,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bytes32",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes32",
+                          "type": "bytes32"
+                        },
+                        "id": 29,
+                        "name": "ElementaryTypeName",
+                        "src": "365:7:0"
+                      }
+                    ],
+                    "id": 30,
+                    "name": "VariableDeclaration",
+                    "src": "365:7:0"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 63,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bytes32",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes32",
+                          "type": "bytes32"
+                        },
+                        "id": 31,
+                        "name": "ElementaryTypeName",
+                        "src": "374:7:0"
+                      }
+                    ],
+                    "id": 32,
+                    "name": "VariableDeclaration",
+                    "src": "374:7:0"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 63,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bytes32",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes32",
+                          "type": "bytes32"
+                        },
+                        "id": 33,
+                        "name": "ElementaryTypeName",
+                        "src": "383:7:0"
+                      }
+                    ],
+                    "id": 34,
+                    "name": "VariableDeclaration",
+                    "src": "383:7:0"
                   }
                 ],
-                "id": 17,
+                "id": 35,
                 "name": "ParameterList",
-                "src": "209:18:0"
+                "src": "337:54:0"
               },
               {
                 "children": [
                   {
+                    "attributes": {
+                      "functionReturnParameters": 35
+                    },
                     "children": [
                       {
                         "attributes": {
                           "argumentTypes": null,
                           "isConstant": false,
+                          "isInlineArray": false,
                           "isLValue": false,
                           "isPure": false,
-                          "isStructConstructorCall": false,
                           "lValueRequested": false,
-                          "names": [
-                            null
-                          ],
-                          "type": "tuple(bytes32,bytes32)",
-                          "type_conversion": false,
-                          "member_name": "title",
-                          "referencedDeclaration": 3,
-                          "isInlineArray": false
+                          "type": "tuple(bytes32,bytes32,bytes32,bytes32,bytes32,bytes32)"
                         },
                         "children": [
                           {
@@ -486,92 +622,6 @@
                               {
                                 "attributes": {
                                   "argumentTypes": null,
-                                  "overloadedDeclarations": [
-                                    null
-                                  ],
-                                  "referencedDeclaration": 7,
-                                  "type": "struct Guess.GuessStruct storage ref",
-                                  "value": "guesses",
-                                  "isConstant": false,
-                                  "isLValue": true,
-                                  "isPure": false,
-                                  "lValueRequested": false
-                                },
-                                "id": 20,
-                                "name": "IndexAccess",
-                                "src": "245:14:0",
-                                "children": [
-                                  {
-                                    "attributes": {
-                                      "argumentTypes": null,
-                                      "overloadedDeclarations": [
-                                        null
-                                      ],
-                                      "referencedDeclaration": 9,
-                                      "type": "struct Guess.GuessStruct storage ref[] storage ref",
-                                      "value": "guesses"
-                                    },
-                                    "id": 18,
-                                    "name": "Identifier",
-                                    "src": "245:7:0"
-                                  },
-                                  {
-                                    "attributes": {
-                                      "argumentTypes": null,
-                                      "overloadedDeclarations": [
-                                        null
-                                      ],
-                                      "referencedDeclaration": 11,
-                                      "type": "uint256",
-                                      "value": "index"
-                                    },
-                                    "id": 19,
-                                    "name": "Identifier",
-                                    "src": "253:5:0"
-                                  }
-                                ]
-                              },
-                              {
-                                "attributes": {
-                                  "argumentTypes": null,
-                                  "overloadedDeclarations": [
-                                    null
-                                  ],
-                                  "referencedDeclaration": 9,
-                                  "type": "uint256",
-                                  "value": "index"
-                                },
-                                "id": 15,
-                                "name": "Identifier",
-                                "src": "214:5:0"
-                              }
-                            ],
-                            "id": 21,
-                            "name": "MemberAccess",
-                            "src": "245:20:0"
-                          },
-                          {
-                            "attributes": {
-                              "argumentTypes": null,
-                              "overloadedDeclarations": [
-                                null
-                              ],
-                              "referencedDeclaration": 5,
-                              "type": "bytes32",
-                              "value": "_title",
-                              "isConstant": false,
-                              "isLValue": true,
-                              "isPure": false,
-                              "lValueRequested": false,
-                              "member_name": "description"
-                            },
-                            "id": 25,
-                            "name": "MemberAccess",
-                            "src": "267:26:0",
-                            "children": [
-                              {
-                                "attributes": {
-                                  "argumentTypes": null,
                                   "isConstant": false,
                                   "isLValue": true,
                                   "isPure": false,
@@ -585,13 +635,13 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 9,
+                                      "referencedDeclaration": 19,
                                       "type": "struct Guess.GuessStruct storage ref[] storage ref",
                                       "value": "guesses"
                                     },
-                                    "id": 22,
+                                    "id": 36,
                                     "name": "Identifier",
-                                    "src": "267:7:0"
+                                    "src": "409:7:0"
                                   },
                                   {
                                     "attributes": {
@@ -599,689 +649,23 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 11,
+                                      "referencedDeclaration": 21,
                                       "type": "uint256",
                                       "value": "index"
                                     },
-                                    "id": 23,
+                                    "id": 37,
                                     "name": "Identifier",
-                                    "src": "275:5:0"
+                                    "src": "417:5:0"
                                   }
                                 ],
-                                "id": 24,
+                                "id": 38,
                                 "name": "IndexAccess",
-                                "src": "267:14:0"
-                              }
-                            ]
-                          }
-                        ],
-                        "id": 26,
-                        "name": "TupleExpression",
-                        "src": "244:50:0"
-                      }
-                    ],
-                    "id": 27,
-                    "name": "Return",
-                    "src": "237:57:0",
-                    "attributes": {
-                      "functionReturnParameters": 17
-                    }
-                  },
-                  {
-                    "attributes": {
-                      "functionReturnParameters": 22
-                    },
-                    "children": [
-                      {
-                        "attributes": {
-                          "argumentTypes": null,
-                          "isConstant": false,
-                          "isLValue": true,
-                          "isPure": false,
-                          "lValueRequested": false,
-                          "type": "bytes32"
-                        },
-                        "children": [
-                          {
-                            "attributes": {
-                              "argumentTypes": null,
-                              "overloadedDeclarations": [
-                                null
-                              ],
-                              "referencedDeclaration": 4,
-                              "type": "bytes32[] storage ref",
-                              "value": "titles"
-                            },
-                            "id": 29,
-                            "name": "Identifier",
-                            "src": "278:6:0"
-                          },
-                          {
-                            "attributes": {
-                              "argumentTypes": null,
-                              "commonType": {
-                                "typeIdentifier": "t_uint256",
-                                "typeString": "uint256"
-                              },
-                              "isConstant": false,
-                              "isLValue": false,
-                              "isPure": false,
-                              "lValueRequested": false,
-                              "operator": "-",
-                              "type": "uint256"
-                            },
-                            "children": [
-                              {
-                                "attributes": {
-                                  "argumentTypes": null,
-                                  "isConstant": false,
-                                  "isLValue": true,
-                                  "isPure": false,
-                                  "lValueRequested": false,
-                                  "member_name": "length",
-                                  "referencedDeclaration": null,
-                                  "type": "uint256"
-                                },
-                                "children": [
-                                  {
-                                    "attributes": {
-                                      "argumentTypes": null,
-                                      "overloadedDeclarations": [
-                                        null
-                                      ],
-                                      "referencedDeclaration": 4,
-                                      "type": "bytes32[] storage ref",
-                                      "value": "titles"
-                                    },
-                                    "id": 30,
-                                    "name": "Identifier",
-                                    "src": "285:6:0"
-                                  }
-                                ],
-                                "id": 31,
-                                "name": "MemberAccess",
-                                "src": "285:13:0"
-                              },
-                              {
-                                "attributes": {
-                                  "argumentTypes": null,
-                                  "hexvalue": "31",
-                                  "isConstant": false,
-                                  "isLValue": false,
-                                  "isPure": true,
-                                  "lValueRequested": false,
-                                  "subdenomination": null,
-                                  "token": "number",
-                                  "type": "int_const 1",
-                                  "value": "1"
-                                },
-                                "id": 32,
-                                "name": "Literal",
-                                "src": "299:1:0"
+                                "src": "409:14:0"
                               }
                             ],
-                            "id": 33,
-                            "name": "BinaryOperation",
-                            "src": "285:15:0"
-                          }
-                        ],
-                        "id": 34,
-                        "name": "IndexAccess",
-                        "src": "278:23:0"
-                      }
-                    ],
-                    "id": 35,
-                    "name": "Return",
-                    "src": "271:30:0"
-                  }
-                ],
-                "id": 28,
-                "name": "Block",
-                "src": "227:74:0"
-              }
-            ],
-            "id": 29,
-            "name": "FunctionDefinition",
-            "src": "157:144:0"
-          },
-          {
-            "attributes": {
-              "constant": false,
-              "implemented": true,
-              "isConstructor": false,
-              "modifiers": [
-                null
-              ],
-              "name": "setGuess",
-              "payable": false,
-              "scope": 80,
-              "stateMutability": "nonpayable",
-              "superFunction": null,
-              "visibility": "public"
-            },
-            "children": [
-              {
-                "attributes": {
-                  "parameters": [
-                    null
-                  ]
-                },
-                "children": [
-                  {
-                    "attributes": {
-                      "constant": false,
-                      "name": "_title",
-                      "scope": 70,
-                      "stateVariable": false,
-                      "storageLocation": "default",
-                      "type": "bytes32",
-                      "value": null,
-                      "visibility": "internal"
-                    },
-                    "children": [
-                      {
-                        "attributes": {
-                          "name": "bytes32",
-                          "type": "bytes32"
-                        },
-                        "id": 30,
-                        "name": "ElementaryTypeName",
-                        "src": "324:7:0"
-                      }
-                    ],
-                    "id": 31,
-                    "name": "VariableDeclaration",
-                    "src": "324:14:0"
-                  },
-                  {
-                    "attributes": {
-                      "constant": false,
-                      "name": "_description",
-                      "scope": 70,
-                      "stateVariable": false,
-                      "storageLocation": "default",
-                      "type": "bytes32",
-                      "value": null,
-                      "visibility": "internal"
-                    },
-                    "children": [
-                      {
-                        "attributes": {
-                          "name": "bytes32",
-                          "type": "bytes32"
-                        },
-                        "id": 32,
-                        "name": "ElementaryTypeName",
-                        "src": "340:7:0"
-                      }
-                    ],
-                    "id": 33,
-                    "name": "VariableDeclaration",
-                    "src": "340:20:0"
-                  }
-                ],
-                "id": 34,
-                "name": "ParameterList",
-                "src": "323:38:0"
-              },
-              {
-                "children": [
-                  {
-                    "attributes": {
-                      "constant": false,
-                      "name": "",
-                      "scope": 70,
-                      "stateVariable": false,
-                      "storageLocation": "default",
-                      "type": "bytes32",
-                      "value": null,
-                      "visibility": "internal"
-                    },
-                    "children": [
-                      {
-                        "attributes": {
-                          "name": "bytes32",
-                          "type": "bytes32"
-                        },
-                        "id": 35,
-                        "name": "ElementaryTypeName",
-                        "src": "378:7:0"
-                      }
-                    ],
-                    "id": 36,
-                    "name": "VariableDeclaration",
-                    "src": "378:7:0"
-                  },
-                  {
-                    "attributes": {
-                      "constant": false,
-                      "name": "",
-                      "scope": 70,
-                      "stateVariable": false,
-                      "storageLocation": "default",
-                      "type": "bytes32",
-                      "value": null,
-                      "visibility": "internal"
-                    },
-                    "children": [
-                      {
-                        "attributes": {
-                          "name": "bytes32",
-                          "type": "bytes32"
-                        },
-                        "id": 37,
-                        "name": "ElementaryTypeName",
-                        "src": "387:7:0"
-                      }
-                    ],
-                    "id": 38,
-                    "name": "VariableDeclaration",
-                    "src": "387:7:0"
-                  }
-                ],
-                "id": 39,
-                "name": "ParameterList",
-                "src": "377:18:0"
-              },
-              {
-                "children": [
-                  {
-                    "attributes": {
-                      "functionReturnParameters": 41,
-                      "assignments": [
-                        41
-                      ]
-                    },
-                    "children": [
-                      {
-                        "attributes": {
-                          "argumentTypes": null,
-                          "isConstant": false,
-                          "isLValue": true,
-                          "isPure": false,
-                          "lValueRequested": false,
-                          "member_name": "length",
-                          "referencedDeclaration": null,
-                          "type": "struct Guess.GuessStruct memory",
-                          "constant": false,
-                          "name": "_guess",
-                          "scope": 70,
-                          "stateVariable": false,
-                          "storageLocation": "memory",
-                          "value": null,
-                          "visibility": "internal"
-                        },
-                        "children": [
-                          {
-                            "attributes": {
-                              "argumentTypes": null,
-                              "overloadedDeclarations": [
-                                null
-                              ],
-                              "referencedDeclaration": 6,
-                              "type": "struct Guess.GuessStruct storage pointer",
-                              "value": "titles",
-                              "contractScope": null,
-                              "name": "GuessStruct"
-                            },
-                            "id": 40,
-                            "name": "UserDefinedTypeName",
-                            "src": "405:11:0"
-                          }
-                        ],
-                        "id": 41,
-                        "name": "VariableDeclaration",
-                        "src": "405:25:0"
-                      },
-                      {
-                        "attributes": {
-                          "argumentTypes": null,
-                          "isConstant": false,
-                          "isLValue": false,
-                          "isPure": false,
-                          "isStructConstructorCall": true,
-                          "lValueRequested": false,
-                          "names": [
-                            "title",
-                            "description"
-                          ],
-                          "type": "struct Guess.GuessStruct memory",
-                          "type_conversion": false
-                        },
-                        "children": [
-                          {
-                            "attributes": {
-                              "argumentTypes": null,
-                              "overloadedDeclarations": [
-                                null
-                              ],
-                              "referencedDeclaration": 6,
-                              "type": "type(struct Guess.GuessStruct storage pointer)",
-                              "value": "GuessStruct"
-                            },
-                            "id": 42,
-                            "name": "Identifier",
-                            "src": "433:11:0"
-                          },
-                          {
-                            "attributes": {
-                              "argumentTypes": null,
-                              "overloadedDeclarations": [
-                                null
-                              ],
-                              "referencedDeclaration": 31,
-                              "type": "bytes32",
-                              "value": "_title"
-                            },
-                            "id": 43,
-                            "name": "Identifier",
-                            "src": "466:6:0"
-                          },
-                          {
-                            "attributes": {
-                              "argumentTypes": null,
-                              "overloadedDeclarations": [
-                                null
-                              ],
-                              "referencedDeclaration": 33,
-                              "type": "bytes32",
-                              "value": "_description"
-                            },
-                            "id": 44,
-                            "name": "Identifier",
-                            "src": "499:12:0"
-                          }
-                        ],
-                        "id": 45,
-                        "name": "FunctionCall",
-                        "src": "433:89:0"
-                      }
-                    ],
-                    "id": 46,
-                    "name": "VariableDeclarationStatement",
-                    "src": "405:117:0"
-                  },
-                  {
-                    "children": [
-                      {
-                        "attributes": {
-                          "argumentTypes": null,
-                          "isConstant": false,
-                          "isLValue": false,
-                          "isPure": false,
-                          "isStructConstructorCall": false,
-                          "lValueRequested": false,
-                          "names": [
-                            null
-                          ],
-                          "type": "uint256",
-                          "type_conversion": false
-                        },
-                        "children": [
-                          {
-                            "attributes": {
-                              "argumentTypes": [
-                                {
-                                  "typeIdentifier": "t_struct$_GuessStruct_$6_memory_ptr",
-                                  "typeString": "struct Guess.GuessStruct memory"
-                                }
-                              ],
-                              "isConstant": false,
-                              "isLValue": false,
-                              "isPure": false,
-                              "lValueRequested": false,
-                              "member_name": "push",
-                              "referencedDeclaration": null,
-                              "type": "function (struct Guess.GuessStruct storage ref) returns (uint256)"
-                            },
-                            "children": [
-                              {
-                                "attributes": {
-                                  "argumentTypes": null,
-                                  "overloadedDeclarations": [
-                                    null
-                                  ],
-                                  "referencedDeclaration": 9,
-                                  "type": "struct Guess.GuessStruct storage ref[] storage ref",
-                                  "value": "guesses"
-                                },
-                                "id": 47,
-                                "name": "Identifier",
-                                "src": "532:7:0"
-                              }
-                            ],
-                            "id": 49,
+                            "id": 39,
                             "name": "MemberAccess",
-                            "src": "532:12:0"
-                          },
-                          {
-                            "attributes": {
-                              "argumentTypes": null,
-                              "overloadedDeclarations": [
-                                null
-                              ],
-                              "referencedDeclaration": 41,
-                              "type": "struct Guess.GuessStruct memory",
-                              "value": "_guess"
-                            },
-                            "id": 50,
-                            "name": "Identifier",
-                            "src": "545:6:0"
-                          }
-                        ],
-                        "id": 51,
-                        "name": "FunctionCall",
-                        "src": "532:20:0"
-                      }
-                    ],
-                    "id": 52,
-                    "name": "ExpressionStatement",
-                    "src": "532:20:0"
-                  },
-                  {
-                    "attributes": {
-                      "functionReturnParameters": 39
-                    },
-                    "children": [
-                      {
-                        "attributes": {
-                          "argumentTypes": null,
-                          "isConstant": false,
-                          "isLValue": false,
-                          "isPure": false,
-                          "lValueRequested": false,
-                          "member_name": "title",
-                          "referencedDeclaration": 3,
-                          "type": "tuple(bytes32,bytes32)",
-                          "isInlineArray": false
-                        },
-                        "children": [
-                          {
-                            "attributes": {
-                              "argumentTypes": null,
-                              "isConstant": false,
-                              "isLValue": true,
-                              "isPure": false,
-                              "lValueRequested": false,
-                              "type": "bytes32",
-                              "member_name": "title",
-                              "referencedDeclaration": 3
-                            },
-                            "children": [
-                              {
-                                "attributes": {
-                                  "argumentTypes": null,
-                                  "overloadedDeclarations": [
-                                    null
-                                  ],
-                                  "referencedDeclaration": 7,
-                                  "type": "struct Guess.GuessStruct storage ref",
-                                  "value": "guesses",
-                                  "isConstant": false,
-                                  "isLValue": true,
-                                  "isPure": false,
-                                  "lValueRequested": false
-                                },
-                                "id": 58,
-                                "name": "IndexAccess",
-                                "src": "571:25:0",
-                                "children": [
-                                  {
-                                    "attributes": {
-                                      "argumentTypes": null,
-                                      "overloadedDeclarations": [
-                                        null
-                                      ],
-                                      "referencedDeclaration": 9,
-                                      "type": "struct Guess.GuessStruct storage ref[] storage ref",
-                                      "value": "guesses"
-                                    },
-                                    "id": 53,
-                                    "name": "Identifier",
-                                    "src": "571:7:0"
-                                  },
-                                  {
-                                    "attributes": {
-                                      "argumentTypes": null,
-                                      "commonType": {
-                                        "typeIdentifier": "t_uint256",
-                                        "typeString": "uint256"
-                                      },
-                                      "isConstant": false,
-                                      "isLValue": false,
-                                      "isPure": false,
-                                      "lValueRequested": false,
-                                      "operator": "-",
-                                      "type": "uint256"
-                                    },
-                                    "children": [
-                                      {
-                                        "attributes": {
-                                          "argumentTypes": null,
-                                          "isConstant": false,
-                                          "isLValue": true,
-                                          "isPure": false,
-                                          "lValueRequested": false,
-                                          "member_name": "length",
-                                          "referencedDeclaration": null,
-                                          "type": "uint256"
-                                        },
-                                        "children": [
-                                          {
-                                            "attributes": {
-                                              "argumentTypes": null,
-                                              "overloadedDeclarations": [
-                                                null
-                                              ],
-                                              "referencedDeclaration": 9,
-                                              "type": "struct Guess.GuessStruct storage ref[] storage ref",
-                                              "value": "guesses"
-                                            },
-                                            "id": 54,
-                                            "name": "Identifier",
-                                            "src": "579:7:0"
-                                          }
-                                        ],
-                                        "id": 55,
-                                        "name": "MemberAccess",
-                                        "src": "579:14:0"
-                                      },
-                                      {
-                                        "attributes": {
-                                          "argumentTypes": null,
-                                          "hexvalue": "31",
-                                          "isConstant": false,
-                                          "isLValue": false,
-                                          "isPure": true,
-                                          "lValueRequested": false,
-                                          "subdenomination": null,
-                                          "token": "number",
-                                          "type": "int_const 1",
-                                          "value": "1"
-                                        },
-                                        "id": 56,
-                                        "name": "Literal",
-                                        "src": "594:1:0"
-                                      }
-                                    ],
-                                    "id": 57,
-                                    "name": "BinaryOperation",
-                                    "src": "579:16:0"
-                                  }
-                                ]
-                              },
-                              {
-                                "attributes": {
-                                  "argumentTypes": null,
-                                  "commonType": {
-                                    "typeIdentifier": "t_uint256",
-                                    "typeString": "uint256"
-                                  },
-                                  "isConstant": false,
-                                  "isLValue": false,
-                                  "isPure": false,
-                                  "lValueRequested": false,
-                                  "operator": "-",
-                                  "type": "uint256"
-                                },
-                                "children": [
-                                  {
-                                    "attributes": {
-                                      "argumentTypes": null,
-                                      "isConstant": false,
-                                      "isLValue": true,
-                                      "isPure": false,
-                                      "lValueRequested": false,
-                                      "member_name": "length",
-                                      "referencedDeclaration": null,
-                                      "type": "uint256"
-                                    },
-                                    "children": [
-                                      {
-                                        "attributes": {
-                                          "argumentTypes": null,
-                                          "overloadedDeclarations": [
-                                            null
-                                          ],
-                                          "referencedDeclaration": 7,
-                                          "type": "struct Guess.GuessStruct storage ref[] storage ref",
-                                          "value": "guesses"
-                                        },
-                                        "id": 40,
-                                        "name": "Identifier",
-                                        "src": "440:7:0"
-                                      }
-                                    ],
-                                    "id": 41,
-                                    "name": "MemberAccess",
-                                    "src": "440:14:0"
-                                  },
-                                  {
-                                    "attributes": {
-                                      "argumentTypes": null,
-                                      "hexvalue": "31",
-                                      "isConstant": false,
-                                      "isLValue": false,
-                                      "isPure": true,
-                                      "lValueRequested": false,
-                                      "subdenomination": null,
-                                      "token": "number",
-                                      "type": "int_const 1",
-                                      "value": "1"
-                                    },
-                                    "id": 42,
-                                    "name": "Literal",
-                                    "src": "455:1:0"
-                                  }
-                                ],
-                                "id": 43,
-                                "name": "BinaryOperation",
-                                "src": "440:16:0"
-                              }
-                            ],
-                            "id": 59,
-                            "name": "MemberAccess",
-                            "src": "571:31:0"
+                            "src": "409:20:0"
                           },
                           {
                             "attributes": {
@@ -1311,138 +695,476 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 9,
+                                      "referencedDeclaration": 19,
                                       "type": "struct Guess.GuessStruct storage ref[] storage ref",
                                       "value": "guesses"
                                     },
-                                    "id": 60,
+                                    "id": 40,
                                     "name": "Identifier",
-                                    "src": "604:7:0"
+                                    "src": "448:7:0"
                                   },
                                   {
                                     "attributes": {
                                       "argumentTypes": null,
-                                      "commonType": {
-                                        "typeIdentifier": "t_uint256",
-                                        "typeString": "uint256"
-                                      },
-                                      "isConstant": false,
-                                      "isLValue": false,
-                                      "isPure": false,
-                                      "lValueRequested": false,
-                                      "operator": "-",
-                                      "type": "uint256"
+                                      "overloadedDeclarations": [
+                                        null
+                                      ],
+                                      "referencedDeclaration": 21,
+                                      "type": "uint256",
+                                      "value": "index"
                                     },
-                                    "children": [
-                                      {
-                                        "attributes": {
-                                          "argumentTypes": null,
-                                          "isConstant": false,
-                                          "isLValue": true,
-                                          "isPure": false,
-                                          "lValueRequested": false,
-                                          "member_name": "length",
-                                          "referencedDeclaration": null,
-                                          "type": "uint256"
-                                        },
-                                        "children": [
-                                          {
-                                            "attributes": {
-                                              "argumentTypes": null,
-                                              "overloadedDeclarations": [
-                                                null
-                                              ],
-                                              "referencedDeclaration": 9,
-                                              "type": "struct Guess.GuessStruct storage ref[] storage ref",
-                                              "value": "guesses"
-                                            },
-                                            "id": 61,
-                                            "name": "Identifier",
-                                            "src": "612:7:0"
-                                          }
-                                        ],
-                                        "id": 62,
-                                        "name": "MemberAccess",
-                                        "src": "612:14:0"
-                                      },
-                                      {
-                                        "attributes": {
-                                          "argumentTypes": null,
-                                          "hexvalue": "31",
-                                          "isConstant": false,
-                                          "isLValue": false,
-                                          "isPure": true,
-                                          "lValueRequested": false,
-                                          "subdenomination": null,
-                                          "token": "number",
-                                          "type": "int_const 1",
-                                          "value": "1"
-                                        },
-                                        "id": 63,
-                                        "name": "Literal",
-                                        "src": "627:1:0"
-                                      }
-                                    ],
-                                    "id": 64,
-                                    "name": "BinaryOperation",
-                                    "src": "612:16:0"
+                                    "id": 41,
+                                    "name": "Identifier",
+                                    "src": "456:5:0"
                                   }
                                 ],
-                                "id": 65,
+                                "id": 42,
                                 "name": "IndexAccess",
-                                "src": "604:25:0"
+                                "src": "448:14:0"
                               }
                             ],
-                            "id": 66,
+                            "id": 43,
                             "name": "MemberAccess",
-                            "src": "604:37:0"
+                            "src": "448:26:0"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "option1",
+                              "referencedDeclaration": 7,
+                              "type": "bytes32"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "isConstant": false,
+                                  "isLValue": true,
+                                  "isPure": false,
+                                  "lValueRequested": false,
+                                  "type": "struct Guess.GuessStruct storage ref"
+                                },
+                                "children": [
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": null,
+                                      "overloadedDeclarations": [
+                                        null
+                                      ],
+                                      "referencedDeclaration": 19,
+                                      "type": "struct Guess.GuessStruct storage ref[] storage ref",
+                                      "value": "guesses"
+                                    },
+                                    "id": 44,
+                                    "name": "Identifier",
+                                    "src": "493:7:0"
+                                  },
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": null,
+                                      "overloadedDeclarations": [
+                                        null
+                                      ],
+                                      "referencedDeclaration": 21,
+                                      "type": "uint256",
+                                      "value": "index"
+                                    },
+                                    "id": 45,
+                                    "name": "Identifier",
+                                    "src": "501:5:0"
+                                  }
+                                ],
+                                "id": 46,
+                                "name": "IndexAccess",
+                                "src": "493:14:0"
+                              }
+                            ],
+                            "id": 47,
+                            "name": "MemberAccess",
+                            "src": "493:22:0"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "option2",
+                              "referencedDeclaration": 9,
+                              "type": "bytes32"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "isConstant": false,
+                                  "isLValue": true,
+                                  "isPure": false,
+                                  "lValueRequested": false,
+                                  "type": "struct Guess.GuessStruct storage ref"
+                                },
+                                "children": [
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": null,
+                                      "overloadedDeclarations": [
+                                        null
+                                      ],
+                                      "referencedDeclaration": 19,
+                                      "type": "struct Guess.GuessStruct storage ref[] storage ref",
+                                      "value": "guesses"
+                                    },
+                                    "id": 48,
+                                    "name": "Identifier",
+                                    "src": "533:7:0"
+                                  },
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": null,
+                                      "overloadedDeclarations": [
+                                        null
+                                      ],
+                                      "referencedDeclaration": 21,
+                                      "type": "uint256",
+                                      "value": "index"
+                                    },
+                                    "id": 49,
+                                    "name": "Identifier",
+                                    "src": "541:5:0"
+                                  }
+                                ],
+                                "id": 50,
+                                "name": "IndexAccess",
+                                "src": "533:14:0"
+                              }
+                            ],
+                            "id": 51,
+                            "name": "MemberAccess",
+                            "src": "533:22:0"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "option3",
+                              "referencedDeclaration": 11,
+                              "type": "bytes32"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "isConstant": false,
+                                  "isLValue": true,
+                                  "isPure": false,
+                                  "lValueRequested": false,
+                                  "type": "struct Guess.GuessStruct storage ref"
+                                },
+                                "children": [
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": null,
+                                      "overloadedDeclarations": [
+                                        null
+                                      ],
+                                      "referencedDeclaration": 19,
+                                      "type": "struct Guess.GuessStruct storage ref[] storage ref",
+                                      "value": "guesses"
+                                    },
+                                    "id": 52,
+                                    "name": "Identifier",
+                                    "src": "573:7:0"
+                                  },
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": null,
+                                      "overloadedDeclarations": [
+                                        null
+                                      ],
+                                      "referencedDeclaration": 21,
+                                      "type": "uint256",
+                                      "value": "index"
+                                    },
+                                    "id": 53,
+                                    "name": "Identifier",
+                                    "src": "581:5:0"
+                                  }
+                                ],
+                                "id": 54,
+                                "name": "IndexAccess",
+                                "src": "573:14:0"
+                              }
+                            ],
+                            "id": 55,
+                            "name": "MemberAccess",
+                            "src": "573:22:0"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "option4",
+                              "referencedDeclaration": 13,
+                              "type": "bytes32"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "isConstant": false,
+                                  "isLValue": true,
+                                  "isPure": false,
+                                  "lValueRequested": false,
+                                  "type": "struct Guess.GuessStruct storage ref"
+                                },
+                                "children": [
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": null,
+                                      "overloadedDeclarations": [
+                                        null
+                                      ],
+                                      "referencedDeclaration": 19,
+                                      "type": "struct Guess.GuessStruct storage ref[] storage ref",
+                                      "value": "guesses"
+                                    },
+                                    "id": 56,
+                                    "name": "Identifier",
+                                    "src": "613:7:0"
+                                  },
+                                  {
+                                    "attributes": {
+                                      "argumentTypes": null,
+                                      "overloadedDeclarations": [
+                                        null
+                                      ],
+                                      "referencedDeclaration": 21,
+                                      "type": "uint256",
+                                      "value": "index"
+                                    },
+                                    "id": 57,
+                                    "name": "Identifier",
+                                    "src": "621:5:0"
+                                  }
+                                ],
+                                "id": 58,
+                                "name": "IndexAccess",
+                                "src": "613:14:0"
+                              }
+                            ],
+                            "id": 59,
+                            "name": "MemberAccess",
+                            "src": "613:22:0"
                           }
                         ],
-                        "id": 67,
+                        "id": 60,
                         "name": "TupleExpression",
-                        "src": "570:72:0"
+                        "src": "408:244:0"
                       }
                     ],
-                    "id": 68,
+                    "id": 61,
                     "name": "Return",
-                    "src": "563:79:0"
+                    "src": "401:251:0"
                   }
                 ],
-                "id": 69,
+                "id": 62,
                 "name": "Block",
-                "src": "395:254:0"
+                "src": "391:268:0"
               }
             ],
-            "id": 70,
+            "id": 63,
             "name": "FunctionDefinition",
-            "src": "306:343:0"
+            "src": "285:374:0"
           },
           {
             "attributes": {
-              "constant": true,
+              "constant": false,
               "implemented": true,
               "isConstructor": false,
               "modifiers": [
                 null
               ],
-              "name": "getGuessesLength",
+              "name": "setGuess",
               "payable": false,
-              "scope": 80,
-              "stateMutability": "view",
+              "scope": 113,
+              "stateMutability": "nonpayable",
               "superFunction": null,
               "visibility": "public"
             },
             "children": [
               {
-                "attributes": {
-                  "parameters": [
-                    null
-                  ]
-                },
-                "children": [],
-                "id": 71,
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_title",
+                      "scope": 103,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bytes32",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes32",
+                          "type": "bytes32"
+                        },
+                        "id": 64,
+                        "name": "ElementaryTypeName",
+                        "src": "691:7:0"
+                      }
+                    ],
+                    "id": 65,
+                    "name": "VariableDeclaration",
+                    "src": "691:14:0"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_description",
+                      "scope": 103,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bytes32",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes32",
+                          "type": "bytes32"
+                        },
+                        "id": 66,
+                        "name": "ElementaryTypeName",
+                        "src": "716:7:0"
+                      }
+                    ],
+                    "id": 67,
+                    "name": "VariableDeclaration",
+                    "src": "716:20:0"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_option1",
+                      "scope": 103,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bytes32",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes32",
+                          "type": "bytes32"
+                        },
+                        "id": 68,
+                        "name": "ElementaryTypeName",
+                        "src": "747:7:0"
+                      }
+                    ],
+                    "id": 69,
+                    "name": "VariableDeclaration",
+                    "src": "747:16:0"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_option2",
+                      "scope": 103,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bytes32",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes32",
+                          "type": "bytes32"
+                        },
+                        "id": 70,
+                        "name": "ElementaryTypeName",
+                        "src": "773:7:0"
+                      }
+                    ],
+                    "id": 71,
+                    "name": "VariableDeclaration",
+                    "src": "773:16:0"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_option3",
+                      "scope": 103,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bytes32",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes32",
+                          "type": "bytes32"
+                        },
+                        "id": 72,
+                        "name": "ElementaryTypeName",
+                        "src": "799:7:0"
+                      }
+                    ],
+                    "id": 73,
+                    "name": "VariableDeclaration",
+                    "src": "799:16:0"
+                  },
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_option4",
+                      "scope": 103,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bytes32",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bytes32",
+                          "type": "bytes32"
+                        },
+                        "id": 74,
+                        "name": "ElementaryTypeName",
+                        "src": "825:7:0"
+                      }
+                    ],
+                    "id": 75,
+                    "name": "VariableDeclaration",
+                    "src": "825:16:0"
+                  }
+                ],
+                "id": 76,
                 "name": "ParameterList",
-                "src": "679:2:0"
+                "src": "681:166:0"
               },
               {
                 "children": [
@@ -1450,7 +1172,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 79,
+                      "scope": 103,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
@@ -1463,25 +1185,415 @@
                           "name": "uint256",
                           "type": "uint256"
                         },
-                        "id": 72,
+                        "id": 77,
                         "name": "ElementaryTypeName",
-                        "src": "703:7:0"
+                        "src": "864:7:0"
                       }
                     ],
-                    "id": 73,
+                    "id": 78,
                     "name": "VariableDeclaration",
-                    "src": "703:7:0"
+                    "src": "864:7:0"
                   }
                 ],
-                "id": 74,
+                "id": 79,
                 "name": "ParameterList",
-                "src": "702:9:0"
+                "src": "863:9:0"
               },
               {
                 "children": [
                   {
                     "attributes": {
-                      "functionReturnParameters": 74
+                      "assignments": [
+                        81
+                      ]
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "constant": false,
+                          "name": "_guess",
+                          "scope": 103,
+                          "stateVariable": false,
+                          "storageLocation": "memory",
+                          "type": "struct Guess.GuessStruct memory",
+                          "value": null,
+                          "visibility": "internal"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "contractScope": null,
+                              "name": "GuessStruct",
+                              "referencedDeclaration": 14,
+                              "type": "struct Guess.GuessStruct storage pointer"
+                            },
+                            "id": 80,
+                            "name": "UserDefinedTypeName",
+                            "src": "882:11:0"
+                          }
+                        ],
+                        "id": 81,
+                        "name": "VariableDeclaration",
+                        "src": "882:25:0"
+                      },
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": true,
+                          "lValueRequested": false,
+                          "names": [
+                            "title",
+                            "description",
+                            "option1",
+                            "option2",
+                            "option3",
+                            "option4"
+                          ],
+                          "type": "struct Guess.GuessStruct memory",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 14,
+                              "type": "type(struct Guess.GuessStruct storage pointer)",
+                              "value": "GuessStruct"
+                            },
+                            "id": 82,
+                            "name": "Identifier",
+                            "src": "910:11:0"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 65,
+                              "type": "bytes32",
+                              "value": "_title"
+                            },
+                            "id": 83,
+                            "name": "Identifier",
+                            "src": "943:6:0"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 67,
+                              "type": "bytes32",
+                              "value": "_description"
+                            },
+                            "id": 84,
+                            "name": "Identifier",
+                            "src": "976:12:0"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 69,
+                              "type": "bytes32",
+                              "value": "_option1"
+                            },
+                            "id": 85,
+                            "name": "Identifier",
+                            "src": "1011:8:0"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 71,
+                              "type": "bytes32",
+                              "value": "_option2"
+                            },
+                            "id": 86,
+                            "name": "Identifier",
+                            "src": "1042:8:0"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 73,
+                              "type": "bytes32",
+                              "value": "_option3"
+                            },
+                            "id": 87,
+                            "name": "Identifier",
+                            "src": "1073:8:0"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 75,
+                              "type": "bytes32",
+                              "value": "_option4"
+                            },
+                            "id": 88,
+                            "name": "Identifier",
+                            "src": "1104:8:0"
+                          }
+                        ],
+                        "id": 89,
+                        "name": "FunctionCall",
+                        "src": "910:213:0"
+                      }
+                    ],
+                    "id": 90,
+                    "name": "VariableDeclarationStatement",
+                    "src": "882:241:0"
+                  },
+                  {
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "isStructConstructorCall": false,
+                          "lValueRequested": false,
+                          "names": [
+                            null
+                          ],
+                          "type": "uint256",
+                          "type_conversion": false
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_struct$_GuessStruct_$14_memory_ptr",
+                                  "typeString": "struct Guess.GuessStruct memory"
+                                }
+                              ],
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "push",
+                              "referencedDeclaration": null,
+                              "type": "function (struct Guess.GuessStruct storage ref) returns (uint256)"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 19,
+                                  "type": "struct Guess.GuessStruct storage ref[] storage ref",
+                                  "value": "guesses"
+                                },
+                                "id": 91,
+                                "name": "Identifier",
+                                "src": "1134:7:0"
+                              }
+                            ],
+                            "id": 93,
+                            "name": "MemberAccess",
+                            "src": "1134:12:0"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 81,
+                              "type": "struct Guess.GuessStruct memory",
+                              "value": "_guess"
+                            },
+                            "id": 94,
+                            "name": "Identifier",
+                            "src": "1147:6:0"
+                          }
+                        ],
+                        "id": 95,
+                        "name": "FunctionCall",
+                        "src": "1134:20:0"
+                      }
+                    ],
+                    "id": 96,
+                    "name": "ExpressionStatement",
+                    "src": "1134:20:0"
+                  },
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 79
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "commonType": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          },
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "operator": "-",
+                          "type": "uint256"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "isConstant": false,
+                              "isLValue": true,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "member_name": "length",
+                              "referencedDeclaration": null,
+                              "type": "uint256"
+                            },
+                            "children": [
+                              {
+                                "attributes": {
+                                  "argumentTypes": null,
+                                  "overloadedDeclarations": [
+                                    null
+                                  ],
+                                  "referencedDeclaration": 19,
+                                  "type": "struct Guess.GuessStruct storage ref[] storage ref",
+                                  "value": "guesses"
+                                },
+                                "id": 97,
+                                "name": "Identifier",
+                                "src": "1171:7:0"
+                              }
+                            ],
+                            "id": 98,
+                            "name": "MemberAccess",
+                            "src": "1171:14:0"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "hexvalue": "31",
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": true,
+                              "lValueRequested": false,
+                              "subdenomination": null,
+                              "token": "number",
+                              "type": "int_const 1",
+                              "value": "1"
+                            },
+                            "id": 99,
+                            "name": "Literal",
+                            "src": "1186:1:0"
+                          }
+                        ],
+                        "id": 100,
+                        "name": "BinaryOperation",
+                        "src": "1171:16:0"
+                      }
+                    ],
+                    "id": 101,
+                    "name": "Return",
+                    "src": "1164:23:0"
+                  }
+                ],
+                "id": 102,
+                "name": "Block",
+                "src": "872:322:0"
+              }
+            ],
+            "id": 103,
+            "name": "FunctionDefinition",
+            "src": "664:530:0"
+          },
+          {
+            "attributes": {
+              "constant": true,
+              "implemented": true,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "getGuessesLength",
+              "payable": false,
+              "scope": 113,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 104,
+                "name": "ParameterList",
+                "src": "1224:2:0"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 112,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 105,
+                        "name": "ElementaryTypeName",
+                        "src": "1248:7:0"
+                      }
+                    ],
+                    "id": 106,
+                    "name": "VariableDeclaration",
+                    "src": "1248:7:0"
+                  }
+                ],
+                "id": 107,
+                "name": "ParameterList",
+                "src": "1247:9:0"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 107
                     },
                     "children": [
                       {
@@ -1502,90 +1614,55 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 9,
+                              "referencedDeclaration": 19,
                               "type": "struct Guess.GuessStruct storage ref[] storage ref",
                               "value": "guesses"
                             },
-                            "id": 75,
+                            "id": 108,
                             "name": "Identifier",
-                            "src": "728:7:0"
+                            "src": "1273:7:0"
                           }
                         ],
-                        "id": 76,
+                        "id": 109,
                         "name": "MemberAccess",
-                        "src": "728:14:0"
+                        "src": "1273:14:0"
                       }
                     ],
-                    "id": 77,
+                    "id": 110,
                     "name": "Return",
-                    "src": "721:21:0"
+                    "src": "1266:21:0"
                   }
                 ],
-                "id": 78,
+                "id": 111,
                 "name": "Block",
-                "src": "711:38:0"
+                "src": "1256:38:0"
               }
             ],
-            "id": 79,
+            "id": 112,
             "name": "FunctionDefinition",
-            "src": "654:95:0"
+            "src": "1199:95:0"
           }
         ],
-        "id": 80,
+        "id": 113,
         "name": "ContractDefinition",
-        "src": "26:725:0"
+        "src": "26:1270:0"
       }
     ],
-    "id": 81,
+    "id": 114,
     "name": "SourceUnit",
-    "src": "0:752:0"
+    "src": "0:1297:0"
   },
   "compiler": {
     "name": "solc",
     "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
   },
   "networks": {
-    "1510785224505": {
+    "1511291183237": {
       "events": {},
       "links": {},
-      "address": "0x588dd4412818ea9fbb11b8b819c6d3895194450f"
-    },
-    "1510832072943": {
-      "events": {},
-      "links": {},
-      "address": "0xc0a4a0439d978fbc1a8a3691b7018c25706b90fd"
-    },
-    "1510832648785": {
-      "events": {},
-      "links": {},
-      "address": "0xe5496cdbb647ce84e4bf313eecd134c855cd46f7"
-    },
-    "1510834493026": {
-      "events": {},
-      "links": {},
-      "address": "0x2e937b39f3c4ec8e890e984f0be55c9f0c1c74e3"
-    },
-    "1510835045744": {
-      "events": {},
-      "links": {},
-      "address": "0x25fb1b7818c673393f365ef5243c2dc08372920b"
-    },
-    "1510871258323": {
-      "events": {},
-      "links": {},
-      "address": "0xe4669e0950a7a3c8a92dc0cf6bfc4b71cbd9f20e"
-    },
-    "1510929051276": {
-      "events": {},
-      "links": {},
-      "address": "0x8d9e2b8923c0a83628a6411c00ef66230377f695"
-    },
-    "1511002868838": {
-      "events": {},
-      "links": {},
-      "address": "0xa4b21b47f975d322fd8c68aa0a842afce4442f84"
+      "address": "0x8009b6ea16396faf19c921b548231823280c1ca0"
     }
   },
   "schemaVersion": "1.0.1",
-  "updatedAt": "2017-11-18T11:01:30.687Z"
+  "updatedAt": "2017-11-21T19:06:35.654Z"
 }

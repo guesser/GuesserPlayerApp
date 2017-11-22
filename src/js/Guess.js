@@ -16,7 +16,6 @@ const Guess = {
 
       self.contract.deployed().then(instance => {
         self.instance = instance
-        console.log(instance)
         resolve()
       }).catch(err => {
         reject(err)
@@ -24,16 +23,20 @@ const Guess = {
     })
   },
 
-  setGuessFront: function (newTitle, newDescription) {
+  setGuessFront: function (newTitle, newDescription, _option1, _option2, _option3, _option4) {
     let self = this
 
     return new Promise((resolve, reject) => {
       self.instance.setGuess(
         window.web3.fromAscii(newTitle),
         window.web3.fromAscii(newDescription),
-        {from: window.web3.eth.accounts[0]}
-      ).then(title => {
-        resolve(window.web3.toAscii(title))
+        window.web3.fromAscii(_option1),
+        window.web3.fromAscii(_option2),
+        window.web3.fromAscii(_option3),
+        window.web3.fromAscii(_option4),
+        {from: window.web3.eth.accounts[0], gas: 400000} // Gas forced to high
+      ).then(id => {
+        resolve(id)
       }).catch(err => {
         reject(err)
       })
@@ -47,8 +50,15 @@ const Guess = {
       self.instance.getGuess.call(
         index,
         {from: window.web3.eth.accounts[0]}
-      ).then(title => {
-        resolve([window.web3.toAscii(title[0]), window.web3.toAscii(title[1])])
+      ).then(guess => {
+        resolve([
+          window.web3.toAscii(guess[0]), // title
+          window.web3.toAscii(guess[1]), // description
+          window.web3.toAscii(guess[2]), // Option 1
+          window.web3.toAscii(guess[3]), // Option 2
+          window.web3.toAscii(guess[4]), // Option 3
+          window.web3.toAscii(guess[5]) // Option 4
+        ])
       }).catch(err => {
         reject(err)
       })
@@ -61,6 +71,7 @@ const Guess = {
       self.instance.getGuessesLength.call(
         {from: window.web3.eth.accounts[0]}
       ).then(number => {
+        console.log(number)
         resolve(number)
       }).catch(err => {
         reject(err)
