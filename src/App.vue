@@ -5,15 +5,12 @@
         </div>
 
         <footer>
-            <md-bottom-bar md-shift>
-                <md-bottom-bar-item md-icon="book" md-active v-on:click="changeView('')">
-                    Top
+            <md-bottom-bar>
+                <md-bottom-bar-item md-icon="home" md-active v-on:click="changeView('')">
+                    Guesses
                 </md-bottom-bar-item>
-                <md-bottom-bar-item md-icon="stars" v-on:click="changeView('ranking')">
-                    Ranking
-                </md-bottom-bar-item>
-                <md-bottom-bar-item md-icon="create" v-on:click="changeView('create')">
-                    Create
+                <md-bottom-bar-item md-icon="account_balance" v-on:click="changeView('create')">
+                    Bank
                 </md-bottom-bar-item>
                 <md-bottom-bar-item md-icon="face" v-on:click="changeView('profile')">
                     Profile
@@ -41,7 +38,6 @@ export default {
 
 <style>
 body{
-    background-color: #ffff01;
     height: 100%;
     overflow-y: auto;
 }
@@ -63,6 +59,21 @@ footer{
     bottom: 0;
     left: 0;
     right: 0;
-z-index: 10;
+    z-index: 10;
+}
+.md-theme-default.md-bottom-bar.md-fixed {
+    background-color: #ff0d73;
+}
+.md-theme-default.md-bottom-bar.md-fixed
+.md-bottom-bar-item.md-active{
+    color: #ffff01;
+}
+
+.md-theme-default.md-bottom-bar.md-fixed
+.md-bottom-bar-item{
+    color: #eee;
+}
+.md-bottom-bar-item:hover{
+    color: #eee;
 }
 </style>

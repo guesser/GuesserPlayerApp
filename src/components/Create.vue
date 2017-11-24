@@ -68,7 +68,7 @@ export default {
         this.option4
       ).then((id) => {
         console.log(id)
-        // self.$router.push('/')
+        this.$router.push('/')
       }).catch(err => {
         console.log(err)
       })

@@ -22,10 +22,14 @@
             <md-card-content>
                 {{description}}
                 <h3> Votes: </h3>
-                <md-button class="md-raised md-primary" v-if='option1 !== "" '>{{option1}}</md-button>
-                <md-button class="md-raised md-primary" v-if='option2 !== "" '>{{option2}}</md-button>
-                <md-button class="md-raised md-primary" v-if="option3 !== '' ">{{option3}}</md-button>
-                <md-button class="md-raised md-primary" v-if='option4'>{{option4}}</md-button>
+                <md-content class="md-primary">
+                    <md-button class="md-raised md-primary" v-if='option1 !== "" '>{{option1}}</md-button>
+                    <md-button class="md-raised md-primary" v-if='option2 !== "" '>{{option2}}</md-button>
+                </md-content>
+                <md-content class="md-primary">
+                    <md-button class="md-raised md-primary" v-if="option3 !== '' ">{{option3}}</md-button>
+                    <md-button class="md-raised md-primary" v-if='option4'>{{option4}}</md-button>
+                </md-content>
             </md-card-content>
         </md-card-expand>
     </md-card>
@@ -34,7 +38,12 @@
 <script>
 export default {
   name: 'GuessCard',
-  props: ['title', 'description', 'option1', 'option2', 'option3', 'option4']
+  props: ['title', 'description', 'option1', 'option2', 'option3', 'option4'],
+  mounted: function () {
+    if (this.option4) {
+      console.log(this.option4)
+    }
+  }
 }
 </script>
 
@@ -47,5 +56,12 @@ export default {
     max-width: 800px;
     display: inline-block;
     vertical-align:top;
+}
+.md-content {
+  width: 100px;
+  background-color: black;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
