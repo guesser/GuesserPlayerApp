@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Profile from '@/components/Profile'
-import Create from '@/components/Create'
 import Home from '@/components/Home'
+import Bank from '@/components/Bank'
+import CreateGuess from '@/components/HomeComponents/CreateGuess'
+import GuessesTypes from '@/components/HomeComponents/GuessesTypes'
 
 Vue.use(Router)
 
@@ -19,9 +21,20 @@ export default new Router({
       component: Profile
     },
     {
+      path: '/bank',
+      name: 'bank',
+      component: Bank
+    },
+    // Home View Components
+    {
       path: '/create',
       name: 'create',
-      component: Create
+      component: CreateGuess
+    },
+    {
+      path: '/types',
+      name: 'types',
+      component: GuessesTypes
     }
   ]
 })

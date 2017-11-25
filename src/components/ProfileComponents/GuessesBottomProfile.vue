@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import GuessCard from '../GuessCard.vue'
+import GuessCard from '../GeneralComponents/GuessCard.vue'
 
 export default{
   name: 'GuessesBottomProfile',

@@ -9,7 +9,7 @@
                 <md-bottom-bar-item md-icon="home" md-active v-on:click="changeView('')">
                     Guesses
                 </md-bottom-bar-item>
-                <md-bottom-bar-item md-icon="account_balance" v-on:click="changeView('create')">
+                <md-bottom-bar-item md-icon="account_balance" v-on:click="changeView('bank')">
                     Bank
                 </md-bottom-bar-item>
                 <md-bottom-bar-item md-icon="face" v-on:click="changeView('profile')">

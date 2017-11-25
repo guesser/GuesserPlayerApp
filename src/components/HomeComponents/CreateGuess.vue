@@ -45,7 +45,7 @@
 import Guess from '@/js/Guess'
 
 export default {
-  name: 'Create',
+  name: 'CreateGuess',
   data () {
     return {
       title: '',

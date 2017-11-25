@@ -24,8 +24,8 @@
 import Guess from '@/js/Guess'
 
 // Vue components
-import SearchHeaderBar from './SearchHeaderBar.vue'
-import GuessCard from './GuessCard.vue'
+import SearchHeaderBar from './HomeComponents/SearchHeaderBar.vue'
+import GuessCard from './GeneralComponents/GuessCard.vue'
 
 export default {
   name: 'home',
