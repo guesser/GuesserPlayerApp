@@ -1,14 +1,14 @@
 <template>
-<div>
+<div class='bottom-margin'>
     
     <div class="viewport">  
       <div>  
         <md-avatar class="md-avatar-icon md-large">
-            <img src="http://www.drunkmall.com/wp-content/uploads/2016/04/Dickhead-Mask.jpg" alt="Avatar">
+            <img src="https://static.standard.co.uk/s3fs-public/styles/story_large/public/thumbnails/image/2014/03/07/11/BItcoin.jpg" alt="Avatar">
         </md-avatar>
       </div>
 
-      <h1 class="">Dickhead</h1>
+      <h1 class="">Satoshi Nakamoto</h1>
 
       <md-divider class=""></md-divider>
       
@@ -30,24 +30,6 @@
       
       <md-divider class=""></md-divider>
 
-      <md-list class="md-double-line">
-        <md-list-item>
-          <div class="md-list-item-text">
-            <md-subheader>Score</md-subheader>
-            <span>1235</span>
-          </div>
-         
-          <div class="md-list-item-text">
-            <md-subheader>Rank</md-subheader>
-            <span>100</span>
-          </div>
-
-          <div class="md-list-item-text">
-            <md-subheader>Streak</md-subheader>
-            <span>12</span>
-          </div>
-         </md-list-item>
-       </md-list>
     </div>
        <GuessesBottomProfile/>
 </div>
@@ -66,16 +48,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .viewport {
+.viewport {
     width: 70%;
     max-width: 100%;
     display: inline-block;
     vertical-align: top;
     overflow: auto;
   }
-  .md-avatar {
+.md-avatar {
     width: 50%;
     height: 50%;
     margin-top: 7%;
-  }
+}
+.bottom-margin{
+    padding-bottom: 17%;
+}
 </style>

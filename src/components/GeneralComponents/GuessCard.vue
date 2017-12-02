@@ -1,5 +1,5 @@
 <template>
-    <md-card class="md-accent shape md-with-hover">
+    <md-card class="md-accent shape md-with-hover guesses">
         <md-card-header>
             <md-card-header-text>
                 <div class="md-title">{{title}}</div>
@@ -22,14 +22,14 @@
             <md-card-content>
                 {{description}}
                 <h3> Votes: </h3>
-                <md-content class="md-primary">
+                <div class="md-primary buttons-content">
                     <md-button class="md-raised md-primary" v-if='option1 !== "" '>{{option1}}</md-button>
                     <md-button class="md-raised md-primary" v-if='option2 !== "" '>{{option2}}</md-button>
-                </md-content>
-                <md-content class="md-primary">
+                </div>
+                <div class="md-primary buttons-content">
                     <md-button class="md-raised md-primary" v-if="option3 !== '' ">{{option3}}</md-button>
                     <md-button class="md-raised md-primary" v-if='option4'>{{option4}}</md-button>
-                </md-content>
+                </div>
             </md-card-content>
         </md-card-expand>
     </md-card>
@@ -52,14 +52,15 @@ export default {
     width: 55%;
     margin-left: 3%;
 }
-.md-card{
+.guesses{
+    width: 95%;
     max-width: 800px;
     display: inline-block;
     vertical-align:top;
+    margin-top: 8px;
 }
-.md-content {
+.buttons-content {
   width: 100px;
-  background-color: black;
   display: inline-flex;
   justify-content: center;
   align-items: center;

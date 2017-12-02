@@ -46,11 +46,8 @@ export default{
 .one{
   grid-column: 1;
   grid-row: 1;
-  background-image: url('https://crystalbridges.org/wp-content/uploads/2017/09/4007-032.jpg');
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: center;
-  box-shadow: inset 0 0 0 1000px rgba(255, 255, 1, 0.5);
+  background-image: url('http://www.stat.gov.mk/Images/Industry.jpg') no-repeat;
+background-size:contain;
 }
 .two{
   grid-column: 2;
@@ -64,7 +61,7 @@ export default{
 .three{
   grid-column: 1;
   grid-row: 2;
-  background-image: url('https://www.esportsearnings.com/images/logos/g151-starcraft-ii.jpg');
+  background-image: url('http://www.stat.gov.mk/Images/Industry.jpg');
   /*background-repeat: no-repeat;*/
   background-attachment: fixed;
   background-position: center;
@@ -73,7 +70,7 @@ export default{
 .four{
   grid-column: 2;
   grid-row: 2;
-  background-image: url('http://www.warranteer.com/wp-content/uploads/2015/09/bitcoin.png');
+  background-image: url('http://www.stat.gov.mk/Images/Industry.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
@@ -82,7 +79,7 @@ export default{
 .five{
   grid-column: 1;
   grid-row: 3;
-  background-image: url('https://www.pickthebrain.com/blog/wp-content/uploads/2013/03/life-coach.jpg');
+  background-image: url('http://www.stat.gov.mk/Images/Industry.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
