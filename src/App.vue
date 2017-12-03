@@ -1,7 +1,9 @@
 <template>
     <div id="app">
         <div id="inside">
-            <router-view></router-view>
+            <transition name="fade">
+                <router-view></router-view>
+            </transition>
         </div>
 
         <footer>
@@ -76,4 +78,10 @@ footer{
 .md-bottom-bar-item:hover{
     color: #eee;
 }
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .4s
+  }
+  .fade-enter, .fade-leave-active {
+    opacity: 0.3
+  }
 </style>

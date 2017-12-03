@@ -6,7 +6,7 @@
             </md-card-header-text>
 
             <md-chip class="md-warn">69 
-                <md-icon>face</md-icon>
+                🧔
             </md-chip>
         </md-card-header>
 
@@ -27,7 +27,7 @@
                     <md-button class="md-raised md-primary" v-if='option2 !== "" '>{{option2}}</md-button>
                 </div>
                 <div class="md-primary buttons-content">
-                    <md-button class="md-raised md-primary" v-if="option3 !== '' ">{{option3}}</md-button>
+                    <md-button class="md-raised md-primary" v-if='option3'>{{option3}}</md-button>
                     <md-button class="md-raised md-primary" v-if='option4'>{{option4}}</md-button>
                 </div>
             </md-card-content>
@@ -60,7 +60,7 @@ export default {
     margin-top: 8px;
 }
 .buttons-content {
-  width: 100px;
+  width: 90%;
   display: inline-flex;
   justify-content: center;
   align-items: center;

@@ -1,12 +1,14 @@
 <template>
     <div>
         <md-toolbar class="md-transparent">
-            <md-icon class="md-primary"><router-link class="md-primary link" to="/create">add_circle_outline</router-link></md-icon>
+            <!--<md-icon class="md-primary"><router-link class="md-primary link" to="/create">add_circle_outline</router-link></md-icon>-->
+            <router-link class="md-primary link" to="/create">➕</router-link>
             <md-input-container class="searchHeader">
                 <md-icon class="md-primary">search</md-icon>
                 <md-input v-model="initialValue"></md-input>
             </md-input-container>        
-            <md-icon class="md-primary"><router-link class="md-primary link" to="/types">view_list</router-link></md-icon>
+            <!--<md-icon class="md-primary"><router-link class="md-primary link" to="/types">view_list</router-link></md-icon>-->
+            <router-link class="md-primary link" to="/types">🗂</router-link>
         </md-toolbar>
     </div>
 </template>
@@ -24,8 +26,10 @@ export default{
 
 <style>
 .searchHeader{
-    width: 60%;
+    max-width: 65%;
     color: #ff0d73;
+    margin-right: 20px;
+    margin-left: 20px;
 }
 a.md-primary.link{
     color: #ff0d73;

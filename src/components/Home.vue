@@ -45,6 +45,8 @@ export default {
       for (var i = 0; i < this.totalGuesses; i++) {
         Guess.getGuessFront(i).then((guess) => {
           console.log(guess)
+          if (!guess[4]) guess[4] = ''
+          if (!guess[5]) guess[5] = ''
           this.guesses.push({
             'title': guess[0],
             'description': guess[1],

@@ -52,12 +52,12 @@ const Guess = {
         {from: window.web3.eth.accounts[0]}
       ).then(guess => {
         resolve([
-          window.web3.toAscii(guess[0]), // title
-          window.web3.toAscii(guess[1]), // description
-          window.web3.toAscii(guess[2]), // Option 1
-          window.web3.toAscii(guess[3]), // Option 2
-          window.web3.toAscii(guess[4]), // Option 3
-          window.web3.toAscii(guess[5]) // Option 4
+          window.web3.toAscii(guess[0]).replace(/\u0000/g, ''), // title
+          window.web3.toAscii(guess[1]).replace(/\u0000/g, ''), // description
+          window.web3.toAscii(guess[2]).replace(/\u0000/g, ''), // Option 1
+          window.web3.toAscii(guess[3]).replace(/\u0000/g, ''), // Option 2
+          window.web3.toAscii(guess[4]).replace(/\u0000/g, ''), // Option 3
+          window.web3.toAscii(guess[5]).replace(/\u0000/g, '') // Option 4
         ])
       }).catch(err => {
         reject(err)
