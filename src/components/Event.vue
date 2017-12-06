@@ -4,14 +4,15 @@
     <div id='content' class="container">
         <SearchHeaderBar/>
         <div class='cards'>
-            <div v-for='guess in guesses'>
-                    <GuessCard 
-                        :title="guess.title" 
-                        :description="guess.description"
-                        :option1="guess.option1"
-                        :option2="guess.option2"
-                        :option3="guess.option3"
-                        :option4="guess.option4"/>
+            <div v-for='event in events'>
+                    <EventCard 
+                        :title="event.title" 
+                        :description="event.description"
+                        :topic="event.topic"
+                        :option1="event.option1"
+                        :option2="event.option2"
+                        :option3="event.option3"
+                        :option4="event.option4"/>
             </div>
         </div>
         
@@ -22,13 +23,33 @@
 <script>
 
 import SearchHeaderBar from './EventComponents/SearchHeaderBar.vue'
-import GuessCard from './GeneralComponents/GuessCard.vue'
+import EventCard from './EventComponents/EventCard.vue'
 
 export default{
   name: 'Event',
   components: {
     SearchHeaderBar,
-    GuessCard
+    EventCard
+  },
+  data () {
+    return {
+      events: [
+        {
+          title: 'Hola',
+          description: 'HolaHola',
+          topic: 'crypto',
+          option1: 'yes',
+          option2: 'no'
+        },
+        {
+          title: 'Hola1',
+          description: 'HolaHola1',
+          topic: 'esports',
+          option1: 'yes',
+          option2: 'no'
+        }
+      ]
+    }
   }
 }
 
