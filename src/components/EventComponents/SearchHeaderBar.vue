@@ -26,7 +26,7 @@ export default{
 
 <style>
 .searchHeader{
-    max-width: 65%;
+    width: 65%;
     color: #ff0d73;
     margin-right: 20px;
     margin-left: 20px;

@@ -36,6 +36,9 @@
 </template>
 
 <script>
+// Contract helpers
+import User from '@/js/User'
+
 // Vue components
 import GuessesBottomProfile from './ProfileComponents/GuessesBottomProfile.vue'
 
@@ -43,6 +46,11 @@ export default {
   name: 'profile',
   components: {
     GuessesBottomProfile
+  },
+  beforeCreate: function () {
+    User.init().catch(err => {
+      console.log(err)
+    })
   }
 }
 </script>

@@ -1,30 +1,36 @@
 <template>
     <div id="app">
         <div id="inside">
-            <transition name="fade">
-                <router-view></router-view>
-            </transition>
+            <router-view></router-view>
         </div>
 
-        <footer>
-            <md-bottom-bar>
-                <md-bottom-bar-item md-icon="🔮" md-active v-on:click="changeView('')">
-                    Guesses
-                </md-bottom-bar-item>
-                <md-bottom-bar-item md-icon="💎" v-on:click="changeView('bank')">
-                    Bank
-                </md-bottom-bar-item>
-                <md-bottom-bar-item md-icon="👦" v-on:click="changeView('profile')">
-                    Profile
-                </md-bottom-bar-item>
-            </md-bottom-bar>
-        </footer>
+            <footer>
+                <md-bottom-bar>
+                    <md-bottom-bar-item md-icon="home" md-active v-on:click="changeView('')">
+                    </md-bottom-bar-item>
+                    <md-bottom-bar-item md-icon="comment" v-on:click="changeView('event')">
+                    </md-bottom-bar-item>
+                    <md-bottom-bar-item md-icon="account_balance" v-on:click="changeView('bank')">
+                    </md-bottom-bar-item>
+                    <md-bottom-bar-item md-icon="face" v-on:click="changeView('profile')">
+                    </md-bottom-bar-item>
+                </md-bottom-bar>
+            </footer>
     </div>
 </template>
 
 <script>
+// Contract helpers
+import User from '@/js/User'
+
+// Vue components
+import CreateAccount from './components/CreateAccount.vue'
+
 export default {
   name: 'app',
+  components: {
+    CreateAccount
+  },
   data: function () {
     return {
       page: 'Top'
@@ -34,6 +40,14 @@ export default {
     changeView (view) {
       this.$router.push('/' + view)
     }
+  },
+  mounted: function () {
+    this.checkUser()
+  },
+  beforeCreate: function () {
+    User.init().catch(err => {
+      console.log(err)
+    })
   }
 }
 </script>
@@ -67,21 +81,16 @@ footer{
     background-color: #ff0d73;
 }
 .md-theme-default.md-bottom-bar.md-fixed
-.md-bottom-bar-item.md-active{
+.md-bottom-bar-item.md-active i{
     color: #ffff01;
+    font-size: 30px !important;
 }
 
 .md-theme-default.md-bottom-bar.md-fixed
 .md-bottom-bar-item{
     color: #eee;
 }
-.md-bottom-bar-item:hover{
-    color: #eee;
+.md-active{
+    font-size: large;
 }
-.fade-enter-active, .fade-leave-active {
-    transition: opacity .4s
-  }
-  .fade-enter, .fade-leave-active {
-    opacity: 0.3
-  }
 </style>

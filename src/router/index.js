@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Profile from '@/components/Profile'
 import Home from '@/components/Home'
 import Bank from '@/components/Bank'
+import Event from '@/components/Event'
 import CreateGuess from '@/components/HomeComponents/CreateGuess'
 import GuessesTypes from '@/components/HomeComponents/GuessesTypes'
 
@@ -24,6 +25,11 @@ export default new Router({
       path: '/bank',
       name: 'bank',
       component: Bank
+    },
+    {
+      path: '/event',
+      name: 'event',
+      component: Event
     },
     // Home View Components
     {

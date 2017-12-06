@@ -2,7 +2,6 @@
     <div>
     <!--Here ends the pull to refresh-->
     <div id='content' class="container">
-        <SearchHeaderBar/>
         <div class='cards'>
             <div v-for='guess in guesses'>
                     <GuessCard 
@@ -24,7 +23,6 @@
 import Guess from '@/js/Guess'
 
 // Vue components
-import SearchHeaderBar from './HomeComponents/SearchHeaderBar.vue'
 import GuessCard from './GeneralComponents/GuessCard.vue'
 
 export default {
@@ -37,7 +35,6 @@ export default {
     }
   },
   components: {
-    SearchHeaderBar,
     GuessCard
   },
   methods: {
