@@ -21,7 +21,7 @@
 
 <script>
 // Contract helpers
-import User from '@/js/User'
+// import User from '@/js/User'
 
 // Vue components
 import CreateAccount from './components/CreateAccount.vue'
@@ -40,14 +40,6 @@ export default {
     changeView (view) {
       this.$router.push('/' + view)
     }
-  },
-  mounted: function () {
-    this.checkUser()
-  },
-  beforeCreate: function () {
-    User.init().catch(err => {
-      console.log(err)
-    })
   }
 }
 </script>
