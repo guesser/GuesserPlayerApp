@@ -6,7 +6,7 @@
             </md-card-header-text>
 
             <md-chip class="md-warn">69 
-                🧔
+                <md-icon>face</md-icon>
             </md-chip>
         </md-card-header>
 

@@ -1,14 +1,12 @@
 <template>
     <div>
         <md-toolbar class="md-transparent">
-            <!--<md-icon class="md-primary"><router-link class="md-primary link" to="/create">add_circle_outline</router-link></md-icon>-->
-            <router-link class="md-primary link" to="/create">➕</router-link>
+            <md-icon class="md-primary"><router-link class="md-primary link" to="/create">add_circle_outline</router-link></md-icon>
             <md-input-container class="searchHeader">
                 <md-icon class="md-primary">search</md-icon>
                 <md-input v-model="initialValue"></md-input>
             </md-input-container>        
-            <!--<md-icon class="md-primary"><router-link class="md-primary link" to="/types">view_list</router-link></md-icon>-->
-            <router-link class="md-primary link" to="/types">🗂</router-link>
+            <md-icon class="md-primary"><router-link class="md-primary link" to="/types">view_list</router-link></md-icon>
         </md-toolbar>
     </div>
 </template>
