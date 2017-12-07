@@ -1,6 +1,6 @@
 <template>
     <md-card class="shape md-with-hover event" v-bind:class='topic'>
-        <md-card-header>
+        <md-card-header class="event-margins">
             <md-card-header-text class="text-flex">
 
                 <div class="md-title">{{title}}</div>
@@ -8,14 +8,14 @@
             </md-card-header-text>
 
             <md-card-media>
-                <img v-if='topic=="crypto"'src="../../assets/coin.png"/>
-                <img v-if='topic=="esports"'src="../../assets/esports.png"/>
+                <img v-if='topic=="crypto"' style="width:55px;" src="../../assets/coin.png"/>
+                <img v-if='topic=="esports"' style="width:55px;" src="../../assets/esports.png"/>
             </md-card-media>
 
         </md-card-header>
 
 
-        <md-card-expand>
+        <md-card-expand class="card-margins">
             <md-card-actions v-bind:class='topic'>
                 <div class='vote-margin'>
                     <md-button class="md-raised md-primary">Vote</md-button>
@@ -72,6 +72,12 @@ export default {
 }
 .center-people{
     font-size: 10px !important;
+}
+.event-margins{
+    padding: 7px !important;
+}
+.md-card .md-card-header .md-card-media{
+    padding-top: 10px;
 }
 
 /* Topics styles */
