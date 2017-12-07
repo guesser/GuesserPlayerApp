@@ -82,10 +82,10 @@ export default {
 
 /* Topics styles */
 .crypto{
-    background-color: cyan !important;
+    background-color: #9ebbc4 !important;
 }
 .esports{
-    background-color: lime !important;
+    background-color: #e6b7be !important;
 
 }
 </style>
