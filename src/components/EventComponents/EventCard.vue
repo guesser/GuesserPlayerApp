@@ -60,7 +60,7 @@ export default {
     padding-bottom: 5px;
 }
 .vote-margin{
-    padding-right: 30%;
+    padding-right: 20%;
 }
 
 .md-card .md-subhead {
@@ -71,7 +71,7 @@ export default {
     flex: 0 !important;
 }
 .center-people{
-    margin-top: 10px;
+    font-size: 10px !important;
 }
 
 /* Topics styles */
