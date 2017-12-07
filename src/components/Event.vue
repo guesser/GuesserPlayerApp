@@ -9,6 +9,7 @@
                         :title="event.title" 
                         :description="event.description"
                         :topic="event.topic"
+                        :people="event.people"
                         :option1="event.option1"
                         :option2="event.option2"
                         :option3="event.option3"
@@ -38,6 +39,7 @@ export default{
           title: 'Hola',
           description: 'HolaHola',
           topic: 'crypto',
+          people: 32,
           option1: 'yes',
           option2: 'no'
         },
@@ -45,6 +47,7 @@ export default{
           title: 'Hola1',
           description: 'HolaHola1',
           topic: 'esports',
+          people: 120,
           option1: 'yes',
           option2: 'no'
         }
