@@ -1,6 +1,6 @@
 <template>
-    <form>
-        <h2> Create a Guess</h2>
+    <form class="create-event">
+        <h2> Create a Event</h2>
         <md-input-container>
             <label>Title</label>
             <md-input v-model="title" required></md-input>
@@ -11,6 +11,14 @@
             <md-textarea v-model="description" required></md-textarea>
         </md-input-container>
 
+        <!--Topics-->
+    <md-input-container>
+          <label for="topic">Topic</label>
+          <md-select v-model="topic" name="topic" id="topic">
+            <md-option value="crypto">Crypto</md-option>
+            <md-option value="esports">Esports</md-option>
+          </md-select>
+    </md-input-container>
 
     <!--Option 1-->
     <md-input-container>
@@ -50,6 +58,7 @@ export default {
     return {
       title: '',
       description: '',
+      topic: '',
       option1: '',
       option2: '',
       option3: '',
@@ -83,5 +92,8 @@ export default {
 </script>
 
 <style>
+.create-event{
+    margin-bottom: 20%;
+}
 
 </style>

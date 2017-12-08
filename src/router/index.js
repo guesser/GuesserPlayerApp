@@ -4,7 +4,7 @@ import Profile from '@/components/Profile'
 import Home from '@/components/Home'
 import Bank from '@/components/Bank'
 import Event from '@/components/Event'
-import CreateGuess from '@/components/HomeComponents/CreateGuess'
+import CreateEvent from '@/components/EventComponents/CreateEvent'
 import GuessesTypes from '@/components/HomeComponents/GuessesTypes'
 
 Vue.use(Router)
@@ -35,7 +35,7 @@ export default new Router({
     {
       path: '/create',
       name: 'create',
-      component: CreateGuess
+      component: CreateEvent
     },
     {
       path: '/types',
