@@ -45,12 +45,12 @@
     </md-input-container>
 
 
-        <md-button class="md-raised md-primary" @click="setGuess"><h3>Create</h3></md-button>
+        <md-button class="md-raised md-primary" @click="setEvent"><h3>Create</h3></md-button>
     </form>
 </template>
 
 <script>
-import Guess from '@/js/Guess'
+import EventHelper from '@/js/Event'
 
 export default {
   name: 'CreateGuess',
@@ -66,15 +66,16 @@ export default {
     }
   },
   methods: {
-    setGuess () {
+    setEvent () {
       // let self = this
-      Guess.setGuessFront(
+      EventHelper.setEventFront(
         this.title,
         this.description,
+        this.topic,
         this.option1,
         this.option2,
         this.option3,
-        this.option4
+        this.option4,
       ).then((id) => {
         console.log(id)
         this.$router.push('/')
@@ -84,7 +85,7 @@ export default {
     }
   },
   beforeCreate: function () {
-    Guess.init().catch(err => {
+    EventHelper.init().catch(err => {
       console.log(err)
     })
   }

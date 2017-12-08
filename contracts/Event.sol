@@ -9,7 +9,7 @@ contract Event {
         bytes32 option2;
         bytes32 option3;
         bytes32 option4;
-        uint256 date; // This will store just the day, not the time
+        uint256 date; 
         uint256 votes;
     }
     EventStruct[] events;
@@ -50,8 +50,7 @@ contract Event {
         bytes32 _option1,
         bytes32 _option2,
         bytes32 _option3,
-        bytes32 _option4,
-        uint256 _date,
+        bytes32 _option4
     ) public returns(uint256){ // Returns the index where the event is store
         EventStruct memory _event = EventStruct({
             title: _title,
@@ -61,7 +60,7 @@ contract Event {
             option2: _option2,
             option3: _option3,
             option4: _option4,
-            date: _date,
+            date: now, // this gets the current timestamp of the block
             votes: 0
         });
         events.push(_event);
