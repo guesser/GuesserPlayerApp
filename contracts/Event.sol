@@ -52,7 +52,6 @@ contract Event {
         bytes32 _option3,
         bytes32 _option4,
         uint256 _date,
-        uint256 _votes
     ) public returns(uint256){ // Returns the index where the event is store
         EventStruct memory _event = EventStruct({
             title: _title,
@@ -63,7 +62,7 @@ contract Event {
             option3: _option3,
             option4: _option4,
             date: _date,
-            votes: _votes
+            votes: 0
         });
         events.push(_event);
         return events.length-1;
