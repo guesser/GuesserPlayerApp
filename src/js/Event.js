@@ -54,10 +54,11 @@ const Event = {
         {from: window.web3.eth.accounts[0]}
       ).then(_event => {
         resolve([
-          window.web3.toAscii(_event[0]).replace(/\u0000/g, ''), // title
-          window.web3.toAscii(_event[1]).replace(/\u0000/g, ''), // description
+          window.web3.toAscii(_event[0]), // title
+          window.web3.toAscii(_event[1]), // description
           window.web3.toAscii(_event[2]).replace(/\u0000/g, ''), // topic
-          window.web3.toAscii(_event[3]).replace(/\u0000/g, '') // date
+          _event[3], // date
+          _event[4] // votes
         ])
       }).catch(err => {
         reject(err)
@@ -91,9 +92,9 @@ const Event = {
       self.instance.getEventsLength.call(
         {from: window.web3.eth.accounts[0]}
       ).then(number => {
-        console.log(number)
         resolve(number)
       }).catch(err => {
+        console.log(err)
         reject(err)
       })
     })

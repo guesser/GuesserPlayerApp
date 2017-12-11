@@ -10,7 +10,7 @@ contract Event {
         bytes32 option3;
         bytes32 option4;
         uint256 date; 
-        uint256 votes;
+        uint32 votes;
     }
     EventStruct[] events;
 
@@ -22,7 +22,7 @@ contract Event {
         bytes32,
         bytes32,
         uint256,
-        uint256){
+        uint32){
 
         return(events[index].title,
                events[index].description,
@@ -51,7 +51,7 @@ contract Event {
         bytes32 _option2,
         bytes32 _option3,
         bytes32 _option4
-    ) public returns(uint256){ // Returns the index where the event is store
+    ) public { // Returns the index where the event is store
         EventStruct memory _event = EventStruct({
             title: _title,
             description: _description,
@@ -64,11 +64,10 @@ contract Event {
             votes: 0
         });
         events.push(_event);
-        return events.length-1;
     }
     function getEventsLength() public view returns(uint256){
-        return events.length-1;
+        return events.length;
     }
 
-    //TODO: Get current day events
+    // TODO: Get current day events
 }

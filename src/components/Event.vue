@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import EventHelper from '@/js/Event'
 
 import SearchHeaderBar from './EventComponents/SearchHeaderBar.vue'
 import EventCard from './EventComponents/EventCard.vue'
@@ -34,6 +35,8 @@ export default{
   },
   data () {
     return {
+      totalEvents: 0,
+      totalEventsLoading: false,
       events: [
         {
           title: 'Hola',
@@ -53,6 +56,44 @@ export default{
         }
       ]
     }
+  },
+  methods: {
+    getEvents () {
+      for (var i = 0; i < this.totalEvents; i++) {
+        console.log(i)
+        EventHelper.getEventFront(i).then((event) => {
+          console.log(event)
+          this.events.push({
+            'title': event[0],
+            'description': event[1],
+            'topic': event[2]
+          })
+        }).catch(err => {
+          console.log(err)
+        })
+      }
+    },
+    getEventsNumber () {
+      this.totalEventsLoading = true
+      return EventHelper.getEventsNumber().then((number) => {
+        this.totalEvents = number.c[0]
+        return this.totalEvents
+      }).catch(err => {
+        console.log(err)
+        this.totalEventsLoading = false
+      })
+    }
+  },
+  mounted: function () {
+    let self = this
+    this.getEventsNumber().then(function (number) {
+      self.getEvents()
+    })
+  },
+  beforeCreate: function () {
+    EventHelper.init().catch(err => {
+      console.log(err)
+    })
   }
 }
 

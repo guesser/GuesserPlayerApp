@@ -71,7 +71,6 @@ const Guess = {
       self.instance.getGuessesLength.call(
         {from: window.web3.eth.accounts[0]}
       ).then(number => {
-        console.log(number)
         resolve(number)
       }).catch(err => {
         reject(err)

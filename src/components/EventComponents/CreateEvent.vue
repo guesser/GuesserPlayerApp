@@ -74,11 +74,11 @@ export default {
         this.topic,
         this.option1,
         this.option2,
-        this.option3,
+        this.option4,
         this.option4,
       ).then((id) => {
         console.log(id)
-        this.$router.push('/')
+        this.$router.push('/event')
       }).catch(err => {
         console.log(err)
       })
