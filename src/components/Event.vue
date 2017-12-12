@@ -6,6 +6,7 @@
         <div class='cards'>
             <div v-for='event in events'>
                     <EventCard 
+                        :id="event.id"
                         :title="event.title" 
                         :description="event.description"
                         :topic="event.topic"
@@ -39,20 +40,13 @@ export default{
       totalEventsLoading: false,
       events: [
         {
-          title: 'Hola',
-          description: 'HolaHola',
-          topic: 'crypto',
-          people: 32,
-          option1: 'yes',
-          option2: 'no'
-        },
-        {
-          title: 'Hola1',
-          description: 'HolaHola1',
+          id: '0',
+          title: 'Test1',
+          description: 'TestTestTestTest1',
           topic: 'esports',
           people: 120,
-          option1: 'yes',
-          option2: 'no'
+          option1: 'Test Yes',
+          option2: 'Test No'
         }
       ]
     }
@@ -66,7 +60,9 @@ export default{
           this.events.push({
             'title': event[0],
             'description': event[1],
-            'topic': event[2]
+            'topic': event[2],
+            'people': event[4],
+            'id': event[5]
           })
         }).catch(err => {
           console.log(err)
@@ -75,7 +71,7 @@ export default{
     },
     getEventsNumber () {
       this.totalEventsLoading = true
-      return EventHelper.getEventsNumber().then((number) => {
+      return EventHelper.getEventsLength().then((number) => {
         this.totalEvents = number.c[0]
         return this.totalEvents
       }).catch(err => {

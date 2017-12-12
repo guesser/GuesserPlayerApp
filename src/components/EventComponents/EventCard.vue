@@ -18,7 +18,7 @@
         <md-card-expand class="card-margins">
             <md-card-actions v-bind:class='topic'>
                 <div class='vote-margin'>
-                    <md-button class="md-raised md-primary">Vote</md-button>
+                    <md-button class="md-raised md-primary" @click="voteEvent">Vote</md-button>
                     <span class='md-subhead center-people'> {{people}}<img src='../../assets/beard.png' width='24' />already did</span>
                 </div>
 
@@ -41,9 +41,18 @@
 </template>
 
 <script>
+import EventHelper from '@/js/Event'
+
 export default {
   name: 'EventCard',
-  props: ['title', 'description', 'topic', 'option1', 'option2', 'option3', 'option4', 'people']
+  props: ['id', 'title', 'description', 'topic', 'option1', 'option2', 'option3', 'option4', 'people'],
+  methods: {
+    voteEvent () {
+      EventHelper.voteEvent(this.id).catch(err => {
+        console.log(err)
+      })
+    }
+  }
 }
 </script>
 

@@ -22,21 +22,25 @@ contract Event {
         bytes32,
         bytes32,
         uint256,
+        uint32,
         uint32){
 
         return(events[index].title,
                events[index].description,
                events[index].topic,
                events[index].date,
-               events[index].votes);
+               events[index].votes,
+               index);
     }
     function getEventOptions(uint32 index) public view returns(
+        uint32,
         bytes32,
         bytes32,
         bytes32,
         bytes32
     ){
-        return(events[index].option1,
+        return(index,
+            events[index].option1,
             events[index].option2,
             events[index].option3,
             events[index].option4
@@ -65,9 +69,12 @@ contract Event {
         });
         events.push(_event);
     }
+
     function getEventsLength() public view returns(uint256){
         return events.length;
     }
 
-    // TODO: Get current day events
+    function voteEvent(uint32 index) public {
+        events[index].votes++;
+    }
 }

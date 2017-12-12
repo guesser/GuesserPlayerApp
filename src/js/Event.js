@@ -42,6 +42,21 @@ const Event = {
       })
     })
   },
+  voteEvent: function (index) {
+    let self = this
+
+    return new Promise((resolve, reject) => {
+      self.instance.voteEvent(
+        index,
+        {from: window.web3.eth.accounts[0]}
+        // {from: window.web3.eth.accounts[0], gas: 400000} // Gas forced to high
+      ).then(() => {
+        resolve()
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  },
 
   // Event is splited in two functions
   // because of solidity reasons
@@ -57,8 +72,9 @@ const Event = {
           window.web3.toAscii(_event[0]), // title
           window.web3.toAscii(_event[1]), // description
           window.web3.toAscii(_event[2]).replace(/\u0000/g, ''), // topic
-          _event[3], // date
-          _event[4] // votes
+          _event[3].c[0], // date
+          _event[4].c[0], // votes
+          _event[5].c[0] // Event id
         ])
       }).catch(err => {
         reject(err)
@@ -75,23 +91,25 @@ const Event = {
         {from: window.web3.eth.accounts[0]}
       ).then(_event => {
         resolve([
-          window.web3.toAscii(_event[0]).replace(/\u0000/g, ''), // Option 1
-          window.web3.toAscii(_event[1]).replace(/\u0000/g, ''), // Option 2
-          window.web3.toAscii(_event[2]).replace(/\u0000/g, ''), // Option 3
-          window.web3.toAscii(_event[3]).replace(/\u0000/g, '') // Option 4
+          _event[0].c[0], // Event id
+          window.web3.toAscii(_event[1]).replace(/\u0000/g, ''), // Option 1
+          window.web3.toAscii(_event[2]).replace(/\u0000/g, ''), // Option 2
+          window.web3.toAscii(_event[3]).replace(/\u0000/g, ''), // Option 3
+          window.web3.toAscii(_event[4]).replace(/\u0000/g, '') // Option 4
         ])
       }).catch(err => {
         reject(err)
       })
     })
   },
-  getEventsNumber: function () {
+  getEventsLength: function () {
     let self = this
 
     return new Promise((resolve, reject) => {
       self.instance.getEventsLength.call(
         {from: window.web3.eth.accounts[0]}
       ).then(number => {
+        console.log(number)
         resolve(number)
       }).catch(err => {
         console.log(err)
