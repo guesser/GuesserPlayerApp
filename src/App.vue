@@ -50,7 +50,13 @@ body{
     overflow-y: auto;
 }
 #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    /* font-family: 'Avenir', Helvetica, Arial, sans-serif; */
+    /* font-family: 'Nunito', sans-serif; */
+    /* font-family: 'Montserrat', sans-serif; */
+    /* font-family: 'Raleway', sans-serif; */
+    /* font-family: 'Josefin Sans', sans-serif; */
+    font-family: 'Itim', cursive;
+
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
