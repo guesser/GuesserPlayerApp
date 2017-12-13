@@ -11,6 +11,7 @@ contract Event {
         bytes32 option4;
         uint256 date; 
         uint32 votes;
+        mapping(address => bool) voted;
     }
     EventStruct[] events;
 
@@ -65,9 +66,10 @@ contract Event {
             option3: _option3,
             option4: _option4,
             date: now, // this gets the current timestamp of the block
-            votes: 0
+            votes: 1
         });
         events.push(_event);
+        events[events.length-1].voted[msg.sender] = true;
     }
 
     function getEventsLength() public view returns(uint256){
@@ -75,6 +77,12 @@ contract Event {
     }
 
     function voteEvent(uint32 index) public {
+        if(events[index].voted[msg.sender] == true){ // First time voter required
+        revert();
+        }
+
         events[index].votes++;
+        events[index].voted[msg.sender] = true;
+        
     }
 }
