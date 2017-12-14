@@ -85,7 +85,7 @@ export default {
 
 <style>
 .md-accent{
-    margin-bottom: 10px;
+    mdrgin-bottom: 10px;
 }
 .md-card-header-text{
     text-align:left;

@@ -1,17 +1,31 @@
 <template>
-    <div>
-    <h1> Bank </h1>
-    <Chest/>
+  <div>
+    <div v-if="account">
+      <h1> Bank </h1>
+  <!-- <Chest/> -->
     </div>
+    <div v-else>
+    </div>
+  </div>
 </template>
 
 <script>
-import Chest from './BankComponents/Chest'
+// import Account from '@/js/Account'
 
 export default{
   name: 'Bank',
-  components: {
-    Chest
+  data () {
+    return {
+      account: ''
+    }
+  },
+  methods: {
+    createAccount () {
+      console.log(window.web3.eth.accounts.create())
+    }
+  },
+  mounted: function () {
+    this.createAccount()
   }
 }
 </script>
