@@ -15,11 +15,42 @@ const Account = {
 
   createAccount: function () {
     this.account = window.web3.eth.accounts.create()
-    // TODO: Save account
+
+    // Save account
+    window.localStorage.setItem('address', this.account.address)
+
+    // The private key is being stored in the localstorage by the moment,
+    // it will be change in the next release
+    window.localStorage.setItem('privateKey', this.account.privateKey)
   },
 
-  printAccountData: function () {
-    console.log(this.account)
+  getAccountAddress: function () {
+    return this.account.address
+  },
+
+  // Call always this function it will create or load the info
+  loadAccountData: function () {
+    if (window.localStorage.getItem('privateKey') !== null) {
+      this.account = {
+        privateKey: window.localStorage.getItem('privateKey'),
+        address: window.localStorage.getItem('address')
+      }
+    } else {
+      this.createAccountData()
+    }
+  },
+
+  isAccountCreated: function () {
+    if (window.localStorage.getItem('privateKey') !== null) {
+      return true
+    }
+  },
+
+  // WARNING: This deletes the whole account, and you wont be able to get it back
+  deleteAccountData: function () {
+    window.localStorage.setItem('address', null)
+    window.localStorage.setItem('privateKey', null)
+    this.account = null
   }
 }
 

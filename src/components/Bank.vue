@@ -10,7 +10,7 @@
 </template>
 
 <script>
-// import Account from '@/js/Account'
+import Account from '@/js/Account'
 
 export default{
   name: 'Bank',
@@ -21,11 +21,11 @@ export default{
   },
   methods: {
     createAccount () {
-      console.log(window.web3.eth.accounts.create())
+      console.log('Hola')
     }
   },
   mounted: function () {
-    this.createAccount()
+    Account.loadAccountData()
   }
 }
 </script>

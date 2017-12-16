@@ -49,8 +49,8 @@ contract Event {
     }
 
     function setEvent(
-        bytes32 _title, 
-        bytes32 _description, 
+        bytes32 _title,
+        bytes32 _description,
         bytes32 _topic,
         bytes32 _option1,
         bytes32 _option2,
