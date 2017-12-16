@@ -7,10 +7,10 @@ import router from './router'
 // Css for the material
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.css'
-import VuePullRefresh from 'vue-pull-refresh'
+import Qrcode from 'v-qrcode/src/index'
 
 Vue.use(VueMaterial)
-Vue.use(VuePullRefresh)
+Vue.use(Qrcode)
 
 Vue.material.registerTheme({
   default: {
