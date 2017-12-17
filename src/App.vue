@@ -5,7 +5,7 @@
         </div>
 
             <footer>
-                <md-bottom-bar>
+                <md-bottom-bar md-type="shift">
                     <md-bottom-bar-item md-icon="home" md-active v-on:click="changeView('')">
                     </md-bottom-bar-item>
                     <md-bottom-bar-item md-icon="comment" v-on:click="changeView('event')">
@@ -78,21 +78,5 @@ footer{
     left: 0;
     right: 0;
     z-index: 10;
-}
-.md-theme-default.md-bottom-bar.md-fixed {
-    background-color: #ff0d73;
-}
-.md-theme-default.md-bottom-bar.md-fixed
-.md-bottom-bar-item.md-active i{
-    color: #ffff01;
-    font-size: 30px !important;
-}
-
-.md-theme-default.md-bottom-bar.md-fixed
-.md-bottom-bar-item{
-    color: #eee;
-}
-.md-active{
-    font-size: large;
 }
 </style>

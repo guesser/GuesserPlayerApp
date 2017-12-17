@@ -1,22 +1,25 @@
 <template>
-  <div>
-      <h1> Bank </h1>
-      <h3>Receive</h3>
+  <div class='bank'>
+    <h1 style="text-align:center;"> Bank </h1>
+
+      <md-divider class='space'></md-divider>
+      <h3 class='subtitle'>Receive</h3>
+
       <md-avatar class="md-large qr">
           <qrcode :foreground="foreground" :background="background" :size="size" :cls="qrCls" :value="address"></qrcode>
       </md-avatar>
-      <small>{{address}}</small>
+      <div class='crop'>{{address}}</div>
       <md-divider class='space'></md-divider>
       <h3>Send</h3>
-      <md-input-container>
+ <md-field>
       <label>Address</label>
       <md-input v-model="form.address"></md-input>
-      </md-input-container>
+ </md-field>
 
-      <md-input-container>
+ <md-field>
       <label>Amount</label>
       <md-input v-model="form.amount"></md-input>
-      </md-input-container>
+ </md-field>
 
        <md-button class="md-raised md-primary">Send</md-button>
   <!-- <Chest/> -->
@@ -71,5 +74,21 @@ export default{
 
 .space{
     margin-top: 15px;
+}
+
+.bank{
+    text-align: left;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+.crop {
+    width:45%;
+    overflow:hidden;
+    height:50px;
+    line-height:50px;
+    white-space: nowrap; /* Don't forget this one */
+    text-overflow: ellipsis;
+    margin-top: -15%;
+    margin-left: 45%;
 }
 </style>
