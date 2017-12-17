@@ -1,6 +1,7 @@
 <template>
   <div class='bank'>
-    <h1 style="text-align:center;"> Bank </h1>
+    <h1> Bank </h1>
+    <h2 class='ether-header'> 20.34<img src="../assets/ethereum.png" width='18px'/> </h2>
 
       <md-divider class='space'></md-divider>
       <h3 class='subtitle'>Receive</h3>
@@ -8,7 +9,9 @@
       <md-avatar class="md-large qr">
           <qrcode :foreground="foreground" :background="background" :size="size" :cls="qrCls" :value="address"></qrcode>
       </md-avatar>
-      <div class='crop'>{{address}}</div>
+      <div class='crop'>
+              <md-icon style='font-size: 14px !important;'>content_copy</md-icon>{{address}}
+      </div>
       <md-divider class='space'></md-divider>
       <h3>Send</h3>
  <md-field>
@@ -82,7 +85,7 @@ export default{
     margin-right: 15px;
 }
 .crop {
-    width:45%;
+    width:50%;
     overflow:hidden;
     height:50px;
     line-height:50px;
@@ -90,5 +93,10 @@ export default{
     text-overflow: ellipsis;
     margin-top: -15%;
     margin-left: 45%;
+}
+.ether-header{
+    position: absolute;
+    top: 0;
+    right: 0;   
 }
 </style>
