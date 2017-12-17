@@ -1,22 +1,24 @@
 <template>
   <div>
       <h1> Bank </h1>
+      <h3>Receive</h3>
       <md-avatar class="md-large qr">
           <qrcode :foreground="foreground" :background="background" :size="size" :cls="qrCls" :value="address"></qrcode>
       </md-avatar>
-      <md-divider class='space'></md-divider>
-      <h3>Receive</h3>
       <small>{{address}}</small>
+      <md-divider class='space'></md-divider>
       <h3>Send</h3>
-      <md-field>
+      <md-input-container>
       <label>Address</label>
-      <md-input v-model="initial"></md-input>
-    </md-field>
+      <md-input v-model="form.address"></md-input>
+      </md-input-container>
 
-    <md-field>
-      <label>Value</label>
-      <md-input v-model="initial"></md-input>
-    </md-field>
+      <md-input-container>
+      <label>Amount</label>
+      <md-input v-model="form.amount"></md-input>
+      </md-input-container>
+
+       <md-button class="md-raised md-primary">Send</md-button>
   <!-- <Chest/> -->
   </div>
 </template>
@@ -37,10 +39,13 @@ export default{
     return {
       address: '',
       qrCls: 'qrcode',
-      qrText: 'Read VueJS Feed daily',
       size: 500,
       background: '#ffff01',
-      foreground: '#ff0d73'
+      foreground: '#ff0d73',
+      form: {
+        address: null,
+        amount: null
+      }
     }
   },
   methods: {
@@ -58,6 +63,7 @@ export default{
 }
 
 .qr{
+    margin-left: 0 !important;
     width: 120px !important;
     height: 120px !important;
     border-radius: 5px !important;

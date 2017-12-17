@@ -44,6 +44,15 @@ export default {
 }
 </script>
 
+<style lang="sass">
+@import "~vue-material/dist/theme/engine"; // Import the theme engine
+
+@include md-register-theme("default", (primary: #ff0d73, // The primary color of your brand
+  accent: #ffff01)); // The secondary color of your brand
+
+@import "~vue-material/dist/theme/all"; // Apply the theme
+  
+</style>
 <style>
 body{
     height: 100%;

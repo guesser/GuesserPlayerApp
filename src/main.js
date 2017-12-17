@@ -12,21 +12,6 @@ import Qrcode from 'v-qrcode/src/index'
 Vue.use(VueMaterial)
 Vue.use(Qrcode)
 
-Vue.material.registerTheme({
-  default: {
-    primary: 'pink',
-    accent: 'yellow'
-  },
-  green: {
-    primary: 'green',
-    accent: 'pink'
-  },
-  orange: {
-    primary: 'orange',
-    accent: 'green'
-  }
-})
-
 Vue.config.productionTip = false
 
 window.addEventListener('load', function () {
