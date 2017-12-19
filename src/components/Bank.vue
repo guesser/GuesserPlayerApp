@@ -1,7 +1,7 @@
 <template>
   <div class='bank'>
-    <h1> Bank </h1>
-    <h2 class='ether-header'> 20.34<img src="../assets/ethereum.png" width='18px'/> </h2>
+    <h1> Chest </h1>
+    <h2 class='ether-header'> {{ balance }}<img src="../assets/ethereum.png" width='18px'/> </h2>
 
       <md-divider class='space'></md-divider>
       <h3 class='subtitle'>Receive</h3>
@@ -44,6 +44,7 @@ export default{
   data () {
     return {
       address: '',
+      balance: '',
       qrCls: 'qrcode',
       size: 500,
       background: '#ffff01',
@@ -57,8 +58,13 @@ export default{
   methods: {
   },
   mounted: function () {
+    let self = this
     Account.loadAccountData()
     this.address = Account.getAccountAddress()
+    this.balance = Promise.resolve(Account.getBalance()).then((balance) => {
+      self.balance = balance
+    })
+    console.log(this.balance)
   }
 }
 </script>

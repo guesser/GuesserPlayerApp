@@ -36,7 +36,7 @@ const Account = {
         address: window.localStorage.getItem('address')
       }
     } else {
-      this.createAccountData()
+      this.createAccount()
     }
   },
 
@@ -44,6 +44,10 @@ const Account = {
     if (window.localStorage.getItem('privateKey') !== null) {
       return true
     }
+  },
+
+  getBalance: function async () {
+    return window.web3.eth.getBalance(this.getAccountAddress())
   },
 
   // WARNING: This deletes the whole account, and you wont be able to get it back
