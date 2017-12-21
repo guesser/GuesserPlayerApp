@@ -59,6 +59,8 @@ export default {
 
 <style>
 .event{
+  margin-left: 2.5%;
+  width: 95%;
   margin-top: 8px;
 }
 .event-header{
@@ -80,12 +82,12 @@ export default {
   height:0 !important;
 }
 
+
 /* Topics styles */
 .crypto{
   background-color: #9ebbc4 !important;
 }
 .esports{
   background-color: #e6b7be !important;
-
 }
 </style>
