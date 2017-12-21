@@ -1,52 +1,53 @@
 <template>
-    <form class="create-event">
-        <h2> Create a Event</h2>
-        <md-input-container>
-            <label>Title</label>
-            <md-input v-model="title" required></md-input>
-        </md-input-container>
+  <form class="create-event">
+    <h2> Create a Event</h2>
+    <md-field>
+      <label>Title</label>
+      <md-input v-model="title" required></md-input>
+    </md-field>
+    <md-field>
+      <label>Description</label>
+      <md-textarea v-model="description" required></md-textarea>
+    </md-field>
 
-        <md-input-container>
-            <label>Description</label>
-            <md-textarea v-model="description" required></md-textarea>
-        </md-input-container>
-
-        <!--Topics-->
-    <md-input-container>
-          <label for="topic">Topic</label>
-          <md-select v-model="topic" name="topic" id="topic">
-            <md-option value="crypto">Crypto</md-option>
-            <md-option value="esports">Esports</md-option>
-          </md-select>
-    </md-input-container>
+    <!--Topics-->
+    <div class="md-flex">
+    <md-field>
+      <label for="topic">Topic</label>
+      <md-select v-model="topic" name="topic" id="topic" md-dense>
+        <md-option value="crypto">Crypto</md-option>
+        <md-option value="esports">Esports</md-option>
+      </md-select>
+    </md-field>
+    </div>
 
     <!--Option 1-->
-    <md-input-container>
-            <label>Option 1</label>
-            <md-input v-model="option1" required></md-input>
-    </md-input-container>
+    <md-field>
+      <label>Option 1</label>
+      <md-input v-model="option1" required></md-input>
+    </md-field>
 
     <!--Option 2-->
-    <md-input-container v-if="option1 != ''">
-            <label>Option 2</label>
-            <md-input v-model="option2" required></md-input>
-    </md-input-container>
+    <md-field v-if="option1 !=''">
+      <label>Option 2</label>
+      <md-input v-model="option2" required></md-input>
+    </md-field>
 
     <!--Option 3-->
-    <md-input-container v-if="option2 != ''">
-            <label>Option 3</label>
-            <md-input v-model="option3"></md-input>
-    </md-input-container>
-    
+    <md-field v-if="option2 !=''">
+      <label>Option 3</label>
+      <md-input v-model="option3"></md-input>
+    </md-field>
+
     <!--Option 4-->
-    <md-input-container v-if="option3 != ''">
-            <label>Option 4</label>
-            <md-input v-model="option4"></md-input>
-    </md-input-container>
+    <md-field v-if="option3 !=''">
+      <label>Option 4</label>
+      <md-input v-model="option4"></md-input>
+    </md-field>
 
 
-        <md-button class="md-raised md-primary" @click="setEvent"><h3>Create</h3></md-button>
-    </form>
+    <md-button class="md-raised md-primary" @click="setEvent"><h3>Create</h3></md-button>
+  </form>
 </template>
 
 <script>
@@ -94,7 +95,7 @@ export default {
 
 <style>
 .create-event{
-    margin-bottom: 20%;
+  margin-bottom: 20%;
 }
 
 </style>
