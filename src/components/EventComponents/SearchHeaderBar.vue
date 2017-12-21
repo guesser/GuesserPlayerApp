@@ -2,10 +2,10 @@
     <div>
         <md-toolbar class="md-transparent">
             <md-icon class="md-primary"><router-link class="md-primary link" to="/create">add_circle_outline</router-link></md-icon>
-            <md-input-container class="searchHeader">
+ <md-field class="searchHeader">
                 <md-icon class="md-primary">search</md-icon>
                 <md-input v-model="initialValue"></md-input>
-            </md-input-container>        
+                </md-field>
             <md-icon class="md-primary"><router-link class="md-primary link" to="/types">view_list</router-link></md-icon>
         </md-toolbar>
     </div>

@@ -64,7 +64,6 @@ export default{
     this.balance = Promise.resolve(Account.getBalance()).then((balance) => {
       self.balance = balance
     })
-    console.log(this.balance)
   }
 }
 </script>
