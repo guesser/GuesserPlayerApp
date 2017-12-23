@@ -5,42 +5,95 @@ pragma solidity ^0.4.18;
  * @dev Guess contract to vote and create events in the Guesser platform.
  */
 contract Guess {
+  
+  // Events 
+  event GuessCreated(uint256 id, bytes32 title);
+
+  // Data structures
   struct GuessStruct{
+    // Basic data of the Guess here
     bytes32 title;
     bytes32 description;
+    bytes32 topic;
+    address creator; // The user that created the event
+    bytes32 eventVotes; // the number of votes it HAD when it was an event
+    uint256 date;
+    //Options to vote
     bytes32 option1;
     bytes32 option2;
     bytes32 option3;
     bytes32 option4;
+    uint256 option1Votes;
+    uint256 option2Votes;
+    uint256 option3Votes;
+    uint256 option4Votes;
   }
-  GuessStruct _guessTemp; // Temporary guess to store values
   GuessStruct[] guesses; // Data structure to store all the guesses in the platform
 
   /**
    * @dev Function that returns a Guess basic data.
-   * @param index uint256 represents the index of the stored Guess in the
+   * @param _index uint256 represents the index of the stored Guess in the
    * global array.
-   * @return bytes32 The title of the Guess
-   * @return bytes32 The description of the Guess
-   * @return bytes32 The first option to vote on the Guess
-   * @return bytes32 The first option to vote on the Guess
-   * @return bytes32 The first option to vote on the Guess
-   * @return bytes32 The first option to vote on the Guess
+   * @return bytes32 The title of the Guess.
+   * @return bytes32 The description of the Guess.
+   * @return bytes32 The topic of the Guess.
+   * @return address The creator of the Event.
+   * @return bytes32 The number of votes the Event had when it was only an
+   * option. This is not the actual votes of the Guess.
+   * @return uint256 The date when the Guess started.
   */
-  function getGuess(uint256 index) public view returns(bytes32, bytes32, bytes32, bytes32, bytes32, bytes32){
-    return (guesses[index].title,
-            guesses[index].description,
-            guesses[index].option1,
-            guesses[index].option2,
-            guesses[index].option3,
-            guesses[index].option4
+  function getGuess(uint256 _index) public view returns (bytes32, bytes32, bytes32, address, bytes32, uint256) {
+    return (guesses[_index].title,
+            guesses[_index].description,
+            guesses[_index].topic,
+            guesses[_index].creator,
+            guesses[_index].eventVotes,
+            guesses[_index].date
            );
   }
 
   /**
+   * @dev Function that returns the options to vote a Guess has.
+   * @param _index uint256 represents the index of the stored Guess in the
+   * global array.
+   * @return bytes32 The first option to vote on the Guess
+   * @return bytes32 The second option to vote on the Guess
+   * @return bytes32 The third option to vote on the Guess
+   * @return bytes32 The forth option to vote on the Guess
+  */
+  function getGuessOptions(uint256 _index) public view returns (bytes32, bytes32, bytes32, bytes32) {
+    return (
+            guesses[_index].option1,
+            guesses[_index].option2,
+            guesses[_index].option3,
+            guesses[_index].option4
+    );
+  }
+
+  /**
+   * @dev Function that returns the votes of the options a Guess has.
+   * @param _index uint256 represents the index of the stored Guess in the
+   * global array.
+   * @return bytes32 The votes of the first option in the Guess
+   * @return bytes32 The votes of the second option in the Guess
+   * @return bytes32 The votes of the third option in the Guess
+   * @return bytes32 The votes of the forth option in the Guess
+  */
+  function getGuessOptionsVotes(uint256 _index) public view returns (uint256, uint256, uint256, uint256) {
+    return (
+            guesses[_index].option1Votes,
+            guesses[_index].option2Votes,
+            guesses[_index].option3Votes,
+            guesses[_index].option4Votes
+    );
+  }
+  /**
    * @dev Function that creates a Guess.
    * @param _title bytes32 The title of the Guess.
    * @param _description bytes32 The description of the Guess
+   * @param _topic bytes32 The topic of the Guess
+   * @param _eventVotes bytes32 The number of votes the Event had when it was only an
+   * option. This is not the actual votes of the Guess.
    * @param _option1 bytes32 The first option to vote on the Guess
    * @param _option2 bytes32 The first option to vote on the Guess
    * @param _option3 bytes32 The first option to vote on the Guess
@@ -50,22 +103,32 @@ contract Guess {
   function setGuess(
     bytes32 _title,
     bytes32 _description,
+    bytes32 _topic,
+    address _creator,
+    bytes32 _eventVotes,
     bytes32 _option1,
     bytes32 _option2,
     bytes32 _option3,
     bytes32 _option4
-  ) public returns (uint256){
+  ) public { // This function will be private in the future after the UI testing
     GuessStruct memory _guess = GuessStruct({
       title: _title,
       description: _description,
+      topic: _topic,
+      creator: _creator,
+      eventVotes: _eventVotes,
+      date: now,
       option1: _option1,
       option2: _option2,
       option3: _option3,
-      option4: _option4
+      option4: _option4,
+      option1Votes: 0,
+      option2Votes: 0,
+      option3Votes: 0,
+      option4Votes: 0
     });
-
-    guesses.push(_guess); // Adds the new struct
-    return guesses.length-1; // Return the position of the element in the array
+    uint256 _len = guesses.push(_guess) -1; // Adds the new struct and return its position
+    GuessCreated(_len, _title);
   }
 
   /**
