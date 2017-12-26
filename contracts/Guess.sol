@@ -18,6 +18,7 @@ contract Guess {
     address creator; // The user that created the event
     bytes32 eventVotes; // the number of votes it HAD when it was an event
     uint256 date;
+    mapping (address => bool) voters;
     //Options to vote
     bytes32 option1;
     bytes32 option2;
@@ -137,5 +138,30 @@ contract Guess {
   */
   function getGuessesLength() public view returns (uint256){
     return guesses.length;
+  }
+
+  /**
+   * @dev Function that votes an option in an event
+   * @param _optId uint256 id of the option to vote in the event
+   * @param _index uint256 the id of the event to vote
+  */
+  function voteOption(uint256 _optId, uint256 _index) public {
+    require(guesses.length < _index);
+    require(_optId < 4);
+    require(guesses[_index].voters[msg.sender]);
+
+    if(_optId == 0){
+      guesses[_index].option1Votes += 1;
+      guesses[_index].voters[msg.sender] = true;
+    } else if(_optId == 1){
+      guesses[_index].option2Votes += 1;
+      guesses[_index].voters[msg.sender] = true;
+    } else if(_optId == 2){
+      guesses[_index].option3Votes += 1;
+      guesses[_index].voters[msg.sender] = true;
+    } else if(_optId == 3){
+      guesses[_index].option4Votes += 1;
+      guesses[_index].voters[msg.sender] = true;
+    }
   }
 }
