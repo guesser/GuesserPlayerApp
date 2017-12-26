@@ -7,7 +7,8 @@ pragma solidity ^0.4.18;
 contract Guess {
   
   // Events 
-  event GuessCreated(uint256 id, bytes32 title);
+  event GuessCreated(uint256 index, bytes32 title);
+  event VoteDone(uint256 index, uint256 optionVoted);
 
   // Data structures
   struct GuessStruct{
@@ -152,16 +153,14 @@ contract Guess {
 
     if(_optId == 0){
       guesses[_index].option1Votes += 1;
-      guesses[_index].voters[msg.sender] = true;
     } else if(_optId == 1){
       guesses[_index].option2Votes += 1;
-      guesses[_index].voters[msg.sender] = true;
     } else if(_optId == 2){
       guesses[_index].option3Votes += 1;
-      guesses[_index].voters[msg.sender] = true;
     } else if(_optId == 3){
       guesses[_index].option4Votes += 1;
-      guesses[_index].voters[msg.sender] = true;
     }
+    guesses[_index].voters[msg.sender] = true;
+    VoteDone(_index, _iptId);
   }
 }
