@@ -1,4 +1,4 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.17;
 
  /**
  * @title Guess
@@ -161,6 +161,6 @@ contract Guess {
       guesses[_index].option4Votes += 1;
     }
     guesses[_index].voters[msg.sender] = true;
-    VoteDone(_index, _iptId);
+    VoteDone(_index, _optId);
   }
 }

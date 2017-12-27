@@ -10,7 +10,7 @@ contract TestEvent {
   function testGetZeroEvent() public {
     Event eventObject1 = new Event();
     uint256 length = eventObject1.getEventsLength();
-    Assert.equal(length, 0, "Number of notes is not 0.");
+    Assert.equal(length, 0, "Number of events is not 0.");
   }
   function testCreateEvent() public {
     bytes32 _t = "hola";
@@ -22,7 +22,7 @@ contract TestEvent {
     bytes32 _4 = "no way";
     eventObject.setEvent(_t, _d, _to, _1, _2, _3, _4);
     uint256 length = eventObject.getEventsLength();
-    Assert.equal(length, 1, "Number of notes is not 1.");
+    Assert.equal(length, 1, "Number of events is not 1.");
   }
 
   function testGetEvent() public {
