@@ -9,8 +9,9 @@
       <md-avatar class="md-large qr">
           <qrcode :foreground="foreground" :background="background" :size="size" :cls="qrCls" :value="address"></qrcode>
       </md-avatar>
-      <div class='crop'>
-              <md-icon style='font-size: 14px !important;'>content_copy</md-icon>{{address}}
+      <div class='crop' v-clipboard:copy="address">
+              <md-icon style='font-size: 14px !important;'>content_copy</md-icon>
+                {{address}}
       </div>
       <md-divider class='space'></md-divider>
       <h3>Send</h3>
@@ -56,6 +57,20 @@ export default{
     }
   },
   methods: {
+    copyAddressClipboard () {
+      console.log(this.address)
+      document.querySelector('#addressCopy').select()
+      try {
+        var status = document.execCommand('copy')
+        if (!status) {
+          console.error('Cannot copy text')
+        } else {
+          console.log('The text is now on the clipboard')
+        }
+      } catch (err) {
+        console.log('Unable to copy.')
+      }
+    }
   },
   mounted: function () {
     let self = this

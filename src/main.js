@@ -8,9 +8,11 @@ import router from './router'
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.css'
 import Qrcode from 'v-qrcode/src/index'
+import VueClipboard from 'vue-clipboard2'
 
 Vue.use(VueMaterial)
 Vue.use(Qrcode)
+Vue.use(VueClipboard)
 
 Vue.config.productionTip = false
 
