@@ -57,27 +57,13 @@ export default{
     }
   },
   methods: {
-    copyAddressClipboard () {
-      console.log(this.address)
-      document.querySelector('#addressCopy').select()
-      try {
-        var status = document.execCommand('copy')
-        if (!status) {
-          console.error('Cannot copy text')
-        } else {
-          console.log('The text is now on the clipboard')
-        }
-      } catch (err) {
-        console.log('Unable to copy.')
-      }
-    }
   },
   mounted: function () {
     let self = this
     Account.loadAccountData()
     this.address = Account.getAccountAddress()
     this.balance = Promise.resolve(Account.getBalance()).then((balance) => {
-      self.balance = balance
+      self.balance = window.web3.utils.fromWei(balance)
     })
   }
 }

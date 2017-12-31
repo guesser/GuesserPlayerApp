@@ -48,8 +48,6 @@ const Account = {
 
   getBalance: function async () {
     return window.web3.eth.getBalance(this.getAccountAddress())
-    // return window.web3.eth.getBalance(this.getAccountAddress())
-    // .then((res) => return window.web3.utils.fromWei(res, "ether"))
   },
 
   // WARNING: This deletes the whole account, and you wont be able to get it back
