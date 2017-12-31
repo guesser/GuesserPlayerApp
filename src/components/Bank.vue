@@ -25,7 +25,7 @@
       <md-input v-model="form.amount"></md-input>
  </md-field>
 
-       <md-button class="md-raised md-primary">Send</md-button>
+       <md-button class="md-raised md-primary" @click='sendEther()'>Send</md-button>
   <!-- <Chest/> -->
   </div>
 </template>
@@ -57,6 +57,9 @@ export default{
     }
   },
   methods: {
+    sendEther () {
+      Account.sendEther(this.form.amount, this.form.address)
+    }
   },
   mounted: function () {
     let self = this
