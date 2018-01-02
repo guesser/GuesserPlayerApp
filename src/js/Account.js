@@ -53,15 +53,50 @@ const Account = {
     return window.web3.eth.getBalance(this.getAccountAddress())
   },
 
+  // Checks if an account is unlocked
+  isUnlocked: function async (web3, address) {
+    try {
+      web3.eth.sign('', address)
+    } catch (e) {
+      console.log(false)
+      return false
+    }
+    console.log(true)
+    return true
+  },
+
   sendEther: function (_value, _to) {
+    var web3 = window.web3
     var _address = window.localStorage.getItem('address')
-    window.web3.eth.sendTransaction({from: _address, to: _to, value: window.web3.utils.toWei(_value, 'ether')
-    }).on('transactionHash', function (hash) {
-      console.log(hash)
-    }).on('confirmation', function (confirmationNumber, receipt) {
-      console.log(confirmationNumber)
-      console.log(receipt)
-    }).on('error', console.error)
+    var _privateKey = window.localStorage.getItem('privateKey')
+
+    var tx = {
+      from: _address,
+      to: _to,
+      gas: 2000000
+    }
+
+    web3.eth.accounts.signTransaction(tx, _privateKey).then(signed => {
+      var tran = web3.eth.sendSignedTransaction(signed.rawTransaction)
+
+      tran.on('confirmation', (confirmationNumber, receipt) => {
+        console.log('confirmation: ' + confirmationNumber)
+      })
+
+      tran.on('transactionHash', hash => {
+        console.log('hash')
+        console.log(hash)
+      })
+
+      tran.on('receipt', receipt => {
+        console.log('receipt')
+        console.log(receipt)
+      })
+
+      tran.on('error', console.error)
+    }).catch(function (e) {
+      console.log(e)
+    })
   },
 
   // WARNING: This deletes the whole account, and you wont be able to get it back
