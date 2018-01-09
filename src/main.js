@@ -4,10 +4,14 @@ import Vue from 'vue'
 import App from './App'
 import Web3 from 'web3'
 import router from './router'
-// Css for the material
+// CSS
+import BootstrapVue from 'bootstrap-vue'
+
+// Libraries
 import Qrcode from 'v-qrcode/src/index'
 import VueClipboard from 'vue-clipboard2'
 
+Vue.use(BootstrapVue)
 Vue.use(Qrcode)
 Vue.use(VueClipboard)
 

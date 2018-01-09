@@ -1,28 +1,27 @@
 <template>
-  <div id="app">
-    <header>
-    </header>
-    
+  <div>
+    <TopBar/>
     <main>
-      <router-view></router-view>
+    <router-view></router-view>
     </main>
 
     <footer>
     </footer>
+
   </div>
 </template>
 
 <script>
-  // Vue components
-  // import CreateAccount from './components/CreateAccount.vue'
+// Vue components
+  import TopBar from './components/Home/Header.vue'
 
   export default {
     name: 'app',
     components: {
+      TopBar
     },
     data: function () {
       return {
-        page: 'Top'
       }
     },
     methods: {
@@ -33,5 +32,8 @@
   }
 </script>
 
-<style lang="sass">
+<style lang="scss">
+body{
+  font-family: 'Josefin Sans', sans-serif;
+}
 </style>
