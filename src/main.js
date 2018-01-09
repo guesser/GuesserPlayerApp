@@ -5,12 +5,9 @@ import App from './App'
 import Web3 from 'web3'
 import router from './router'
 // Css for the material
-import VueMaterial from 'vue-material'
-import 'vue-material/dist/vue-material.css'
 import Qrcode from 'v-qrcode/src/index'
 import VueClipboard from 'vue-clipboard2'
 
-Vue.use(VueMaterial)
 Vue.use(Qrcode)
 Vue.use(VueClipboard)
 
