@@ -4,10 +4,10 @@
       <TopicList/>
     </div>
     <div class='guesses'>
-      <h3>Guess of the day!</h3>
+      <h2>Guess of the day!</h2>
       <GuessOfTheDay/>
       <br>
-      <h3>Other cool guesses:</h3>
+      <h2>Other cool guesses:</h2>
       <OtherGuesses/>
     </div>
   </div>
