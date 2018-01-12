@@ -13,7 +13,7 @@
 
 <script>
 // Vue components
-  import TopBar from './components/Home/Header.vue'
+  import TopBar from './components/Header.vue'
 
   export default {
     name: 'app',
@@ -35,5 +35,11 @@
 <style lang="scss">
 body{
   font-family: 'Josefin Sans', sans-serif;
+  height: 100%;
+}
+main{
+  height:100vh;
+  min-height: 100vh;
+  bottom:0;
 }
 </style>
