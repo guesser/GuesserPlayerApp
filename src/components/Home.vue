@@ -4,10 +4,10 @@
       <TopicList/>
     </div>
     <div class='guesses'>
-      <h2>Guess of the day!</h2>
+      <h3>Guess of the day!</h3>
       <GuessOfTheDay/>
       <br>
-      <h2>Other cool guesses:</h2>
+      <h3>Other cool guesses:</h3>
       <OtherGuesses/>
     </div>
   </div>
@@ -33,6 +33,8 @@ export default {
   width: 20%;
   display: inline-block;
   float: left;
+  padding-right: 10px;
+  padding-left: 15px;
 }
 .guesses{
   width: 78%;

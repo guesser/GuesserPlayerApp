@@ -1,16 +1,34 @@
 <template>
-  <div style="max-width: 300px; min-width: 0;">
-    <h2>Topics:</h2>
+  <div style="max-width: 300px;">
+    <h3>Topics:</h3>
     <b-list-group >
-      <b-list-group-item href="#">This is a default list group item</b-list-group-item>
-      <b-list-group-item href="#" variant="primary">This is a primary list group item</b-list-group-item>
-      <b-list-group-item href="#" variant="secondary">This is a secondary list group item</b-list-group-item>
-      <b-list-group-item href="#" variant="success">This is a success list group item</b-list-group-item>
-      <b-list-group-item href="#" variant="danger">This is a danger list group item</b-list-group-item>
-      <b-list-group-item href="#" variant="warning">This is a warning list group item</b-list-group-item>
-      <b-list-group-item href="#" variant="info">This is a info list group item</b-list-group-item>
-      <b-list-group-item href="#" variant="light">This is a light list group item</b-list-group-item>
-      <b-list-group-item href="#" variant="dark">This is a dark list group item</b-list-group-item>
+      <b-list-group-item href="#">
+        <img style="width:35px;" src="../../assets/coin.png"/> 
+      </b-list-group-item>
+      <b-list-group-item href="#" variant="primary">
+        <img  style="width:35px;" src="../../assets/coin.png"/> 
+      </b-list-group-item>
+      <b-list-group-item href="#" variant="secondary">
+        <img style="width:35px;" src="../../assets/coin.png"/> 
+      </b-list-group-item>
+      <b-list-group-item href="#" variant="success">
+        <img style="width:35px;" src="../../assets/coin.png"/> 
+      </b-list-group-item>
+      <b-list-group-item href="#" variant="danger">
+        <img style="width:35px;" src="../../assets/coin.png"/> 
+      </b-list-group-item>
+      <b-list-group-item href="#" variant="warning">
+        <img style="width:35px;" src="../../assets/coin.png"/> 
+      </b-list-group-item>
+      <b-list-group-item href="#" variant="info">
+        <img style="width:35px;" src="../../assets/coin.png"/> 
+      </b-list-group-item>
+      <b-list-group-item href="#" variant="light">
+        <img style="width:35px;" src="../../assets/coin.png"/> 
+      </b-list-group-item>
+      <b-list-group-item href="#" variant="dark">
+        <img style="width:35px;" src="../../assets/coin.png"/> 
+      </b-list-group-item>
     </b-list-group>
   </div>
 </template>
