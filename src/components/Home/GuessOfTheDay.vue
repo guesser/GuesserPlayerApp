@@ -7,31 +7,17 @@
     <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
     <!--Progress Bar-->
     <b-progress class="mt-1" :max="max" show-value striped>
-      <b-progress-bar :value="max*(2/10)" variant="primary"></b-progress-bar>
-      <b-progress-bar :value="max*(5/10)" variant="success"></b-progress-bar>
-      <b-progress-bar :value="max*(2/10)" variant="warning"></b-progress-bar>
-      <b-progress-bar :value="max*(1/10)" variant="danger"></b-progress-bar>
+      <b-progress-bar :value="max*(3/10)" variant="pink">
+      Yes - {{ max*(3/10) }}
+      </b-progress-bar>
+      <b-progress-bar :value="max*(7/10)" variant="magenta">
+       No - {{ max*(7/10) }}
+      </b-progress-bar>
     </b-progress>
 
-    <!--<div slot="footer">-->
-      <!--<b-link href="#"-->
-              <!--class="card-link">Yes-->
-      <!--</b-link>-->
-      <!--<b-link href="#"-->
-              <!--class="card-link text-success">No-->
-      <!--</b-link>-->
-      <!--<b-link href="#"-->
-              <!--class="card-link text-warning">Maybe-->
-      <!--</b-link>-->
-      <!--<b-link href="#"-->
-              <!--class="card-link text-danger">3.1415-->
-      <!--</b-link>-->
-
       <br>
-      <b-button variant="outline-primary" size="sm">Yes</b-button>
-      <b-button variant="outline-success" size="sm">No</b-button>
-      <b-button variant="outline-warning" size="sm">Maybe</b-button>
-      <b-button variant="outline-danger" size="sm">3.1415</b-button>
+      <b-button variant="outline-pink" size="sm">Yes</b-button>
+      <b-button variant="outline-magenta" size="sm">No</b-button>
     </div>
   </b-card>
 </template>
@@ -50,5 +36,37 @@ export default {
 <style>
 .card-link{
 text-decoration: underline;
+}
+.bg-magenta{
+  background-color: magenta !important;
+  color: white !important;
+}
+.bg-pink{
+  background-color: pink !important;
+  color: white !important;
+}
+
+.btn-outline-magenta{
+ color: magenta;
+background-color: transparent;
+background-image: none;
+border-color: magenta; 
+}
+.btn-outline-pink:hover{
+  color: #fff;
+background-color: magenta;
+border-color: magenta;
+}
+
+.btn-outline-pink{
+ color: pink;
+background-color: transparent;
+background-image: none;
+border-color: pink; 
+}
+.btn-outline-pink:hover{
+  color: #fff;
+background-color: pink;
+border-color: pink;
 }
 </style>
