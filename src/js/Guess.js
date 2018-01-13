@@ -23,18 +23,24 @@ const Guess = {
     })
   },
 
-  setGuessFront: function (newTitle, newDescription, _option1, _option2, _option3, _option4) {
+  setGuessFront: function (
+    _title,
+    _description,
+    _topic,
+    _finalDate
+    _option1,
+    _option2) {
     let self = this
 
     return new Promise((resolve, reject) => {
       self.instance.setGuess(
-        window.web3.fromAscii(newTitle),
-        window.web3.fromAscii(newDescription),
+        window.web3.fromAscii(_title),
+        window.web3.fromAscii(_description),
+        window.web3.fromAscii(_topic),
+        _finalDate,
         window.web3.fromAscii(_option1),
         window.web3.fromAscii(_option2),
-        window.web3.fromAscii(_option3),
-        window.web3.fromAscii(_option4),
-        {from: window.web3.eth.accounts[0], gas: 400000} // Gas forced to high
+        {from: window.web3.eth.accounts[0], gas: 400000} // Gas forced to high #WARNING
       ).then(id => {
         resolve(id)
       }).catch(err => {
@@ -54,10 +60,11 @@ const Guess = {
         resolve([
           window.web3.toAscii(guess[0]).replace(/\u0000/g, ''), // title
           window.web3.toAscii(guess[1]).replace(/\u0000/g, ''), // description
-          window.web3.toAscii(guess[2]).replace(/\u0000/g, ''), // Option 1
-          window.web3.toAscii(guess[3]).replace(/\u0000/g, ''), // Option 2
-          window.web3.toAscii(guess[4]).replace(/\u0000/g, ''), // Option 3
-          window.web3.toAscii(guess[5]).replace(/\u0000/g, '') // Option 4
+          window.web3.toAscii(guess[2]).replace(/\u0000/g, ''), // topic
+          guess[3], // creator
+          guess[4], // votes it has 
+          guesses [5], // the day it started
+          guesses[6] // the final date
         ])
       }).catch(err => {
         reject(err)
