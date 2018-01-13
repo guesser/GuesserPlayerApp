@@ -50,9 +50,9 @@ text-decoration: underline;
  color: magenta;
 background-color: transparent;
 background-image: none;
-border-color: magenta; 
+border-color: magenta;
 }
-.btn-outline-pink:hover{
+.btn-outline-magenta:hover{
   color: #fff;
 background-color: magenta;
 border-color: magenta;
@@ -62,7 +62,7 @@ border-color: magenta;
  color: pink;
 background-color: transparent;
 background-image: none;
-border-color: pink; 
+border-color: pink;
 }
 .btn-outline-pink:hover{
   color: #fff;

@@ -5,7 +5,7 @@
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
       <b-navbar-brand href="#">
         <img src="../assets/beard.png" height="40" width="40" class="d-inline-block align-top" alt="BV">
-        Guesser 
+        Guesser
       </b-navbar-brand>
       <b-collapse is-nav id="nav_collapse">
         <!--Ethereum speed tooltip-->
@@ -28,7 +28,8 @@
 
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
-          <b-nav-item href="#">Guesses</b-nav-item>
+          <b-nav-item href="/">Guesses</b-nav-item>
+          <b-nav-item href="#create">Create</b-nav-item>
           <b-nav-item href="#">Profile</b-nav-item>
         </b-navbar-nav>
 
