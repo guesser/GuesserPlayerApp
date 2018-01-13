@@ -29,7 +29,6 @@
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
           <b-nav-item href="#">Guesses</b-nav-item>
-          <b-nav-item href="#">Voting</b-nav-item>
           <b-nav-item href="#">Profile</b-nav-item>
         </b-navbar-nav>
 

@@ -6,13 +6,13 @@
         <img class="topic-icon" src="../../assets/coin.png"/>
       </b-list-group-item>
       <b-list-group-item href="#" variant="primary">
-        <img class="topic-icon" src="../../assets/coin.png"/>
+        <img class="topic-icon" src="../../assets/esports.png"/>
       </b-list-group-item>
       <b-list-group-item href="#" variant="secondary">
         <img class="topic-icon" src="../../assets/coin.png"/>
       </b-list-group-item>
       <b-list-group-item href="#" variant="success">
-        <img class="topic-icon" src="../../assets/coin.png"/>
+        <img class="topic-icon" src="../../assets/esports.png"/>
       </b-list-group-item>
       <b-list-group-item href="#" variant="danger">
         <img class="topic-icon" src="../../assets/coin.png"/>
