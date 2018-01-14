@@ -86,7 +86,7 @@ contract Guess is DateTime{
             guesses[_index].description,
             guesses[_index].topic,
             guesses[_index].creator,
-            guesses[_index].option1Votes + guesses[index].option2Votes,
+            guesses[_index].option1Votes + guesses[_index].option2Votes,
             guesses[_index].firstDate,
             guesses[_index].finalDate
            );
