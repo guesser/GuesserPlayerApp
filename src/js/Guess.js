@@ -48,12 +48,12 @@ const GuessHelper = {
 
     return new Promise((resolve, reject) => {
       self.instance.setGuess(
-        window.web3.utils.asciiToHex(_title),
-        window.web3.utils.asciiToHex(_description),
-        window.web3.utils.asciiToHex(_topic),
+        window.web3.utils.toHex(_title),
+        _description,
+        window.web3.utils.toHex(_topic),
         _finalDate,
-        window.web3.utils.fromAscii(_option1),
-        window.web3.utils.fromAscii(_option2),
+        window.web3.utils.toHex(_option1),
+        window.web3.utils.toHex(_option2),
         {from: self.address[0], gas: 400000} // Gas forced to high #WARNING
       ).then(() => {
         resolve()
@@ -69,14 +69,14 @@ const GuessHelper = {
     return new Promise((resolve, reject) => {
       self.instance.getGuess.call(
         index,
-        {from: window.web3.eth.accounts[0]}
+        {from: self.address}
       ).then(guess => {
         resolve([
-          window.web3.toAscii(guess[0]).replace(/\u0000/g, ''), // title
-          window.web3.toAscii(guess[1]).replace(/\u0000/g, ''), // description
-          window.web3.toAscii(guess[2]).replace(/\u0000/g, ''), // topic
+          window.web3.utils.hexToUtf8(guess[0]).replace(/\u0000/g, ''), // title
+          window.web3.utils.hexToUtf8(guess[1]).replace(/\u0000/g, ''), // description
+          window.web3.utils.hexToUtf8(guess[2]).replace(/\u0000/g, ''), // topic
           guess[3], // creator
-          guess[4], // votes it has
+          window.web3.utils.hexToNumber(guess[4]), // votes it has
           guess[5], // the day it started
           guess[6] // the final date
         ])
@@ -90,7 +90,7 @@ const GuessHelper = {
 
     return new Promise((resolve, reject) => {
       self.instance.getGuessesLength.call(
-        {from: window.web3.eth.accounts[0]}
+        {from: self.address}
       ).then(number => {
         resolve(number)
       }).catch(err => {

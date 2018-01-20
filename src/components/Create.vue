@@ -62,6 +62,9 @@
         </b-form>
 
         <br>
+        <input type="date" v-model='form.date'>
+        <br>
+        <br>
 
         <b-button type="submit" variant="primary">Create</b-button>
       </b-form>
@@ -81,6 +84,7 @@ export default {
         title: '',
         description: '',
         topic: '',
+        date: null,
         option1: '',
         option2: ''
       }
@@ -91,7 +95,7 @@ export default {
       evt.preventDefault()
 
       let self = this
-      // alert(JSON.stringify(this.form))
+      console.log(JSON.stringify(this.form))
       let date = (new Date()).getSeconds()
       let birthDateInUnixTimestamp = date / 1000
       GuessHelper.setGuessFront(
