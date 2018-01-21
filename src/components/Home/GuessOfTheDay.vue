@@ -57,8 +57,10 @@ export default {
         self.guess.description = guess[1]
         self.guess.topic = guess[2]
         self.guess.votes = guess[4]
-        self.guess.startingDay = guess[5]
-        self.guess.finishingDay = guess[6]
+        let _startingDay = guess[5].getDate() + '-' + guess[5].getMonth() + '-' + guess[5].getFullYear()
+        self.guess.startingDay = _startingDay
+        let _finishingDay = guess[6].getDate() + '-' + guess[6].getMonth() + '-' + guess[6].getFullYear()
+        self.guess.finishingDay = _finishingDay
       }).catch(err => {
         console.log(err)
       })
