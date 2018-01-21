@@ -72,13 +72,13 @@ const GuessHelper = {
         {from: self.address}
       ).then(guess => {
         resolve([
-          window.web3.utils.hexToUtf8(guess[0]).replace(/\u0000/g, ''), // title
-          window.web3.utils.hexToUtf8(guess[1]).replace(/\u0000/g, ''), // description
-          window.web3.utils.hexToUtf8(guess[2]).replace(/\u0000/g, ''), // topic
-          guess[3], // creator
-          window.web3.utils.hexToNumber(guess[4]), // votes it has
-          guess[5], // the day it started
-          guess[6] // the final date
+          window.web3.utils.hexToUtf8(guess[0]), // title
+          guess[1], // description
+          window.web3.utils.hexToUtf8(guess[2]), // topic
+          guess[3].c, // creator
+          guess[4].c, // votes it has
+          new Date(guess[5].c[0] * 1000), // the day it started
+          new Date(guess[6].c[0] * 1000) // the final date
         ])
       }).catch(err => {
         reject(err)

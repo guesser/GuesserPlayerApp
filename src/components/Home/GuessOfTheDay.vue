@@ -4,7 +4,11 @@
           header-bg-variant="primary"
           header-text-variant="white"
           class="text-center">
-    <p class="card-text">{{guess.description}}</p>
+    <p class="card-text">
+    {{guess.description}}
+    <br>
+    {{guess.startingDay}} - {{guess.finishingDay}}
+    </p>
     <!--Progress Bar-->
     <b-progress class="mt-1" :max="max" show-value striped>
       <b-progress-bar :value="max*(3/10)" variant="pink">
@@ -46,14 +50,15 @@ export default {
   },
   methods: {
     getGuessOfTheDay () {
+      let self = this
       GuessHelper.getGuessFront(0).then((guess) => {
         console.log(guess)
-        guess.title = guess[0]
-        guess.description = guess[1]
-        guess.topic = guess[2]
-        guess.votes = guess[4]
-        guess.startingDay = guess[5]
-        guess.finishingDay = guess[6]
+        self.guess.title = guess[0]
+        self.guess.description = guess[1]
+        self.guess.topic = guess[2]
+        self.guess.votes = guess[4]
+        self.guess.startingDay = guess[5]
+        self.guess.finishingDay = guess[6]
       }).catch(err => {
         console.log(err)
       })

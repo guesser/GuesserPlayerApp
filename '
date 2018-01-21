@@ -96,13 +96,13 @@ export default {
 
       let self = this
       console.log(JSON.stringify(this.form))
-      let dateYear = self.form.date.substring(0, 4)
-      let dateDay = self.form.date.substring(5, 7)
-      let dateMonth = self.form.date.substring(8, 10)
-      let date = (new Date(dateYear, dateMonth, dateDay)).getTime()
+      let dateYear = self.form.date.substring(0, 3)
+      let dateMonth = self.form.date.substring(5, 6)
+      let dateDay = self.form.date.substring(8, 9)
+      let date = (new Date(dateYear, dateMonth, dateDay)).getSeconds()
       let birthDateInUnixTimestamp = date / 1000
-      console.log(birthDateInUnixTimestamp)
-      GuessHelper.setGuessFront(
+      console.log(date)
+      /* GuessHelper.setGuessFront(
         this.form.title,
         this.form.description,
         this.form.topic,
@@ -113,7 +113,7 @@ export default {
           self.guessCreatedAlert = true
         }).catch(err => {
           console.log(err)
-        })
+        }) */
     }
   },
   beforeCreate: function () {
