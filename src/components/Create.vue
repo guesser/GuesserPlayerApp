@@ -95,18 +95,16 @@ export default {
       evt.preventDefault()
 
       let self = this
-      console.log(JSON.stringify(this.form))
       let dateYear = self.form.date.substring(0, 4)
       let dateDay = self.form.date.substring(5, 7)
       let dateMonth = self.form.date.substring(8, 10)
       let date = (new Date(dateYear, dateMonth, dateDay)).getTime()
-      let birthDateInUnixTimestamp = date / 1000
-      console.log(birthDateInUnixTimestamp)
+      let finalDate = date / 1000
       GuessHelper.setGuessFront(
         this.form.title,
         this.form.description,
         this.form.topic,
-        birthDateInUnixTimestamp,
+        finalDate,
         this.form.option1,
         this.form.option2).then(() => {
           console.log('Transaction pending...')

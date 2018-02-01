@@ -64,12 +64,20 @@ export default {
       }).catch(err => {
         console.log(err)
       })
+    },
+    getGuessOptionsOfTheDay (_index) {
+      let self = this
+      GuessHelper.getGuessOptionsFront(0).then((guess) => {
+        console.log(guess)
+        self.guess.title = guess[0]
+      })
     }
   },
   beforeCreate: function () {
     let self = this
     GuessHelper.init().then(() => {
       self.getGuessOfTheDay()
+      self.getGuessOptionsOfTheDay()
     }).catch(err => {
       console.log(err)
     })
