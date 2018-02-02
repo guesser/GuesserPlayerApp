@@ -77,49 +77,49 @@ contract Guess is DateTime{
   }
 
   /**
-  * @dev Function that returns a Guess basic data.
-  * @param _index uint256 represents the index of the stored Guess in the
-  * global array.
-    * @return bytes32 The title of the Guess.
-    * @return string The description of the Guess.
-    * @return bytes32 The topic of the Guess.
-    * @return address The creator of the Event.
-    * @return uint256 The number of votes the Guess has.
-    * @return uint256 The date when the Guess started.
-    * @return uint256 The date when the Guess finish.
-    */
+   * @dev Function that returns a Guess basic data.
+   * @param _index uint256 represents the index of the stored Guess in the
+   * global array.
+   * @return bytes32 The title of the Guess.
+   * @return string The description of the Guess.
+   * @return bytes32 The topic of the Guess.
+   * @return address The creator of the Event.
+   * @return uint256 The number of votes the Guess has.
+   * @return uint256 The date when the Guess started.
+   * @return uint256 The date when the Guess finish.
+   */
   function getGuess(uint256 _index) public view returns (bytes32, string, bytes32, address, uint256, uint256, uint256) {
     return (guesses[_index].title,
-            guesses[_index].description,
-            guesses[_index].topic,
-            guesses[_index].creator,
-            guesses[_index].option1Votes + guesses[_index].option2Votes,
-            guesses[_index].firstDate,
-            guesses[_index].finalDate
-           );
+        guesses[_index].description,
+        guesses[_index].topic,
+        guesses[_index].creator,
+        guesses[_index].option1Votes + guesses[_index].option2Votes,
+        guesses[_index].firstDate,
+        guesses[_index].finalDate
+        );
   }
 
   /**
-  * @dev Function that returns the options to vote a Guess has,
-  * its votes and validations.
-    * @param _index uint256 represents the index of the stored Guess in the
-  * global array.
-    * @return bytes32 The first option to vote on the Guess
-  * @return bytes32 The second option to vote on the Guess
-  * @return uint256 The votes of the first option in the Guess
-  * @return uint256 The votes of the second option in the Guess
-  * @return uint256 The number of validations for the first option
-    * @return uint256 The number of validations for the second option
-      */
+   * @dev Function that returns the options to vote a Guess has,
+   * its votes and validations.
+   * @param _index uint256 represents the index of the stored Guess in the
+   * global array.
+   * @return bytes32 The first option to vote on the Guess
+   * @return bytes32 The second option to vote on the Guess
+   * @return uint256 The votes of the first option in the Guess
+   * @return uint256 The votes of the second option in the Guess
+   * @return uint256 The number of validations for the first option
+   * @return uint256 The number of validations for the second option
+   */
   function getGuessOptions(uint256 _index) public view returns (bytes32, bytes32, uint256, uint256,uint256, uint256) {
     return (
-      guesses[_index].option1,
-      guesses[_index].option2,
-      guesses[_index].option1Votes,
-      guesses[_index].option2Votes,
-      guesses[_index].option1Validation,
-      guesses[_index].option2Validation
-    );
+        guesses[_index].option1,
+        guesses[_index].option2,
+        guesses[_index].option1Votes,
+        guesses[_index].option2Votes,
+        guesses[_index].option1Validation,
+        guesses[_index].option2Validation
+        );
   }
 
   /**
@@ -131,10 +131,10 @@ contract Guess is DateTime{
   }
 
   /**
-   * @dev Returns the top Guess of the actual day
-   * @param _topic uint256 the genre of the guess we are looking for
-   * @return A uint256 with top guess of the day
-   */
+  * @dev Returns the top Guess of the actual day
+  * @param _topic uint256 the genre of the guess we are looking for
+  * @return A uint256 with top guess of the day
+  */
   function getTodayGuess(uint256 _topic) public view returns(uint256){
     uint256 _year = DateTime.getYear(now) * 10000;
     uint256 _month = DateTime.getMonth(now) * 100;
@@ -144,24 +144,35 @@ contract Guess is DateTime{
     require(_guesses.length > 0);
 
     // Search by the _topic (filter)
+    bool found = false;
     uint256 _choosen = 0;
-    uint256 _choosenVotes = guesses[_guesses[0]].option1Votes + guesses[_guesses[0]].option1Votes;
-    for (uint256 i = 0; i<_guesses.length; i++) {
-      if (_choosenVotes < guesses[_guesses[i]].option1Votes + guesses[_guesses[i]].option1Votes) {
-        _choosen = i;
-        _choosenVotes = guesses[_guesses[i]].option1Votes + guesses[_guesses[i]].option1Votes;
+    uint256 _choosenVotes = 0;
+    for (uint256 i = _guesses.length; i>0; i--) {
+      if(guesses[_guesses[i]].topic == _topic){
+        if(found==false){
+          _choosen = i;
+          _choosenVotes = guesses[_guesses[i]].option1Votes + guesses[_guesses[i]].option1Votes;
+          found = true;
+        }
+        // It returns the last best guess
+        if (_choosenVotes < guesses[_guesses[i]].option1Votes + guesses[_guesses[i]].option1Votes) {
+          _choosen = i;
+          _choosenVotes = guesses[_guesses[i]].option1Votes + guesses[_guesses[i]].option1Votes;
+          found = true;
+        }
       }
     }
+    require(found==true);
     return _guesses[_choosen];
 
   }
 
   /**
-   * @dev Returns the top Guess of the actual day
-   * @param _index uint256 the number of the index in the list of daily guesses. Goes from 10 to 10
-   * @param _topic uint256 the genre of the guess we are looking for
-   * @return A uint256[10] the top guesses of the day
-   */
+  * @dev Returns the top Guess of the actual day
+  * @param _index uint256 the number of the index in the list of daily guesses. Goes from 10 to 10
+  * @param _topic uint256 the genre of the guess we are looking for
+    * @return A uint256[10] the top guesses of the day
+  */
   function getTodayGuesses(uint256 _index, uint256 _topic) public view returns(uint256[10]){
     uint256 _year = DateTime.getYear(now) * 10000;
     uint256 _month = DateTime.getMonth(now) * 100;
