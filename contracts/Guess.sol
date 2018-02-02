@@ -9,6 +9,7 @@ import "./library/DateTime.sol";
 contract Guess is DateTime{
   // Events
   event GuessCreated(uint256 index, bytes32 title);
+  event GuessVoted(uint256 guess, uint8 option);
 
   // Data structures
   struct GuessStruct {
@@ -17,7 +18,7 @@ contract Guess is DateTime{
     bytes32 topic;
     address creator;
     // The voters and the option the voted
-    mapping (address => uint256) votersOption;
+    mapping (address => uint8) votersOption;
     uint256 firstDate;
     uint256 finalDate;
     // Options to vote
@@ -38,14 +39,14 @@ contract Guess is DateTime{
   //Store the day mapped with an array of the id's of the guess created that day
 
   /**
-   * @dev Function that creates a Guess.
-   * @param _title bytes32 The title of the Guess.
-   * @param _description string The description of the Guess
-   * @param _topic bytes32 The topic of the Guess
-   * @param _finalDate uint256 The final date of the Guess
-   * @param _option1 bytes32 The first option to vote on the Guess
-   * @param _option2 bytes32 The first option to vote on the Guess
-   */
+  * @dev Function that creates a Guess.
+  * @param _title bytes32 The title of the Guess.
+    * @param _description string The description of the Guess
+  * @param _topic bytes32 The topic of the Guess
+  * @param _finalDate uint256 The final date of the Guess
+  * @param _option1 bytes32 The first option to vote on the Guess
+  * @param _option2 bytes32 The first option to vote on the Guess
+  */
   function setGuess(
     bytes32 _title,
     string _description,
@@ -77,49 +78,49 @@ contract Guess is DateTime{
   }
 
   /**
-   * @dev Function that returns a Guess basic data.
-   * @param _index uint256 represents the index of the stored Guess in the
-   * global array.
-   * @return bytes32 The title of the Guess.
-   * @return string The description of the Guess.
-   * @return bytes32 The topic of the Guess.
-   * @return address The creator of the Event.
-   * @return uint256 The number of votes the Guess has.
-   * @return uint256 The date when the Guess started.
-   * @return uint256 The date when the Guess finish.
-   */
+  * @dev Function that returns a Guess basic data.
+  * @param _index uint256 represents the index of the stored Guess in the
+  * global array.
+    * @return bytes32 The title of the Guess.
+    * @return string The description of the Guess.
+    * @return bytes32 The topic of the Guess.
+    * @return address The creator of the Event.
+    * @return uint256 The number of votes the Guess has.
+    * @return uint256 The date when the Guess started.
+    * @return uint256 The date when the Guess finish.
+    */
   function getGuess(uint256 _index) public view returns (bytes32, string, bytes32, address, uint256, uint256, uint256) {
     return (guesses[_index].title,
-        guesses[_index].description,
-        guesses[_index].topic,
-        guesses[_index].creator,
-        guesses[_index].option1Votes + guesses[_index].option2Votes,
-        guesses[_index].firstDate,
-        guesses[_index].finalDate
-        );
+            guesses[_index].description,
+            guesses[_index].topic,
+            guesses[_index].creator,
+            guesses[_index].option1Votes + guesses[_index].option2Votes,
+            guesses[_index].firstDate,
+            guesses[_index].finalDate
+           );
   }
 
   /**
-   * @dev Function that returns the options to vote a Guess has,
-   * its votes and validations.
-   * @param _index uint256 represents the index of the stored Guess in the
-   * global array.
-   * @return bytes32 The first option to vote on the Guess
-   * @return bytes32 The second option to vote on the Guess
-   * @return uint256 The votes of the first option in the Guess
-   * @return uint256 The votes of the second option in the Guess
-   * @return uint256 The number of validations for the first option
-   * @return uint256 The number of validations for the second option
-   */
+  * @dev Function that returns the options to vote a Guess has,
+  * its votes and validations.
+    * @param _index uint256 represents the index of the stored Guess in the
+  * global array.
+    * @return bytes32 The first option to vote on the Guess
+  * @return bytes32 The second option to vote on the Guess
+  * @return uint256 The votes of the first option in the Guess
+  * @return uint256 The votes of the second option in the Guess
+  * @return uint256 The number of validations for the first option
+    * @return uint256 The number of validations for the second option
+      */
   function getGuessOptions(uint256 _index) public view returns (bytes32, bytes32, uint256, uint256,uint256, uint256) {
     return (
-        guesses[_index].option1,
-        guesses[_index].option2,
-        guesses[_index].option1Votes,
-        guesses[_index].option2Votes,
-        guesses[_index].option1Validation,
-        guesses[_index].option2Validation
-        );
+      guesses[_index].option1,
+      guesses[_index].option2,
+      guesses[_index].option1Votes,
+      guesses[_index].option2Votes,
+      guesses[_index].option1Validation,
+      guesses[_index].option2Validation
+    );
   }
 
   /**
@@ -131,15 +132,15 @@ contract Guess is DateTime{
   }
 
   /**
-  * @dev Returns the top Guess of the actual day
-  * @param _topic uint256 the genre of the guess we are looking for
-  * @return A uint256 with top guess of the day
-  */
-  function getTodayGuess(uint256 _topic) public view returns(uint256){
+   * @dev Returns the top Guess of the actual day
+   * @param _topic uint256 the genre of the guess we are looking for
+   * @return uint256 with top guess of the day
+   */
+  function getTodayGuess(bytes32 _topic) public view returns(uint256){
     uint256 _year = DateTime.getYear(now) * 10000;
     uint256 _month = DateTime.getMonth(now) * 100;
     uint256 _day = DateTime.getDay(now);
-    uint256[] _guesses = guessesByDate[_year + _month + _day];
+    uint256[] storage _guesses = guessesByDate[_year + _month + _day];
 
     require(_guesses.length > 0);
 
@@ -168,29 +169,96 @@ contract Guess is DateTime{
   }
 
   /**
-  * @dev Returns the top Guess of the actual day
-  * @param _index uint256 the number of the index in the list of daily guesses. Goes from 10 to 10
-  * @param _topic uint256 the genre of the guess we are looking for
-    * @return A uint256[10] the top guesses of the day
-  */
-  function getTodayGuesses(uint256 _index, uint256 _topic) public view returns(uint256[10]){
+   * @dev Returns the guesses of a topic
+   * @param _index uint256 the number of the index in the list of daily guesses. Goes from 10 to 10
+   * @param _topic uint256 the genre of the guess we are looking for
+   * @return A uint256[10] the top guesses of the day
+   */
+  function getTodayGuesses(uint256 _index, bytes32 _topic) public view returns(uint256[10]){
     uint256 _year = DateTime.getYear(now) * 10000;
     uint256 _month = DateTime.getMonth(now) * 100;
     uint256 _day = DateTime.getDay(now);
-    uint256[] _guesses = guessesByDate[_year + _month + _day];
+    uint256[] memory _guesses = guessesByDate[_year + _month + _day];
 
     require(_guesses.length > 0);
 
-    uint256[] _todayGuesses;
-    for (uint256 i = 0; i<_guesses.length; i++) {
-      if(guesses[_guesses[i]].topic == _topic) {
-        _todayGuesses.push(_guesses[i]);
-        if(_todayGuesses.length == 10) {
-          return _todayGuesses;
+    uint8 _guessNumber = 0;
+    uint256[10] memory _todayGuesses;
+    for (uint256 _iteration = 0; _iteration <= _index; _iteration++) {
+      for (uint256 i = 0; i<_guesses.length; i++) {
+        if(guesses[_guesses[i]].topic == _topic) {
+          _todayGuesses[_guessNumber] = _guesses[i];
+          _guessNumber++;
+          if(_todayGuesses.length == 10) {
+            return _todayGuesses;
+          }
         }
       }
+      _guessNumber = 0; // Restarting the counting for the next iteration
     }
 
     return _todayGuesses;
+  }
+
+  // TODO: Make this function payable
+  /* dev Voting a guess
+   * @param _guess uint256 the guess the person is voting to
+   * @param _option uint8 the option the person is voting to
+   */
+  function voteGuess(uint256 _guess, uint8 _option) public {
+    // Does the guess exists?
+    require(_guess <= guesses.length-1);
+    // Has the voter already voted?
+    require(guesses[_guess].votersOption[msg.sender] == uint8(0x0));
+    // Is the option valid?
+    require(_option == 0 || _option == 1);
+    // Is the date due?
+    require(dateDue(guesses[_guess].finalDate) == false);
+
+    guesses[_guess].votersOption[msg.sender] = _option;
+    if (_option == 0) {
+      guesses[_guess].option1Votes++;
+    } else {
+      guesses[_guess].option2Votes++;
+    }
+    GuessVoted(_guess, _option);
+  }
+
+  /****** Private functions ******/
+
+  /* @dev Function that tells you if a date is due
+   * @param _date uint256 the date you want to check with the current date.
+   * The minutes and seconds are not being checked.
+   * @return bool if the date is due then will return true
+   */
+  function dateDue (uint256 _date) private view returns (bool) {
+    uint256 _currentYear = DateTime.getYear(now);
+    uint256 _currentMonth = DateTime.getMonth(now);
+    uint256 _currentDay = DateTime.getDay(now);
+
+    uint256 _year = DateTime.getYear(_date);
+    uint256 _month = DateTime.getMonth(_date);
+    uint256 _day = DateTime.getDay(_date);
+
+    // Comparing the dates
+    if (_currentYear == _year) {
+      if(_currentMonth == _month) {
+        if(_currentDay == _day) {
+          return false;
+        } else if (_currentDay < _day) {
+          return false;
+        } else {
+          return true;
+        }
+      } else if(_currentMonth < _month) {
+        return false;
+      } else {
+        return true;
+      }
+    } else if(_currentYear < _year){
+      return false;
+    } else {
+      return true;
+    }
   }
 }
