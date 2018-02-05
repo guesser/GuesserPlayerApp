@@ -25,7 +25,9 @@ contract Guess is DateTime{
      * 2. The amount voted as a second argument
      */
     mapping (address => uint256[2]) votersOption;
+    address[] voters;
     mapping (address => uint8) validatorsOption;
+    address[] validators;
     uint256 firstDate;
     uint256 finalDate;
     // Options to vote
@@ -64,11 +66,16 @@ contract Guess is DateTime{
     bytes32 _option1,
     bytes32 _option2
   ) public {
+    address[] memory _voters; // TODO: Be sure this has to be memory and not internal
+    address[] memory _validators; // TODO: Be sure this has to be memory and not internal
+
     GuessStruct memory _guess = GuessStruct({
       title: _title,
       description: _description,
       topic: _topic,
       creator: msg.sender,
+      voters: _voters,
+      validators: _validators,
       firstDate: now,
       finalDate: _finalDate,
       option1: _option1,
@@ -226,6 +233,7 @@ contract Guess is DateTime{
     require(dateDue(guesses[_guess].finalDate) == false);
 
     guesses[_guess].votersOption[msg.sender] = [_option, msg.value];
+    guesses[_guess].voters.push(msg.sender);
     if (_option == 0) {
       guesses[_guess].option1Votes++;
     } else {
@@ -249,6 +257,7 @@ contract Guess is DateTime{
     require(dateDue(guesses[_guess].finalDate) == true);
 
     guesses[_guess].validatorsOption[msg.sender] = _option;
+    guesses[_guess].validators.push(msg.sender);
     if (_option == 0) {
       guesses[_guess].option1Validation++;
     } else {
@@ -259,9 +268,20 @@ contract Guess is DateTime{
 
   /**
    * @dev Function that returns the profit to the voters
-   * @param _event uint256 the event to ask for the profits of
+   * @param _guess uint256 the event to ask for the profits of
    */
   function getProfits (uint256 _guess) public {
+    // Does the guess exists?
+    require(_guess <= guesses.length-1);
+    // Is the date due?
+    require(dateDue(guesses[_guess].finalDate) == true);
+    // Has anybody voted in the guess?
+    require(guesses[_guess].voters.length > 0);
+    // Has anybody validated the guess?
+    require(guesses[_guess].validators.length > 0); // TODO: Change to the minimun validation number
+    // Have the profits already been returned
+    require(guesses[_guess].profitsReturned == false);
+
     // TODO: Return the profits
     guesses[_guess].profitsReturned = true;
 
