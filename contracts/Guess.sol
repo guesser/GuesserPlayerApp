@@ -10,6 +10,8 @@ contract Guess is DateTime{
   // Events
   event GuessCreated(uint256 index, bytes32 title);
   event GuessVoted(uint256 guess, uint8 option);
+  event GuessValidated(uint256 guess, uint8 option, address sender);
+  event ProfitsReturned(uint256 guess);
 
   // Data structures
   struct GuessStruct {
@@ -17,8 +19,13 @@ contract Guess is DateTime{
     string description;
     bytes32 topic;
     address creator;
-    // The voters and the option the voted
-    mapping (address => uint8) votersOption;
+    /* The voters and the option the voted
+     * It will store an array which has:
+     * 1. The option voted as a first argument
+     * 2. The amount voted as a second argument
+     */
+    mapping (address => uint256[2]) votersOption;
+    mapping (address => uint8) validatorsOption;
     uint256 firstDate;
     uint256 finalDate;
     // Options to vote
@@ -30,6 +37,8 @@ contract Guess is DateTime{
     // Number of validations an option has
     uint256 option1Validation;
     uint256 option2Validation;
+    // Has the guess returned the profits?
+    bool profitsReturned;
   }
   GuessStruct[] guesses; // Data structure to store all the guesses in the platform
   mapping (uint256 => uint256[]) guessesByDate; // Storing the guesses by their date
@@ -67,7 +76,8 @@ contract Guess is DateTime{
       option1Votes: 0,
       option2Votes: 0,
       option1Validation: 0,
-      option2Validation: 0
+      option2Validation: 0,
+      profitsReturned: false
     });
     uint256 _len = guesses.push(_guess) -1; // Adds the new struct and return its position
     uint256 _year = DateTime.getYear(_finalDate) * 10000;
@@ -200,28 +210,63 @@ contract Guess is DateTime{
     return _todayGuesses;
   }
 
-  // TODO: Make this function payable
   /* dev Voting a guess
    * @param _guess uint256 the guess the person is voting to
    * @param _option uint8 the option the person is voting to
    */
-  function voteGuess(uint256 _guess, uint8 _option) public {
+  function voteGuess(uint256 _guess, uint8 _option) public payable {
     // Does the guess exists?
     require(_guess <= guesses.length-1);
     // Has the voter already voted?
-    require(guesses[_guess].votersOption[msg.sender] == uint8(0x0));
+    require(guesses[_guess].votersOption[msg.sender][0] == uint8(0x0));
+    require(msg.value > 0);
     // Is the option valid?
     require(_option == 0 || _option == 1);
     // Is the date due?
     require(dateDue(guesses[_guess].finalDate) == false);
 
-    guesses[_guess].votersOption[msg.sender] = _option;
+    guesses[_guess].votersOption[msg.sender] = [_option, msg.value];
     if (_option == 0) {
       guesses[_guess].option1Votes++;
     } else {
       guesses[_guess].option2Votes++;
     }
     GuessVoted(_guess, _option);
+  }
+
+  /* @dev Function to validate the guesses
+   * @param _guess uint256 the guess the validator is validating
+   * @param _option uint8 the option the validator thinks is the correct
+   */
+  function validateGuess(uint256 _guess, uint8 _option) public {
+    // Does the guess exists?
+    require(_guess <= guesses.length-1);
+    // Has the validator already choose?
+    require(guesses[_guess].validatorsOption[msg.sender] == uint8(0x0));
+    // Is the option valid?
+    require(_option == 0 || _option == 1);
+    // Is the date due?
+    require(dateDue(guesses[_guess].finalDate) == true);
+
+    guesses[_guess].validatorsOption[msg.sender] = _option;
+    if (_option == 0) {
+      guesses[_guess].option1Validation++;
+    } else {
+      guesses[_guess].option2Validation++;
+    }
+    GuessValidated(_guess, _option, msg.sender);
+  }
+
+  /**
+   * @dev Function that returns the profit to the voters
+   * @param _event uint256 the event to ask for the profits of
+   */
+  function getProfits (uint256 _guess) public {
+    // TODO: Return the profits
+    guesses[_guess].profitsReturned = true;
+
+    // Release the event
+    ProfitsReturned(_guess);
   }
 
   /****** Private functions ******/
