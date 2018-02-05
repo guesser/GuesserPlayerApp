@@ -270,7 +270,7 @@ contract Guess is DateTime{
    * @dev Function that returns the profit to the voters
    * @param _guess uint256 the event to ask for the profits of
    */
-  function getProfits (uint256 _guess) public {
+  function returnProfits (uint256 _guess) public {
     // Does the guess exists?
     require(_guess <= guesses.length-1);
     // Is the date due?
@@ -282,11 +282,36 @@ contract Guess is DateTime{
     // Have the profits already been returned
     require(guesses[_guess].profitsReturned == false);
 
-    // TODO: Return the profits
+    uint256 _totalProfits = getGuessProfits(_guess);
+    for(uint256 _voterIndex = 0; _voterIndex < guesses[_guess].voters.length; _voterIndex++) {
+      // TODO: Return the profits
+    }
+
     guesses[_guess].profitsReturned = true;
 
     // Release the event
     ProfitsReturned(_guess);
+  }
+
+  /* @dev Function that tells you if a date is due
+   * @dev Get the profits a guess has in its vault
+   * @param _guess uint256 the event to ask for the profits of
+   * @return bool the profits the guess asked has
+   */
+  function getGuessProfits (uint256 _guess) public view returns (uint256) {
+    // Does the guess exists?
+    require(_guess <= guesses.length-1);
+
+    if (guesses[_guess].voters.length == 0) {
+      return 0;
+    }
+
+    uint256 _profits = 0;
+    for(uint256 _voterIndex = 0; _voterIndex < guesses[_guess].voters.length; _voterIndex++) {
+      _profits += guesses[_guess].votersOption[guesses[_guess].voters[_voterIndex]][1];
+    }
+
+    return _profits;
   }
 
   /****** Private functions ******/
