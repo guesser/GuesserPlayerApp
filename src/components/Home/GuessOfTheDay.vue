@@ -1,7 +1,7 @@
 <template>
-  <b-card border-variant="primary"
+  <b-card :border-variant="topic"
           :header="guess.title"
-          header-bg-variant="primary"
+          :header-bg-variant="topic"
           header-text-variant="white"
           class="text-center">
     <p class="card-text">
@@ -31,6 +31,7 @@ import GuessHelper from '@/js/Guess'
 
 export default {
   name: 'GuessOfTheDay',
+  props: ['topic'],
   data () {
     return {
       max: 100,

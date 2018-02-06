@@ -1,13 +1,14 @@
 <template>
   <div>
   <b-card-group deck class="mb-3">
-    <b-card border-variant="primary"
+    <b-card :border-variant="topic"
             header="Primary"
-            header-border-variant="primary"
+            :header-border-variant="topic"
             header-text-variant="black"
             align="center">
       <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
     </b-card>
+    <!--TODO: Load Dinamically-->
     <b-card border-variant="secondary"
             header="Secondary"
             header-border-variant="secondary"
@@ -47,7 +48,8 @@
 
 <script>
 export default {
-  name: 'OtherGuesses'
+  name: 'OtherGuesses',
+  props: ['topic']
 }
 </script>
 
