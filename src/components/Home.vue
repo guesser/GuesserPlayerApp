@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class='topics'>
-      <TopicList/>
+      <TopicList @topic-updated="updateTopic"/>
     </div>
     <div class='guesses'>
       <h2>Entertainment of the day!</h2>
-      <GuessOfTheDay/>
+      <GuessOfTheDay :topic="topic"/>
       <br>
       <h2>Other cool guesses:</h2>
-      <OtherGuesses/>
+      <OtherGuesses :topic="topic"/>
     </div>
   </div>
 </template>
@@ -24,6 +24,16 @@ export default {
     TopicList,
     GuessOfTheDay,
     OtherGuesses
+  },
+  data () {
+    return {
+      topic: 'crypto'
+    }
+  },
+  methods: {
+    updateTopic (_topic) {
+      this.topic = _topic
+    }
   }
 }
 </script>
