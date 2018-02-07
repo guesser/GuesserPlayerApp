@@ -21,7 +21,7 @@ contract Guess is DateTime{
     address creator;
     /* The voters and the option the voted
      * It will store an array which has:
-     * 1. The option voted as a first argument
+     * 1. The option voted as a first argument (0 or 1)
      * 2. The amount voted as a second argument
      */
     mapping (address => uint256[2]) votersOption;
@@ -282,9 +282,22 @@ contract Guess is DateTime{
     // Have the profits already been returned
     require(guesses[_guess].profitsReturned == false);
 
+    uint8 _winner;
+    if (guesses[_guess].option1Validation > guesses[_guess].option2Validation) {
+      _winner = 0; // The winner is the first one
+    } else {
+      _winner = 1; // The winner is the second one
+    }
+
+    uint256 percentage; // The percentage of the win a person has
+
     uint256 _totalProfits = getGuessProfits(_guess);
+    uint256 _totalWinnersProfits = getGuessProfitsByOption(_guess, _winner);
     for(uint256 _voterIndex = 0; _voterIndex < guesses[_guess].voters.length; _voterIndex++) {
-      // TODO: Return the profits
+      // WARNING: Only will work with non contracts addresses
+      address person = guesses[_guess].voters[_voterIndex];
+      percentage = (guesses[_guess].votersOption[person][1])/_totalWinnersProfits;
+      guesses[_guess].voters[_voterIndex].transfer(_totalProfits * percentage); // TODO: Test this actually sends the money
     }
 
     guesses[_guess].profitsReturned = true;
@@ -293,7 +306,7 @@ contract Guess is DateTime{
     ProfitsReturned(_guess);
   }
 
-  /* @dev Function that tells you if a date is due
+  /* @dev Function that tells you the profits a Guess has
    * @dev Get the profits a guess has in its vault
    * @param _guess uint256 the event to ask for the profits of
    * @return bool the profits the guess asked has
@@ -309,6 +322,31 @@ contract Guess is DateTime{
     uint256 _profits = 0;
     for(uint256 _voterIndex = 0; _voterIndex < guesses[_guess].voters.length; _voterIndex++) {
       _profits += guesses[_guess].votersOption[guesses[_guess].voters[_voterIndex]][1];
+    }
+
+    return _profits;
+  }
+
+  /* @dev Function that tells you the profits of an option in a guess
+   * @dev Get the profits a guess has in its vault
+   * @param _guess uint256 the event to ask for the profits of
+   * @return bool the profits the guess asked has
+   */
+  function getGuessProfitsByOption (uint256 _guess, uint8 _option) public view returns (uint256) {
+    // Does the guess exists?
+    require(_guess <= guesses.length-1);
+
+    // Is the option valid?
+    require(_option == 1 || _option == 2);
+
+    if (guesses[_guess].voters.length == 0) {
+      return 0;
+    }
+
+    uint256 _profits = 0;
+    for(uint256 _voterIndex = 0; _voterIndex < guesses[_guess].voters.length; _voterIndex++) {
+      if(guesses[_guess].votersOption[guesses[_guess].voters[_voterIndex]][0] == _option)
+        _profits += guesses[_guess].votersOption[guesses[_guess].voters[_voterIndex]][1];
     }
 
     return _profits;
