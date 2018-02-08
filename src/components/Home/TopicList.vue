@@ -18,9 +18,9 @@
         <img class="topic-icon" src="../../assets/gamepad.png"/>
         Gaming
       </b-list-group-item>
-      <b-list-group-item href="#" @click='topiClick("humor")' variant="humor">
+      <b-list-group-item href="#" @click='topiClick("humor")' variant="humour">
         <img class="topic-icon" src="../../assets/cat.png"/>
-        Humor
+        Humour
       </b-list-group-item>
       <b-list-group-item href="#" @click='topiClick("news")' variant="news">
         <img class="topic-icon" src="../../assets/text-lines.png"/>

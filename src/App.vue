@@ -13,23 +13,23 @@
 
 <script>
 // Vue components
-  import TopBar from './components/Header.vue'
+import TopBar from './components/Header.vue'
 
-  export default {
-    name: 'app',
-    components: {
-      TopBar
-    },
-    data: function () {
-      return {
-      }
-    },
-    methods: {
-      changeView (view) {
-        this.$router.push('/' + view)
-      }
+export default {
+  name: 'app',
+  components: {
+    TopBar
+  },
+  data: function () {
+    return {
+    }
+  },
+  methods: {
+    changeView (view) {
+      this.$router.push('/' + view)
     }
   }
+}
 </script>
 
 <style lang="scss">
@@ -43,25 +43,35 @@ main{
   min-height: 100vh;
   bottom:0;
 }
-.btn-outline-primary{
+.btn-outline-beard{
   color: #ff0d73;
   background-color: transparent;
   background-image: none;
   border-color: #ff0d73;
 }
 
-.btn-primary{
+.btn-beard{
   color: #fff;
   background-color: #ff0d73;
   border-color: #ff0d73;
 }
-.btn-outline-primary:hover{
+.btn-outline-beard:hover{
   color: #fff;
   background-color: #ff0d73;
   border-color: #ff0d73;
 }
+/*
+.btn-outline-primary:not([disabled]):not(.disabled):active,
+.btn-outline-primary:not([disabled]):not(.disabled).active,
+.show > .btn-outline-primary.dropdown-toggle {
+  color: #fff;
+  background-color: #ff0d73;
+  border-color: #ff0d73;
+  box-shadow: 0 0 0 0 rgba(#ff0d73, .5);
+}*/
+
 .navbar-brand {
- margin-right: 0;
+  margin-right: 0;
 }
 
 /*TOPIC STYLES*/
@@ -79,8 +89,8 @@ $entertainment-contrast: lighten($entertainment, 40%);
 $gaming: #ED5565;
 $gaming-contrast: #FFCE54;
 
-$humor: #FF00FF;
-$humor-contrast: #CCFF99;
+$humour: #FF00FF;
+$humour-contrast: #CCFF99;
 
 $news: #384F5D;
 $news-contrast: lighten($news, 40%);
@@ -190,25 +200,25 @@ $random: invert($random-contrast);
 
 /* == */
 
-.bg-humor{
-  background-color: $humor-contrast !important;
-  color: $humor !important;
-  border-color: $humor !important;
+.bg-humour{
+  background-color: $humour-contrast !important;
+  color: $humour !important;
+  border-color: $humour !important;
 }
 
-.border-humor{
-  border-color: $humor !important;
+.border-humour{
+  border-color: $humour !important;
 }
 
-.list-group-item-humor{
-  color: $humor !important;
-  background-color: $humor-contrast !important;
+.list-group-item-humour{
+  color: $humour !important;
+  background-color: $humour-contrast !important;
 }
 
-.list-group-item-humor:hover,
-.list-group-item-humor:focus{
-  background-color: darken($humor-contrast, 5%) !important;
-  color: darken($humor, 5%) !important;
+.list-group-item-humour:hover,
+.list-group-item-humour:focus{
+  background-color: darken($humour-contrast, 5%) !important;
+  color: darken($humour, 5%) !important;
 }
 
 /* == */
@@ -338,6 +348,11 @@ $random: invert($random-contrast);
   color: white !important;
 }
 
+.bg-magenta{
+  background-color: magenta !important;
+  color: white !important;
+}
+
 .btn-outline-magenta{
   color: magenta;
   background-color: transparent;
@@ -349,6 +364,7 @@ $random: invert($random-contrast);
   background-color: magenta;
   border-color: magenta;
 }
+
 .btn-outline-pink{
   color: pink;
   background-color: transparent;

@@ -36,7 +36,7 @@
       <p class='info-section'>Topics:</p>
       <b-form-radio-group id="btnradios2"
                           buttons
-                          button-variant="outline-primary"
+                          button-variant="outline-beard"
                           size="sm"
                           v-model="form.topic"
                           :options="topics"
@@ -79,7 +79,7 @@ export default {
   data () {
     return {
       guessCreatedAlert: false,
-      topics: ['Crypto', 'eSports', 'Entertainment', 'Random'],
+      topics: ['Crypto', 'Celebrities', 'Entertainment', 'Gaming', 'Humor', 'News', 'Politics', 'Sports', 'Technology', 'Random'],
       form: {
         title: '',
         description: '',
