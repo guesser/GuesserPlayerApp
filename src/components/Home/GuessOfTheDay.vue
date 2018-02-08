@@ -50,7 +50,7 @@ export default {
     }
   },
   methods: {
-    getGuessOfTheDay () {
+    getGuess () {
       let self = this
       GuessHelper.getGuessFront(0).then((guess) => {
         console.log(guess)
@@ -66,19 +66,18 @@ export default {
         console.log(err)
       })
     },
-    getGuessOptionsOfTheDay (_index) {
+    getGuessOfTheDay () {
       let self = this
-      GuessHelper.getGuessOptionsFront(0).then((guess) => {
-        console.log(guess)
-        self.guess.title = guess[0]
+      GuessHelper.getGuessOfTheDay(self.topic).then((guessNumber) => {
+        console.log(guessNumber)
       })
     }
   },
   beforeCreate: function () {
     let self = this
     GuessHelper.init().then(() => {
-      self.getGuessOfTheDay()
-      self.getGuessOptionsOfTheDay()
+      self.getGuess()
+      // self.getGuessOptionsOfTheDay()
     }).catch(err => {
       console.log(err)
     })

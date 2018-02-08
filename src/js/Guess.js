@@ -85,6 +85,22 @@ const GuessHelper = {
       })
     })
   },
+
+  getGuessOfTheDay: function (_topic) {
+    let self = this
+
+    return new Promise((resolve, reject) => {
+      self.instance.getTodayGuess.call(
+        _topic,
+        {from: self.address}
+      ).then(_guessIndex => {
+        resolve(_guessIndex)
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  },
+
   getGuessesNumber: function () {
     let self = this
 

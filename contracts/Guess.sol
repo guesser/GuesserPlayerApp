@@ -165,15 +165,10 @@ contract Guess is DateTime{
     bool found = false;
     uint256 _choosen = 0;
     uint256 _choosenVotes = 0;
-    for (uint256 i = _guesses.length; i>0; i--) {
+    for (uint256 i = 0; i<_guesses.length; i++) {
       if(guesses[_guesses[i]].topic == _topic){
-        if(found==false){
-          _choosen = i;
-          _choosenVotes = guesses[_guesses[i]].option1Votes + guesses[_guesses[i]].option1Votes;
-          found = true;
-        }
         // It returns the last best guess
-        if (_choosenVotes < guesses[_guesses[i]].option1Votes + guesses[_guesses[i]].option1Votes) {
+        if (_choosenVotes < guesses[_guesses[i]].option1Votes + guesses[_guesses[i]].option1Votes || found==false) {
           _choosen = i;
           _choosenVotes = guesses[_guesses[i]].option1Votes + guesses[_guesses[i]].option1Votes;
           found = true;
@@ -182,7 +177,6 @@ contract Guess is DateTime{
     }
     require(found==true);
     return _guesses[_choosen];
-
   }
 
   /**
