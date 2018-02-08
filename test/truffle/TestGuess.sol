@@ -58,7 +58,7 @@ contract TestGuess {
     bytes32 _topic = "Crypto";
     uint256[10] memory _topGuess = guessObject.getTodayGuesses(0, _topic);
     Assert.equal(_topGuess[0], 0, "The guess is not the correct");
-    Assert.equal(_topGuess[1], 0, "The guess is not the correct");
+    Assert.equal(_topGuess[1], 2, "The guess is not the correct");
   }
 
 }

@@ -197,17 +197,13 @@ contract Guess is DateTime{
     uint8 _guessNumber = 0;
     uint256[10] memory _todayGuesses;
     // TODO: Change for for a while
-    for (uint256 i = _index*10; i< (_index*10)+10; i++) {
-      if(i<_guesses.length){
-        if(guesses[_guesses[i]].topic == _topic) {
-          _todayGuesses[_guessNumber] = _guesses[i];
-          _guessNumber++;
-          if(_todayGuesses.length == 10) {
-            return _todayGuesses;
-          }
-        }
+    uint256 i = _index * 10;
+    while(_guessNumber<10 && i<_guesses.length) {
+      if(guesses[_guesses[i]].topic == _topic) {
+        _todayGuesses[_guessNumber] = _guesses[i];
+        _guessNumber++;
       }
-      _guessNumber = 0; // Restarting the counting for the next iteration
+      i++;
     }
 
     return _todayGuesses;
