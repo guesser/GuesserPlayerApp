@@ -27,7 +27,7 @@ export default {
   },
   data () {
     return {
-      topic: 'crypto'
+      topic: 'Crypto'
     }
   },
   methods: {

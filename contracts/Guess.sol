@@ -141,9 +141,9 @@ contract Guess is DateTime{
   }
 
   /**
-  * @dev Returns the length of the guesses array.
-  * @return A uint256 with the actual length of the array of guesses
-  */
+   * @dev Returns the length of the guesses array.
+   * @return A uint256 with the actual length of the array of guesses
+   */
   function getGuessesLength() public view returns (uint256){
     return guesses.length;
   }
@@ -165,15 +165,10 @@ contract Guess is DateTime{
     bool found = false;
     uint256 _choosen = 0;
     uint256 _choosenVotes = 0;
-    for (uint256 i = _guesses.length; i>0; i--) {
+    for (uint256 i = 0; i<_guesses.length; i++) {
       if(guesses[_guesses[i]].topic == _topic){
-        if(found==false){
-          _choosen = i;
-          _choosenVotes = guesses[_guesses[i]].option1Votes + guesses[_guesses[i]].option1Votes;
-          found = true;
-        }
         // It returns the last best guess
-        if (_choosenVotes < guesses[_guesses[i]].option1Votes + guesses[_guesses[i]].option1Votes) {
+        if (_choosenVotes < guesses[_guesses[i]].option1Votes + guesses[_guesses[i]].option1Votes || found==false) {
           _choosen = i;
           _choosenVotes = guesses[_guesses[i]].option1Votes + guesses[_guesses[i]].option1Votes;
           found = true;
@@ -182,7 +177,6 @@ contract Guess is DateTime{
     }
     require(found==true);
     return _guesses[_choosen];
-
   }
 
   /**
@@ -197,30 +191,28 @@ contract Guess is DateTime{
     uint256 _day = DateTime.getDay(now);
     uint256[] memory _guesses = guessesByDate[_year + _month + _day];
 
-    require(_guesses.length > 0);
+    require(_guesses.length > 0 && _guesses.length > _index*10);
 
+    // Check the range is inside the length
     uint8 _guessNumber = 0;
     uint256[10] memory _todayGuesses;
-    for (uint256 _iteration = 0; _iteration <= _index; _iteration++) {
-      for (uint256 i = 0; i<_guesses.length; i++) {
-        if(guesses[_guesses[i]].topic == _topic) {
-          _todayGuesses[_guessNumber] = _guesses[i];
-          _guessNumber++;
-          if(_todayGuesses.length == 10) {
-            return _todayGuesses;
-          }
-        }
+    // TODO: Change for for a while
+    uint256 i = _index * 10;
+    while(_guessNumber<10 && i<_guesses.length) {
+      if(guesses[_guesses[i]].topic == _topic) {
+        _todayGuesses[_guessNumber] = _guesses[i];
+        _guessNumber++;
       }
-      _guessNumber = 0; // Restarting the counting for the next iteration
+      i++;
     }
 
     return _todayGuesses;
   }
 
   /* dev Voting a guess
-   * @param _guess uint256 the guess the person is voting to
-   * @param _option uint8 the option the person is voting to
-   */
+  * @param _guess uint256 the guess the person is voting to
+  * @param _option uint8 the option the person is voting to
+  */
   function voteGuess(uint256 _guess, uint8 _option) public payable {
     // Does the guess exists?
     require(_guess <= guesses.length-1);
@@ -243,9 +235,9 @@ contract Guess is DateTime{
   }
 
   /* @dev Function to validate the guesses
-   * @param _guess uint256 the guess the validator is validating
-   * @param _option uint8 the option the validator thinks is the correct
-   */
+  * @param _guess uint256 the guess the validator is validating
+  * @param _option uint8 the option the validator thinks is the correct
+  */
   function validateGuess(uint256 _guess, uint8 _option) public {
     // Does the guess exists?
     require(_guess <= guesses.length-1);
@@ -267,9 +259,9 @@ contract Guess is DateTime{
   }
 
   /**
-   * @dev Function that returns the profit to the voters
-   * @param _guess uint256 the event to ask for the profits of
-   */
+  * @dev Function that returns the profit to the voters
+  * @param _guess uint256 the event to ask for the profits of
+    */
   function returnProfits (uint256 _guess) public {
     // Does the guess exists?
     require(_guess <= guesses.length-1);
@@ -307,10 +299,10 @@ contract Guess is DateTime{
   }
 
   /* @dev Function that tells you the profits a Guess has
-   * @dev Get the profits a guess has in its vault
-   * @param _guess uint256 the event to ask for the profits of
-   * @return bool the profits the guess asked has
-   */
+  * @dev Get the profits a guess has in its vault
+  * @param _guess uint256 the event to ask for the profits of
+    * @return bool the profits the guess asked has
+  */
   function getGuessProfits (uint256 _guess) public view returns (uint256) {
     // Does the guess exists?
     require(_guess <= guesses.length-1);
@@ -328,10 +320,10 @@ contract Guess is DateTime{
   }
 
   /* @dev Function that tells you the profits of an option in a guess
-   * @dev Get the profits a guess has in its vault
-   * @param _guess uint256 the event to ask for the profits of
-   * @return bool the profits the guess asked has
-   */
+  * @dev Get the profits a guess has in its vault
+  * @param _guess uint256 the event to ask for the profits of
+    * @return bool the profits the guess asked has
+  */
   function getGuessProfitsByOption (uint256 _guess, uint8 _option) public view returns (uint256) {
     // Does the guess exists?
     require(_guess <= guesses.length-1);
@@ -355,10 +347,10 @@ contract Guess is DateTime{
   /****** Private functions ******/
 
   /* @dev Function that tells you if a date is due
-   * @param _date uint256 the date you want to check with the current date.
-   * The minutes and seconds are not being checked.
-   * @return bool if the date is due then will return true
-   */
+  * @param _date uint256 the date you want to check with the current date.
+  * The minutes and seconds are not being checked.
+    * @return bool if the date is due then will return true
+  */
   function dateDue (uint256 _date) private view returns (bool) {
     uint256 _currentYear = DateTime.getYear(now);
     uint256 _currentMonth = DateTime.getMonth(now);
