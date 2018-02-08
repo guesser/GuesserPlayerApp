@@ -2,43 +2,43 @@
   <div style="max-width: 300px;">
     <!--<h2>Topics:</h2>-->
     <b-list-group >
-      <b-list-group-item href="#" @click='topiClick("crypto")' variant="crypto">
+      <b-list-group-item href="#" @click='topiClick("Crypto")' variant="Crypto">
         <img class="topic-icon" src="../../assets/bitcoin.png"/>
         Crypto
       </b-list-group-item>
-      <b-list-group-item href="#" @click='topiClick("celebrities")' variant="celebrities">
+      <b-list-group-item href="#" @click='topiClick("Celebrities")' variant="Celebrities">
         <img class="topic-icon" src="../../assets/sunglasses.png"/>
         Celebrities
       </b-list-group-item>
-      <b-list-group-item href="#" @click='topiClick("entertainment")' variant="entertainment">
+      <b-list-group-item href="#" @click='topiClick("Entertainment")' variant="Entertainment">
         <img class="topic-icon" src="../../assets/monitor.png"/>
         Entertainment
       </b-list-group-item>
-      <b-list-group-item href="#" @click='topiClick("gaming")' variant="gaming">
+      <b-list-group-item href="#" @click='topiClick("Gaming")' variant="Gaming">
         <img class="topic-icon" src="../../assets/gamepad.png"/>
         Gaming
       </b-list-group-item>
-      <b-list-group-item href="#" @click='topiClick("humor")' variant="humour">
+      <b-list-group-item href="#" @click='topiClick("Humour")' variant="Humour">
         <img class="topic-icon" src="../../assets/cat.png"/>
         Humour
       </b-list-group-item>
-      <b-list-group-item href="#" @click='topiClick("news")' variant="news">
+      <b-list-group-item href="#" @click='topiClick("News")' variant="News">
         <img class="topic-icon" src="../../assets/text-lines.png"/>
         News
       </b-list-group-item>
-      <b-list-group-item href="#" @click='topiClick("politics")' variant="politics">
+      <b-list-group-item href="#" @click='topiClick("Politics")' variant="Politics">
         <img class="topic-icon" src="../../assets/mayor.png"/>
         Politics
       </b-list-group-item>
-      <b-list-group-item href="#" @click='topiClick("sport")' variant="sport">
+      <b-list-group-item href="#" @click='topiClick("Sport")' variant="Sport">
         <img class="topic-icon" src="../../assets/cup.png"/>
         Sports
       </b-list-group-item>
-      <b-list-group-item href="#" @click='topiClick("technology")' variant="technology">
+      <b-list-group-item href="#" @click='topiClick("Technology")' variant="Technology">
         <img class="topic-icon" src="../../assets/robot.png"/>
         Technology
       </b-list-group-item>
-      <b-list-group-item href="#" @click='topiClick("random")' variant="random">
+      <b-list-group-item href="#" @click='topiClick("Random")' variant="Random">
         <img class="topic-icon" src="../../assets/vomiting.png"/>
         Random
       </b-list-group-item>

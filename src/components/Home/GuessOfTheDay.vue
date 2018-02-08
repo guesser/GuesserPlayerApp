@@ -37,7 +37,7 @@ export default {
       max: 100,
       guess: {
         id: '0',
-        title: 'Test1',
+        title: 'TheBestGuess',
         description: 'TestTestTestTest1',
         topic: 'esports',
         creator: '0x00000000000000000000000000000000',

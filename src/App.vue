@@ -64,10 +64,10 @@ main{
 .btn-outline-primary:not([disabled]):not(.disabled):active,
 .btn-outline-primary:not([disabled]):not(.disabled).active,
 .show > .btn-outline-primary.dropdown-toggle {
-  color: #fff;
-  background-color: #ff0d73;
-  border-color: #ff0d73;
-  box-shadow: 0 0 0 0 rgba(#ff0d73, .5);
+color: #fff;
+background-color: #ff0d73;
+border-color: #ff0d73;
+box-shadow: 0 0 0 0 rgba(#ff0d73, .5);
 }*/
 
 .navbar-brand {
@@ -109,229 +109,239 @@ $random: invert($random-contrast);
 
 /* == */
 
-.bg-crypto{
+.bg-Crypto{
   background-color: $crypto-contrast !important;
+  font-weight: bold;
   color: $crypto !important;
   border-color: $crypto !important;
 }
 
-.border-crypto{
+.border-Crypto{
   border-color: $crypto !important;
 }
-.list-group-item-crypto{
+.list-group-item-Crypto{
   background-color: $crypto-contrast !important;
   color: $crypto !important;
 }
 
-.list-group-item-crypto:hover,
-.list-group-item-crypto:focus{
+.list-group-item-Crypto:hover,
+.list-group-item-Crypto:focus{
   background-color: darken($crypto-contrast, 5%) !important;
   color: darken($crypto, 5%) !important;
 }
 
 /* == */
 
-.bg-celebrities{
+.bg-Celebrities{
   background-color: $celebrities-contrast !important;
+  font-weight: bold;
   color: $celebrities !important;
   border-color: $celebrities !important;
 }
 
-.border-celebrities{
+.border-Celebrities{
   border-color: $celebrities !important;
 }
 
-.list-group-item-celebrities{
+.list-group-item-Celebrities{
   color: $celebrities !important;
   background-color: $celebrities-contrast !important;
 }
 
-.list-group-item-celebrities:hover,
-.list-group-item-celebrities:focus{
+.list-group-item-Celebrities:hover,
+.list-group-item-Celebrities:focus{
   background-color: darken($celebrities-contrast, 5%) !important;
   color: darken($celebrities, 5%) !important;
 }
 
 /* == */
 
-.bg-entertainment{
+.bg-Entertainment{
   background-color: $entertainment-contrast !important;
+  font-weight: bold;
   color: $entertainment !important;
   border-color: $entertainment !important;
 }
 
-.border-entertainment{
+.border-Entertainment{
   border-color: $entertainment !important;
 }
 
-.list-group-item-entertainment{
+.list-group-item-Entertainment{
   color: $entertainment !important;
   background-color: $entertainment-contrast !important;
 }
 
-.list-group-item-entertainment:hover,
-.list-group-item-entertainment:focus{
+.list-group-item-Entertainment:hover,
+.list-group-item-Entertainment:focus{
   background-color: darken($entertainment-contrast, 5%) !important;
   color: darken($entertainment, 5%) !important;
 }
 
 /* == */
 
-.bg-gaming{
+.bg-Gaming{
   background-color: $gaming-contrast !important;
+  font-weight: bold;
   color: $gaming !important;
   border-color: $gaming !important;
 }
 
-.border-gaming{
+.border-Gaming{
   border-color: $gaming !important;
 }
 
-.list-group-item-gaming{
+.list-group-item-Gaming{
   color: $gaming !important;
   background-color: $gaming-contrast !important;
 }
 
-.list-group-item-gaming:hover,
-.list-group-item-gaming:focus{
+.list-group-item-Gaming:hover,
+.list-group-item-Gaming:focus{
   background-color: darken($gaming-contrast, 5%) !important;
   color: darken($gaming, 5%) !important;
 }
 
 /* == */
 
-.bg-humour{
+.bg-Humour{
   background-color: $humour-contrast !important;
+  font-weight: bold;
   color: $humour !important;
   border-color: $humour !important;
 }
 
-.border-humour{
+.border-Humour{
   border-color: $humour !important;
 }
 
-.list-group-item-humour{
+.list-group-item-Humour{
   color: $humour !important;
   background-color: $humour-contrast !important;
 }
 
-.list-group-item-humour:hover,
-.list-group-item-humour:focus{
+.list-group-item-Humour:hover,
+.list-group-item-Humour:focus{
   background-color: darken($humour-contrast, 5%) !important;
   color: darken($humour, 5%) !important;
 }
 
 /* == */
 
-.bg-news{
+.bg-News{
   background-color: $news-contrast !important;
+  font-weight: bold;
   color: $news !important;
   border-color: $news !important;
 }
 
-.border-news{
+.border-News{
   border-color: $news !important;
 }
 
-.list-group-item-news{
+.list-group-item-News{
   color: $news !important;
   background-color: $news-contrast !important;
 }
 
-.list-group-item-news:hover,
-.list-group-item-news:focus{
+.list-group-item-News:hover,
+.list-group-item-News:focus{
   background-color: darken($news-contrast, 5%) !important;
   color: darken($news, 5%) !important;
 }
 
 /* == */
 
-.bg-politics{
+.bg-Politics{
   background-color: $politics-contrast !important;
+  font-weight: bold;
   color: $politics !important;
   border-color: $politics !important;
 }
 
-.border-politics{
+.border-Politics{
   border-color: $politics !important;
 }
 
-.list-group-item-politics{
+.list-group-item-Politics{
   color: $politics !important;
   background-color: $politics-contrast !important;
 }
 
-.list-group-item-politics:hover,
-.list-group-item-politics:focus{
+.list-group-item-Politics:hover,
+.list-group-item-Politics:focus{
   background-color: darken($politics-contrast, 5%) !important;
   color: darken($politics, 5%) !important;
 }
 
 /* == */
 
-.bg-sport{
+.bg-Sport{
   background-color: $sport-contrast !important;
+  font-weight: bold;
   color: $sport !important;
   border-color: $sport !important;
 }
 
-.border-sport{
+.border-Sport{
   border-color: $sport !important;
 }
 
-.list-group-item-sport{
+.list-group-item-Sport{
   color: $sport !important;
   background-color: $sport-contrast !important;
 }
 
-.list-group-item-sport:hover,
-.list-group-item-sport:focus{
+.list-group-item-Sport:hover,
+.list-group-item-Sport:focus{
   background-color: darken($sport-contrast, 5%) !important;
   color: darken($sport, 5%) !important;
 }
 
 /* == */
 
-.bg-technology{
+.bg-Technology{
   background-color: $technology-contrast !important;
+  font-weight: bold;
   color: $technology !important;
   border-color: $technology !important;
 }
 
-.border-technology{
+.border-Technology{
   border-color: $technology !important;
 }
 
-.list-group-item-technology{
+.list-group-item-Technology{
   color: $technology !important;
   background-color: $technology-contrast !important;
 }
 
-.list-group-item-technology:hover,
-.list-group-item-technology:focus{
+.list-group-item-Technology:hover,
+.list-group-item-Technology:focus{
   background-color: darken($technology-contrast, 5%) !important;
   color: darken($technology, 5%) !important;
 }
 
 /* == */
 
-.bg-random{
+.bg-Random{
   background-color: $random-contrast !important;
+  font-weight: bold;
   color: $random !important;
   border-color: $random !important;
 }
 
-.border-random{
+.border-Random{
   border-color: $random !important;
 }
 
-.list-group-item-random{
+.list-group-item-Random{
   color: $random !important;
   background-color: $random-contrast !important;
 }
 
-.list-group-item-random:hover,
-.list-group-item-random:focus{
+.list-group-item-Random:hover,
+.list-group-item-Random:focus{
   background-color: darken($random-contrast, 5%) !important;
   color: darken($random, 5%) !important;
 }
