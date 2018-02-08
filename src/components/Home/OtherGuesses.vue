@@ -2,43 +2,47 @@
   <div>
   <b-card-group deck class="mb-3">
     <b-card :border-variant="topic"
-            header="Primary"
+            header="GuessTitle"
             :header-border-variant="topic"
             header-text-variant="black"
             align="center">
       <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
     </b-card>
     <!--TODO: Load Dinamically-->
-    <b-card border-variant="secondary"
-            header="Secondary"
-            header-border-variant="secondary"
+     <b-card :border-variant="topic"
+            header="GuessTitle2"
+            :header-border-variant="topic"
+            header-text-variant="black"
             align="center">
       <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
     </b-card>
-    <b-card border-variant="success"
-            header="Success"
-            header-border-variant="success"
+    <b-card :border-variant="topic"
+            header="GuessTitle3"
+            :header-border-variant="topic"
+            header-text-variant="black"
             align="center">
       <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
     </b-card>
-  </b-card-group>
-  <b-card-group deck class="mb-3">
-    <b-card border-variant="info"
-            header="Info"
-            header-border-variant="info"
+  </b-card-group>  <b-card-group deck class="mb-3">
+    <b-card :border-variant="topic"
+            header="GuessTitle4"
+            :header-border-variant="topic"
+            header-text-variant="black"
             align="center">
       <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
     </b-card>
-    <b-card border-variant="warning"
-            header="Warning"
-            header-border-variant="warning"
+    <!--TODO: Load Dinamically-->
+     <b-card :border-variant="topic"
+            header="GuessTitle5"
+            :header-border-variant="topic"
+            header-text-variant="black"
             align="center">
       <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
     </b-card>
-    <b-card border-variant="danger"
-            header="Danger"
-            header-border-variant="danger"
-            header-text-variant="danger"
+    <b-card :border-variant="topic"
+            header="GuessTitle6"
+            :header-border-variant="topic"
+            header-text-variant="black"
             align="center">
       <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
     </b-card>

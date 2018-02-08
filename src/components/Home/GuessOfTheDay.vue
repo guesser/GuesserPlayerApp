@@ -90,36 +90,4 @@ export default {
 .card-link{
   text-decoration: underline;
 }
-.bg-magenta{
-  background-color: magenta !important;
-  color: white !important;
-}
-.bg-pink{
-  background-color: pink !important;
-  color: white !important;
-}
-
-.btn-outline-magenta{
-  color: magenta;
-  background-color: transparent;
-  background-image: none;
-  border-color: magenta;
-}
-.btn-outline-magenta:hover{
-  color: #fff;
-  background-color: magenta;
-  border-color: magenta;
-}
-
-.btn-outline-pink{
-  color: pink;
-  background-color: transparent;
-  background-image: none;
-  border-color: pink;
-}
-.btn-outline-pink:hover{
-  color: #fff;
-  background-color: pink;
-  border-color: pink;
-}
 </style>
