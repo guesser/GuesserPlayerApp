@@ -61,4 +61,16 @@ contract TestGuess {
     Assert.equal(_topGuess[1], 2, "The guess is not the correct");
   }
 
+  function testVoteGuess() public {
+    guessObject.voteGuess(2, 1);
+    var (_1, _2, _1V, _2V, _1Val, _2Val) = guessObject.getGuessOptions(2);
+    Assert.equal(_1V, 1, "The number of votes is not correct");
+  }
+
+  function testGetGuessOfTheDayUniqueAfterVote() public {
+    bytes32 _topic = "Crypto";
+    uint256 _topGuess = guessObject.getTodayGuess(_topic);
+    Assert.equal(_topGuess, 2, "The day is not the correct");
+  }
+
 }
