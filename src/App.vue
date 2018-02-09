@@ -33,6 +33,18 @@ export default {
 </script>
 
 <style lang="scss">
+
+$primary: #ff0d73;
+
+/*Here we can create any color that we want*/
+$theme-colors: (
+  "pink": lighten(magenta, 20%),
+  "magenta": lighten(blue, 20%),
+  "success": lighten(green, 20%)
+);
+
+@import "~bootstrap/scss/bootstrap";
+
 body{
   font-family: 'Josefin Sans', sans-serif;
   height: 100%;
@@ -43,32 +55,6 @@ main{
   min-height: 100vh;
   bottom:0;
 }
-.btn-outline-beard{
-  color: #ff0d73;
-  background-color: transparent;
-  background-image: none;
-  border-color: #ff0d73;
-}
-
-.btn-beard{
-  color: #fff;
-  background-color: #ff0d73;
-  border-color: #ff0d73;
-}
-.btn-outline-beard:hover{
-  color: #fff;
-  background-color: #ff0d73;
-  border-color: #ff0d73;
-}
-/*
-.btn-outline-primary:not([disabled]):not(.disabled):active,
-.btn-outline-primary:not([disabled]):not(.disabled).active,
-.show > .btn-outline-primary.dropdown-toggle {
-color: #fff;
-background-color: #ff0d73;
-border-color: #ff0d73;
-box-shadow: 0 0 0 0 rgba(#ff0d73, .5);
-}*/
 
 .navbar-brand {
   margin-right: 0;
@@ -344,46 +330,5 @@ $random: invert($random-contrast);
 .list-group-item-Random:focus{
   background-color: darken($random-contrast, 5%) !important;
   color: darken($random, 5%) !important;
-}
-
-/* == */
-
-.bg-magenta{
-  background-color: magenta !important;
-  color: white !important;
-}
-
-.bg-pink{
-  background-color: pink !important;
-  color: white !important;
-}
-
-.bg-magenta{
-  background-color: magenta !important;
-  color: white !important;
-}
-
-.btn-outline-magenta{
-  color: magenta;
-  background-color: transparent;
-  background-image: none;
-  border-color: magenta;
-}
-.btn-outline-magenta:hover{
-  color: #fff;
-  background-color: magenta;
-  border-color: magenta;
-}
-
-.btn-outline-pink{
-  color: pink;
-  background-color: transparent;
-  background-image: none;
-  border-color: pink;
-}
-.btn-outline-pink:hover{
-  color: #fff;
-  background-color: pink;
-  border-color: pink;
 }
 </style>

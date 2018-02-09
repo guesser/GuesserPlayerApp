@@ -36,7 +36,7 @@
       <p class='info-section'>Topics:</p>
       <b-form-radio-group id="btnradios2"
                           buttons
-                          button-variant="outline-beard"
+                          button-variant="outline-primary"
                           size="sm"
                           v-model="form.topic"
                           :options="topics"
