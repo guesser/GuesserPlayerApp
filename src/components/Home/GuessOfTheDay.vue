@@ -46,13 +46,15 @@ export default {
         finishingDay: '10-10-10',
         option1: 'Yes',
         option2: 'No'
-      }
+      },
+      guessIndex: null
     }
   },
   methods: {
     getGuess () {
       let self = this
-      GuessHelper.getGuessFront(0).then((guess) => {
+
+      GuessHelper.getGuessFront(this.guessIndex).then((guess) => {
         console.log(guess)
         self.guess.title = guess[0]
         self.guess.description = guess[1]
@@ -62,27 +64,32 @@ export default {
         self.guess.startingDay = _startingDay
         let _finishingDay = guess[6].getDate() + '-' + guess[6].getMonth() + 1 + '-' + guess[6].getFullYear()
         self.guess.finishingDay = _finishingDay
-        console.log(_finishingDay)
       }).catch(err => {
         console.log(err)
       })
     },
     getGuessOfTheDay () {
-      // let self = this
-      // GuessHelper.getGuessOfTheDay(self.topic).then((guessNumber) => {
-      GuessHelper.getGuessOfTheDay('Crypto').then((guessNumber) => {
-        console.log(guessNumber)
+      let self = this
+      GuessHelper.getGuessOfTheDay(this.topic).then((guessNumber) => {
+        console.log(guessNumber.c)
+        self.guessIndex = guessNumber.c[0]
+        self.creationController()
       }).catch(err => {
         console.error(err)
       })
+    },
+    creationController () {
+      let self = this
+      if (self.guessIndex == null) {
+        self.getGuessOfTheDay()
+      } else {
+        self.getGuess()
+      }
     }
   },
   beforeCreate: function () {
-    let self = this
     GuessHelper.init().then(() => {
-      self.getGuessOfTheDay()
-      self.getGuess()
-      // self.getGuessOptionsOfTheDay()
+      this.creationController()
     }).catch(err => {
       console.log(err)
     })

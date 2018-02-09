@@ -94,7 +94,6 @@ const GuessHelper = {
       ).then(_guessIndex => {
         resolve(_guessIndex)
       }).catch(err => {
-        console.log('Hola')
         reject(err)
       })
     })
