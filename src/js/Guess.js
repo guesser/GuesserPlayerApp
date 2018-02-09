@@ -44,8 +44,6 @@ const GuessHelper = {
     _option2) {
     let self = this
 
-    console.log(this.address)
-
     return new Promise((resolve, reject) => {
       self.instance.setGuess(
         window.web3.utils.toHex(_title),
@@ -54,7 +52,7 @@ const GuessHelper = {
         _finalDate,
         window.web3.utils.toHex(_option1),
         window.web3.utils.toHex(_option2),
-        {from: self.address[0], gas: 400000} // Gas forced to high #WARNING
+        {from: self.address[0], gas: 400000} // TODO: Gas forced to high #WARNING
       ).then(() => {
         resolve()
       }).catch(err => {
@@ -91,11 +89,12 @@ const GuessHelper = {
 
     return new Promise((resolve, reject) => {
       self.instance.getTodayGuess.call(
-        _topic,
+        window.web3.utils.toHex(_topic),
         {from: self.address}
       ).then(_guessIndex => {
         resolve(_guessIndex)
       }).catch(err => {
+        console.log('Hola')
         reject(err)
       })
     })

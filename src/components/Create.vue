@@ -96,10 +96,14 @@ export default {
 
       let self = this
       let dateYear = self.form.date.substring(0, 4)
-      let dateDay = self.form.date.substring(5, 7)
-      let dateMonth = self.form.date.substring(8, 10)
-      let date = (new Date(dateYear, dateMonth, dateDay)).getTime()
+      let dateMonth = self.form.date.substring(5, 7)
+      let dateDay = self.form.date.substring(8, 10)
+      let date = (new Date(dateYear, parseInt(dateMonth) - 1, parseInt(dateDay) + 1)).getTime()
       let finalDate = date / 1000
+      console.log('Hola1')
+      console.log(dateYear + '/' + dateMonth + '/' + dateDay)
+      console.log(new Date(dateYear, parseInt(dateMonth) - 1, dateDay).getMonth())
+      console.log(finalDate)
       GuessHelper.setGuessFront(
         this.form.title,
         this.form.description,

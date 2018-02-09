@@ -39,7 +39,7 @@ export default {
         id: '0',
         title: 'TheBestGuess',
         description: 'TestTestTestTest1',
-        topic: 'esports',
+        topic: 'Crypto',
         creator: '0x00000000000000000000000000000000',
         votes: 0,
         startingDay: '10-10-10',
@@ -62,20 +62,25 @@ export default {
         self.guess.startingDay = _startingDay
         let _finishingDay = guess[6].getDate() + '-' + guess[6].getMonth() + 1 + '-' + guess[6].getFullYear()
         self.guess.finishingDay = _finishingDay
+        console.log(_finishingDay)
       }).catch(err => {
         console.log(err)
       })
     },
     getGuessOfTheDay () {
-      let self = this
-      GuessHelper.getGuessOfTheDay(self.topic).then((guessNumber) => {
+      // let self = this
+      // GuessHelper.getGuessOfTheDay(self.topic).then((guessNumber) => {
+      GuessHelper.getGuessOfTheDay('Crypto').then((guessNumber) => {
         console.log(guessNumber)
+      }).catch(err => {
+        console.error(err)
       })
     }
   },
   beforeCreate: function () {
     let self = this
     GuessHelper.init().then(() => {
+      self.getGuessOfTheDay()
       self.getGuess()
       // self.getGuessOptionsOfTheDay()
     }).catch(err => {
