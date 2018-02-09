@@ -211,22 +211,23 @@ contract Guess is DateTime{
 
   /* dev Voting a guess
   * @param _guess uint256 the guess the person is voting to
-  * @param _option uint8 the option the person is voting to
+  * @param _option uint8 the option the person is voting to (1 or 2)
   */
   function voteGuess(uint256 _guess, uint8 _option) public payable {
     // Does the guess exists?
     require(_guess <= guesses.length-1);
     // Has the voter already voted?
     require(guesses[_guess].votersOption[msg.sender][0] == uint8(0x0));
-    require(msg.value > 0);
+    // TODO: Do we have a minimum bet?
+    //require(msg.value > 0);
     // Is the option valid?
-    require(_option == 0 || _option == 1);
+    require(_option == 1 || _option == 2);
     // Is the date due?
     require(dateDue(guesses[_guess].finalDate) == false);
 
     guesses[_guess].votersOption[msg.sender] = [_option, msg.value];
     guesses[_guess].voters.push(msg.sender);
-    if (_option == 0) {
+    if (_option == 1) {
       guesses[_guess].option1Votes++;
     } else {
       guesses[_guess].option2Votes++;
@@ -244,13 +245,13 @@ contract Guess is DateTime{
     // Has the validator already choose?
     require(guesses[_guess].validatorsOption[msg.sender] == uint8(0x0));
     // Is the option valid?
-    require(_option == 0 || _option == 1);
+    require(_option == 1 || _option == 2);
     // Is the date due?
     require(dateDue(guesses[_guess].finalDate) == true);
 
     guesses[_guess].validatorsOption[msg.sender] = _option;
     guesses[_guess].validators.push(msg.sender);
-    if (_option == 0) {
+    if (_option == 1) {
       guesses[_guess].option1Validation++;
     } else {
       guesses[_guess].option2Validation++;
