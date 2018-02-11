@@ -30,8 +30,9 @@ export default {
   },
   methods: {
     printGuesses () {
-      for (var i = 0; i < this.totalGuesses; i++) {
-        GuessHelper.getGuessFront(i).then((guess) => {
+      for (var i = 0; i < 10; i++) {
+        let _index = this.guessesByNumber[i].c[0]
+        GuessHelper.getGuessFront(_index).then((guess) => {
           console.log(guess)
           this.guesses.push({
             'title': guess[0],
@@ -50,6 +51,7 @@ export default {
     getGuessesOfTheDay () {
       let self = this
 
+      this.guesses = [] // Clean the array of showed Guesses
       GuessHelper.getGuessesOfTheDay(0, this.topic).then((_guesses) => {
         console.log(_guesses)
         self.guessesByNumber = _guesses
