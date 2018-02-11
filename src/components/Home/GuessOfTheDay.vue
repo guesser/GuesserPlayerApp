@@ -54,16 +54,15 @@ export default {
     getGuess () {
       let self = this
 
-      GuessHelper.getGuessFront(this.guessIndex).then((guess) => {
-        console.log(guess)
-        self.guess.title = guess[0]
-        self.guess.description = guess[1]
-        self.guess.topic = guess[2]
-        self.guess.votes = guess[4]
-        let _startingDay = guess[5].getDate() + '-' + guess[5].getMonth() + 1 + '-' + guess[5].getFullYear()
+      GuessHelper.getGuessFront(this.guessIndex).then((guessDay) => {
+        console.log(guessDay)
+        self.guess.title = guessDay[0]
+        self.guess.description = guessDay[1]
+        self.guess.topic = guessDay[2]
+        self.guess.votes = guessDay[4]
+        let _startingDay = guessDay[5].getDate() + '-' + guessDay[5].getMonth() + 1 + '-' + guessDay[5].getFullYear()
         self.guess.startingDay = _startingDay
-        let _finishingDay = guess[6].getDate() + '-' + guess[6].getMonth() + 1 + '-' + guess[6].getFullYear()
-        self.guess.finishingDay = _finishingDay
+        self.guess.finishingDay = guessDay[6].getDate() + '-' + guessDay[6].getMonth() + 1 + '-' + guessDay[6].getFullYear()
       }).catch(err => {
         console.log(err)
       })
@@ -71,28 +70,27 @@ export default {
     getGuessOfTheDay () {
       let self = this
       GuessHelper.getGuessOfTheDay(this.topic).then((guessNumber) => {
-        console.log(guessNumber.c)
+        console.log(guessNumber.c[0])
         self.guessIndex = guessNumber.c[0]
-        self.creationController()
+        self.getGuess()
       }).catch(err => {
         console.error(err)
       })
-    },
-    creationController () {
-      let self = this
-      if (self.guessIndex == null) {
-        self.getGuessOfTheDay()
-      } else {
-        self.getGuess()
-      }
     }
   },
-  beforeCreate: function () {
+  created: function () {
+    let self = this
+
     GuessHelper.init().then(() => {
-      this.creationController()
+      self.getGuessOfTheDay()
     }).catch(err => {
       console.log(err)
     })
+  },
+  watch: {
+    topic: function () {
+      this.getGuessOfTheDay()
+    }
   }
 }
 </script>

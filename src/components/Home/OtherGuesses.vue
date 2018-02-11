@@ -53,7 +53,12 @@
 <script>
 export default {
   name: 'OtherGuesses',
-  props: ['topic']
+  props: ['topic'],
+  watch: {
+    topic: function () {
+      // TODO: Call the restart Guesses function
+    }
+  }
 }
 </script>
 
