@@ -99,6 +99,22 @@ const GuessHelper = {
     })
   },
 
+  getGuessesOfTheDay: function (_index, _topic) {
+    let self = this
+
+    return new Promise((resolve, reject) => {
+      self.instance.getTodayGuesses.call(
+        _index,
+        window.web3.utils.toHex(_topic),
+        {from: self.address}
+      ).then(_guessesIndex => {
+        resolve(_guessesIndex)
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  },
+
   getGuessesNumber: function () {
     let self = this
 
