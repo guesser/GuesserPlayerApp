@@ -49,10 +49,34 @@ contract Guess is DateTime{
 
   //Store the day mapped with an array of the id's of the guess created that day
 
+  // Constructor
+  function Guess () public {
+    address[] memory _voters; // TODO: Be sure this has to be memory and not internal
+    address[] memory _validators; // TODO: Be sure this has to be memory and not internal
+    GuessStruct memory _guess = GuessStruct({
+      title: '',
+      description: '',
+      topic: '',
+      creator: 0x00000000000000000000000000000000,
+      voters: _voters,
+      validators: _validators,
+      firstDate: now,
+      finalDate: 0,
+      option1: '',
+      option2: '',
+      option1Votes: 0,
+      option2Votes: 0,
+      option1Validation: 0,
+      option2Validation: 0,
+      profitsReturned: false
+    });
+    guesses.push(_guess);
+  }
+
   /**
   * @dev Function that creates a Guess.
   * @param _title bytes32 The title of the Guess.
-    * @param _description string The description of the Guess
+  * @param _description string The description of the Guess
   * @param _topic bytes32 The topic of the Guess
   * @param _finalDate uint256 The final date of the Guess
   * @param _option1 bytes32 The first option to vote on the Guess
@@ -196,7 +220,6 @@ contract Guess is DateTime{
     // Check the range is inside the length
     uint8 _guessNumber = 0;
     uint256[10] memory _todayGuesses;
-    // TODO: Change for for a while
     uint256 i = _index * 10;
     while(_guessNumber<10 && i<_guesses.length) {
       if(guesses[_guesses[i]].topic == _topic) {

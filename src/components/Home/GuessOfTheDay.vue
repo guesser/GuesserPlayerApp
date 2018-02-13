@@ -1,4 +1,6 @@
 <template>
+  <div>
+  <div v-if='guessIndex != null'>
   <b-card :border-variant="topic"
           :header="guess.title"
           :header-bg-variant="topic"
@@ -22,8 +24,12 @@
     <br>
     <b-button variant="outline-pink" size="sm">Yes</b-button>
     <b-button variant="outline-magenta" size="sm">No</b-button>
-    </div>
   </b-card>
+    </div>
+  <div v-else>
+    HolaMundo
+    </div>
+    </div>
 </template>
 
 <script>
@@ -90,6 +96,7 @@ export default {
   watch: {
     topic: function () {
       this.getGuessOfTheDay()
+      this.guessIndex = null
     }
   }
 }
