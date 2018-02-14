@@ -84,6 +84,28 @@ const GuessHelper = {
     })
   },
 
+  getGuessOptions: function (index) {
+    let self = this
+
+    return new Promise((resolve, reject) => {
+      self.instance.getGuessOptions.call(
+        index,
+        {from: self.address}
+      ).then(guess => {
+        resolve([
+          window.web3.utils.hexToUtf8(guess[0]), // option1
+          window.web3.utils.hexToUtf8(guess[1]), // option2
+          guess[2], // option1Votes
+          guess[3], // option2Votes
+          guess[4], // option1Validation
+          guess[5] // option2Validation
+        ])
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  },
+
   getGuessOfTheDay: function (_topic) {
     let self = this
 

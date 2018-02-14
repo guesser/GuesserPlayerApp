@@ -7,23 +7,24 @@
           header-text-variant="white"
           class="text-center">
     <p class="card-text">
+    {{ guess.option1votes }}
     {{guess.description}}
     <br>
     {{guess.startingDay}} - {{guess.finishingDay}}
     </p>
     <!--Progress Bar-->
-    <b-progress class="mt-1" :max="max" show-value striped>
-      <b-progress-bar :value="max*(3/10)" variant="pink">
-        Yes - {{ max*(3/10) }}
+    <b-progress class="mt-1" :max="10*(guess.votes/10)" show-value striped>
+      <b-progress-bar :value="10*(guess.option1votes/10)" variant="pink">
+        {{guess.option1}} - {{ guess.option1votes }}
       </b-progress-bar>
-      <b-progress-bar :value="max*(7/10)" variant="magenta">
-        No - {{ max*(7/10) }}
+      <b-progress-bar :value="10*(guess.option2votes/10)" variant="magenta">
+        {{guess.option2}} - {{ guess.option2votes }}
       </b-progress-bar>
     </b-progress>
 
     <br>
-    <b-button variant="outline-pink" size="sm">Yes</b-button>
-    <b-button variant="outline-magenta" size="sm">No</b-button>
+    <b-button @click="voteGuess(1)" variant="outline-pink" size="sm">{{guess.option1}}</b-button>
+    <b-button @click="voteGuess(2)" variant="outline-magenta" size="sm">{{guess.option2}}</b-button>
   </b-card>
     </div>
   <div v-else>
@@ -51,7 +52,9 @@ export default {
         startingDay: '10-10-10',
         finishingDay: '10-10-10',
         option1: 'Yes',
-        option2: 'No'
+        option2: 'No',
+        option1votes: '0',
+        option2votes: '0'
       },
       guessIndex: null
     }
@@ -76,21 +79,31 @@ export default {
     getGuessOfTheDay () {
       let self = this
       GuessHelper.getGuessOfTheDay(this.topic).then((guessNumber) => {
-        console.log(guessNumber.c[0])
         self.guessIndex = guessNumber.c[0]
         self.getGuess()
+        self.getOptions()
       }).catch(err => {
         console.error(err)
       })
     },
-    voteGuess (_guessIndex, _option) { // Option has to be 1 or 2
+    voteGuess (_option) { // Option has to be 1 or 2
       let self = this
-      GuessHelper.voteGuess(_guessIndex, _option).then(() => {
+      GuessHelper.voteGuess(self.guessIndex, _option).then(() => {
         console.log('Transaction pending...')
         // TODO: Show alert of voting
         // self.guessCreatedAlert = true
       }).catch(err => {
         console.log(err)
+      })
+    },
+    getOptions () {
+      let self = this
+
+      GuessHelper.getGuessOptions(this.guessIndex).then((guessOptions) => {
+        self.guess.option1 = guessOptions[0]
+        self.guess.option2 = guessOptions[1]
+        self.guess.option1votes = guessOptions[2].c[0]
+        self.guess.option2votes = guessOptions[3].c[0]
       })
     }
   },
