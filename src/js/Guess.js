@@ -127,6 +127,22 @@ const GuessHelper = {
         reject(err)
       })
     })
+  },
+
+  voteGuess: function (_guessIndex, _option) { // Option has to be between 1 and 2
+    let self = this
+
+    return new Promise((resolve, reject) => {
+      self.instance.voteGuess(
+        _guessIndex,
+        _option,
+        {from: self.address[0], gass: 400000} // TODO: Gar forced
+      ).then(() => {
+        resolve()
+      }).catch(err => {
+        reject(err)
+      })
+    })
   }
 }
 

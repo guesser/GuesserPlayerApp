@@ -82,6 +82,16 @@ export default {
       }).catch(err => {
         console.error(err)
       })
+    },
+    voteGuess (_guessIndex, _option) { // Option has to be 1 or 2
+      let self = this
+      GuessHelper.voteGuess(_guessIndex, _option).then(() => {
+        console.log('Transaction pending...')
+        // TODO: Show alert of voting
+        // self.guessCreatedAlert = true
+      }).catch(err => {
+        console.log(err)
+      })
     }
   },
   created: function () {
