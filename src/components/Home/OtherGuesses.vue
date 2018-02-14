@@ -1,17 +1,19 @@
 <template>
   <div>
     <b-card-group deck class="mb-3">
-      <div v-for='guess in guesses'>
-        <b-card :border-variant="topic"
-                     :header="guess.title"
-                     :header-border-variant="topic"
-                     header-text-variant="black"
-                     align="center">
+      <div style="margin-bottom: 1.5rem;" v-for='guess in guesses'>
+        <b-card 
+                                    style="width: 20rem; height: 100%;"
+                                    :border-variant="topic"
+                                    :header="guess.title"
+                                    :header-border-variant="topic"
+                                    header-text-variant="black"
+                                    align="center">
           <p class="card-text">{{ guess.description }}</p>
         </b-card>
       </div>
       <!--TODO: Make this more beautiful-->
-      <h2 v-if='totalGuesses == 0'>There are no Guesses over here!</h2>
+      <h4 v-if='totalGuesses == 0'>There are no Guesses over here!</h4>
     </b-card-group>
   </div>
 </template>
