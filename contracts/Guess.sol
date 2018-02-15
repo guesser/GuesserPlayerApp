@@ -173,7 +173,7 @@ contract Guess is DateTime{
   }
 
   /**
-   * @dev Returns the top Guess of the actual day
+   * @dev Returns the top Guess of the actual day by topic
    * @param _topic uint256 the genre of the guess we are looking for
    * @return uint256 with top guess of the day
    */

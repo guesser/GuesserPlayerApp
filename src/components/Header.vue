@@ -30,6 +30,7 @@
         <b-navbar-nav class="ml-auto">
           <b-nav-item href="#home">Guesses</b-nav-item>
           <b-nav-item href="#create">Create</b-nav-item>
+          <b-nav-item href="#validation">Validation</b-nav-item>
           <b-nav-item href="#">Profile</b-nav-item>
         </b-navbar-nav>
 

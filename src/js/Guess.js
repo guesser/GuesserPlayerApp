@@ -158,9 +158,25 @@ const GuessHelper = {
       self.instance.voteGuess(
         _guessIndex,
         _option,
-        {from: self.address[0], gass: 400000} // TODO: Gar forced
+        {from: self.address[0], gass: 400000} // TODO: Gas forced
       ).then(() => {
         resolve()
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  },
+
+  validateGuess: function (_guessesIndex, _option) {
+    let self = this
+
+    return new Promise((resolve, reject) => {
+      self.instance.validateGuess(
+        _guessIndex,
+        _option,
+        {from: self.address[0], gass: 400000} // TODO: Gas forced again
+      ).then(() => {
+      resolve()
       }).catch(err => {
         reject(err)
       })

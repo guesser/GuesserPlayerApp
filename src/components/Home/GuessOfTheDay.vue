@@ -7,7 +7,6 @@
           header-text-variant="white"
           class="text-center">
     <p class="card-text">
-    {{ guess.option1votes }}
     {{guess.description}}
     <br>
     {{guess.startingDay}} - {{guess.finishingDay}}
@@ -27,7 +26,7 @@
     <b-button @click="voteGuess(2)" variant="outline-magenta" size="sm">{{guess.option2}}</b-button>
   </b-card>
     </div>
-  <div v-else>
+  <div v-else style="text-center">
     HolaMundo
     </div>
     </div>
