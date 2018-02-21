@@ -84,7 +84,7 @@ export default {
       })
     },
     voteGuess (_guessIndex, _option) { // Option has to be 1 or 2
-      let self = this
+      // let self = this
       GuessHelper.voteGuess(_guessIndex, _option).then(() => {
         console.log('Transaction pending...')
         // TODO: Show alert of voting

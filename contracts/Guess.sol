@@ -271,6 +271,10 @@ contract Guess is DateTime{
     require(_option == 1 || _option == 2);
     // Is the date due?
     require(dateDue(guesses[_guess].finalDate) == true);
+    // Enough validations
+    uint256 validations = guesses[_guess].option1Validation + guesses[_guess].option2Validation;
+    uint256 votes = guesses[_guess].option1Votes + guesses[_guess].option2Votes;
+    // require(validations < (votes*0.51));
 
     guesses[_guess].validatorsOption[msg.sender] = _option;
     guesses[_guess].validators.push(msg.sender);
@@ -280,6 +284,10 @@ contract Guess is DateTime{
       guesses[_guess].option2Validation++;
     }
     GuessValidated(_guess, _option, msg.sender);
+
+    // if(validations == votes*0.51) {
+      // Write the return of the money
+    // }
   }
 
   /**
@@ -404,5 +412,14 @@ contract Guess is DateTime{
     } else {
       return true;
     }
+  }
+
+  function percent(uint numerator, uint denominator, uint precision) public pure returns(uint quotient) {
+
+    // TODO: caution, check safe-to-multiply here
+    uint _numerator  = numerator * 10 ** (precision+1);
+    // with rounding of last digit
+    uint _quotient =  ((_numerator / denominator) + 5) / 10;
+    return ( _quotient);
   }
 }
