@@ -273,8 +273,8 @@ contract Guess is DateTime{
     require(dateDue(guesses[_guess].finalDate) == true);
     // Enough validations
     uint256 validations = guesses[_guess].option1Validation + guesses[_guess].option2Validation;
-    uint256 votes = guesses[_guess].option1Votes + guesses[_guess].option2Votes;
-    // require(validations < (votes*0.51));
+    // uint256 votes = guesses[_guess].option1Votes + guesses[_guess].option2Votes;
+    require(validations < 3); // TODO: Forced to 3
 
     guesses[_guess].validatorsOption[msg.sender] = _option;
     guesses[_guess].validators.push(msg.sender);
@@ -286,7 +286,7 @@ contract Guess is DateTime{
     GuessValidated(_guess, _option, msg.sender);
 
     // if(validations == votes*0.51) {
-      // Write the return of the money
+      // TODO: Write the return of the money
     // }
   }
 
