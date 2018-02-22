@@ -270,7 +270,7 @@ contract Guess is DateTime{
     // Is the option valid?
     require(_option == 1 || _option == 2);
     // Is the date due?
-    require(dateDue(guesses[_guess].finalDate) == false);
+    require(dateDue(guesses[_guess].finalDate) == true);
     // Enough validations
     uint256 validations = guesses[_guess].option1Validation + guesses[_guess].option2Validation;
     // uint256 votes = guesses[_guess].option1Votes + guesses[_guess].option2Votes;

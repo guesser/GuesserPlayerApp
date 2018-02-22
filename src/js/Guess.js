@@ -160,7 +160,7 @@ const GuessHelper = {
       self.instance.voteGuess(
         _guessIndex,
         _option,
-        {from: self.address[0], gass: 400000} // TODO: Gas forced
+        {from: self.address[0], gas: 400000} // TODO: Gas forced
       ).then(() => {
         resolve()
       }).catch(err => {
@@ -176,7 +176,7 @@ const GuessHelper = {
       self.instance.validateGuess(
         _guessIndex,
         _option,
-        {from: self.address[0], gass: 400000} // TODO: Gas forced again
+        {from: self.address[0], gas: 400000} // TODO: Gas forced again
       ).then(() => {
         resolve()
       }).catch(err => {
