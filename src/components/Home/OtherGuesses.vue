@@ -22,7 +22,7 @@
 import GuessHelper from '@/js/Guess'
 
 export default {
-  name: 'OtherGuesses',
+  name: 'otherguesses',
   props: ['topic'],
   data () {
     return {
@@ -35,7 +35,7 @@ export default {
     printGuesses () {
       for (var i = 0; i < 10; i++) {
         let _index = this.guessesByNumber[i].c[0]
-        if (_index !== 0) { // Guess 0 is the empty one
+        if (_index !== 0) { // guess 0 is the empty one
           this.totalGuesses += 1
           GuessHelper.getGuessFront(_index).then((guess) => {
             console.log(guess)

@@ -167,7 +167,7 @@ const GuessHelper = {
     })
   },
 
-  validateGuess: function (_guessesIndex, _option) {
+  validateGuess: function (_guessIndex, _option) {
     let self = this
 
     return new Promise((resolve, reject) => {
@@ -176,7 +176,7 @@ const GuessHelper = {
         _option,
         {from: self.address[0], gass: 400000} // TODO: Gas forced again
       ).then(() => {
-      resolve()
+        resolve()
       }).catch(err => {
         reject(err)
       })
