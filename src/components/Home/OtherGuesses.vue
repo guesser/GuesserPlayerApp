@@ -29,7 +29,7 @@
 import GuessHelper from '@/js/Guess'
 
 export default {
-  name: 'OtherGuesses',
+  name: 'otherguesses',
   props: ['topic'],
   data () {
     return {
