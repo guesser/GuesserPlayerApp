@@ -238,7 +238,7 @@ contract Guess is DateTime{
   */
   function voteGuess(uint256 _guess, uint8 _option) public payable {
     // Does the guess exists?
-    require(_guess <= guesses.length-1);
+    require(_guess < guesses.length);
     // Has the voter already voted?
     require(guesses[_guess].votersOption[msg.sender][0] == uint8(0x0));
     // TODO: Do we have a minimum bet?

@@ -59,7 +59,6 @@ export default {
             })
           }).then(() => {
             this.totalGuesses += 1
-            console.log(this.totalGuesses - 1)
             this.printGuessesOptions(_index, this.totalGuesses - 1)
           }).catch(err => {
             console.log(err)
@@ -71,7 +70,6 @@ export default {
     printGuessesOptions (_index, _localIndex) {
       let self = this
       GuessHelper.getGuessOptions(_index).then((guess) => {
-        console.log(_localIndex)
         self.guesses[_localIndex].option1 = guess[0]
         self.guesses[_localIndex].option2 = guess[1]
       }).catch(err => {

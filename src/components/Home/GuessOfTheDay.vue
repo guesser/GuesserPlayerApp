@@ -43,15 +43,15 @@ export default {
       max: 100,
       guess: {
         id: '0',
-        title: 'TheBestGuess',
-        description: 'TestTestTestTest1',
+        title: 'Loading...',
+        description: 'Loading...',
         topic: 'Crypto',
         creator: '0x00000000000000000000000000000000',
         votes: 0,
         startingDay: '10-10-10',
         finishingDay: '10-10-10',
-        option1: 'Yes',
-        option2: 'No',
+        option1: 'Loading...',
+        option2: 'Loading...',
         option1votes: '0',
         option2votes: '0'
       },
@@ -90,7 +90,7 @@ export default {
     },
     voteGuess (_option) { // Option has to be 1 or 2
       // let self = this
-      GuessHelper.voteGuess(self.guessIndex, _option).then(() => {
+      GuessHelper.voteGuess(this.guessIndex, _option).then(() => {
         console.log('Transaction pending...')
         // TODO: Show alert of voting
         // self.guessCreatedAlert = true

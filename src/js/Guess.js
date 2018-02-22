@@ -153,6 +153,8 @@ const GuessHelper = {
 
   voteGuess: function (_guessIndex, _option) { // Option has to be between 1 and 2
     let self = this
+    console.log(_guessIndex)
+    console.log(_option)
 
     return new Promise((resolve, reject) => {
       self.instance.voteGuess(
