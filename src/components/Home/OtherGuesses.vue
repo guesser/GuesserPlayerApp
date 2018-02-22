@@ -14,8 +14,8 @@
           <br>
           To: <b>{{guess.finishingDay}}</b>
           </p>
-          <b-button @click="voteGuess(1)" variant="outline-pink" size="sm">{{guess.option1}}</b-button>
-          <b-button @click="voteGuess(2)" variant="outline-magenta" size="sm">{{guess.option2}}</b-button>
+          <b-button @click="voteGuess(guess.id, 1)" variant="outline-pink" size="sm">{{guess.option1}}</b-button>
+          <b-button @click="voteGuess(guess.id, 2)" variant="outline-magenta" size="sm">{{guess.option2}}</b-button>
 
         </b-card>
       </div>
@@ -48,6 +48,7 @@ export default {
             let month1 = parseInt(guess[5].getMonth()) + 1
             let month2 = parseInt(guess[6].getMonth()) + 1
             this.guesses.push({
+              'id': _index,
               'title': guess[0],
               'description': guess[1],
               'topic': guess[2],
@@ -87,6 +88,26 @@ export default {
         self.printGuesses()
       }).catch(err => {
         console.log(err)
+      })
+    },
+    voteGuess (_index, _option) { // Option has to be 1 or 2
+      // let self = this
+      GuessHelper.voteGuess(_index, _option).then(() => {
+        console.log('Transaction pending...')
+        // TODO: Show alert of voting
+        // self.guessCreatedAlert = true
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    getOptions () {
+      let self = this
+
+      GuessHelper.getGuessOptions(this.guessIndex).then((guessOptions) => {
+        self.guess.option1 = guessOptions[0]
+        self.guess.option2 = guessOptions[1]
+        self.guess.option1votes = guessOptions[2].c[0]
+        self.guess.option2votes = guessOptions[3].c[0]
       })
     }
   },
