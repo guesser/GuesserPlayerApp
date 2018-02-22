@@ -270,7 +270,7 @@ contract Guess is DateTime{
     // Is the option valid?
     require(_option == 1 || _option == 2);
     // Is the date due?
-    require(dateDue(guesses[_guess].finalDate) == true);
+    require(dateDue(guesses[_guess].finalDate) == false);
     // Enough validations
     uint256 validations = guesses[_guess].option1Validation + guesses[_guess].option2Validation;
     // uint256 votes = guesses[_guess].option1Votes + guesses[_guess].option2Votes;
@@ -374,6 +374,24 @@ contract Guess is DateTime{
     }
 
     return _profits;
+  }
+
+  /* @dev Function that returns a list of Guesses to validate
+   * @param _index uint256 Index of the list, If you want the 10 last or the second 10 last Guesses
+   * @return uint256[10] a list with the guesses to validate
+   */
+  function getGuessesToValidate (uint256 _index) public view returns (uint256[10]) {
+    require(_index > 0);
+
+    uint256[10] memory _validationGuesses;
+    for(uint256 _guessIndex=guesses[_guess].length; _guessIndex > 0; _guessIndex++) {
+      if (dateDue(guesses[_guessIndex].finalDate) == true) {
+        _validationGuesses.push(_guessIndex);
+        if (_validationGuesses.length == 10) {
+          return _validationGuesses;
+        }
+      }
+    }
   }
 
   /****** Private functions ******/
