@@ -382,16 +382,20 @@ contract Guess is DateTime{
    */
   function getGuessesToValidate (uint256 _index) public view returns (uint256[10]) {
     require(_index > 0);
+    require(guesses.length > 0);
 
+    // Check the range is inside the length
+    uint8 _guessNumber = 0;
     uint256[10] memory _validationGuesses;
-    for(uint256 _guessIndex=guesses[_guess].length; _guessIndex > 0; _guessIndex++) {
-      if (dateDue(guesses[_guessIndex].finalDate) == true) {
-        _validationGuesses.push(_guessIndex);
-        if (_validationGuesses.length == 10) {
-          return _validationGuesses;
-        }
+    uint256 i = guesses.length - (_index * 10) -1;
+    while(_guessNumber<10 && i >= 0) {
+      if(dateDue(guesses[i].finalDate) == true) {
+        _validationGuesses[_guessNumber] = i;
+        _guessNumber++;
       }
+      i++;
     }
+    return _validationGuesses;
   }
 
   /****** Private functions ******/
