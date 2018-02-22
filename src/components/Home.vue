@@ -4,7 +4,7 @@
       <TopicList @topic-updated="updateTopic"/>
     </div>
     <div class='guesses'>
-      <h2>The {{topic}} guess of the day!</h2>
+      <h2>The <b><i>{{topic}}</i></b> guess of the day!</h2>
       <GuessOfTheDay :topic="topic"/>
       <br>
       <h2>Other cool guesses:</h2>

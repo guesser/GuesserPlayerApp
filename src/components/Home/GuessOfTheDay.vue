@@ -7,7 +7,6 @@
           header-text-variant="white"
           class="text-center">
     <p class="card-text">
-    {{ guess.option1votes }}
     {{guess.description}}
     <br>
     {{guess.startingDay}} - {{guess.finishingDay}}
