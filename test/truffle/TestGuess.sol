@@ -10,7 +10,7 @@ contract TestGuess {
   function testGetZeroGuess() public {
     guessObject = new Guess();
     uint256 length = guessObject.getGuessesLength();
-    Assert.equal(length, 0, "Number of guesses is not 0.");
+    Assert.equal(length, 1, "Number of guesses is not 0.");
   }
 
   function testSetGuess() public {
@@ -29,48 +29,48 @@ contract TestGuess {
     guessObject.setGuess(_t, _d, _tc2, _fd, _o1, _o2);
     guessObject.setGuess(_t, _d, _tc, _fd, _o1, _o2);
     uint256 length = guessObject.getGuessesLength();
-    Assert.equal(length, 3, "Number of guesses is not 3");
+    Assert.equal(length, 4, "Number of guesses is not 3");
   }
 
   function testGetGuess() public {
-    var (_t, _d, _to, _c, _v, _firD, _finD) = guessObject.getGuess(0);
+    var (_t, _d, _to, _c, _v, _firD, _finD) = guessObject.getGuess(1);
     Assert.equal(_t, "hola", "The first item is not hola");
   }
 
   function testGetGuessOptions() public {
-    var (_1, _2, _1V, _2V, _1Val, _2Val) = guessObject.getGuessOptions(0);
+    var (_1, _2, _1V, _2V, _1Val, _2Val) = guessObject.getGuessOptions(1);
     Assert.equal(_1, "yes", "The option is not 'yes'");
   }
 
   function testGetGuessOfTheDay() public {
     bytes32 _topic = "Crypto";
     uint256 _topGuess = guessObject.getTodayGuess(_topic);
-    Assert.equal(_topGuess, 0, "The day is not the correct");
+    Assert.equal(_topGuess, 1, "The day is not the correct");
   }
 
   function testGetGuessOfTheDayUnique() public {
     bytes32 _topic = "Random";
     uint256 _topGuess = guessObject.getTodayGuess(_topic);
-    Assert.equal(_topGuess, 1, "The day is not the correct");
+    Assert.equal(_topGuess, 2, "The day is not the correct");
   }
 
   function testGetGuessesOfTheDay() public {
     bytes32 _topic = "Crypto";
     uint256[10] memory _topGuess = guessObject.getTodayGuesses(0, _topic);
-    Assert.equal(_topGuess[0], 0, "The guess is not the correct");
-    Assert.equal(_topGuess[1], 2, "The guess is not the correct");
+    Assert.equal(_topGuess[0], 1, "The guess is not the correct");
+    Assert.equal(_topGuess[1], 3, "The guess is not the correct");
   }
 
   function testVoteGuess() public {
-    guessObject.voteGuess(2, 1);
-    var (_1, _2, _1V, _2V, _1Val, _2Val) = guessObject.getGuessOptions(2);
+    guessObject.voteGuess(3, 1);
+    var (_1, _2, _1V, _2V, _1Val, _2Val) = guessObject.getGuessOptions(3);
     Assert.equal(_1V, 1, "The number of votes is not correct");
   }
 
   function testGetGuessOfTheDayUniqueAfterVote() public {
     bytes32 _topic = "Crypto";
     uint256 _topGuess = guessObject.getTodayGuess(_topic);
-    Assert.equal(_topGuess, 2, "The day is not the correct");
+    Assert.equal(_topGuess, 3, "The day is not the correct");
   }
 
 }

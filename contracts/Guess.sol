@@ -270,7 +270,11 @@ contract Guess is DateTime{
     // Is the option valid?
     require(_option == 1 || _option == 2);
     // Is the date due?
-    require(dateDue(guesses[_guess].finalDate) == true);
+    require(dateDue(guesses[_guess].finalDate) == false);
+    // Enough validations
+    uint256 validations = guesses[_guess].option1Validation + guesses[_guess].option2Validation;
+    // uint256 votes = guesses[_guess].option1Votes + guesses[_guess].option2Votes;
+    require(validations < 3); // TODO: Forced to 3
 
     guesses[_guess].validatorsOption[msg.sender] = _option;
     guesses[_guess].validators.push(msg.sender);
@@ -280,6 +284,10 @@ contract Guess is DateTime{
       guesses[_guess].option2Validation++;
     }
     GuessValidated(_guess, _option, msg.sender);
+
+    // if(validations == votes*0.51) {
+      // TODO: Write the return of the money
+    // }
   }
 
   /**
@@ -368,6 +376,28 @@ contract Guess is DateTime{
     return _profits;
   }
 
+  /* @dev Function that returns a list of Guesses to validate
+   * @param _index uint256 Index of the list, If you want the 10 last or the second 10 last Guesses
+   * @return uint256[10] a list with the guesses to validate
+   */
+  function getGuessesToValidate (uint256 _index) public view returns (uint256[10]) {
+    require(_index > 0);
+    require(guesses.length > 0);
+
+    // Check the range is inside the length
+    uint8 _guessNumber = 0;
+    uint256[10] memory _validationGuesses;
+    uint256 i = guesses.length - (_index * 10) -1;
+    while(_guessNumber<10 && i >= 0) {
+      if(dateDue(guesses[i].finalDate) == true) {
+        _validationGuesses[_guessNumber] = i;
+        _guessNumber++;
+      }
+      i++;
+    }
+    return _validationGuesses;
+  }
+
   /****** Private functions ******/
 
   /* @dev Function that tells you if a date is due
@@ -404,5 +434,14 @@ contract Guess is DateTime{
     } else {
       return true;
     }
+  }
+
+  function percent(uint numerator, uint denominator, uint precision) public pure returns(uint quotient) {
+
+    // TODO: caution, check safe-to-multiply here
+    uint _numerator  = numerator * 10 ** (precision+1);
+    // with rounding of last digit
+    uint _quotient =  ((_numerator / denominator) + 5) / 10;
+    return ( _quotient);
   }
 }

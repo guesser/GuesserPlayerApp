@@ -9,7 +9,11 @@
                                     :header-border-variant="topic"
                                     header-text-variant="black"
                                     align="center">
-          <p class="card-text">{{ guess.description }}</p>
+          <p class="card-text">
+          From: <b>{{guess.startingDay}}</b>
+          <br>
+          To: <b>{{guess.finishingDay}}</b>
+          </p>
         </b-card>
       </div>
       <!--TODO: Make this more beautiful-->
@@ -39,13 +43,15 @@ export default {
           this.totalGuesses += 1
           GuessHelper.getGuessFront(_index).then((guess) => {
             console.log(guess)
+            let month1 = parseInt(guess[5].getMonth()) + 1
+            let month2 = parseInt(guess[6].getMonth()) + 1
             this.guesses.push({
               'title': guess[0],
               'description': guess[1],
               'topic': guess[2],
-              'votes': guess[3],
-              'startingDay': guess[4],
-              'finishingDay': guess[5]
+              'votes': guess[4],
+              'startingDay': guess[5].getUTCDate() + '-' + month1 + '-' + guess[6].getFullYear(),
+              'finishingDay': guess[6].getUTCDate() + '-' + month2 + '-' + guess[5].getFullYear()
             })
           }).catch(err => {
             console.log(err)

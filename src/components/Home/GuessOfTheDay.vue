@@ -64,13 +64,16 @@ export default {
 
       GuessHelper.getGuessFront(this.guessIndex).then((guessDay) => {
         console.log(guessDay)
+
+        let month1 = parseInt(guessDay[5].getMonth()) + 1
+        let month2 = parseInt(guessDay[6].getMonth()) + 1
         self.guess.title = guessDay[0]
         self.guess.description = guessDay[1]
         self.guess.topic = guessDay[2]
         self.guess.votes = guessDay[4]
-        let _startingDay = guessDay[5].getDate() + '-' + guessDay[5].getMonth() + 1 + '-' + guessDay[5].getFullYear()
+        let _startingDay = guessDay[5].getDate() + '-' + month1 + '-' + guessDay[5].getFullYear()
         self.guess.startingDay = _startingDay
-        self.guess.finishingDay = guessDay[6].getDate() + '-' + guessDay[6].getMonth() + 1 + '-' + guessDay[6].getFullYear()
+        self.guess.finishingDay = guessDay[6].getDate() + '-' + month2 + '-' + guessDay[6].getFullYear()
       }).catch(err => {
         console.log(err)
       })
@@ -86,7 +89,7 @@ export default {
       })
     },
     voteGuess (_option) { // Option has to be 1 or 2
-      let self = this
+      // let self = this
       GuessHelper.voteGuess(self.guessIndex, _option).then(() => {
         console.log('Transaction pending...')
         // TODO: Show alert of voting
