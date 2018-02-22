@@ -381,19 +381,18 @@ contract Guess is DateTime{
    * @return uint256[10] a list with the guesses to validate
    */
   function getGuessesToValidate (uint256 _index) public view returns (uint256[10]) {
-    require(_index > 0);
-    require(guesses.length > 0);
+    require(guesses.length > 1);
 
     // Check the range is inside the length
     uint8 _guessNumber = 0;
     uint256[10] memory _validationGuesses;
-    uint256 i = guesses.length - (_index * 10) -1;
-    while(_guessNumber<10 && i >= 0) {
+    uint256 i = guesses.length - (_index * 10) - 1;
+    while(_guessNumber<11 && i>0) {
       if(dateDue(guesses[i].finalDate) == true) {
         _validationGuesses[_guessNumber] = i;
         _guessNumber++;
       }
-      i++;
+      i--;
     }
     return _validationGuesses;
   }

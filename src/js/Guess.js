@@ -183,6 +183,21 @@ const GuessHelper = {
         reject(err)
       })
     })
+  },
+
+  getGuessesToValidate: function (_index) {
+    let self = this
+
+    return new Promise((resolve, reject) => {
+      self.instance.getGuessesToValidate.call(
+        _index,
+        {from: self.address}
+      ).then(_guessesIndex => {
+        resolve(_guessesIndex)
+      }).catch(err => {
+        reject(err)
+      })
+    })
   }
 }
 

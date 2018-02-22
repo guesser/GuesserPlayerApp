@@ -35,98 +35,83 @@ export default {
     }
   },
   methods: {
-    getGuessOptions (_index) {
-      let self = this
-
-      GuessHelper.getGuessOptions(_index).then((_guess) => {
-        self.guesses[_index].option1 = _guess[0]
-        self.guesses[_index].option2 = _guess[1]
-        console.log('GuessOptions taken')
-      }).catch(err => {
-        console.log(err)
-      })
-    },
-
-    getGuessData (_index) {
-      let self = this
-
-      GuessHelper.getGuessFront(_index).then((guess) => {
-        console.log(guess)
-        let _startingDay = guess[5].getDate() + '-' + guess[5].getMonth() + 1 + '-' + guess[5].getFullYear()
-        let _finishingDay = guess[6].getDate() + '-' + guess[6].getMonth() + 1 + '-' + guess[6].getFullYear()
-        self.guesses[_index].title = guess[0]
-        self.guesses[_index].description = guess[1]
-        self.guesses[_index].topic = guess[2]
-        self.guesses[_index].startingDay = _startingDay
-        self.guesses[_index].finishingDay = _finishingDay
-        console.log('GuessData taken')
-      }).catch(err => {
-        console.log(err)
-      })
-    },
-
-    initGuesses () {
-      let self = this
-
-      return new Promise((resolve, reject) => {
-        for (var i = 0; i < self.totalguesses; i++) {
-          self.guesses.push({
-            'title': 'Probando, probando',
-            'description': '',
-            'topic': 'Crypto',
-            'startingDay': '',
-            'finishingDay': '',
-            'option1': '',
-            'option2': '',
-            'option1Validation': '',
-            'option2Validation': ''
-          })
-          resolve()
-        }
-      })
-    },
-
     printGuesses () {
-      let self = this
-
-      this.guesses = [] // Clean the array
-      this.initGuesses().then(() => {
-        for (var _index = 0; _index < self.totalguesses; _index++) {
-          this.getGuessData(_index)
-          this.getGuessOptions(_index)
+      for (var i = 0; i < 10; i++) {
+        let _index = this.guessesByNumber[i].c[0]
+        console.log(i, _index)
+        if (_index !== 0) { // Guess 0 is the empty one
+          GuessHelper.getGuessFront(_index).then((guess) => {
+            console.log(guess)
+            let month1 = parseInt(guess[5].getMonth()) + 1
+            let month2 = parseInt(guess[6].getMonth()) + 1
+            this.guesses.push({
+              'id': _index,
+              'title': guess[0],
+              'description': guess[1],
+              'topic': guess[2],
+              'votes': guess[4],
+              'startingDay': guess[5].getUTCDate() + '-' + month1 + '-' + guess[6].getFullYear(),
+              'finishingDay': guess[6].getUTCDate() + '-' + month2 + '-' + guess[5].getFullYear(),
+              'option1': 'Loading...',
+              'option2': 'Loading...'
+            })
+          }).then(() => {
+            this.totalGuesses += 1
+            this.printGuessesOptions(_index, this.totalGuesses - 1)
+          }).catch(err => {
+            console.log(err)
+          })
         }
+      }
+    },
+
+    printGuessesOptions (_index, _localIndex) {
+      let self = this
+      GuessHelper.getGuessOptions(_index).then((guess) => {
+        self.guesses[_localIndex].option1 = guess[0]
+        self.guesses[_localIndex].option2 = guess[1]
       }).catch(err => {
         console.log(err)
       })
     },
 
-    getGuesses () {
+    getGuessesToValidate () {
       let self = this
 
-      GuessHelper.getGuessesNumber().then((_guessesnumber) => {
-        self.totalguesses = _guessesnumber.c[0]
+      this.guesses = [] // Clean the array of showed Guesses
+      GuessHelper.getGuessesToValidate(0).then((_guesses) => {
+        console.log(_guesses)
+        self.guessesByNumber = _guesses
         self.printGuesses()
       }).catch(err => {
         console.log(err)
       })
     },
-
-    validateGuess (_guessid, _option) {
-      let self = this
-
-      GuessHelper.validateGuess(self.guessIndex, _option).then(() => {
-        console.log('Transaction pendding...')
-        // TODO: Show validation confirmation
+    voteGuess (_index, _option) { // Option has to be 1 or 2
+      // let self = this
+      GuessHelper.voteGuess(_index, _option).then(() => {
+        console.log('Transaction pending...')
+        // TODO: Show alert of voting
+        // self.guessCreatedAlert = true
       }).catch(err => {
         console.log(err)
+      })
+    },
+    getOptions () {
+      let self = this
+
+      GuessHelper.getGuessOptions(this.guessIndex).then((guessOptions) => {
+        self.guess.option1 = guessOptions[0]
+        self.guess.option2 = guessOptions[1]
+        self.guess.option1votes = guessOptions[2].c[0]
+        self.guess.option2votes = guessOptions[3].c[0]
       })
     }
   },
 
   created: function () {
     GuessHelper.init().then(() => {
-      this.totalguesses = 0
-      this.getGuesses()
+      this.getGuessesToValidate()
     }).catch(err => {
       console.log(err)
     })
