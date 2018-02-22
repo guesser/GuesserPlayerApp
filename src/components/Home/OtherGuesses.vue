@@ -2,7 +2,7 @@
   <div>
     <b-card-group deck class="mb-3">
       <div style="margin-bottom: 1.5rem;" v-for='guess in guesses'>
-        <b-card 
+        <b-card
                                     style="width: 20rem; height: 100%;"
                                     :border-variant="topic"
                                     :header="guess.title"
@@ -14,6 +14,9 @@
           <br>
           To: <b>{{guess.finishingDay}}</b>
           </p>
+          <b-button @click="voteGuess(1)" variant="outline-pink" size="sm">{{guess.option1}}</b-button>
+          <b-button @click="voteGuess(2)" variant="outline-magenta" size="sm">{{guess.option2}}</b-button>
+
         </b-card>
       </div>
       <!--TODO: Make this more beautiful-->
@@ -40,7 +43,6 @@ export default {
       for (var i = 0; i < 10; i++) {
         let _index = this.guessesByNumber[i].c[0]
         if (_index !== 0) { // Guess 0 is the empty one
-          this.totalGuesses += 1
           GuessHelper.getGuessFront(_index).then((guess) => {
             console.log(guess)
             let month1 = parseInt(guess[5].getMonth()) + 1
@@ -51,13 +53,30 @@ export default {
               'topic': guess[2],
               'votes': guess[4],
               'startingDay': guess[5].getUTCDate() + '-' + month1 + '-' + guess[6].getFullYear(),
-              'finishingDay': guess[6].getUTCDate() + '-' + month2 + '-' + guess[5].getFullYear()
+              'finishingDay': guess[6].getUTCDate() + '-' + month2 + '-' + guess[5].getFullYear(),
+              'option1': 'Loading...',
+              'option2': 'Loading...'
             })
+          }).then(() => {
+            this.totalGuesses += 1
+            console.log(this.totalGuesses - 1)
+            this.printGuessesOptions(_index, this.totalGuesses - 1)
           }).catch(err => {
             console.log(err)
           })
         }
       }
+    },
+
+    printGuessesOptions (_index, _localIndex) {
+      let self = this
+      GuessHelper.getGuessOptions(_index).then((guess) => {
+        console.log(_localIndex)
+        self.guesses[_localIndex].option1 = guess[0]
+        self.guesses[_localIndex].option2 = guess[1]
+      }).catch(err => {
+        console.log(err)
+      })
     },
 
     getGuessesOfTheDay () {
