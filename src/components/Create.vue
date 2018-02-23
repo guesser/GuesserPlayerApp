@@ -61,15 +61,17 @@
                  placeholder="Option2"/>
         </b-form>
         <div>
+          <br>
+          <span>End date: {{form.date}}</span>
           <V<VueSlideBar
                  v-model="hourValue"
                  :min="1"
                  :max="168"
                  :processStyle="slider.processStyle"
                  :lineHeight="slider.lineHeight"
-                 :tooltipStyles="{ backgroundColor: 'primary', borderColor: 'primary' }">
+                 :tooltipStyles="{ backgroundColor: '#ff0d73', borderColor: '#ff0d73',
+                 color: '#ff0d73'}">
           </VueSlideBar>
-          <h6>End date: {{form.date}}</h6>
         </div>
         <br>
 
@@ -96,11 +98,11 @@ export default {
         option1: '',
         option2: ''
       },
-      hourValue: 0,
+      hourValue: 1,
       slider: {
         lineHeight: 10,
         processStyle: {
-          backgroundColor: 'primary'
+          backgroundColor: '#ff0d73'
         }
       }
     }
@@ -111,18 +113,12 @@ export default {
 
       var startTime = self.$moment()
       self.form.date = startTime.add(hour, 'hours').format('dddd, D [at] hA')
-      console.log(self.form.date)
     },
     onSubmit (evt) {
       evt.preventDefault()
 
       let self = this
-      // let dateYear = self.form.date.substring(0, 4)
-      // let dateMonth = self.form.date.substring(5, 7)
-      // let dateDay = self.form.date.substring(8, 10)
-      // let date = (new Date(dateYear, parseInt(dateMonth) - 1, parseInt(dateDay) + 1)).getTime()
       let finalDate = self.$moment().add(self.hourValue, 'hours').unix()
-      console.log(finalDate)
       GuessHelper.setGuessFront(
         this.form.title,
         this.form.description,
