@@ -60,10 +60,17 @@
                  v-model='form.option2'
                  placeholder="Option2"/>
         </b-form>
-
-        <br>
-        <input type="date" v-model='form.date'>
-        <br>
+        <div>
+          <V<VueSlideBar
+                 v-model="hourValue"
+                 :min="1"
+                 :max="168"
+                 :processStyle="slider.processStyle"
+                 :lineHeight="slider.lineHeight"
+                 :tooltipStyles="{ backgroundColor: 'primary', borderColor: 'primary' }">
+          </VueSlideBar>
+          <h6>End date: {{form.date}}</h6>
+        </div>
         <br>
 
         <b-button type="submit" variant="primary">Create</b-button>
@@ -73,6 +80,7 @@
 
 <script>
 import GuessHelper from '@/js/Guess'
+import VueSlideBar from 'vue-slide-bar'
 
 export default {
   name: 'Create',
@@ -87,21 +95,33 @@ export default {
         date: null,
         option1: '',
         option2: ''
+      },
+      hourValue: 0,
+      slider: {
+        lineHeight: 10,
+        processStyle: {
+          backgroundColor: 'primary'
+        }
       }
     }
   },
   methods: {
+    updateDate (hour) {
+      let self = this
+
+      var startTime = self.$moment()
+      self.form.date = startTime.add(hour, 'hours').format('dddd, D [at] hA')
+      console.log(self.form.date)
+    },
     onSubmit (evt) {
       evt.preventDefault()
 
       let self = this
-      let dateYear = self.form.date.substring(0, 4)
-      let dateMonth = self.form.date.substring(5, 7)
-      let dateDay = self.form.date.substring(8, 10)
-      let date = (new Date(dateYear, parseInt(dateMonth) - 1, parseInt(dateDay) + 1)).getTime()
-      let finalDate = date / 1000
-      console.log(dateYear + '/' + dateMonth + '/' + dateDay)
-      console.log(new Date(dateYear, parseInt(dateMonth) - 1, dateDay).getMonth())
+      // let dateYear = self.form.date.substring(0, 4)
+      // let dateMonth = self.form.date.substring(5, 7)
+      // let dateDay = self.form.date.substring(8, 10)
+      // let date = (new Date(dateYear, parseInt(dateMonth) - 1, parseInt(dateDay) + 1)).getTime()
+      let finalDate = self.$moment().add(self.hourValue, 'hours').unix()
       console.log(finalDate)
       GuessHelper.setGuessFront(
         this.form.title,
@@ -121,6 +141,14 @@ export default {
     GuessHelper.init().catch(err => {
       console.log(err)
     })
+  },
+  watch: {
+    hourValue: function (hourValue) {
+      this.updateDate(hourValue)
+    }
+  },
+  components: {
+    VueSlideBar
   }
 }
 </script>
