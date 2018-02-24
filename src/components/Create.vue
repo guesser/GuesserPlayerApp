@@ -1,5 +1,5 @@
 <template>
-  <div class="justify-content-md-center little-margin" style="margin: 5% 20%">
+  <div class="justify-content-md-center litle-margin">
     <!--Alert-->
     <b-alert variant="success"
              dismissible
@@ -158,6 +158,7 @@ export default {
   margin-right: 2% !important;
 }
 .litle-margin{
-  max-width: 500px;
+  margin: 5% 10%;
+  max-width: 800px;
 }
 </style>
