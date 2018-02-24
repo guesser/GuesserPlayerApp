@@ -48,7 +48,11 @@
     </div>
 
  <!-- Modal Payment -->
-  <b-modal ref="paymentModal" title="Choose amount">
+  <b-modal ref="paymentModal"
+           centered
+           title="Choose amount"
+           hide-footer
+           :header-bg-variant="topic">
     <b-form-group id="titleGroup"
                     label="Ether amount to send:"
                     label-for="amountInput">
@@ -59,7 +63,7 @@
         </b-form-input>
       </b-form-group>
 
-    <b-button @click="voteGuess()" :variant="topic" size="sm">Vote</b-button>
+    <b-button @click="voteGuess()" variant="primary" size="sm">Vote</b-button>
   </b-modal>
     </div>
 </template>
