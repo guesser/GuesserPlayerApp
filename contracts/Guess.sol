@@ -146,14 +146,14 @@ contract Guess is DateTime{
   * its votes and validations.
     * @param _index uint256 represents the index of the stored Guess in the
   * global array.
-    * @return bytes32 The first option to vote on the Guess
+  * @return bytes32 The first option to vote on the Guess
   * @return bytes32 The second option to vote on the Guess
   * @return uint256 The votes of the first option in the Guess
   * @return uint256 The votes of the second option in the Guess
   * @return uint256 The number of validations for the first option
-    * @return uint256 The number of validations for the second option
-      */
-  function getGuessOptions(uint256 _index) public view returns (bytes32, bytes32, uint256, uint256,uint256, uint256) {
+  * @return uint256 The number of validations for the second option
+  */
+  function getGuessOptions (uint256 _index) public view returns (bytes32, bytes32, uint256, uint256,uint256, uint256) {
     return (
       guesses[_index].option1,
       guesses[_index].option2,
@@ -161,6 +161,18 @@ contract Guess is DateTime{
       guesses[_index].option2Votes,
       guesses[_index].option1Validation,
       guesses[_index].option2Validation
+    );
+  }
+
+  /* @dev Function that returns the eth in each option of a guess
+   * @param _index uint256 the index of the guess you want to know about
+   * @return uint256 the amount of eth in the first option
+   * @return uint256 the amount of eth in the second option
+  */
+  function getGuessOptionsProfits (uint256 _index) public view returns (uint256, uint256) {
+    return (
+      getGuessProfitsByOption(_index, 1),
+      getGuessProfitsByOption(_index, 2)
     );
   }
 

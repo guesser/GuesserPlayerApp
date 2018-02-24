@@ -11,7 +11,8 @@
     <br>
     {{guess.startingDay}} - {{guess.finishingDay}}
     </p>
-    <!--Progress Bar-->
+    <!--Number of people Progress Bar-->
+    <span>Number of votes in each option: </span>
     <b-progress class="mt-1" :max="10*(guess.votes/10)" show-value striped>
       <b-progress-bar :value="10*(guess.option1votes/10)" variant="pink">
         {{guess.option1}} - {{ guess.option1votes }}
@@ -20,7 +21,23 @@
         {{guess.option2}} - {{ guess.option2votes }}
       </b-progress-bar>
     </b-progress>
+    <small>Total: {{guess.votes}}</small>
 
+    <!--Amount of eth in each option-->
+    <br>
+    <br>
+    <span>Eth amout in each option: </span>
+    <b-progress class="mt-1" :max="10*(guess.amountEth/10)" show-value striped>
+      <b-progress-bar :value="10*(guess.option1AmountEth/10)" variant="pink">
+        {{guess.option1}} - {{ guess.option1AmountEth }}
+      </b-progress-bar>
+      <b-progress-bar :value="10*(guess.option2AmountEth/10)" variant="magenta">
+        {{guess.option2}} - {{ guess.option2AmountEth }}
+      </b-progress-bar>
+    </b-progress>
+    <small>Total: {{guess.amountEth}}</small>
+
+    <br>
     <br>
     <b-button @click="voteGuess(1)" variant="outline-pink" size="sm">{{guess.option1}}</b-button>
     <b-button @click="voteGuess(2)" variant="outline-magenta" size="sm">{{guess.option2}}</b-button>
@@ -40,7 +57,6 @@ export default {
   props: ['topic'],
   data () {
     return {
-      max: 100,
       guess: {
         id: '0',
         title: 'Loading...',
@@ -53,7 +69,10 @@ export default {
         option1: 'Loading...',
         option2: 'Loading...',
         option1votes: '0',
-        option2votes: '0'
+        option2votes: '0',
+        option1AmountEth: '0',
+        option2AmountEth: '0',
+        amountEth: 0
       },
       guessIndex: null
     }
@@ -84,6 +103,7 @@ export default {
         self.guessIndex = guessNumber.c[0]
         self.getGuess()
         self.getOptions()
+        // self.getOptionsProfits()
       }).catch(err => {
         console.error(err)
       })
@@ -106,9 +126,20 @@ export default {
         self.guess.option2 = guessOptions[1]
         self.guess.option1votes = guessOptions[2].c[0]
         self.guess.option2votes = guessOptions[3].c[0]
+        console.log(guessOptions[3].c[0])
+      })
+    },
+    getOptionsProfits () {
+      let self = this
+
+      GuessHelper.getGuessOptionsProfits(this.guessIndex).then((optionsAmount) => {
+        self.guess.option1AmountEth = optionsAmount[0].c[0]
+        self.guess.option2AmountEth = optionsAmount[1].c[0]
+        self.guess.amountEth = optionsAmount[0].c[0] + optionsAmount[1].c[0]
       })
     }
   },
+
   created: function () {
     let self = this
 

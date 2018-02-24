@@ -73,8 +73,8 @@ const GuessHelper = {
           window.web3.utils.hexToUtf8(guess[0]), // title
           guess[1], // description
           window.web3.utils.hexToUtf8(guess[2]), // topic
-          guess[3].c, // creator
-          guess[4].c, // votes it has
+          guess[3], // creator
+          guess[4].c[0], // votes it has
           new Date(guess[5].c[0] * 1000), // the day it started
           new Date(guess[6].c[0] * 1000) // the final date
         ])
@@ -99,6 +99,24 @@ const GuessHelper = {
           guess[3], // option2Votes
           guess[4], // option1Validation
           guess[5] // option2Validation
+        ])
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  },
+
+  getGuessOptionsProfits: function (index) {
+    let self = this
+
+    return new Promise((resolve, reject) => {
+      self.instance.getGuessOptionsProfits.call(
+        index,
+        {from: self.address}
+      ).then(guess => {
+        resolve([
+          guess[0], // amount of eth in the 1 option
+          guess[1] // amount of eth in the 2 option
         ])
       }).catch(err => {
         reject(err)
