@@ -115,8 +115,8 @@ const GuessHelper = {
         {from: self.address}
       ).then(guess => {
         resolve([
-          guess[0], // amount of eth in the 1 option
-          guess[1] // amount of eth in the 2 option
+          window.web3.utils.fromWei(guess[0].c[0].toString(), 'Kwei'), // amount of eth in the 1 option
+          window.web3.utils.fromWei(guess[1].c[0].toString(), 'Kwei') // amount of eth in the 2 option
         ])
       }).catch(err => {
         reject(err)

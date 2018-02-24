@@ -21,7 +21,7 @@
         {{guess.option2}} - {{ guess.option2votes }}
       </b-progress-bar>
     </b-progress>
-    <small>Total: {{guess.votes}}</small>
+    <small>Total: {{guess.votes}} people</small>
 
     <!--Amount of eth in each option-->
     <br>
@@ -35,7 +35,7 @@
         {{guess.option2}} - {{ guess.option2AmountEth }}
       </b-progress-bar>
     </b-progress>
-    <small>Total: {{guess.amountEth}}</small>
+    <small>Total: {{guess.amountEth}} ether</small>
 
     <br>
     <br>
@@ -124,7 +124,7 @@ export default {
         self.guessIndex = guessNumber.c[0]
         self.getGuess()
         self.getOptions()
-        // self.getOptionsProfits()
+        self.getOptionsProfits()
       }).catch(err => {
         console.error(err)
       })
@@ -148,16 +148,18 @@ export default {
         self.guess.option2 = guessOptions[1]
         self.guess.option1votes = guessOptions[2].c[0]
         self.guess.option2votes = guessOptions[3].c[0]
-        console.log(guessOptions[3].c[0])
       })
     },
     getOptionsProfits () {
       let self = this
 
       GuessHelper.getGuessOptionsProfits(this.guessIndex).then((optionsAmount) => {
-        self.guess.option1AmountEth = optionsAmount[0].c[0]
-        self.guess.option2AmountEth = optionsAmount[1].c[0]
-        self.guess.amountEth = optionsAmount[0].c[0] + optionsAmount[1].c[0]
+        self.guess.option1AmountEth = parseInt(optionsAmount[0]) / 10
+        self.guess.option2AmountEth = parseInt(optionsAmount[1]) / 10
+        self.guess.amountEth = parseInt(optionsAmount[0]) / 10 + parseInt(optionsAmount[1]) / 10
+        console.log(self.guess.option1AmountEth)
+        console.log(self.guess.option2AmountEth)
+        console.log(self.guess.amountEth)
       })
     }
   },

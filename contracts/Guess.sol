@@ -260,7 +260,8 @@ contract Guess is DateTime{
     // Is the date due?
     require(dateDue(guesses[_guess].finalDate) == false);
 
-    guesses[_guess].votersOption[msg.sender] = [_option, msg.value];
+    guesses[_guess].votersOption[msg.sender][0] = _option;
+    guesses[_guess].votersOption[msg.sender][1] = msg.value;
     guesses[_guess].voters.push(msg.sender);
     if (_option == 1) {
       guesses[_guess].option1Votes++;
@@ -345,7 +346,7 @@ contract Guess is DateTime{
   /* @dev Function that tells you the profits a Guess has
   * @dev Get the profits a guess has in its vault
   * @param _guess uint256 the event to ask for the profits of
-    * @return bool the profits the guess asked has
+  * @return bool the profits the guess asked has
   */
   function getGuessProfits (uint256 _guess) public view returns (uint256) {
     // Does the guess exists?
@@ -366,9 +367,10 @@ contract Guess is DateTime{
   /* @dev Function that tells you the profits of an option in a guess
   * @dev Get the profits a guess has in its vault
   * @param _guess uint256 the event to ask for the profits of
+  * @param _option uint256 the option you want to check
     * @return bool the profits the guess asked has
   */
-  function getGuessProfitsByOption (uint256 _guess, uint8 _option) public view returns (uint256) {
+  function getGuessProfitsByOption (uint256 _guess, uint256 _option) public view returns (uint256) {
     // Does the guess exists?
     require(_guess <= guesses.length-1);
 
