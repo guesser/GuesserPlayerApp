@@ -1,5 +1,5 @@
 <template>
-  <div class="justify-content-md-center little-margin" style="margin:5%">
+  <div class="justify-content-md-center little-margin" style="margin: 5% 20%">
     <!--Alert-->
     <b-alert variant="success"
              dismissible
