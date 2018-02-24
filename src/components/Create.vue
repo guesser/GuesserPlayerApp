@@ -1,10 +1,10 @@
 <template>
-  <b-row class="justify-content-md-center little-margin">
+  <div class="justify-content-md-center little-margin" style="margin:5%">
     <!--Alert-->
     <b-alert variant="success"
              dismissible
              :show="guessCreatedAlert"
-             @dismissed="guessCreatedAlert=false">
+             @dismissed="showCreatedAlert=false">
       Guess being created!
     </b-alert>
 
@@ -77,7 +77,7 @@
 
         <b-button type="submit" variant="primary">Create</b-button>
       </b-form>
-    </b-row>
+    </div>
 </template>
 
 <script>
