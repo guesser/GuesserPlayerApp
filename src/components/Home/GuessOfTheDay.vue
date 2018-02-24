@@ -39,13 +39,28 @@
 
     <br>
     <br>
-    <b-button @click="voteGuess(1)" variant="outline-pink" size="sm">{{guess.option1}}</b-button>
-    <b-button @click="voteGuess(2)" variant="outline-magenta" size="sm">{{guess.option2}}</b-button>
+    <b-button @click="showPaymentModal(1)" variant="outline-pink" size="sm">{{guess.option1}}</b-button>
+    <b-button @click="showPaymentModal(2)" variant="outline-magenta" size="sm">{{guess.option2}}</b-button>
   </b-card>
     </div>
   <div v-else style="text-center">
-    HolaMundo
+    There are no Guesses... :'(
     </div>
+
+ <!-- Modal Payment -->
+  <b-modal ref="paymentModal" title="Choose amount">
+    <b-form-group id="titleGroup"
+                    label="Ether amount to send:"
+                    label-for="amountInput">
+        <b-form-input id="amountInput"
+                      type="number"
+                      v-model="ethAmountToVote"
+                      required>
+        </b-form-input>
+      </b-form-group>
+
+    <b-button @click="voteGuess()" :variant="topic" size="sm">Vote</b-button>
+  </b-modal>
     </div>
 </template>
 
@@ -74,10 +89,16 @@ export default {
         option2AmountEth: '0',
         amountEth: 0
       },
-      guessIndex: null
+      guessIndex: null,
+      optionVoted: null,
+      ethAmountToVote: 0
     }
   },
   methods: {
+    showPaymentModal (_optionVoted) {
+      this.optionVoted = _optionVoted
+      this.$refs.paymentModal.show()
+    },
     getGuess () {
       let self = this
 
@@ -108,9 +129,10 @@ export default {
         console.error(err)
       })
     },
-    voteGuess (_option) { // Option has to be 1 or 2
+    voteGuess () { // Option has to be 1 or 2
       // let self = this
-      GuessHelper.voteGuess(this.guessIndex, _option).then(() => {
+      this.$refs.paymentModal.hide()
+      GuessHelper.voteGuess(this.guessIndex, this.optionVoted, this.ethAmountToVote).then(() => {
         console.log('Transaction pending...')
         // TODO: Show alert of voting
         // self.guessCreatedAlert = true

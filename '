@@ -172,12 +172,11 @@ const GuessHelper = {
   voteGuess: function (_guessIndex, _option, ethAmount) { // Option has to be between 1 and 2
     let self = this
 
-    ethAmount = 10 * (ethAmount / 10)
     return new Promise((resolve, reject) => {
       self.instance.voteGuess(
         _guessIndex,
         _option,
-        {from: self.address[0], value: window.web3.utils.toWei(ethAmount.toString(), 'ether'), gas: 500000} // TODO: Gas forced
+        {from: self.address[0], value: window.web3.toWei(ethAmount, 'ether'), gas: 500000} // TODO: Gas forced
       ).then(() => {
         resolve()
       }).catch(err => {
