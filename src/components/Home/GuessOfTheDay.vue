@@ -48,10 +48,10 @@
     </div>
 
  <!-- Modal Payment -->
-  <b-modal ref="paymentModal" 
-           centered 
+  <b-modal ref="paymentModal"
+           centered
            title="Choose amount"
-           hide-footer=true
+           hide-footer
            :header-bg-variant="topic">
     <b-form-group id="titleGroup"
                     label="Ether amount to send:"

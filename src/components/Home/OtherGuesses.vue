@@ -14,14 +14,34 @@
           <br>
           To: <b>{{guess.finishingDay}}</b>
           </p>
-          <b-button @click="voteGuess(guess.id, 1)" variant="outline-pink" size="sm">{{guess.option1}}</b-button>
-          <b-button @click="voteGuess(guess.id, 2)" variant="outline-magenta" size="sm">{{guess.option2}}</b-button>
+          <b-button @click="showPaymentModal(guess.id, 1)" variant="outline-pink" size="sm">{{guess.option1}}</b-button>
+          <b-button @click="showPaymentModal(guess.id, 2)" variant="outline-magenta" size="sm">{{guess.option2}}</b-button>
 
         </b-card>
       </div>
       <!--TODO: Make this more beautiful-->
       <h4 v-if='totalGuesses == 0'>There are no Guesses over here!</h4>
     </b-card-group>
+
+<!-- Modal Payment -->
+  <b-modal ref="paymentModal"
+           centered
+           title="Choose amount"
+           hide-footer
+           :header-bg-variant="topic">
+    <b-form-group id="titleGroup"
+                    label="Ether amount to send:"
+                    label-for="amountInput">
+        <b-form-input id="amountInput"
+                      type="number"
+                      v-model="ethAmountToVote"
+                      required>
+        </b-form-input>
+      </b-form-group>
+
+    <b-button @click="voteGuess()" variant="primary" size="sm">Vote</b-button>
+  </b-modal>
+
   </div>
 </template>
 
@@ -35,10 +55,18 @@ export default {
     return {
       guesses: [],
       guessesByNumber: [],
-      totalGuesses: 0
+      totalGuesses: 0,
+      optionVoted: 0,
+      guessToVote: 0,
+      ethAmountToVote: 0
     }
   },
   methods: {
+    showPaymentModal (_guessId, _optionVoted) {
+      this.optionVoted = _optionVoted
+      this.guessToVote = _guessId
+      this.$refs.paymentModal.show()
+    },
     printGuesses () {
       for (var i = 0; i < 10; i++) {
         let _index = this.guessesByNumber[i].c[0]
@@ -90,9 +118,10 @@ export default {
         console.log(err)
       })
     },
-    voteGuess (_index, _option) { // Option has to be 1 or 2
+    voteGuess () { // Option has to be 1 or 2
       // let self = this
-      GuessHelper.voteGuess(_index, _option).then(() => {
+      this.$refs.paymentModal.hide()
+      GuessHelper.voteGuess(this.guessToVote, this.optionVoted, this.ethAmountToVote).then(() => {
         console.log('Transaction pending...')
         // TODO: Show alert of voting
         // self.guessCreatedAlert = true
