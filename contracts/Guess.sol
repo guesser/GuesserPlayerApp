@@ -229,12 +229,14 @@ contract Guess is DateTime{
 
     require(_guesses.length > 0 && _guesses.length > _index*10);
 
+    uint256 _todayGuess = getTodayGuess(_topic);
+
     // Check the range is inside the length
     uint8 _guessNumber = 0;
     uint256[10] memory _todayGuesses;
     uint256 i = _index * 10;
     while(_guessNumber<10 && i<_guesses.length) {
-      if(guesses[_guesses[i]].topic == _topic) {
+      if(guesses[_guesses[i]].topic == _topic && _guesses[i] != _todayGuess) {
         _todayGuesses[_guessNumber] = _guesses[i];
         _guessNumber++;
       }
