@@ -10,7 +10,7 @@
 
     <!--Form-->
     <b-form @submit="onSubmit">
-      <h2 style="margin-bottom: 2%;"> Create Guess </h2>
+      <h2 style="margin-bottom: 2%;"> Create an event </h2>
       <!--Title-->
       <b-form-group id="titleGroup"
                     label="Title:"
