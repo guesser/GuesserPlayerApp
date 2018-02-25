@@ -124,12 +124,12 @@ const GuessHelper = {
     })
   },
 
-  getGuessOfTheDay: function (_topic) {
+  getGuessOfTheDay: function (topic) {
     let self = this
 
     return new Promise((resolve, reject) => {
       self.instance.getTodayGuess.call(
-        window.web3.utils.toHex(_topic),
+        window.web3.utils.toHex(topic),
         {from: self.address}
       ).then(_guessIndex => {
         resolve(_guessIndex)
@@ -139,13 +139,14 @@ const GuessHelper = {
     })
   },
 
-  getGuessesOfTheDay: function (_index, _topic) {
+  getGuessesByDate: function (index, topic, date) {
     let self = this
 
     return new Promise((resolve, reject) => {
-      self.instance.getTodayGuesses.call(
-        _index,
-        window.web3.utils.toHex(_topic),
+      self.instance.getGuessesByDate.call(
+        index,
+        window.web3.utils.toHex(topic),
+        date,
         {from: self.address}
       ).then(_guessesIndex => {
         resolve(_guessesIndex)

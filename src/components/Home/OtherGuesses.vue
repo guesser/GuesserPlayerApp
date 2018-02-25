@@ -68,7 +68,8 @@ export default {
       this.$refs.paymentModal.show()
     },
     printGuesses () {
-      for (var i = 0; i < 10; i++) {
+      this.guesses = []
+      for (var i = 0; i < this.guessesByNumber.length; i++) {
         let _index = this.guessesByNumber[i].c[0]
         if (_index !== 0) { // Guess 0 is the empty one
           GuessHelper.getGuessFront(_index).then((guess) => {
@@ -106,17 +107,20 @@ export default {
       })
     },
 
-    getGuessesOfTheDay () {
+    // getGuessesOfTheDay () {
+    getGuessesByDate () {
       let self = this
 
-      this.guesses = [] // Clean the array of showed Guesses
-      GuessHelper.getGuessesOfTheDay(0, this.topic).then((_guesses) => {
-        console.log(_guesses)
-        self.guessesByNumber = _guesses
-        self.printGuesses()
-      }).catch(err => {
-        console.log(err)
-      })
+      for (let i = 0; i < 6; i++) {
+        GuessHelper.getGuessesByDate(0, this.topic, this.$moment().add(i, 'days').unix()).then((_guesses) => {
+          console.log(_guesses)
+          self.guessesByNumber = self.guessesByNumber.concat(_guesses)
+          console.log('To show: ', self.guessesByNumber)
+          self.printGuesses()
+        }).catch(err => {
+          console.log(err)
+        })
+      }
     },
     voteGuess () { // Option has to be 1 or 2
       // let self = this
@@ -143,7 +147,7 @@ export default {
 
   created: function () {
     GuessHelper.init().then(() => {
-      this.getGuessesOfTheDay()
+      this.getGuessesByDate()
     }).catch(err => {
       console.log(err)
     })
@@ -152,7 +156,9 @@ export default {
   watch: {
     topic: function () {
       this.totalGuesses = 0
-      this.getGuessesOfTheDay()
+      this.guessesByNumber = []
+      this.getGuessesByDate()
+      this.guesses = []
     }
   }
 }

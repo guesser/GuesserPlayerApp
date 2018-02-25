@@ -219,12 +219,14 @@ contract Guess is DateTime{
    * @dev Returns the guesses of a topic
    * @param _index uint256 the number of the index in the list of daily guesses. Goes from 10 to 10
    * @param _topic uint256 the genre of the guess we are looking for
+   * @param _date uint256 the date of the guesses we want
    * @return A uint256[10] the top guesses of the day
    */
-  function getTodayGuesses(uint256 _index, bytes32 _topic) public view returns(uint256[10]){
-    uint256 _year = DateTime.getYear(now) * 10000;
-    uint256 _month = DateTime.getMonth(now) * 100;
-    uint256 _day = DateTime.getDay(now);
+  function getGuessesByDate(uint256 _index, bytes32 _topic, uint256 _date) public view returns(uint256[10]){
+    // TODO: Control the date limits
+    uint256 _year = DateTime.getYear(_date) * 10000;
+    uint256 _month = DateTime.getMonth(_date) * 100;
+    uint256 _day = DateTime.getDay(_date);
     uint256[] memory _guesses = guessesByDate[_year + _month + _day];
 
     require(_guesses.length > 0 && _guesses.length > _index*10);
