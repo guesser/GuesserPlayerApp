@@ -202,11 +202,11 @@ contract Guess is DateTime{
     uint256 _choosen = 0;
     uint256 _choosenVotes = 0;
     for (uint256 i = 0; i<_guesses.length; i++) {
-      if(guesses[_guesses[i]].topic == _topic){
+      if(guesses[_guesses[i]].topic == _topic) {
         // It returns the last best guess
-        if (_choosenVotes < guesses[_guesses[i]].option1Votes + guesses[_guesses[i]].option1Votes || found==false) {
+        if (_choosenVotes < (guesses[_guesses[i]].option1Votes + guesses[_guesses[i]].option2Votes) || found==false) {
           _choosen = i;
-          _choosenVotes = guesses[_guesses[i]].option1Votes + guesses[_guesses[i]].option1Votes;
+          _choosenVotes = guesses[_guesses[i]].option1Votes + guesses[_guesses[i]].option2Votes;
           found = true;
         }
       }
