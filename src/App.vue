@@ -40,8 +40,29 @@ $primary: #ff0d73;
 $theme-colors: (
   "pink": lighten(magenta, 20%),
   "magenta": lighten(blue, 20%),
-  "success": lighten(green, 20%)
+  "success": lighten(green, 20%),
+  "guesser": #ff0d73
 );
+
+// Bootstrap 4 breakpoints & gutter
+$grid-breakpoints: (
+    xs: 0,
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px
+) !default;
+
+$grid-gutter-width: 30px !default;
+
+// number of cards per line for each breakpoint
+$cards-per-line: (
+    xs: 3,
+    sm: 3,
+    md: 3,
+    lg: 3,
+    xl: 3
+) !default;
 
 @import "~bootstrap/scss/bootstrap";
 

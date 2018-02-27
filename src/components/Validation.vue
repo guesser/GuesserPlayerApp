@@ -21,8 +21,9 @@
         <b-button @click="validateGuess(guess.id, 2)" variant="outline-magenta" size="sm">{{guess.option2}}</b-button>
       </b-card>
     </div>
-    <!--TODO: Make this more beautiful-->
-    <h4 v-if='totalGuesses == 0'>What a shame... !There are no Guesses to validate!</h4>
+    <div>
+      <h4 class="absolute-center" v-if='totalGuesses == 0'>What a shame... !There are no Guesses to validate!</h4>
+    </div>
   </div>
 </template>
 
@@ -124,5 +125,9 @@ export default {
 </script>
 
 <style>
-
+.absolute-center {
+  margin: auto;
+  text-align: center;
+  position: relative;
+}
 </style>
