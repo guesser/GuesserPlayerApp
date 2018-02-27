@@ -74,16 +74,14 @@ export default {
         if (_index !== 0) { // Guess 0 is the empty one
           GuessHelper.getGuessFront(_index).then((guess) => {
             console.log(guess)
-            let month1 = parseInt(guess[5].getMonth()) + 1
-            let month2 = parseInt(guess[6].getMonth()) + 1
             this.guesses.push({
               'id': _index,
               'title': guess[0],
               'description': guess[1],
               'topic': guess[2],
               'votes': guess[4],
-              'startingDay': guess[5].getUTCDate() + '-' + month1 + '-' + guess[6].getFullYear(),
-              'finishingDay': guess[6].getUTCDate() + '-' + month2 + '-' + guess[5].getFullYear(),
+              'startingDay': this.$moment(guess[5]).format('MMMM Do YYYY, h a'),
+              'finishingDay': this.$moment(guess[6]).format('MMMM Do YYYY, h a'),
               'option1': 'Loading...',
               'option2': 'Loading...'
             })
