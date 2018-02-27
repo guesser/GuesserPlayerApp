@@ -85,6 +85,7 @@ export default {
                 'votes': guess[4],
                 'startingDay': this.$moment(guess[5]).format('MMMM Do YYYY, h a'),
                 'finishingDay': this.$moment(guess[6]).format('MMMM Do YYYY, h a'),
+                'finishingDayUnformated': this.$moment(guess[6]),
                 'option1': 'Loading...',
                 'option2': 'Loading...'
               })
@@ -102,8 +103,11 @@ export default {
     printGuessesOptions (_index, _localIndex) {
       let self = this
       GuessHelper.getGuessOptions(_index).then((guess) => {
-        self.guesses[_localIndex].option1 = guess[0]
-        self.guesses[_localIndex].option2 = guess[1]
+        console.log(self.guesses[_localIndex].finishingDay)
+        if (self.$moment(self.guesses[_localIndex].finishingDayUnformated) > self.$moment().add(0, 'hours')) {
+          self.guesses[_localIndex].option1 = guess[0]
+          self.guesses[_localIndex].option2 = guess[1]
+        }
       }).catch(err => {
         console.log(err)
       })
