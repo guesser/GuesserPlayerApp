@@ -47,7 +47,9 @@ export default {
   padding-left: 1.5%;
 }
 .guesses{
-  width: 78%;
+  width: 60%;
+  min-width: 220px;
+  margin-left: 5%;
   display: inline-block;
   float: left;
 }

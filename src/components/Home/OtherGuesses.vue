@@ -1,35 +1,35 @@
 <template>
   <div>
+    <span v-for="n in counter1">
     <b-card-group deck class="mb-3">
-      <div style="margin-bottom: 1.5rem;" v-for='guess in guesses'>
-        <b-card
-                                    style="width: 20rem; height: 100%;"
+      <b-card
+                                    v-for="j in counter2"
+                                    :key="j"
+                                    v-if="guesses[2*n + j]"
                                     :border-variant="topic"
-                                    :header="guess.title"
+                                    :header="guesses[2*n + j].title"
                                     :header-border-variant="topic"
                                     header-text-variant="black"
                                     align="center">
-          <p class="card-text">
-          From: <b>{{guess.startingDay}}</b>
-          <br>
-          To: <b>{{guess.finishingDay}}</b>
-          </p>
-          <b-button style="margin-right: 10px" @click="showPaymentModal(guess.id, 1)" variant="outline-pink" size="sm">{{guess.option1}}</b-button>
-          <b-button @click="showPaymentModal(guess.id, 2)" variant="outline-magenta" size="sm">{{guess.option2}}</b-button>
-
-        </b-card>
-      </div>
-      <!--TODO: Make this more beautiful-->
-      <h4 v-if='totalGuesses == 0'>There are no Guesses over here!</h4>
+        <p class="card-text">
+        From: <b>{{guesses[2*n + j].startingDay}}</b>
+        <br>
+        To: <b>{{guesses[2*n + j].finishingDay}}</b>
+        </p>
+        <b-button style="margin-right: 10px" @click="showPaymentModal(guesses[2*n + j].id, 1)" variant="outline-pink" size="sm">{{guesses[2*n + j].option1}}</b-button>
+        <b-button @click="showPaymentModal(guesses[2*n + j].id, 2)" variant="outline-magenta" size="sm">{{guesses[2*n + j].option2}}</b-button>
+      </b-card>
     </b-card-group>
+    </span>
+    <h4 class="absolute-center" v-if='totalGuesses == 0'>There are no Guesses over here!</h4>
 
-<!-- Modal Payment -->
-  <b-modal ref="paymentModal"
-           centered
-           title="Choose amount"
-           hide-footer
-           :header-bg-variant="topic">
-    <b-form-group id="titleGroup"
+    <!-- Modal Payment -->
+    <b-modal ref="paymentModal"
+             centered
+             title="Choose amount"
+             hide-footer
+             :header-bg-variant="topic">
+      <b-form-group id="titleGroup"
                     label="Ether amount to send:"
                     label-for="amountInput">
         <b-form-input id="amountInput"
@@ -39,8 +39,8 @@
         </b-form-input>
       </b-form-group>
 
-    <b-button @click="voteGuess()" variant="primary" size="sm">Vote</b-button>
-  </b-modal>
+      <b-button @click="voteGuess()" variant="primary" size="sm">Vote</b-button>
+    </b-modal>
 
   </div>
 </template>
@@ -55,6 +55,8 @@ export default {
     return {
       guesses: [],
       guessesByNumber: [],
+      counter1: [0, 1, 2, 3, 4, 5],
+      counter2: [0, 1],
       totalGuesses: 0,
       optionVoted: 0,
       guessToVote: 0,
@@ -168,5 +170,9 @@ export default {
 </script>
 
 <style>
-
+.absolute-center {
+  margin: auto;
+  text-align: center;
+  position: relative;
+}
 </style>

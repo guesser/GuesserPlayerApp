@@ -30,7 +30,7 @@
         <img class="topic-icon" src="../../assets/mayor.png"/>
         Politics
       </b-list-group-item>
-      <b-list-group-item href="#" @click='topiClick("Sport")' variant="Sport">
+      <b-list-group-item href="#" @click='topiClick("Sports")' variant="Sports">
         <img class="topic-icon" src="../../assets/cup.png"/>
         Sports
       </b-list-group-item>
