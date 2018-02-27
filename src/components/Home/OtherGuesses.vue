@@ -72,7 +72,6 @@ export default {
       for (var i = 0; i < this.guessesByNumber.length; i++) {
         let _index = this.guessesByNumber[i].c[0]
         if (_index !== 0) { // Guess 0 is the empty one
-          // TODO: Not show the guesses if the day is the same but the hour is lower
           GuessHelper.getGuessFront(_index).then((guess) => {
             if (this.$moment(guess[6]) > this.$moment().add(0, 'hour')) {
               this.guesses.push({
