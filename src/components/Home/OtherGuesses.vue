@@ -72,19 +72,21 @@ export default {
       for (var i = 0; i < this.guessesByNumber.length; i++) {
         let _index = this.guessesByNumber[i].c[0]
         if (_index !== 0) { // Guess 0 is the empty one
+          // TODO: Not show the guesses if the day is the same but the hour is lower
           GuessHelper.getGuessFront(_index).then((guess) => {
-            console.log(guess)
-            this.guesses.push({
-              'id': _index,
-              'title': guess[0],
-              'description': guess[1],
-              'topic': guess[2],
-              'votes': guess[4],
-              'startingDay': this.$moment(guess[5]).format('MMMM Do YYYY, h a'),
-              'finishingDay': this.$moment(guess[6]).format('MMMM Do YYYY, h a'),
-              'option1': 'Loading...',
-              'option2': 'Loading...'
-            })
+            if (this.$moment(guess[6]) > this.$moment().add(0, 'hour')) {
+              this.guesses.push({
+                'id': _index,
+                'title': guess[0],
+                'description': guess[1],
+                'topic': guess[2],
+                'votes': guess[4],
+                'startingDay': this.$moment(guess[5]).format('MMMM Do YYYY, h a'),
+                'finishingDay': this.$moment(guess[6]).format('MMMM Do YYYY, h a'),
+                'option1': 'Loading...',
+                'option2': 'Loading...'
+              })
+            }
           }).then(() => {
             this.totalGuesses += 1
             this.printGuessesOptions(_index, this.totalGuesses - 1)
