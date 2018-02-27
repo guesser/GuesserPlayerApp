@@ -17,6 +17,7 @@
                     label-for="titleInput">
         <b-form-input id="titleInput"
                       type="text"
+                      maxlength="30"
                       v-model="form.title"
                       required>
         </b-form-input>
@@ -49,15 +50,17 @@
     <!--Options-->
     <p class='info-section'>Options:</p>
     <b-form inline>
-      <label class="sr-only" for="option1Input">Option1</label>
+      <label class="sr-only" for="option1Input" >Option1</label>
       <b-input class="mb-2 mr-sm-2 mb-sm-0"
                id="option1Input"
                v-model='form.option1'
+               maxlength="30"
                placeholder="Option1"/>
         <label class="sr-only" for="option2Input">Option2</label>
         <b-input class="mb-2 mr-sm-2 mb-sm-0"
                  id="option2Input"
                  v-model='form.option2'
+                 maxlength="30"
                  placeholder="Option2"/>
         </b-form>
         <div>
@@ -77,7 +80,7 @@
 
         <b-button type="submit" variant="primary">Create</b-button>
       </b-form>
-    </div>
+  </div>
 </template>
 
 <script>

@@ -96,8 +96,8 @@ $entertainment-contrast: lighten($entertainment, 40%);
 $gaming: #ED5565;
 $gaming-contrast: #FFCE54;
 
-$humour: #FF00FF;
-$humour-contrast: #CCFF99;
+$humor: #FF00FF;
+$humor-contrast: #CCFF99;
 
 $news: #384F5D;
 $news-contrast: lighten($news, 40%);
@@ -111,8 +111,8 @@ $sports-contrast: #FFFFFF;
 $technology-contrast: #BCBCBC;
 $technology: #000000;
 
-$random-contrast: #FF0D73;
-$random: invert($random-contrast);
+$random-contrast: #D9414C;
+$random: lighten(#FDDF6D, 10%);
 
 /* == */
 
@@ -211,26 +211,26 @@ $random: invert($random-contrast);
 
 /* == */
 
-.bg-Humour{
-  background-color: $humour-contrast !important;
+.bg-Humor{
+  background-color: $humor-contrast !important;
   font-weight: bold;
-  color: $humour !important;
-  border-color: $humour !important;
+  color: $humor !important;
+  border-color: $humor !important;
 }
 
-.border-Humour{
-  border-color: $humour !important;
+.border-Humor{
+  border-color: $humor !important;
 }
 
-.list-group-item-Humour{
-  color: $humour !important;
-  background-color: $humour-contrast !important;
+.list-group-item-Humor{
+  color: $humor !important;
+  background-color: $humor-contrast !important;
 }
 
-.list-group-item-Humour:hover,
-.list-group-item-Humour:focus{
-  background-color: darken($humour-contrast, 5%) !important;
-  color: darken($humour, 5%) !important;
+.list-group-item-Humor:hover,
+.list-group-item-Humor:focus{
+  background-color: darken($humor-contrast, 5%) !important;
+  color: darken($humor, 5%) !important;
 }
 
 /* == */
