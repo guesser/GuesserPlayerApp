@@ -14,7 +14,7 @@
           <br>
           To: <b>{{guess.finishingDay}}</b>
           </p>
-          <b-button @click="showPaymentModal(guess.id, 1)" variant="outline-pink" size="sm">{{guess.option1}}</b-button>
+          <b-button style="margin-right: 10px" @click="showPaymentModal(guess.id, 1)" variant="outline-pink" size="sm">{{guess.option1}}</b-button>
           <b-button @click="showPaymentModal(guess.id, 2)" variant="outline-magenta" size="sm">{{guess.option2}}</b-button>
 
         </b-card>
