@@ -3,7 +3,7 @@
     <!--Image and text -->
     <b-navbar type="light" toggleable="md">
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-      <b-navbar-brand href="#">
+      <b-navbar-brand href="#landing">
         <img src="../assets/beard.png" height="40" width="40" class="d-inline-block align-top" alt="BV">
         Guesser
       </b-navbar-brand>
