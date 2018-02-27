@@ -105,8 +105,8 @@ $news-contrast: lighten($news, 40%);
 $politics: #000000;
 $politics-contrast: #DCEBEF;
 
-$sport: #EBB400;
-$sport-contrast: #FFFFFF;
+$sports: #EBB400;
+$sports-contrast: #FFFFFF;
 
 $technology-contrast: #BCBCBC;
 $technology: #000000;
@@ -283,26 +283,26 @@ $random: invert($random-contrast);
 
 /* == */
 
-.bg-Sport{
-  background-color: $sport-contrast !important;
+.bg-Sports{
+  background-color: $sports-contrast !important;
   font-weight: bold;
-  color: $sport !important;
-  border-color: $sport !important;
+  color: $sports !important;
+  border-color: $sports !important;
 }
 
-.border-Sport{
-  border-color: $sport !important;
+.border-Sports{
+  border-color: $sports !important;
 }
 
-.list-group-item-Sport{
-  color: $sport !important;
-  background-color: $sport-contrast !important;
+.list-group-item-Sports{
+  color: $sports !important;
+  background-color: $sports-contrast !important;
 }
 
-.list-group-item-Sport:hover,
-.list-group-item-Sport:focus{
-  background-color: darken($sport-contrast, 5%) !important;
-  color: darken($sport, 5%) !important;
+.list-group-item-Sports:hover,
+.list-group-item-Sports:focus{
+  background-color: darken($sports-contrast, 5%) !important;
+  color: darken($sports, 5%) !important;
 }
 
 /* == */

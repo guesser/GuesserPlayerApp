@@ -55,7 +55,7 @@ export default {
     return {
       guesses: [],
       guessesByNumber: [],
-      counter1: [0, 1, 2, 3],
+      counter1: [0, 1, 2, 3, 4, 5],
       counter2: [0, 1],
       totalGuesses: 0,
       optionVoted: 0,
