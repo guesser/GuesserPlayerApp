@@ -8,9 +8,14 @@
           class="text-center">
     <p class="card-text">
     {{guess.description}}
+          </p>   
     <br>
-    {{guess.startingDay}} - {{guess.finishingDay}}
+ <p class="card-text">
+          From: <b>{{guess.startingDay}}</b>
+          <br>
+          To: <b>{{guess.finishingDay}}</b>
     </p>
+    <br>
     <!--Number of people Progress Bar-->
     <span>Number of votes in each option: </span>
     <b-progress class="mt-1" :max="10*(guess.votes/10)" show-value striped>
@@ -39,7 +44,7 @@
 
     <br>
     <br>
-    <b-button @click="showPaymentModal(1)" variant="outline-pink" size="sm">{{guess.option1}}</b-button>
+    <b-button style="margin-right: 20px" @click="showPaymentModal(1)" variant="outline-pink" size="sm">{{guess.option1}}</b-button>
     <b-button @click="showPaymentModal(2)" variant="outline-magenta" size="sm">{{guess.option2}}</b-button>
   </b-card>
     </div>
@@ -109,15 +114,12 @@ export default {
       GuessHelper.getGuessFront(this.guessIndex).then((guessDay) => {
         console.log(guessDay)
 
-        let month1 = parseInt(guessDay[5].getMonth()) + 1
-        let month2 = parseInt(guessDay[6].getMonth()) + 1
         self.guess.title = guessDay[0]
         self.guess.description = guessDay[1]
         self.guess.topic = guessDay[2]
         self.guess.votes = guessDay[4]
-        let _startingDay = guessDay[5].getDate() + '-' + month1 + '-' + guessDay[5].getFullYear()
-        self.guess.startingDay = _startingDay
-        self.guess.finishingDay = guessDay[6].getDate() + '-' + month2 + '-' + guessDay[6].getFullYear()
+        self.guess.startingDay = this.$moment(guessDay[5]).format('MMMM Do YYYY, h a')
+        self.guess.finishingDay = this.$moment(guessDay[6]).format('MMMM Do YYYY, h a')
       }).catch(err => {
         console.log(err)
       })
