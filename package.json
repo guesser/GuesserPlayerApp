@@ -22,6 +22,7 @@
     "babel-preset-es2015": "^6.24.1",
     "bootstrap": "^4.0.0-beta.2",
     "bootstrap-vue": "^1.4.0",
+    "epic-spinners": "^1.0.2",
     "moment": "^2.20.1",
     "truffle": "^4.0.0-beta.2",
     "truffle-contract": "^3.0.0",

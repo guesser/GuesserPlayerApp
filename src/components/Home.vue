@@ -8,7 +8,7 @@
       <GuessOfTheDay :topic="topic"/>
       <br>
       <h2>Other cool events:</h2>
-      <!--<OtherGuesses :topic="topic"/>-->
+      <OtherGuesses :topic="topic"/>
     </div>
   </div>
 </template>
