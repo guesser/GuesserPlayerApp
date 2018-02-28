@@ -12,7 +12,11 @@ import Qrcode from 'v-qrcode/src/index'
 import VueClipboard from 'vue-clipboard2'
 import moment from 'moment'
 Vue.prototype.$moment = moment
+import VueParticles from 'vue-particles'
+import FullPage from 'FullPage'
 
+Vue.use(FullPage)
+Vue.use(VueParticles)
 Vue.use(BootstrapVue)
 Vue.use(Qrcode)
 Vue.use(VueClipboard)

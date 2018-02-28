@@ -17,7 +17,7 @@
                     label-for="titleInput">
         <b-form-input id="titleInput"
                       type="text"
-                      maxlength="30"
+                      maxlength="31"
                       v-model="form.title"
                       required>
         </b-form-input>
@@ -54,13 +54,13 @@
       <b-input class="mb-2 mr-sm-2 mb-sm-0"
                id="option1Input"
                v-model='form.option1'
-               maxlength="30"
+               maxlength="31"
                placeholder="Option1"/>
         <label class="sr-only" for="option2Input">Option2</label>
         <b-input class="mb-2 mr-sm-2 mb-sm-0"
                  id="option2Input"
                  v-model='form.option2'
-                 maxlength="30"
+                 maxlength="31"
                  placeholder="Option2"/>
         </b-form>
         <div>
