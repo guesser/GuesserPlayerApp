@@ -1,38 +1,26 @@
-    <template>
-    <div>
-    <FullPage :options="options">
+<template>
+  <div>
+    <full-page :options="options">
       <div class="section">
-          <h1>Can you guess the future?</h1> 
-          <h1>Predict the outcome of the internet’s hottest events</h1>
+        First section ...
       </div>
       <div class="section">
-        Hola
-          <!--<vue-particles-->
-               <!--color="#FF0D73"-->
-               <!--:particleOpacity="1"-->
-               <!--:particlesNumber="160"-->
-               <!--shapeType="circle"-->
-               <!--:particleSize="5"-->
-               <!--linesColor="#dedede"-->
-               <!--:linesWidth="0"-->
-               <!--:lineLinked="false"-->
-               <!--:lineOpacity="0"-->
-               <!--:linesDistance="150"-->
-               <!--:moveSpeed="3"-->
-               <!--:hoverEffect="false"-->
-               <!--hoverMode="grab"-->
-               <!--:clickEffect="true"-->
-               <!--clickMode="push"-->
-               <!-->-->
-          <!--</vue-particles>-->
+        Second section ...
       </div>
-    </FullPage>
-  </div>
+    </full-page>
+</div>
+
+ </div>
 </template>
 
 <script>
+import FullPage from 'vue-fullpage.js'
 
 export default {
+  name: 'Landing',
+  components: {
+    FullPage
+  },
   data () {
     return {
       options: {
