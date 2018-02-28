@@ -20,7 +20,11 @@
           <br>
           To: <b>{{guesses[2*n + j].finishingDay}}</b>
           </p>
-          <b-button style="margin-right: 20px" @click="showPaymentModal(guesses[2*n + j].id, 1)" variant="outline-pink" size="sm">{{guesses[2*n +j].option1}}</b-button>
+          <b-button style="margin-right: 20px"
+            @click="showPaymentModal(guesses[2*n + j].id, 1)"
+            variant="outline-pink" size="sm">
+            {{guesses[2*n +j].option1}}
+          </b-button>
           <b-button @click="showPaymentModal(guesses[2*n + j].id, 2)" variant="outline-magenta" size="sm">{{guesses[2*n +j].option2}}</b-button>
         </b-card>
     </b-card-group>
@@ -63,7 +67,7 @@ export default {
     return {
       guesses: [],
       guessesByNumber: [],
-      counter1: [0, 1, 2, 3, 4 , 5],
+      counter1: [0, 1, 2, 3, 4, 5],
       counter2: [0, 1],
       totalGuesses: 0,
       optionVoted: 0,
@@ -168,6 +172,7 @@ export default {
       this.getGuessesByDate()
     }).catch(err => {
       console.log(err)
+      this.contentLoaded = true
     })
   },
 
