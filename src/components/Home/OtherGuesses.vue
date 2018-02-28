@@ -1,27 +1,31 @@
 <template>
   <div>
+    <div v-if="contentLoaded">
+      <Loading/>
+    </div>
     <span v-for="n in counter1">
     <b-card-group deck class="mb-3">
-      <b-card
-                                    v-for="j in counter2"
-                                    :key="j"
-                                    v-if="guesses[2*n + j]"
-                                    :border-variant="topic"
-                                    :header="guesses[2*n + j].title"
-                                    :header-border-variant="topic"
-                                    header-text-variant="black"
-                                    align="center">
-        <p class="card-text">
-        From: <b>{{guesses[2*n + j].startingDay}}</b>
-        <br>
-        To: <b>{{guesses[2*n + j].finishingDay}}</b>
-        </p>
-        <b-button style="margin-right: 10px" @click="showPaymentModal(guesses[2*n + j].id, 1)" variant="outline-pink" size="sm">{{guesses[2*n + j].option1}}</b-button>
-        <b-button @click="showPaymentModal(guesses[2*n + j].id, 2)" variant="outline-magenta" size="sm">{{guesses[2*n + j].option2}}</b-button>
-      </b-card>
+        <b-card
+           v-for="j in counter2"
+           :key="j"
+           v-if="guesses[2*n + j]"
+           style="width: 20rem; height: 100%;"
+           :border-variant="topic"
+           :header="guesses[2*n + j].title"
+           :header-border-variant="topic"
+           header-text-variant="black"
+           align="center">
+          <p class="card-text">
+          From: <b>{{guesses[2*n + j].startingDay}}</b>
+          <br>
+          To: <b>{{guesses[2*n + j].finishingDay}}</b>
+          </p>
+          <b-button style="margin-right: 20px" @click="showPaymentModal(guesses[2*n + j].id, 1)" variant="outline-pink" size="sm">{{guesses[2*n +j].option1}}</b-button>
+          <b-button @click="showPaymentModal(guesses[2*n + j].id, 2)" variant="outline-magenta" size="sm">{{guesses[2*n +j].option2}}</b-button>
+        </b-card>
     </b-card-group>
     </span>
-    <h4 class="absolute-center" v-if='totalGuesses == 0'>There are no Guesses over here!</h4>
+        <h4 class="absolute-center" v-if='totalGuesses == 0'>There are no Guesses over here!</h4>
 
     <!-- Modal Payment -->
     <b-modal ref="paymentModal"
@@ -47,20 +51,25 @@
 
 <script>
 import GuessHelper from '@/js/Guess'
+import Loading from '../Loading.vue'
 
 export default {
   name: 'otherguesses',
+  components: {
+    Loading
+  },
   props: ['topic'],
   data () {
     return {
       guesses: [],
       guessesByNumber: [],
-      counter1: [0, 1, 2, 3, 4, 5],
+      counter1: [0, 1, 2, 3, 4 , 5],
       counter2: [0, 1],
       totalGuesses: 0,
       optionVoted: 0,
       guessToVote: 0,
-      ethAmountToVote: 0
+      ethAmountToVote: 0,
+      contentLoaded: true
     }
   },
   methods: {
@@ -74,27 +83,29 @@ export default {
       for (var i = 0; i < this.guessesByNumber.length; i++) {
         let _index = this.guessesByNumber[i].c[0]
         if (_index !== 0) { // Guess 0 is the empty one
-          // TODO: Not show the guesses if the day is the same but the hour is lower
           GuessHelper.getGuessFront(_index).then((guess) => {
-            if (this.$moment(guess[6]) > this.$moment().add(0, 'hour')) {
-              this.guesses.push({
-                'id': _index,
-                'title': guess[0],
-                'description': guess[1],
-                'topic': guess[2],
-                'votes': guess[4],
-                'startingDay': this.$moment(guess[5]).format('MMMM Do YYYY, h a'),
-                'finishingDay': this.$moment(guess[6]).format('MMMM Do YYYY, h a'),
-                'finishingDayUnformated': this.$moment(guess[6]),
-                'option1': 'Loading...',
-                'option2': 'Loading...'
-              })
-            }
+            console.log(guess)
+            let month1 = parseInt(guess[5].getMonth()) + 1
+            let month2 = parseInt(guess[6].getMonth()) + 1
+            this.guesses.push({
+              'id': _index,
+              'title': guess[0],
+              'description': guess[1],
+              'topic': guess[2],
+              'votes': guess[4],
+              'startingDay': guess[5].getUTCDate() + '-' + month1 + '-' + guess[6].getFullYear(),
+              'finishingDay': guess[6].getUTCDate() + '-' + month2 + '-' + guess[5].getFullYear(),
+              'finishingDayUnformated': this.$moment(guess[6]),
+              'option1': 'Loading...',
+              'option2': 'Loading...'
+            })
           }).then(() => {
             this.totalGuesses += 1
             this.printGuessesOptions(_index, this.totalGuesses - 1)
+            this.contentLoaded = false
           }).catch(err => {
             console.log(err)
+            this.contentLoaded = false
           })
         }
       }
@@ -125,6 +136,7 @@ export default {
           self.printGuesses()
         }).catch(err => {
           console.log(err)
+          this.contentLoaded = false
         })
       }
     },
@@ -165,6 +177,7 @@ export default {
       this.guessesByNumber = []
       this.getGuessesByDate()
       this.guesses = []
+      this.contentLoaded = true
     }
   }
 }

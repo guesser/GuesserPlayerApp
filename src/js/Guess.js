@@ -46,12 +46,12 @@ const GuessHelper = {
 
     return new Promise((resolve, reject) => {
       self.instance.setGuess(
-        window.web3.utils.toHex(_title),
+        window.web3.utils.asciiToHex(_title),
         _description,
-        window.web3.utils.toHex(_topic),
+        window.web3.utils.asciiToHex(_topic),
         _finalDate,
-        window.web3.utils.toHex(_option1),
-        window.web3.utils.toHex(_option2),
+        window.web3.utils.asciiToHex(_option1),
+        window.web3.utils.asciiToHex(_option2),
         {from: self.address[0], gas: 600000} // TODO: Gas forced to high #WARNING
       ).then(() => {
         resolve()
