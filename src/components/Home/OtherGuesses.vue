@@ -1,5 +1,9 @@
 <template>
   <div>
+    <div v-if='contentLoaded'>
+      <Loading/>
+    </div>
+
     <!--Alert-->
     <b-alert variant="success"
              dismissible
@@ -14,9 +18,6 @@
       It seems the voting failed...
     </b-alert>
 
-    <div v-if="contentLoaded">
-      <Loading/>
-    </div>
     <span v-for="n in counter1">
     <b-card-group deck class="mb-3">
         <b-card
@@ -46,6 +47,7 @@
         <h4 class="absolute-center" v-if='totalGuesses == 0'>There are no Guesses over here!</h4>
 
     <!-- Modal Payment -->
+    <div v-if='guesses.length > 0'>
     <b-modal ref="paymentModal"
              centered
              title="Vote an event"
@@ -84,6 +86,7 @@
     </b-modal>
 
   </div>
+  </div>
 </template>
 
 <script>
@@ -98,6 +101,7 @@ export default {
   props: ['topic'],
   data () {
     return {
+      contentLoaded: true,
       guessVotingAlert: false,
       guessVotingFailedAlert: false,
       arrayIndex: 0, // The selected guess to vote
@@ -108,8 +112,7 @@ export default {
       totalGuesses: 0,
       optionVoted: 0,
       guessToVote: 0,
-      ethAmountToVote: 0,
-      contentLoaded: true
+      ethAmountToVote: 0
     }
   },
   methods: {
@@ -146,6 +149,7 @@ export default {
             this.totalGuesses += 1
             this.printGuessesOptions(_index, this.totalGuesses - 1)
             this.contentLoaded = false
+            console.log('Size is: ', this.guessesByNumber.length)
           }).catch(err => {
             console.log(err)
             this.contentLoaded = false
@@ -169,7 +173,6 @@ export default {
       })
     },
 
-    // getGuessesOfTheDay () {
     getGuessesByDate () {
       let self = this
 
@@ -212,6 +215,7 @@ export default {
   created: function () {
     GuessHelper.init().then(() => {
       this.getGuessesByDate()
+      this.contentLoaded = true
     }).catch(err => {
       console.log(err)
       this.contentLoaded = true
@@ -220,11 +224,11 @@ export default {
 
   watch: {
     topic: function () {
+      this.contentLoaded = true
       this.totalGuesses = 0
       this.guessesByNumber = []
       this.getGuessesByDate()
       this.guesses = []
-      this.contentLoaded = true
     }
   }
 }
