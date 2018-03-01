@@ -1,5 +1,5 @@
 <template>
-  <div style="max-width: 300px; background: RGBA(188, 188, 188, 0.2)">
+  <div style="max-width: 300px;">
     <!--<h2>Topics:</h2>-->
     <b-list-group >
       <b-list-group-item v-bind:class="{ 'active' : isSelected(0) }" href="#" @click='topiClick("Crypto", 0)' variant="Crypto">
