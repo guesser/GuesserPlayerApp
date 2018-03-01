@@ -44,7 +44,7 @@
       <!--Page 3-->
       <div class="section tipe2">
         <div class="explainer">
-          <b-card class="show">
+          <b-container class="show" style="min-width: 80%;">
             <b-row align-h="between" style="background-color: #F345;">
               <b-col lg="6" style="padding: 0 5% 0 5%;">
                 <b-container style="display: flex; justify-content: center;">
@@ -96,8 +96,9 @@
               </b-col>
               <b-col lg="6" align-self="center" style="text-align: right; background-color: #F323;">
                 <b-row class="justify-content-md-center">
-                  <b-col lg="6" style="background-color: #F333;">
-                    <h1>Create your dreamed event</h1>
+                  <b-col lg="10" style="background-color: #F333;">
+                    <h1>Create your</h1>
+                    <h1>dreamed event</h1>
                     <br>
                     <h4>Bla bla bla bla bla bla bla</h4>
                     <h4>Bla bla bla bla bla bla</h4>
@@ -111,7 +112,7 @@
                 </b-row>
               </b-col>
             </b-row>
-          </b-card>
+          </b-container>
         </div>
       </div>
 
