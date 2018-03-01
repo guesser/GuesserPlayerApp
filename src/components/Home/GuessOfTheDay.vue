@@ -24,7 +24,7 @@
           class="text-center">
     <p class="card-text">
     {{guess.description}}
-          </p>   
+          </p>
     <br>
  <p class="card-text">
           From: <b>{{guess.startingDay}}</b>
@@ -133,7 +133,6 @@ export default {
         console.log(guessDay)
 
         self.guess.title = guessDay[0]
-        console.log(guessDay[0])
         self.guess.description = guessDay[1]
         self.guess.topic = guessDay[2]
         self.guess.votes = guessDay[4]
