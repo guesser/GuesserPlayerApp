@@ -79,7 +79,7 @@
         <br>
 
         <b-button type="submit" variant="primary">Create</b-button>
-      </b-form>
+     </b-form>
   </div>
 </template>
 
@@ -161,7 +161,8 @@ export default {
   margin-right: 2% !important;
 }
 .litle-margin{
-  margin: 5% 10%;
+  margin: 0% 10%;
+  padding: 3% 0%;
   max-width: 800px;
 }
 </style>

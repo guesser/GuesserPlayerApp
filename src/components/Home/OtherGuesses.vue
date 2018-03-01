@@ -1,5 +1,19 @@
 <template>
   <div>
+    <!--Alert-->
+    <b-alert variant="success"
+             dismissible
+             :show="guessVotingAlert"
+             @dismissed="showVotingAlert=false">
+      Hang in there... Guess being voted.
+    </b-alert>
+    <b-alert variant="danger"
+             dismissible
+             :show="guessVotingFailedAlert"
+             @dismissed="showVotingFailedAlert=false">
+      It seems the voting failed...
+    </b-alert>
+
     <div v-if="contentLoaded">
       <Loading/>
     </div>
@@ -65,6 +79,8 @@ export default {
   props: ['topic'],
   data () {
     return {
+      guessVotingAlert: false,
+      guessVotingFailedAlert: false,
       guesses: [],
       guessesByNumber: [],
       counter1: [0, 1, 2, 3, 4, 5],
@@ -150,9 +166,10 @@ export default {
       GuessHelper.voteGuess(this.guessToVote, this.optionVoted, this.ethAmountToVote).then(() => {
         console.log('Transaction pending...')
         // TODO: Show alert of voting
-        // self.guessCreatedAlert = true
+        this.guessVotingAlert = true
       }).catch(err => {
         console.log(err)
+        this.guessVotingFailedAlert = true
       })
     },
     getOptions () {
