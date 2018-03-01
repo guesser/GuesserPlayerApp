@@ -1,5 +1,7 @@
 <template>
   <div>
+    <br>
+    <br>
     <div class='topics'>
       <TopicList @topic-updated="updateTopic"/>
     </div>

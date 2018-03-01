@@ -51,7 +51,6 @@ body{
   height: 100%;
 }
 main{
-  padding-top: 2%;
   height:100vh;
   min-height: 100vh;
   bottom:0;
