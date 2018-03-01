@@ -56,12 +56,18 @@ main{
   bottom:0;
 }
 
-.navbar-brand {
+/*@media screen and (max-width: 576px) {
+    body{font-size: 0.5em;}
+    h1{font-size: 2em;}
+}*/
+
+h5{
+    font-size: 1.4em;
+  }  .navbar-brand {
   margin-right: 0;
 }
 
 /*TOPIC STYLES*/
-
 /*Colors*/
 $crypto: #F29100;
 $crypto-contrast: lighten(#F0D215, 25%);

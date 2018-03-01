@@ -1,6 +1,6 @@
 <template>
   <div>
-    <full-page :options="options" style="z-index: -1;">
+    <full-page :options="options" style="z-index: 0;">
 
       <!--Page 1-->
       <div class="section">
@@ -27,10 +27,10 @@
         <div class="explainer">
           <b-container class="" style="text-align: center; background-color: #F111">
             <b-row align-h="between" style="">
-                <b-container style="padding: 2% 2% 2% 0; display: flex; justify-content: center;">
-                  <img src="../assets/guesserTrans.png"
-                       style="width: 35%; max-width: 30vw;"/>
-                </b-container>
+              <b-container style="padding: 2% 2% 2% 0; display: flex; justify-content: center;">
+                <img src="../assets/guesserTrans.png"
+                     style="width: 35%; max-width: 30vw;"/>
+              </b-container>
             </b-row>
             <h1>What is Guesser ?</h1>
             <br>
@@ -45,8 +45,8 @@
       <div class="section tipe2">
         <div class="explainer">
           <b-card class="show">
-            <b-row align-h="between" style="">
-              <b-col lg="6" style="">
+            <b-row align-h="between" style="background-color: #F345;">
+              <b-col lg="6" style="padding: 0 5% 0 5%;">
                 <b-container style="display: flex; justify-content: center;">
 
                   <!--Example Card-->
@@ -64,6 +64,7 @@
                     <br>
                     To: <b>{{guess.finishingDay}}</b>
                     </p>
+                    <br>
                     <span>Number of votes in each option: </span>
                     <b-progress class="mt-1" :max="10*(guess.votes/10)" show-value striped>
                       <b-progress-bar :value="10*(guess.option1votes/10)" variant="pink">
@@ -85,26 +86,29 @@
                       </b-progress-bar>
                     </b-progress>
                     <small>Total: {{guess.amountEth}} ether</small>
-                    <br>
-                    <br>
-                    <b-button style="margin-right: 20px" @click="showPaymentModal(1)" variant="outline-pink" size="sm">{{guess.option1}}</b-button>
-                    <b-button @click="showPaymentModal(2)" variant="outline-magenta" size="sm">{{guess.option2}}</b-button>
+                    <div style="margin-top: 5%">
+                      <b-button style="margin-right: 20px" @click="showPaymentModal(1)" variant="outline-pink" size="sm">{{guess.option1}}</b-button>
+                      <b-button @click="showPaymentModal(2)" variant="outline-magenta" size="sm">{{guess.option2}}</b-button>
+                    </div>
                   </b-card>
 
                 </b-container>
               </b-col>
-              <b-col lg="6" align-self="center" style="text-align: center; background-color: #F323;">
-                <h1>Create your dreamed event</h1>
-                <h4>Bla bla bla bla bla bla bla</h4>
-                <h4>Bla bla bla bla bla bla</h4>
-                <h4>Bla bla bla bla bla bla bla</h4>
-                <br>
-                <br>
-                <br>
-                <b-container style="padding: 2%; display: flex; justify-content: center;">
-                  <b-button href="#create" variant="primary" style=""><h3>Start Now !</h3></b-button>
-                </b-container>
-
+              <b-col lg="6" align-self="center" style="text-align: right; background-color: #F323;">
+                <b-row class="justify-content-md-center">
+                  <b-col lg="6" style="background-color: #F333;">
+                    <h1>Create your dreamed event</h1>
+                    <br>
+                    <h4>Bla bla bla bla bla bla bla</h4>
+                    <h4>Bla bla bla bla bla bla</h4>
+                    <h4>Bla bla bla bla bla bla bla</h4>
+                    <br>
+                    <b-container style="padding: 2%; margin-top: 10%; display: flex; justify-content: center;">
+                      <b-button href="#create" variant="primary" style="padding-bottom: 0;">
+                        <h2>Start Now!</h2></b-button>
+                    </b-container>
+                  </b-col>
+                </b-row>
               </b-col>
             </b-row>
           </b-card>
@@ -117,7 +121,7 @@
           <div class="" style="background-color: #F111">
             <b-row align-h="between" style="text-align: center;">
               <b-col lg="5" align-self="center" style="">
-                <h1>Vote</h1>
+                <h1 style="color: blue; font-weight: bold; font-size: 50px">Vote</h1>
                 <br>
                 <h4>Bla bla bla bla</h4>
                 <h4>Bla bla bla bla bla bla bla</h4>
@@ -126,10 +130,10 @@
               </b-col>
               <b-col align-self="center" style="background-color: #F234;">
                 <img src="../assets/plus.svg"
-                     style="width: 50%; max-width: 30vw;"/>
+                     style="width: 50%; max-width: 200px;"/>
               </b-col>
               <b-col lg="5" align-self="center" style="">
-                <h1>Validation</h1>
+                <h1 style="color: red; font-weight: bold; font-size: 50px">Validation</h1>
                 <br>
                 <h4>Bla bla bla bla</h4>
                 <h4>Bla bla bla bla bla bla bla</h4>
@@ -143,11 +147,16 @@
       <div class="section">
         <div class="explainer">
           <b-container class="" style="text-align: center; background-color: #F111">
-            <h1>Welcome to Guesser?</h1>
+            <h1>Welcome to Guesser</h1>
             <br>
             <h3>Bla bla bla bla bla bla</h3>
             <h3>Bla bla Bla bla bla bla bla bla</h3>
             <h3>Bla bla bla bla bla bla</h3>
+            <b-container style="padding: 2%; margin-top: 10%; display: flex; justify-content: center;">
+              <b-button href="#create" variant="outline-primary lg" style="padding-bottom: 0;">
+                <h1>Start Guessing!</h1>
+              </b-button>
+            </b-container>
             <b-row align-h="between" style="">
             </b-row>
           </b-container>
@@ -177,7 +186,7 @@ export default {
         id: '0',
         title: 'Will Elon Musk colonize mars?',
         description: 'He wants, could he do it?',
-        topic: 'Crypto',
+        topic: 'Humor',
         creator: '0x00000000000000000000000000000000',
         votes: 666,
         startingDay: 'The beginning of time',
@@ -197,16 +206,15 @@ export default {
 
 <style scope lang="scss">
 .explainer {
-  padding: 5%;
+  padding: 10%;
 }
 .show {
   padding: 5% 3% 5% 2%;
-  margin: 6%;
   background-color: white;
 }
 .tipe2 {
   background-color: pink;
-  background-image: url("../assets/beard-background.png");
+  background-image: url("../assets/Background-beard2.svg");
   /*background-repeat: no-repeat;*/
 }
 </style>

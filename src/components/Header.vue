@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--Image and text -->
-    <b-navbar type="light" variant="transparent" toggleable="md">
+    <b-navbar type="light" variant="transparent" style="z-index: 2;" toggleable="md">
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
       <b-navbar-brand href="#/">
         <img src="../assets/beard.png" height="40" width="40" class="d-inline-block align-top" alt="BV">
