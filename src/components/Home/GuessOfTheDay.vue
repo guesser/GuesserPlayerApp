@@ -1,5 +1,21 @@
 <template>
   <div>
+
+    <!--Alert-->
+    <b-alert variant="success"
+             dismissible
+             :show="guessVotingAlert"
+             @dismissed="showVotingAlert=false">
+      Hang in there... Guess being voted.
+    </b-alert>
+    <b-alert variant="danger"
+             dismissible
+             :show="guessVotingFailedAlert"
+             @dismissed="showVotingFailedAlert=false">
+      It seems the voting failed...
+    </b-alert>
+
+
   <div v-if='guessIndex != null'>
   <b-card :border-variant="topic"
           :header="guess.title"
@@ -8,7 +24,7 @@
           class="text-center">
     <p class="card-text">
     {{guess.description}}
-          </p>   
+          </p>
     <br>
  <p class="card-text">
           From: <b>{{guess.startingDay}}</b>
@@ -81,6 +97,8 @@ export default {
   props: ['topic'],
   data () {
     return {
+      guessVotingAlert: false,
+      guessVotingFailedAlert: false,
       guess: {
         id: '0',
         title: 'Loading...',
@@ -115,7 +133,6 @@ export default {
         console.log(guessDay)
 
         self.guess.title = guessDay[0]
-        console.log(guessDay[0])
         self.guess.description = guessDay[1]
         self.guess.topic = guessDay[2]
         self.guess.votes = guessDay[4]
@@ -142,9 +159,10 @@ export default {
       GuessHelper.voteGuess(this.guessIndex, this.optionVoted, this.ethAmountToVote).then(() => {
         console.log('Transaction pending...')
         // TODO: Show alert of voting
-        // self.guessCreatedAlert = true
+        this.guessVotingAlert = true
       }).catch(err => {
         console.log(err)
+        this.guessVotingFailedAlert = true
       })
     },
     getOptions () {

@@ -1,5 +1,19 @@
 <template>
   <div>
+    <!--Alert-->
+    <b-alert variant="success"
+             dismissible
+             :show="guessVotingAlert"
+             @dismissed="showVotingAlert=false">
+      Hang in there... Guess being voted.
+    </b-alert>
+    <b-alert variant="danger"
+             dismissible
+             :show="guessVotingFailedAlert"
+             @dismissed="showVotingFailedAlert=false">
+      It seems the voting failed...
+    </b-alert>
+
     <div v-if="contentLoaded">
       <Loading/>
     </div>
@@ -21,11 +35,11 @@
           To: <b>{{guesses[2*n + j].finishingDay}}</b>
           </p>
           <b-button style="margin-right: 20px"
-            @click="showPaymentModal(guesses[2*n + j].id, 1)"
+            @click="showPaymentModal(guesses[2*n + j].id, 1, 2*n +j)"
             variant="outline-pink" size="sm">
             {{guesses[2*n +j].option1}}
           </b-button>
-          <b-button @click="showPaymentModal(guesses[2*n + j].id, 2)" variant="outline-magenta" size="sm">{{guesses[2*n +j].option2}}</b-button>
+          <b-button @click="showPaymentModal(guesses[2*n + j].id, 2, 2*n + j)" variant="outline-magenta" size="sm">{{guesses[2*n +j].option2}}</b-button>
         </b-card>
     </b-card-group>
     </span>
@@ -34,9 +48,28 @@
     <!-- Modal Payment -->
     <b-modal ref="paymentModal"
              centered
-             title="Choose amount"
+             title="Vote an event"
              hide-footer
              :header-bg-variant="topic">
+      <label>Title: {{guesses[arrayIndex].title}}</label>
+      <br>
+
+      <label>Description: {{guesses[arrayIndex].description}}</label>
+      <br>
+
+    <span>Number of votes in each option: </span>
+    <b-progress class="mt-1" :max="10*(guesses[arrayIndex].votes/10)" show-value striped>
+      <b-progress-bar :value="10*(guesses[arrayIndex].option1votes/10)" variant="pink">
+        {{guesses[arrayIndex].option1}} - {{ guesses[arrayIndex].option1votes }}
+      </b-progress-bar>
+      <b-progress-bar :value="10*(guesses[arrayIndex].option2votes/10)" variant="magenta">
+        {{guesses[arrayIndex].option2}} - {{ guesses[arrayIndex].option2votes }}
+      </b-progress-bar>
+    </b-progress>
+    <small>Total: {{guesses[arrayIndex].votes}} people</small>
+    <br>
+    <br>
+
       <b-form-group id="titleGroup"
                     label="Ether amount to send:"
                     label-for="amountInput">
@@ -65,6 +98,9 @@ export default {
   props: ['topic'],
   data () {
     return {
+      guessVotingAlert: false,
+      guessVotingFailedAlert: false,
+      arrayIndex: 0, // The selected guess to vote
       guesses: [],
       guessesByNumber: [],
       counter1: [0, 1, 2, 3, 4, 5],
@@ -77,7 +113,8 @@ export default {
     }
   },
   methods: {
-    showPaymentModal (_guessId, _optionVoted) {
+    showPaymentModal (_guessId, _optionVoted, _arrayIndex) {
+      this.arrayIndex = _arrayIndex
       this.optionVoted = _optionVoted
       this.guessToVote = _guessId
       this.$refs.paymentModal.show()
@@ -101,7 +138,9 @@ export default {
               'finishingDay': guess[6].getUTCDate() + '-' + month2 + '-' + guess[5].getFullYear(),
               'finishingDayUnformated': this.$moment(guess[6]),
               'option1': 'Loading...',
-              'option2': 'Loading...'
+              'option2': 'Loading...',
+              'option1votes': 'Loading...',
+              'option2votes': 'Loading...'
             })
           }).then(() => {
             this.totalGuesses += 1
@@ -122,6 +161,8 @@ export default {
         if (self.$moment(self.guesses[_localIndex].finishingDayUnformated) > self.$moment().add(0, 'hours')) {
           self.guesses[_localIndex].option1 = guess[0]
           self.guesses[_localIndex].option2 = guess[1]
+          self.guesses[_localIndex].option1votes = guess[2].c[0]
+          self.guesses[_localIndex].option2votes = guess[3].c[0]
         }
       }).catch(err => {
         console.log(err)
@@ -150,9 +191,10 @@ export default {
       GuessHelper.voteGuess(this.guessToVote, this.optionVoted, this.ethAmountToVote).then(() => {
         console.log('Transaction pending...')
         // TODO: Show alert of voting
-        // self.guessCreatedAlert = true
+        this.guessVotingAlert = true
       }).catch(err => {
         console.log(err)
+        this.guessVotingFailedAlert = true
       })
     },
     getOptions () {

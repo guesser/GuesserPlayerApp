@@ -337,4 +337,8 @@ $random: lighten(#FDDF6D, 10%);
   background-color: darken($random-contrast, 5%) !important;
   color: darken($random, 5%) !important;
 }
+
+main{
+  background: rgba(250, 250, 250, 0.6);
+}
 </style>
