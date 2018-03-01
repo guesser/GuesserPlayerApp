@@ -9,6 +9,14 @@ const GuessHelper = {
 
   address: null,
 
+  GuessCreated: null,
+
+  GuessVoted: null,
+
+  GuessValidated: null,
+
+  ProfitsReturned: null,
+
   init: function () {
     let self = this
 
@@ -19,7 +27,7 @@ const GuessHelper = {
       self.contract.deployed().then(instance => {
         self.instance = instance
 
-        // Geting the accounts
+        // Getting the accounts
         window.web3.eth.getAccounts(function (error, accounts) {
           if (error) {
             console.log(error)
@@ -28,10 +36,56 @@ const GuessHelper = {
           }
         })
 
+        // Getting events
+        self.GuessCreated = self.instance.GuessCreated()
+        self.GuessVoted = self.instance.GuessVoted()
+        self.GuessValidated = self.instance.GuessValidated()
+        self.ProfitsReturned = self.instance.ProfitsReturned()
+
         resolve()
       }).catch(err => {
         reject(err)
       })
+    })
+  },
+
+  CreatedGuessEvent: function () {
+    this.GuessCreated.watch(function (error, result) {
+      if (!error) {
+        console.log('No error on creating guess event catcher! See: ', result)
+      } else {
+        console.log(error)
+      }
+    })
+  },
+
+  VotedGuessEvent: function () {
+    this.GuessVoted.watch(function (error, result) {
+      if (!error) {
+        console.log('No error on voting guess event catcher! See: ', result)
+      } else {
+        console.log(error)
+      }
+    })
+  },
+
+  ValidatedGuessEvent: function () {
+    this.GuessValidated.watch(function (error, result) {
+      if (!error) {
+        console.log('No error on validating guess event catcher! See: ', result)
+      } else {
+        console.log(error)
+      }
+    })
+  },
+
+  ReturnedProfitsEvent: function () {
+    this.ProfitsReturned.watch(function (error, result) {
+      if (!error) {
+        console.log('No error on returning profit event catcher! See: ', result)
+      } else {
+        console.log(error)
+      }
     })
   },
 
