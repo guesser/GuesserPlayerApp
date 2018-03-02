@@ -1,17 +1,18 @@
 <template>
   <div>
-    <full-page :options="options" style="z-index: 0;">
+    <!--<full-page :options="options" style="z-index: 0;">-->
 
       <!--Page 1-->
-      <div class="section">
-        <div class="explainer">
-          <b-container class="" style="background-color: #F111">
+      <div class="section" style="">
+        <div class="explainer" style="">
+          <b-container class="" style="padding-top: 10%">
             <b-row align-h="between" style="">
-              <b-col lg="8" align-self="center" style="margin-right: 5%;">
+              <b-col lg="8" align-self="end" style="margin-right: 5%;">
                 <h1>Can you predict the outcome</h1>
                 <h1>of the internet's hottest events?</h1>
+                <h2 style="color: gray;">Something</h2>
               </b-col>
-              <b-col style="background-color: #F234;">
+              <b-col style="">
                 <b-container style="padding: 2%; display: flex; justify-content: center;">
                   <img src="../assets/magic-ball2.svg"
                        style="width: 100%; max-width: 30vw;"/>
@@ -25,11 +26,11 @@
       <!--Page 2-->
       <div class="section" style="background-color: #FFFF03;">
         <div class="explainer">
-          <b-container class="" style="text-align: center; background-color: #F111">
+          <b-container class="" style="text-align: center">
             <b-row align-h="between" style="">
               <b-container style="padding: 2% 2% 2% 0; display: flex; justify-content: center;">
                 <img src="../assets/guesserTrans.png"
-                     style="width: 35%; max-width: 30vw;"/>
+                     style="width: 35%; max-width: 40vh;"/>
               </b-container>
             </b-row>
             <h1>What is Guesser ?</h1>
@@ -44,10 +45,10 @@
       <!--Page 3-->
       <div class="section tipe2">
         <div class="explainer">
-          <b-container class="show" style="min-width: 80%;">
-            <b-row align-h="between" style="background-color: #F345;">
-              <b-col lg="6" style="padding: 0 5% 0 5%;">
-                <b-container style="display: flex; justify-content: center;">
+          <b-container class="show" style="min-width: 80%">
+            <b-row align-h="between" style="">
+              <b-col lg="6" style="padding: 0 1% 0 1%;">
+                <b-container style="display: flex; justify-content: center; padding: 5%;">
 
                   <!--Example Card-->
                   <b-card :border-variant="guess.topic"
@@ -66,7 +67,7 @@
                     </p>
                     <br>
                     <span>Number of votes in each option: </span>
-                    <b-progress class="mt-1" :max="10*(guess.votes/10)" show-value striped>
+                    <b-progress class="mt-1" :max="10*(guess.votes/10)" style="font-size: 0.5em" show-value striped>
                       <b-progress-bar :value="10*(guess.option1votes/10)" variant="pink">
                         {{guess.option1}} - {{ guess.option1votes }}
                       </b-progress-bar>
@@ -77,7 +78,7 @@
                     <small>Total: {{guess.votes}} people</small>
                     <br>
                     <span>Eth amout in each option: </span>
-                    <b-progress class="mt-1" :max="10*(guess.amountEth/10)" show-value striped>
+                    <b-progress class="mt-1" :max="10*(guess.amountEth/10)" style="font-size: 0.5rem" show-value striped>
                       <b-progress-bar :value="10*(guess.option1AmountEth/10)" variant="pink">
                         {{guess.option1}} - {{ guess.option1AmountEth }}
                       </b-progress-bar>
@@ -94,9 +95,9 @@
 
                 </b-container>
               </b-col>
-              <b-col lg="6" align-self="center" style="text-align: right; background-color: #F323;">
+              <b-col lg="6" align-self="center" style="text-align: right;">
                 <b-row class="justify-content-md-center">
-                  <b-col lg="10" style="background-color: #F333;">
+                  <b-col lg="10" style="">
                     <h1>Create your</h1>
                     <h1>dreamed event</h1>
                     <br>
@@ -119,7 +120,7 @@
       <!--Page 4-->
       <div class="section" style="background-color: #FFFF03;">
         <div class="explainer">
-          <div class="" style="background-color: #F111">
+          <div class="" style="padding: 10% 0 10% 0">
             <b-row align-h="between" style="text-align: center;">
               <b-col lg="5" align-self="center" style="">
                 <h1 style="color: blue; font-weight: bold; font-size: 50px">Vote</h1>
@@ -129,9 +130,9 @@
                 <h4>Bla Bla bla bla bla</h4>
                 <h4>Bla bla bla bla</h4>
               </b-col>
-              <b-col align-self="center" style="background-color: #F234;">
+              <b-col align-self="center" style="">
                 <img src="../assets/plus.svg"
-                     style="width: 50%; max-width: 200px;"/>
+                     style="width: 50%; max-width: 80px; margin: 5% 0 5% 0"/>
               </b-col>
               <b-col lg="5" align-self="center" style="">
                 <h1 style="color: red; font-weight: bold; font-size: 50px">Validation</h1>
@@ -147,14 +148,17 @@
       </div>
       <div class="section">
         <div class="explainer">
-          <b-container class="" style="text-align: center; background-color: #F111">
-            <h1>Welcome to Guesser</h1>
+          <b-container class="" style="text-align: center;">
+            <h1>
+              Welcome to Guesser <img src="../assets/beard.png"
+              class="d-inline-block align-top" style="width: 50px;" alt="BV">
+            </h1>
             <br>
             <h3>Bla bla bla bla bla bla</h3>
             <h3>Bla bla Bla bla bla bla bla bla</h3>
             <h3>Bla bla bla bla bla bla</h3>
             <b-container style="padding: 2%; margin-top: 10%; display: flex; justify-content: center;">
-              <b-button href="#create" variant="outline-primary lg" style="padding-bottom: 0;">
+              <b-button href="#home" variant="outline-primary lg" style="padding-bottom: 0;">
                 <h1>Start Guessing!</h1>
               </b-button>
             </b-container>
@@ -163,7 +167,7 @@
           </b-container>
         </div>
       </div>
-    </full-page>
+    <!--</full-page>-->
   </div>
 
   </div>
@@ -180,7 +184,9 @@ export default {
   data () {
     return {
       options: {
-        paddingTop: '30px'
+        autoScrolling: false,
+        scrollBar: false,
+        fitToSection: true
       },
       topics: ['Crypto', 'Celebrities', 'Entertainment', 'Gaming', 'Humor', 'News', 'Politics', 'Sports', 'Technology', 'Random'],
       guess: {
@@ -207,7 +213,8 @@ export default {
 
 <style scope lang="scss">
 .explainer {
-  padding: 10%;
+ padding: 8% 10% 8% 10%;
+ width: 100%;
 }
 .show {
   padding: 5% 3% 5% 2%;
@@ -215,7 +222,12 @@ export default {
 }
 .tipe2 {
   background-color: pink;
-  background-image: url("../assets/Background-beard2.svg");
-  /*background-repeat: no-repeat;*/
+  background-image: url("../assets/beardground.png");
 }
+/*.section {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content:center;
+}*/
 </style>

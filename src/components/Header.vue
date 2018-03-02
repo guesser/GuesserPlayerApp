@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--Image and text -->
-    <b-navbar type="light" variant="transparent" toggleable="md">
+    <b-navbar type="light" variant="transparent" v-bind:class="{ fixed: fixedActive }" style="z-index: 2;" toggleable="md">
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
       <b-navbar-brand href="#/">
         <img src="../assets/beard.png" height="40" width="40" class="d-inline-block align-top" alt="BV">
@@ -49,6 +49,7 @@ export default {
   name: 'TopBar',
   data: function () {
     return {
+      fixedActive: false,
       networkStatus: 'Network is faster than ⚡'
     }
   }
@@ -60,7 +61,11 @@ export default {
   font-size: 28px;
 }
 .bg-transparent{
-    background-color: rgba(white, 0.85) !important;
+    background-color: rgba(white, 0.5) !important;
+}
+.fixed {
+  position: fixed !important;
+  width: 100%;
 }
 </style>
 
