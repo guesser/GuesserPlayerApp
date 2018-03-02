@@ -2,6 +2,23 @@
   <div>
     <TopBar/>
     <main>
+
+    <br>
+    <b-alert
+      style='width: 70%; margin-left: 15%;'
+             :show="dismissCountDown"
+             dismissible
+             variant="warning"
+             @dismissed="dismissCountDown=0"
+             @dismiss-count-down="countDownChanged">
+      <p>Another Event created!</p>
+      <b-progress variant="warning"
+                  :max="dismissSecs"
+                  :value="dismissCountDown"
+                  height="4px">
+      </b-progress>
+    </b-alert>
+
     <router-view></router-view>
     </main>
 
@@ -12,6 +29,7 @@
 </template>
 
 <script>
+import GuessHelper from '@/js/Guess'
 // Vue components
 import TopBar from './components/Header.vue'
 
@@ -22,12 +40,42 @@ export default {
   },
   data: function () {
     return {
+      firstEventPassed: false,
+      GuessCreated: '',
+      dismissSecs: 5,
+      dismissCountDown: 0,
+      showDismissibleAlert: false
     }
   },
   methods: {
     changeView (view) {
       this.$router.push('/' + view)
+    },
+    countDownChanged (dismissCountDown) {
+      this.dismissCountDown = dismissCountDown
+    },
+    showAlert () {
+      this.dismissCountDown = this.dismissSecs
     }
+  },
+  beforeCreate: function () {
+    let self = this
+    GuessHelper.init().then(() => {
+      GuessHelper.GuessCreated.watch(function (error, result) {
+        if (!error) {
+          if (!self.firstEventPassed) {
+            self.firstEventPassed = true
+          } else {
+            self.showAlert()
+            self.GuessCreated = result.event
+          }
+        } else {
+          console.log(error)
+        }
+      })
+    }).catch(err => {
+      console.log(err)
+    })
   }
 }
 </script>
