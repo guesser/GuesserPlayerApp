@@ -77,7 +77,7 @@
           </b-col>
           <b-col>
             <b-row align-h="center" style="justify-content: center;">
-              <img src="/static/beard-hold.svg" width="40%" alt=":'("/>         
+              <img src="static/beard-hold.svg" width="40%" alt=":'("/>         
             </b-row>
             <b-row align-h="center">
               <b-button href="#create" variant="primary" size="lg">Create</b-button>

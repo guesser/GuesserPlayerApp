@@ -29,7 +29,7 @@
           <b-container class="" style="text-align: center">
             <b-row align-h="between" style="">
               <b-container style="padding: 2% 2% 2% 0; display: flex; justify-content: center;">
-                <img src="/static/guesserTrans.png"
+                <img src="static/guesserTrans.png"
                      style="width: 35%; max-width: 40vh;"/>
               </b-container>
             </b-row>
@@ -44,7 +44,7 @@
       </div>
 
       <!--Page 3-->
-      <div class="section tipe2">
+      <div class="section tipe2" style='background-image: url("static/beardground.png");'>
         <div class="explainer">
           <b-container class="show" style="min-width: 80%">
             <b-row align-h="between" style="">
@@ -227,7 +227,7 @@ export default {
 }
 .tipe2 {
   background-color: pink;
-  background-image: url("/static/beardground.png");
+  /* background-image: url("/static/beardground.png"); */
 }
 /*.section {
   height: 100vh;
