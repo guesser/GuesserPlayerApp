@@ -15,7 +15,7 @@
       It seems the voting failed...
     </b-alert>
 
-
+    <!--If guesses-->
     <div v-if='guessIndex != null'>
       <b-card :border-variant="topic"
              :header="guess.title"
@@ -65,8 +65,9 @@
       </b-card>
     </div>
 
+    <!--If no guesses-->
     <div v-else>
-      <b-container class="">
+      <b-container class="" style="">
         <b-row align-h="between">
           <b-col align-self="center">
             <h1>Oops!</h1>
@@ -75,13 +76,13 @@
             <h3>Do you want to create one?</h3>
           </b-col>
           <b-col>
-            <b-container style="justify-content: center;">
-              <img src="../../assets/beard-hold.svg" height="250" width="250" alt="There are no Guesses... :'("/>         
-            </b-container>
+            <b-row align-h="center" style="justify-content: center;">
+              <img src="../../assets/beard-hold.svg" width="40%" alt=":'("/>         
+            </b-row>
+            <b-row align-h="center">
+              <b-button href="#create" variant="primary" size="lg">Create</b-button>
+            </b-row>
           </b-col>
-        </b-row>
-        <b-row align-h="center">
-          <b-button href="#create" variant="primary" size="lg">Create</b-button>
         </b-row>
       </b-container>
     </div>
