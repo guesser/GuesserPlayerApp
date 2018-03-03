@@ -28,9 +28,13 @@
                     label="Description:"
                     label-for="descriptionInput">
         <b-form-textarea id="descriptionInput"
+                         maxlength="140"
                          v-model="form.description"
                          required>
         </b-form-textarea>
+        <!--TODO: Update when change input-->
+        <!--<span> {{ remchar }} characters remaining</span>-->
+        <span> {{ remchar }} characters max </span>
       </b-form-group>
 
       <!--Topics-->
@@ -101,6 +105,7 @@ export default {
         option1: '',
         option2: ''
       },
+      remchar: 140,
       hourValue: 1,
       slider: {
         lineHeight: 10,

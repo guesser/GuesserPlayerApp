@@ -18,74 +18,76 @@
       It seems the voting failed...
     </b-alert>
 
-    <span v-for="n in counter1">
-    <b-card-group deck class="mb-3">
-        <b-card
-           v-for="j in counter2"
-           :key="j"
-           v-if="guesses[2*n + j]"
-           style="width: 20rem; height: 100%;"
-           :border-variant="topic"
-           :header="guesses[2*n + j].title"
-           :header-border-variant="topic"
-           header-text-variant="black"
-           align="center">
-          <p class="card-text">
-          From: <b>{{guesses[2*n + j].startingDay}}</b>
+    <div v-if="totalGuesses != 0">
+      <h2>Other cool events:</h2>
+      <span v-for="n in counter1">
+        <b-card-group deck class="mb-3">
+          <b-card
+                           v-for="j in counter2"
+                           :key="j"
+                           v-if="guesses[2*n + j]"
+                           style="width: 20rem; height: 100%;"
+                           :border-variant="topic"
+                           :header="guesses[2*n + j].title"
+                           :header-border-variant="topic"
+                           header-text-variant="black"
+                           align="center">
+            <p class="card-text">
+            From: <b>{{guesses[2*n + j].startingDay}}</b>
+            <br>
+            To: <b>{{guesses[2*n + j].finishingDay}}</b>
+            </p>
+            <b-button style="margin-right: 20px"
+                      @click="showPaymentModal(guesses[2*n + j].id, 1, 2*n +j)"
+                      variant="outline-pink" size="sm">
+              {{guesses[2*n +j].option1}}
+            </b-button>
+            <b-button @click="showPaymentModal(guesses[2*n + j].id, 2, 2*n + j)" variant="outline-magenta" size="sm">{{guesses[2*n +j].option2}}</b-button>
+          </b-card>
+        </b-card-group>
+      </span>
+
+      <!-- Modal Payment -->
+      <div v-if='guesses.length > 0'>
+        <b-modal ref="paymentModal"
+                 centered
+                 title="Vote an event"
+                 hide-footer
+                 :header-bg-variant="topic">
+          <label>Title: {{guesses[arrayIndex].title}}</label>
           <br>
-          To: <b>{{guesses[2*n + j].finishingDay}}</b>
-          </p>
-          <b-button style="margin-right: 20px"
-            @click="showPaymentModal(guesses[2*n + j].id, 1, 2*n +j)"
-            variant="outline-pink" size="sm">
-            {{guesses[2*n +j].option1}}
-          </b-button>
-          <b-button @click="showPaymentModal(guesses[2*n + j].id, 2, 2*n + j)" variant="outline-magenta" size="sm">{{guesses[2*n +j].option2}}</b-button>
-        </b-card>
-    </b-card-group>
-    </span>
-        <h4 class="absolute-center" v-if='totalGuesses == 0'>There are no Guesses over here!</h4>
 
-    <!-- Modal Payment -->
-    <div v-if='guesses.length > 0'>
-    <b-modal ref="paymentModal"
-             centered
-             title="Vote an event"
-             hide-footer
-             :header-bg-variant="topic">
-      <label>Title: {{guesses[arrayIndex].title}}</label>
-      <br>
+          <label>Description: {{guesses[arrayIndex].description}}</label>
+          <br>
 
-      <label>Description: {{guesses[arrayIndex].description}}</label>
-      <br>
+          <span>Number of votes in each option: </span>
+          <b-progress class="mt-1" :max="10*(guesses[arrayIndex].votes/10)" show-value striped>
+            <b-progress-bar :value="10*(guesses[arrayIndex].option1votes/10)" variant="pink">
+              {{guesses[arrayIndex].option1}} - {{ guesses[arrayIndex].option1votes }}
+            </b-progress-bar>
+            <b-progress-bar :value="10*(guesses[arrayIndex].option2votes/10)" variant="magenta">
+              {{guesses[arrayIndex].option2}} - {{ guesses[arrayIndex].option2votes }}
+            </b-progress-bar>
+          </b-progress>
+          <small>Total: {{guesses[arrayIndex].votes}} people</small>
+          <br>
+          <br>
 
-    <span>Number of votes in each option: </span>
-    <b-progress class="mt-1" :max="10*(guesses[arrayIndex].votes/10)" show-value striped>
-      <b-progress-bar :value="10*(guesses[arrayIndex].option1votes/10)" variant="pink">
-        {{guesses[arrayIndex].option1}} - {{ guesses[arrayIndex].option1votes }}
-      </b-progress-bar>
-      <b-progress-bar :value="10*(guesses[arrayIndex].option2votes/10)" variant="magenta">
-        {{guesses[arrayIndex].option2}} - {{ guesses[arrayIndex].option2votes }}
-      </b-progress-bar>
-    </b-progress>
-    <small>Total: {{guesses[arrayIndex].votes}} people</small>
-    <br>
-    <br>
+          <b-form-group id="titleGroup"
+                        label="Ether amount to send:"
+                        label-for="amountInput">
+            <b-form-input id="amountInput"
+                          type="number"
+                          v-model="ethAmountToVote"
+                          required>
+            </b-form-input>
+          </b-form-group>
 
-      <b-form-group id="titleGroup"
-                    label="Ether amount to send:"
-                    label-for="amountInput">
-        <b-form-input id="amountInput"
-                      type="number"
-                      v-model="ethAmountToVote"
-                      required>
-        </b-form-input>
-      </b-form-group>
+          <b-button @click="voteGuess()" variant="primary" size="sm">Vote</b-button>
+        </b-modal>
 
-      <b-button @click="voteGuess()" variant="primary" size="sm">Vote</b-button>
-    </b-modal>
-
-  </div>
+      </div>
+    </div>
   </div>
 </template>
 

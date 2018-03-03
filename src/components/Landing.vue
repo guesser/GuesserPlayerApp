@@ -10,7 +10,7 @@
               <b-col lg="8" align-self="end" style="margin-right: 5%;">
                 <h1>Can you predict the outcome</h1>
                 <h1>of the internet's hottest events?</h1>
-                <h2 style="color: gray;">Something</h2>
+                <h2 style="color: gray;">Probe it</h2>
               </b-col>
               <b-col style="">
                 <b-container style="padding: 2%; display: flex; justify-content: center;">
@@ -35,9 +35,10 @@
             </b-row>
             <h1>What is Guesser ?</h1>
             <br>
-            <h3>Bla bla bla bla bla bla</h3>
-            <h3>Bla bla Bla bla bla bla bla bla</h3>
-            <h3>Bla bla bla bla bla bla</h3>
+            <h3>Guesser is the DApp where you can dare other members of the net
+              and probe that you can predict the future.<br>
+              Become an expert guesser, the most famous events creator or empower yourself between the validators community.
+            </h3>
           </b-container>
         </div>
       </div>
@@ -101,9 +102,10 @@
                     <h1>Create your</h1>
                     <h1>dreamed event</h1>
                     <br>
-                    <h4>Bla bla bla bla bla bla bla</h4>
-                    <h4>Bla bla bla bla bla bla</h4>
-                    <h4>Bla bla bla bla bla bla bla</h4>
+                    <h3 style="color: gray;">
+                      Easy, fast and clean.<br>
+                      Ask the question and let the network do the rest
+                    </h3>
                     <br>
                     <b-container style="padding: 2%; margin-top: 10%; display: flex; justify-content: center;">
                       <b-button href="#create" variant="primary" style="padding-bottom: 0;">
@@ -125,27 +127,29 @@
               <b-col lg="5" align-self="center" style="">
                 <h1 style="color: blue; font-weight: bold; font-size: 50px">Vote</h1>
                 <br>
-                <h4>Bla bla bla bla</h4>
-                <h4>Bla bla bla bla bla bla bla</h4>
-                <h4>Bla Bla bla bla bla</h4>
-                <h4>Bla bla bla bla</h4>
+                <h4>
+                  With your ether and your intuition you can guess the future<br>
+                  Risk has good rewards
+                </h4>
               </b-col>
               <b-col align-self="center" style="">
                 <img src="../assets/plus.svg"
                      style="width: 50%; max-width: 80px; margin: 5% 0 5% 0"/>
               </b-col>
               <b-col lg="5" align-self="center" style="">
-                <h1 style="color: red; font-weight: bold; font-size: 50px">Validation</h1>
+                <h1 style="color: blue; font-weight: bold; font-size: 50px">Validation</h1>
                 <br>
-                <h4>Bla bla bla bla</h4>
-                <h4>Bla bla bla bla bla bla bla</h4>
-                <h4>Bla Bla bla bla bla</h4>
-                <h4>Bla bla bla bla</h4>
+                <h4>
+                  You are player and judge<br>
+                  If you play fair you can earn fancy rewards
+                </h4>
               </b-col>
             </b-row>
           </div>
         </div>
       </div>
+
+      <!--Page 5-->
       <div class="section">
         <div class="explainer">
           <b-container class="" style="text-align: center;">
@@ -154,9 +158,10 @@
               class="d-inline-block align-top" style="width: 50px;" alt="BV">
             </h1>
             <br>
-            <h3>Bla bla bla bla bla bla</h3>
-            <h3>Bla bla Bla bla bla bla bla bla</h3>
-            <h3>Bla bla bla bla bla bla</h3>
+            <h3 style="color: gray">
+              Guesser is one of the first games built in the ethereum blockchain technology.<br>
+              You can create, vote and validate events with ethereum cryptocurrency, secured by the inmutable blockchain tracking.
+            </h3>
             <b-container style="padding: 2%; margin-top: 10%; display: flex; justify-content: center;">
               <b-button href="#home" variant="outline-primary lg" style="padding-bottom: 0;">
                 <h1>Start Guessing!</h1>

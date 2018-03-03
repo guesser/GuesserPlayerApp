@@ -1,7 +1,5 @@
 <template>
   <div>
-    <br>
-    <br>
     <div class='topics'>
       <TopicList @topic-updated="updateTopic"/>
     </div>
@@ -9,7 +7,6 @@
       <h2>The <b>{{topic}}</b> event of the day!</h2>
       <GuessOfTheDay :topic="topic"/>
       <br>
-      <h2>Other cool events:</h2>
       <OtherGuesses :topic="topic"/>
     </div>
   </div>

@@ -104,10 +104,11 @@ main{
   bottom:0;
 }
 
-/*@media screen and (max-width: 576px) {
-    body{font-size: 0.5em;}
-    h1{font-size: 2em;}
-}*/
+@include media-breakpoint-down(sm) {
+  .toplist{
+    display: none !important;
+  }
+}
 
 h5{
     font-size: 1.4em;
