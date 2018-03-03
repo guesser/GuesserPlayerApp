@@ -179,13 +179,9 @@
 </template>
 
 <script>
-import FullPage from 'vue-fullpage.js'
 
 export default {
   name: 'Landing',
-  components: {
-    FullPage
-  },
   data () {
     return {
       options: {
