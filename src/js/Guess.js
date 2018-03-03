@@ -121,7 +121,7 @@ const GuessHelper = {
     return new Promise((resolve, reject) => {
       self.instance.getGuess.call(
         index,
-        {from: self.address}
+        {from: self.address[0]}
       ).then(guess => {
         resolve([
           window.web3.utils.hexToUtf8(guess[0]), // title
@@ -144,7 +144,7 @@ const GuessHelper = {
     return new Promise((resolve, reject) => {
       self.instance.getGuessOptions.call(
         index,
-        {from: self.address}
+        {from: self.address[0]}
       ).then(guess => {
         resolve([
           window.web3.utils.hexToUtf8(guess[0]), // option1
@@ -166,7 +166,7 @@ const GuessHelper = {
     return new Promise((resolve, reject) => {
       self.instance.getGuessOptionsProfits.call(
         index,
-        {from: self.address}
+        {from: self.address[0]}
       ).then(guess => {
         resolve([
           window.web3.utils.fromWei(guess[0].c[0].toString(), 'Kwei'), // amount of eth in the 1 option

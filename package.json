@@ -24,6 +24,7 @@
     "bootstrap-vue": "^1.4.0",
     "epic-spinners": "^1.0.2",
     "fullpage.js": "^2.9.6",
+    "ganache-cli": "^6.0.3",
     "moment": "^2.20.1",
     "truffle": "^4.0.0-beta.2",
     "truffle-contract": "^3.0.0",
