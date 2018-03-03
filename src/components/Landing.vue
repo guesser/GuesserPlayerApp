@@ -29,7 +29,7 @@
           <b-container class="" style="text-align: center">
             <b-row align-h="between" style="">
               <b-container style="padding: 2% 2% 2% 0; display: flex; justify-content: center;">
-                <img src="../assets/guesserTrans.png"
+                <img src="/static/guesserTrans.png"
                      style="width: 35%; max-width: 40vh;"/>
               </b-container>
             </b-row>
@@ -227,7 +227,7 @@ export default {
 }
 .tipe2 {
   background-color: pink;
-  background-image: url("../assets/beardground.png");
+  background-image: url("/static/beardground.png");
 }
 /*.section {
   height: 100vh;
