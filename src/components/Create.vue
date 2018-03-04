@@ -81,8 +81,10 @@
           </VueSlideBar>
         </div>
         <br>
+        <br>
+        <br>
 
-        <b-button type="submit" variant="primary">Create</b-button>
+        <b-button type="submit" variant="primary" size='lg'>Create</b-button>
      </b-form>
   </div>
 </template>

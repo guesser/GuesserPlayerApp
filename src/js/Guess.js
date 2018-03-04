@@ -183,8 +183,7 @@ const GuessHelper = {
 
     return new Promise((resolve, reject) => {
       self.instance.getTodayGuess.call(
-        window.web3.utils.toHex(topic),
-        {from: self.address}
+        window.web3.utils.toHex(topic)
       ).then(_guessIndex => {
         resolve(_guessIndex)
       }).catch(err => {
@@ -200,8 +199,7 @@ const GuessHelper = {
       self.instance.getGuessesByDate.call(
         index,
         window.web3.utils.toHex(topic),
-        date,
-        {from: self.address}
+        date
       ).then(_guessesIndex => {
         resolve(_guessesIndex)
       }).catch(err => {

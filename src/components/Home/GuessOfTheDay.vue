@@ -60,6 +60,7 @@
 
         <br>
         <br>
+        <br>
         <b-button style="margin-right: 20px" @click="showPaymentModal(1)" variant="outline-pink" size="sm">{{guess.option1}}</b-button>
         <b-button @click="showPaymentModal(2)" variant="outline-magenta" size="sm">{{guess.option2}}</b-button>
       </b-card>
@@ -76,12 +77,8 @@
             <h3>Do you want to create one?</h3>
           </b-col>
           <b-col>
-            <b-row align-h="center" style="justify-content: center;">
               <img src="static/beard-hold.svg" width="40%" alt=":'("/>         
-            </b-row>
-            <b-row align-h="center">
               <b-button href="#create" variant="primary" size="lg">Create</b-button>
-            </b-row>
           </b-col>
         </b-row>
       </b-container>
@@ -169,7 +166,7 @@ export default {
         self.getOptions()
         self.getOptionsProfits()
       }).catch(err => {
-        console.error(err)
+        return err
       })
     },
     voteGuess () { // Option has to be 1 or 2
@@ -201,9 +198,6 @@ export default {
         self.guess.option1AmountEth = parseInt(optionsAmount[0]) / 10
         self.guess.option2AmountEth = parseInt(optionsAmount[1]) / 10
         self.guess.amountEth = parseInt(optionsAmount[0]) / 10 + parseInt(optionsAmount[1]) / 10
-        console.log(self.guess.option1AmountEth)
-        console.log(self.guess.option2AmountEth)
-        console.log(self.guess.amountEth)
       })
     }
   },

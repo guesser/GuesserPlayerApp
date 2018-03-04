@@ -151,7 +151,6 @@ export default {
             this.totalGuesses += 1
             this.printGuessesOptions(_index, this.totalGuesses - 1)
             this.contentLoaded = false
-            console.log('Size is: ', this.guessesByNumber.length)
           }).catch(err => {
             console.log(err)
             this.contentLoaded = false
@@ -163,7 +162,6 @@ export default {
     printGuessesOptions (_index, _localIndex) {
       let self = this
       GuessHelper.getGuessOptions(_index).then((guess) => {
-        console.log(self.guesses[_localIndex].finishingDay)
         if (self.$moment(self.guesses[_localIndex].finishingDayUnformated) > self.$moment().add(0, 'hours')) {
           self.guesses[_localIndex].option1 = guess[0]
           self.guesses[_localIndex].option2 = guess[1]
@@ -182,11 +180,10 @@ export default {
         GuessHelper.getGuessesByDate(0, this.topic, this.$moment().add(i, 'days').unix()).then((_guesses) => {
           console.log(_guesses)
           self.guessesByNumber = self.guessesByNumber.concat(_guesses)
-          console.log('To show: ', self.guessesByNumber)
           self.printGuesses()
         }).catch(err => {
-          console.log(err)
           this.contentLoaded = false
+          return err
         })
       }
     },
