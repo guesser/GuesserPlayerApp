@@ -127,31 +127,31 @@ export default {
     printGuesses () {
       this.guesses = []
       for (var i = 0; i < this.guessesByNumber.length; i++) {
-        console.log(this.guessesByNumber[i].c[0])
         let _index = this.guessesByNumber[i].c[0]
         if (_index !== 0) { // Guess 0 is the empty one
           GuessHelper.getGuessFront(_index).then((guess) => {
             // console.log(guess)
-            let month1 = parseInt(guess[5].getMonth()) + 1
-            let month2 = parseInt(guess[6].getMonth()) + 1
-            this.guesses.push({
-              'id': _index,
-              'title': guess[0],
-              'description': guess[1],
-              'topic': guess[2],
-              'votes': guess[4],
-              'startingDay': guess[5].getUTCDate() + '-' + month1 + '-' + guess[6].getFullYear(),
-              'finishingDay': guess[6].getUTCDate() + '-' + month2 + '-' + guess[5].getFullYear(),
-              'finishingDayUnformated': this.$moment(guess[6]),
-              'option1': 'Loading...',
-              'option2': 'Loading...',
-              'option1votes': 'Loading...',
-              'option2votes': 'Loading...'
-            })
-          }).then(() => {
-            this.totalGuesses += 1
-            this.printGuessesOptions(_index, this.totalGuesses - 1)
-            this.contentLoaded = false
+            if (this.$moment(guess[6]) > this.$moment().add(0, 'hours')) {
+              let month1 = parseInt(guess[5].getMonth()) + 1
+              let month2 = parseInt(guess[6].getMonth()) + 1
+              this.guesses.push({
+                'id': _index,
+                'title': guess[0],
+                'description': guess[1],
+                'topic': guess[2],
+                'votes': guess[4],
+                'startingDay': guess[5].getUTCDate() + '-' + month1 + '-' + guess[6].getFullYear(),
+                'finishingDay': guess[6].getUTCDate() + '-' + month2 + '-' + guess[5].getFullYear(),
+                'finishingDayUnformated': this.$moment(guess[6]),
+                'option1': 'Loading...',
+                'option2': 'Loading...',
+                'option1votes': 'Loading...',
+                'option2votes': 'Loading...'
+              })
+              this.printGuessesOptions(_index, this.totalGuesses)
+              this.totalGuesses += 1
+              this.contentLoaded = false
+            }
           }).catch(err => {
             console.log(err)
             this.contentLoaded = false
