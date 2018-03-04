@@ -161,10 +161,13 @@ export default {
     getGuessOfTheDay () {
       let self = this
       GuessHelper.getGuessOfTheDay(this.topic).then((guessNumber) => {
-        self.guessIndex = guessNumber.c[0]
-        self.getGuess()
-        self.getOptions()
-        self.getOptionsProfits()
+        if (guessNumber !== 0) {
+          console.log('Number: ', guessNumber)
+          self.guessIndex = guessNumber
+          self.getGuess()
+          self.getOptions()
+          self.getOptionsProfits()
+        }
       }).catch(err => {
         return err
       })

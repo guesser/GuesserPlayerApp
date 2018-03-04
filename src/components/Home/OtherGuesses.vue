@@ -127,10 +127,11 @@ export default {
     printGuesses () {
       this.guesses = []
       for (var i = 0; i < this.guessesByNumber.length; i++) {
+        console.log(this.guessesByNumber[i].c[0])
         let _index = this.guessesByNumber[i].c[0]
         if (_index !== 0) { // Guess 0 is the empty one
           GuessHelper.getGuessFront(_index).then((guess) => {
-            console.log(guess)
+            // console.log(guess)
             let month1 = parseInt(guess[5].getMonth()) + 1
             let month2 = parseInt(guess[6].getMonth()) + 1
             this.guesses.push({
@@ -178,14 +179,17 @@ export default {
     getGuessesByDate () {
       let self = this
 
-      for (let i = 0; i < 6; i++) {
+      let _counter = 0
+      for (var i = 0; i < 6; i++) {
         GuessHelper.getGuessesByDate(0, this.topic, this.$moment().add(i, 'days').unix()).then((_guesses) => {
-          console.log(_guesses)
           self.guessesByNumber = self.guessesByNumber.concat(_guesses)
-          self.printGuesses()
+          _counter++
+          if (_counter === 6) {
+            self.printGuesses()
+          }
         }).catch(err => {
           this.contentLoaded = false
-          console.log(err)
+          return err
         })
       }
     },
