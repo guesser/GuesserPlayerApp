@@ -155,6 +155,9 @@ export default {
             console.log(err)
             this.contentLoaded = false
           })
+        } 
+        else {
+          this.contentLoaded = false
         }
       }
     },
