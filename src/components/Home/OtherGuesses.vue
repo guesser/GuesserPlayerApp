@@ -183,7 +183,7 @@ export default {
           self.printGuesses()
         }).catch(err => {
           this.contentLoaded = false
-          return err
+          console.log(err)
         })
       }
     },
