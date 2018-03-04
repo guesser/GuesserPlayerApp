@@ -155,8 +155,7 @@ export default {
             console.log(err)
             this.contentLoaded = false
           })
-        } 
-        else {
+        } else {
           this.contentLoaded = false
         }
       }
