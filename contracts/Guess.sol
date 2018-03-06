@@ -313,9 +313,9 @@ contract Guess is DateTime{
     }
     GuessValidated(_guess, _option, msg.sender);
 
-    // if(validations == half) {
-      // TODO: Write the return of the money
-    // }
+    if(validations == half) {
+      returnProfits(_guess);
+    }
   }
 
   /**
@@ -347,9 +347,19 @@ contract Guess is DateTime{
     uint256 _totalWinnersProfits = getGuessProfitsByOption(_guess, _winner);
     for(uint256 _voterIndex = 0; _voterIndex < guesses[_guess].voters.length; _voterIndex++) {
       // WARNING: Only will work with non contracts addresses
+      uint256 index = 10;
+      uint256 _precision = 0;
+      while (_totalProfits*100 > index) {
+        index = index * 10;
+        _precision++;
+      }
+
       address person = guesses[_guess].voters[_voterIndex];
-      percentage = (guesses[_guess].votersOption[person][1])/_totalWinnersProfits;
-      guesses[_guess].voters[_voterIndex].transfer(_totalProfits * percentage); // TODO: Test this actually sends the money
+      percentage = percent(guesses[_guess].votersOption[person][1], _totalWinnersProfits, _precision);
+
+      uint256 _final = ((_totalProfits * 10) * percentage);
+      
+      guesses[_guess].voters[_voterIndex].transfer(_final / index);
     }
 
     guesses[_guess].profitsReturned = true;
