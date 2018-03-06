@@ -77,11 +77,13 @@
             <h3>Do you want to create one?</h3>
           </b-col>
           <b-col>
-              <img src="static/beard-hold.svg" width="40%" alt=":'("/>         
-              <b-button href="#create" variant="primary" size="lg">Create</b-button>
+              <img src="static/beard-hold.png" style="width: 70%; heihgt =70%;" alt=":'("/>         
           </b-col>
         </b-row>
-      </b-container>
+        <b-row>
+              <b-button href="#create" variant="primary" size="lg">Create</b-button>
+        </b-row>    
+        </b-container>
     </div>
 
     <!-- Modal Payment -->
