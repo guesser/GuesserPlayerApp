@@ -15,7 +15,7 @@
       It seems the voting failed...
     </b-alert>
 
-    <!--If guesses-->
+    <!--If events-->
     <div v-if='guessIndex != null'>
       <b-card :border-variant="topic"
              :header="guess.title"
@@ -66,7 +66,7 @@
       </b-card>
     </div>
 
-    <!--If no guesses-->
+    <!--If no events-->
     <div v-else>
       <b-container class="" style="">
         <b-row align-h="between">
