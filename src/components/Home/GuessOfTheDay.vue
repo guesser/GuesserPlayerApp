@@ -27,13 +27,13 @@
         </p>
         <br>
         <p class="card-text">
-        From: <b>{{guess.startingDay}}</b>
+        Created at: <b>{{guess.startingDay}}</b>
         <br>
-        To: <b>{{guess.finishingDay}}</b>
+        Open until: <b>{{guess.finishingDay}}</b>
         </p>
         <br>
         <!--Number of people Progress Bar-->
-        <span>Number of votes in each option: </span>
+        <span>Votes for each outcome: </span>
         <b-progress class="mt-1" :max="10*(guess.votes/10)" show-value striped>
           <b-progress-bar :value="10*(guess.option1votes/10)" variant="pink">
             {{guess.option1}} - {{ guess.option1votes }}
@@ -47,7 +47,7 @@
         <!--Amount of eth in each option-->
         <br>
         <br>
-        <span>Eth amout in each option: </span>
+        <span>Eth staked on each outcome: </span>
         <b-progress class="mt-1" :max="10*(guess.amountEth/10)" show-value striped>
           <b-progress-bar :value="10*(guess.option1AmountEth/10)" variant="pink">
             {{guess.option1}} - {{ guess.option1AmountEth }}
@@ -71,10 +71,8 @@
       <b-container class="" style="">
         <b-row align-h="between">
           <b-col align-self="center">
-            <h1>Oops!</h1>
-            <br>
-            <h3>Sorry, there are no events</h3>
-            <h3>Do you want to create one?</h3>
+            <h3>Looks like there are no recent events for this topic!</h3>
+            <h3>Is not the best time to create one?</h3>
           </b-col>
           <b-col>
               <img src="static/beard-hold.png" style="width: 70%; heihgt =70%;" alt=":'("/>         
@@ -93,7 +91,7 @@
              hide-footer
              :header-bg-variant="topic">
       <b-form-group id="titleGroup"
-                    label="Ether amount to send:"
+                    label="Amount of other you want to sent:"
                     label-for="amountInput">
         <b-form-input id="amountInput"
                       type="number"
