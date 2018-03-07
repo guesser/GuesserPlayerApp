@@ -152,8 +152,8 @@ export default {
         self.guess.description = guessDay[1]
         self.guess.topic = guessDay[2]
         self.guess.votes = guessDay[4]
-        self.guess.startingDay = this.$moment(guessDay[5]).format('MMMM Do YYYY, h a')
-        self.guess.finishingDay = this.$moment(guessDay[6]).format('MMMM Do YYYY, h a')
+        self.guess.startingDay = this.$moment(guessDay[5]).format('MMMM D, YYYY [at] H[h]')
+        self.guess.finishingDay = this.$moment(guessDay[6]).format('MMMM D, YYYY [at] H[h]')
       }).catch(err => {
         console.log(err)
       })
