@@ -18,6 +18,7 @@
         <b-form-input id="titleInput"
                       type="text"
                       maxlength="31"
+                      placeholder="Short and clear name of the event"
                       v-model="form.title"
                       required>
         </b-form-input>
@@ -29,29 +30,44 @@
                     label-for="descriptionInput">
         <b-form-textarea id="descriptionInput"
                          maxlength="140"
+                         placeholder="Tell people about what's happening in 140 characters"
                          v-model="form.description"
                          required>
         </b-form-textarea>
         <!--TODO: Update when change input-->
         <!--<span> {{ remchar }} characters remaining</span>-->
-        <span> {{ remchar }} characters max </span>
       </b-form-group>
 
       <!--Topics-->
       <p class='info-section'>Topic:</p>
-      <b-form-radio-group id="btnradios2"
-                          buttons
-                          button-variant="outline-primary"
-                          size="sm"
-                          v-model="form.topic"
-                          :options="topics"
-                          name="radioBtnOutline" />
-      </b-form-group>
+      <div v-if="windowWidth >= 800">
+        <b-form-radio-group id="btnradios2"
+                            buttons
+                            button-variant="outline-primary"
+                            size="sm"
+                            v-model="form.topic"
+                            :options="topics"
+                            name="radioBtnOutline" />
+        </b-form-group>
+      </div>
+      <div v-else>
+        <b-dropdown id="ddown-header" text="Select a topic" variant="primary" class="m-2">
+          <b-form-radio-group id="btnradios3"
+                              style="width: 100%"
+                              buttons
+                              stacked
+                              button-variant="outline-primary"
+                              v-model="form.topic"
+                              :options="topics"
+                              name="radioBtnOutline" />
+          </b-form-group>
+        </b-dropdown>
+      </div>
     </b-form-group>
 
     <br>
     <br>
-    <!--Options-->
+    <!--Outcomes-->
     <p class='info-section'>Outcomes:</p>
     <b-form inline>
       <label class="sr-only" for="option1Input" >Outcome1</label>
@@ -59,13 +75,13 @@
                id="option1Input"
                v-model='form.option1'
                maxlength="31"
-               placeholder="Option1"/>
+               placeholder="Outocome1"/>
         <label class="sr-only" for="option2Input">Outcome2</label>
         <b-input class="mb-2 mr-sm-2 mb-sm-0"
                  id="option2Input"
                  v-model='form.option2'
                  maxlength="31"
-                 placeholder="Option2"/>
+                 placeholder="Outcome2"/>
         </b-form>
         <div>
           <br>
@@ -85,7 +101,7 @@
         <br>
 
         <b-button type="submit" variant="primary" size='lg'>Create</b-button>
-     </b-form>
+      </b-form>
   </div>
 </template>
 
@@ -109,6 +125,7 @@ export default {
       },
       remchar: 140,
       hourValue: 1,
+      windowWidth: window.innerWidth,
       slider: {
         lineHeight: 10,
         processStyle: {
