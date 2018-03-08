@@ -75,7 +75,7 @@
             <h3>Is not the best time to create one?</h3>
           </b-col>
           <b-col>
-              <img src="static/beard-hold.png" style="width: 70%; heihgt =70%;" alt=":'("/>         
+              <img src="static/beard-hold.png" style="width: 70%;" alt=":'("/>         
           </b-col>
         </b-row>
         <b-row>

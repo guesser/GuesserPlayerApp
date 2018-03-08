@@ -1,14 +1,14 @@
 <template>
-  <div class='outside'>
+  <div class='outside' style="">
     <div v-if='contentLoaded'>
       <Loading/>
     </div>
-    <div class='inside'>
-    <b-card :border-variant="guess.topic"
-             :header="guess.title"
-             :header-bg-variant="guess.topic"
-             header-text-variant="white"
-             class="text-center">
+    <div v-if="guessExists" class='inside' style="">
+      <b-card :border-variant="guess.topic"
+                                           :header="guess.title"
+                                           :header-bg-variant="guess.topic"
+                                           header-text-variant="white"
+                                           class="text-center">
         <p class="card-text">
         {{guess.description}}
         </p>
@@ -51,9 +51,17 @@
         <b-button style="margin-right: 20px" @click="showPaymentModal(1)" variant="outline-pink" size="sm">{{guess.option1}}</b-button>
         <b-button @click="showPaymentModal(2)" variant="outline-magenta" size="sm">{{guess.option2}}</b-button>
       </b-card>
-  </div>
+    </div>
+    <div v-else>
+      <b-row align-h="center">
+        <img src="static/beard-hold.png" style="width: 30%; height: 30%;" alt=":'("/>         
+      </b-row>
+      <b-row align-h="center">
+        <h3>Looks like this event doesn't exist</h3>
+      </b-row>
+    </div>
 
-  <!-- Modal Payment -->
+    <!-- Modal Payment -->
     <b-modal ref="paymentModal"
              centered
              title="Choose amount"
@@ -107,7 +115,7 @@ export default {
         option2AmountEth: '0',
         amountEth: 0
       },
-      guessIndex: null,
+      guessExists: null,
       optionVoted: null,
       ethAmountToVote: 0
     }
@@ -137,6 +145,7 @@ export default {
         self.guess.votes = guessFound[4]
         self.guess.startingDay = this.$moment(guessFound[5]).format('MMMM Do YYYY, h a')
         self.guess.finishingDay = this.$moment(guessFound[6]).format('MMMM Do YYYY, h a')
+        self.guessExists = true
       }).catch(err => {
         console.log(err)
       })
@@ -194,6 +203,6 @@ export default {
 }
 
 .inside {
-width:50%;
+  width:50%;
 }
 </style>

@@ -51,7 +51,7 @@
         </b-form-group>
       </div>
       <div v-else>
-        <b-dropdown id="ddown-header" text="Select a topic" variant="primary" class="m-2">
+        <b-dropdown id="ddown" text="Select a topic" variant="primary" class="m-2">
           <b-form-radio-group id="btnradios3"
                               style="width: 100%"
                               buttons
@@ -190,5 +190,8 @@ export default {
   margin: 0% 10%;
   padding: 3% 0%;
   max-width: 800px;
+}
+.btn-primary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem #ff0d73 !important;
 }
 </style>
