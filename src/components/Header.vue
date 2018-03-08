@@ -15,16 +15,16 @@
           </b-nav-item>
 
           <!--Search button-->
-          <!--<b-nav-item>-->
-            <!--<form class="navbar-form" role="search">-->
-              <!--<div class="input-group">-->
-                <!--<input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">-->
-                <!--<div class="input-group-btn">-->
-                  <!--<button class="btn btn-default" type="submit"><i class="material-icons">search</i></button>-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</form>-->
-          <!--</b-nav-item>-->
+          <b-nav-item>
+            <form class="navbar-form" role="search">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term" v-model="form._id">
+                <div class="input-group-btn">
+                  <button class="btn btn-default" @click="changeToSearched" type="submit"><i class="material-icons" >search</i></button>
+                </div>
+              </div>
+            </form>
+          </b-nav-item>
 
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
@@ -50,7 +50,19 @@ export default {
   data: function () {
     return {
       fixedActive: false,
-      networkStatus: 'Network is faster than ⚡'
+      networkStatus: 'Network is faster than ⚡',
+      form: {
+        _id: ''
+      }
+    }
+  },
+  methods: {
+    changeToSearched () {
+      this.$router.push({
+        // path: `/search/${this.form._id}`
+        path: 'search', query: { _id: `${this.form._id}` }
+      })
+      console.log('Identifier: ', this.form._id)
     }
   }
 }
