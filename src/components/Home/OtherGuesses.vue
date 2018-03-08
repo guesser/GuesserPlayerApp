@@ -19,7 +19,7 @@
     </b-alert>
 
     <div v-if="totalGuesses != 0">
-      <h2>Other cool events:</h2>
+      <h2>Events you may like:</h2>
       <span v-for="n in counter1">
         <b-card-group deck class="mb-3">
           <b-card
@@ -33,9 +33,9 @@
                            header-text-variant="black"
                            align="center">
             <p class="card-text">
-            From: <b>{{guesses[2*n + j].startingDay}}</b>
+            Created at: <b>{{guesses[2*n + j].startingDay}}</b>
             <br>
-            To: <b>{{guesses[2*n + j].finishingDay}}</b>
+            Voting open until: <b>{{guesses[2*n + j].finishingDay}}</b>
             </p>
             <b-button style="margin-right: 20px"
                       @click="showPaymentModal(guesses[2*n + j].id, 1, 2*n +j)"
@@ -60,7 +60,7 @@
           <label>Description: {{guesses[arrayIndex].description}}</label>
           <br>
 
-          <span>Number of votes in each option: </span>
+          <span>Votes for each outcome: </span>
           <b-progress class="mt-1" :max="10*(guesses[arrayIndex].votes/10)" show-value striped>
             <b-progress-bar :value="10*(guesses[arrayIndex].option1votes/10)" variant="pink">
               {{guesses[arrayIndex].option1}} - {{ guesses[arrayIndex].option1votes }}
@@ -74,7 +74,7 @@
           <br>
 
           <b-form-group id="titleGroup"
-                        label="Ether amount to send:"
+                        label="Amount of ether you want to send:"
                         label-for="amountInput">
             <b-form-input id="amountInput"
                           type="number"

@@ -2,9 +2,10 @@
   <div>
     <!--<full-page :options="options" style="z-index: 0;">-->
 
-      <!--Page 1-->
-      <div class="section" style="">
-        <div class="explainer" style="">
+    <!--Page 1-->
+    <div class="section" style="">
+      <div class="explainer" style="">
+        <b-row class="maket" align-h="center">
           <b-container class="" style="padding-top: 10%">
             <b-row align-h="between" style="">
               <b-col lg="8" align-self="end" style="margin-right: 5%;">
@@ -13,24 +14,26 @@
                 <h2 style="color: gray;">Probe it</h2>
               </b-col>
               <b-col style="">
-                <b-container style="padding: 2%; display: flex; justify-content: center;">
+                <b-container class="maket" style="padding: 2%; justify-content: center;">
                   <img src="../assets/magic-ball2.svg"
                        style="width: 100%; max-width: 30vw;"/>
                 </b-container>
               </b-col>
             </b-row>
           </b-container>
-        </div>
+        </b-row>
       </div>
+    </div>
 
-      <!--Page 2-->
-      <div class="section" style="background-color: #FFFF03;">
-        <div class="explainer">
+    <!--Page 2-->
+    <div class="section" style="background-color: #FFFF03;">
+      <div class="explainer">
+        <b-row class="maket" align-h="center">
           <b-container class="" style="text-align: center">
             <b-row align-h="between" style="">
               <b-container style="padding: 2% 2% 2% 0; display: flex; justify-content: center;">
                 <img src="static/guesserTrans.png"
-                     style="width: 35%; max-width: 40vh;"/>
+                     style="width: 35%; height: 100%; max-width: 40vh;"/>
               </b-container>
             </b-row>
             <h1>What is Guesser ?</h1>
@@ -40,12 +43,14 @@
               Become an expert guesser, the most famous events creator or empower yourself between the validators community.
             </h3>
           </b-container>
-        </div>
+        </b-row>
       </div>
+    </div>
 
-      <!--Page 3-->
-      <div class="section tipe2" style='background-image: url("static/beardground.png");'>
-        <div class="explainer">
+    <!--Page 3-->
+    <div class="section tipe2" style='background-image: url("static/beardground.png");'>
+      <div class="explainer">
+        <b-row class="maket" align-h="center">
           <b-container class="show" style="min-width: 80%">
             <b-row align-h="between" style="">
               <b-col lg="6" style="padding: 0 1% 0 1%;">
@@ -116,13 +121,15 @@
               </b-col>
             </b-row>
           </b-container>
-        </div>
+        </b-row>
       </div>
+    </div>
 
-      <!--Page 4-->
-      <div class="section" style="background-color: #FFFF03;">
-        <div class="explainer">
-          <div class="" style="padding: 10% 0 10% 0">
+    <!--Page 4-->
+    <div class="section" style="background-color: #FFFF03;">
+      <div class="explainer">
+        <b-row class="maket" align-h="center">
+          <div class="maket" style="padding: 10% 0 10% 0; width: 100%;">
             <b-row align-h="between" style="text-align: center;">
               <b-col lg="5" align-self="center" style="">
                 <h1 style="color: blue; font-weight: bold; font-size: 50px">Vote</h1>
@@ -146,16 +153,18 @@
               </b-col>
             </b-row>
           </div>
-        </div>
+        </b-row>
       </div>
+    </div>
 
-      <!--Page 5-->
-      <div class="section">
-        <div class="explainer">
-          <b-container class="" style="text-align: center;">
+    <!--Page 5-->
+    <div class="section">
+      <div class="explainer">
+        <b-row class="maket" align-h="center">
+          <b-container class="maket" style="text-align: center;">
             <h1>
               Welcome to Guesser <img src="../assets/beard.png"
-              class="d-inline-block align-top" style="width: 50px;" alt="BV">
+                                      class="d-inline-block align-top" style="width: 50px;" alt="BV">
             </h1>
             <br>
             <h3 style="color: gray">
@@ -170,8 +179,9 @@
             <b-row align-h="between" style="">
             </b-row>
           </b-container>
-        </div>
+        </b-row>
       </div>
+    </div>
     <!--</full-page>-->
   </div>
 
@@ -192,15 +202,15 @@ export default {
       topics: ['Crypto', 'Celebrities', 'Entertainment', 'Gaming', 'Humor', 'News', 'Politics', 'Sports', 'Technology', 'Random'],
       guess: {
         id: '0',
-        title: 'Will Elon Musk colonize mars?',
-        description: 'He wants, could he do it?',
+        title: 'Will SpaceX recover the fairing?',
+        description: 'They want, could they do it?',
         topic: 'Humor',
         creator: '0x00000000000000000000000000000000',
         votes: 666,
-        startingDay: 'The beginning of time',
-        finishingDay: 'The end of time',
+        startingDay: 'Mar, 3 2018 at 16h',
+        finishingDay: 'Mar, 20 2018 at 12h',
         option1: 'Fuck yeah',
-        option2: 'Wi\'ll die before',
+        option2: 'We\'ll die before',
         option1votes: '266',
         option2votes: '400',
         option1AmountEth: '42040',
@@ -214,8 +224,8 @@ export default {
 
 <style scope lang="scss">
 .explainer {
- padding: 8% 10% 8% 10%;
- width: 100%;
+  padding: 8% 10% 8% 10%;
+  width: 100%;
 }
 .show {
   padding: 5% 3% 5% 2%;
@@ -225,6 +235,9 @@ export default {
   background-color: pink;
   /* background-image: url("/static/beardground.png"); */
 }
+/*.maket {
+  background-color: #F333;
+}*/
 /*.section {
   height: 100vh;
   display: flex;
