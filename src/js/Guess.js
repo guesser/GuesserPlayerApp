@@ -255,15 +255,28 @@ const GuessHelper = {
     })
   },
 
-  getGuessesToValidate: function (_index) {
+  getGuessesToValidate: function (index) {
     let self = this
 
     return new Promise((resolve, reject) => {
       self.instance.getGuessesToValidate.call(
-        _index,
+        index,
         {from: self.address}
-      ).then(_guessesIndex => {
-        resolve(_guessesIndex)
+      ).then(guessesIndex => {
+        resolve(guessesIndex)
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  },
+
+  getAddressGuesses: function (index, address) {
+    return new Promise((resolve, reject) => {
+      self.instance.getGuessesByAddress.call(
+        index,
+        address
+      ).then(addressEvents => {
+        resolve(addressEvents)
       }).catch(err => {
         reject(err)
       })

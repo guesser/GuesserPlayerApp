@@ -26,6 +26,10 @@ contract Guess is DateTime{
      */
     mapping (address => uint256[2]) votersOption;
     address[] voters;
+
+    // About validatorsOption
+    // Put it outside
+    // address --> [guess, option]
     mapping (address => uint8) validatorsOption;
     address[] validators;
     uint256 firstDate;
@@ -434,6 +438,24 @@ contract Guess is DateTime{
       i--;
     }
     return _validationGuesses;
+  }
+
+  /* @dev Function that returns the events voted by a person
+   * @param _index uint256 the 'page' of the events you want. The first 10, the second 10th, the third...
+   * @param _address address the person from whom you want the events
+   * @return uint256[10] array of the events of the person
+   */
+  function getGuessesByAddress (uint256 _index, address _address) public view returns (uint256[10]) {
+    _index = _index * 10;
+
+    uint8 _eventNumber = 0;
+    uint256[10] memory _firstEvents; // Array to return
+    while (_index < guessesByAddress[_address].length && _eventNumber < 10) {
+      _firstEvents[_eventNumber] = guessesByAddress[_address][_index];
+      _eventNumber ++;
+    }
+
+    return _firstEvents;
   }
 
   /****** Private functions ******/
