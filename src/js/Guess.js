@@ -185,7 +185,7 @@ const GuessHelper = {
       self.instance.getTodayGuess.call(
         window.web3.utils.toHex(topic)
       ).then(_guessIndex => {
-        resolve(_guessIndex)
+        resolve(_guessIndex.c[0])
       }).catch(err => {
         reject(err)
       })
