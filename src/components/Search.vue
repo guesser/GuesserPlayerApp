@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class='outside'>
     <div v-if='contentLoaded'>
       <Loading/>
     </div>
-    <div>
+    <div class='inside'>
     <b-card :border-variant="guess.topic"
              :header="guess.title"
              :header-bg-variant="guess.topic"
@@ -171,5 +171,29 @@ export default {
 <style>
 .card-link{
   text-decoration: underline;
+}
+.outside {
+  width:100%;
+
+  /* Firefox */
+  display:-moz-box;
+  -moz-box-pack:center;
+  -moz-box-align:center;
+
+  /* Safari and Chrome */
+  display:-webkit-box;
+  -webkit-box-pack:center;
+  -webkit-box-align:center;
+
+  /* W3C */
+  display:box;
+  box-pack:center;
+  box-align:center;
+
+  margin-top: 2%;
+}
+
+.inside {
+width:50%;
 }
 </style>
