@@ -27,13 +27,22 @@
       <!--Description-->
       <b-form-group id="descriptionGroup"
                     label="Description:"
-                    label-for="descriptionInput">
+                    label-for="descriptionInput"
+                    style="margin-bottom: 0">
         <b-form-textarea id="descriptionInput"
                          maxlength="140"
                          placeholder="Tell people about what's happening in 140 characters"
                          v-model="form.description"
                          required>
         </b-form-textarea>
+        <b-row style="padding-top: 10px" align-h="center">
+          <vue-twitter-counter :current-length="140 - remchar"
+                                               safe="pink"
+                                               dangerAt="140"
+                                               animate
+                                               round>
+          </vue-twitter-counter>
+        </b-row>
         <!--TODO: Update when change input-->
         <!--<span> {{ remchar }} characters remaining</span>-->
       </b-form-group>
@@ -108,6 +117,7 @@
 <script>
 import GuessHelper from '@/js/Guess'
 import VueSlideBar from 'vue-slide-bar'
+import VueTwitterCounter from 'vue-twitter-counter'
 
 export default {
   name: 'Create',
@@ -123,7 +133,6 @@ export default {
         option1: '',
         option2: ''
       },
-      remchar: 140,
       hourValue: 1,
       windowWidth: window.innerWidth,
       slider: {
@@ -143,8 +152,8 @@ export default {
     },
     onSubmit (evt) {
       evt.preventDefault()
-
       let self = this
+
       let finalDate = self.$moment().add(self.hourValue, 'hours').unix()
       GuessHelper.setGuessFront(
         this.form.title,
@@ -160,6 +169,14 @@ export default {
         })
     }
   },
+  computed: {
+    remchar () {
+      let self = this
+
+      var charactersremaining = 140 - self.form.description.length
+      return charactersremaining
+    }
+  },
   beforeCreate: function () {
     GuessHelper.init().then(() => {
       // GuessHelper.CreatedGuessEvent()
@@ -173,6 +190,7 @@ export default {
     }
   },
   components: {
+    VueTwitterCounter,
     VueSlideBar
   }
 }
@@ -192,6 +210,6 @@ export default {
   max-width: 800px;
 }
 .btn-primary.dropdown-toggle:focus {
-    box-shadow: 0 0 0 0.2rem #ff0d73 !important;
+  box-shadow: 0 0 0 0.2rem #ff0d73 !important;
 }
 </style>
