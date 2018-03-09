@@ -31,6 +31,7 @@
           <b-nav-item href="#home">Guesses</b-nav-item>
           <b-nav-item href="#create">Create</b-nav-item>
           <b-nav-item href="#validation">Validation</b-nav-item>
+          <b-nav-item href="#myguesses">My Guesses</b-nav-item>
         </b-navbar-nav>
 
       </b-collapse>
