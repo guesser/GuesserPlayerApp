@@ -5,6 +5,7 @@ import Home from '@/components/Home'
 import Create from '@/components/Create'
 import Validation from '@/components/Validation'
 import Search from '@/components/Search'
+import MyGuesses from '@/components/MyGuesses'
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
       path: '/search',
       name: 'search',
       component: Search
+    },
+    {
+      path: '/myguesses',
+      name: 'myguesses',
+      component: MyGuesses
     }
   ]
 })
