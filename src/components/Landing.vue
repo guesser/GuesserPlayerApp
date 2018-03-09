@@ -31,7 +31,7 @@
         <b-row class="maket" align-h="center">
           <b-container class="" style="text-align: center">
             <b-row align-h="between" style="">
-              <b-container style="padding: 2% 2% 2% 0; display: flex; justify-content: center;">
+              <b-container style="padding: 2% 2% 2% 2%; display: flex; justify-content: center;">
                 <img src="static/guesserTrans.png"
                      style="width: 35%; height: 100%; max-width: 40vh;"/>
               </b-container>
