@@ -4,6 +4,7 @@ import Landing from '@/components/Landing'
 import Home from '@/components/Home'
 import Create from '@/components/Create'
 import Validation from '@/components/Validation'
+import Search from '@/components/Search'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/validation',
       name: 'validation',
       component: Validation
+    },
+    {
+      path: '/search',
+      name: 'search',
+      component: Search
     }
   ]
 })

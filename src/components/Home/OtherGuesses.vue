@@ -19,7 +19,7 @@
     </b-alert>
 
     <div v-if="totalGuesses != 0">
-      <h2>Other cool events:</h2>
+      <h2>Events you may like:</h2>
       <span v-for="n in counter1">
         <b-card-group deck class="mb-3">
           <b-card
@@ -33,9 +33,9 @@
                            header-text-variant="black"
                            align="center">
             <p class="card-text">
-            From: <b>{{guesses[2*n + j].startingDay}}</b>
+            Created at: <b>{{guesses[2*n + j].startingDay}}</b>
             <br>
-            To: <b>{{guesses[2*n + j].finishingDay}}</b>
+            Voting open until: <b>{{guesses[2*n + j].finishingDay}}</b>
             </p>
             <b-button style="margin-right: 20px"
                       @click="showPaymentModal(guesses[2*n + j].id, 1, 2*n +j)"
@@ -60,7 +60,7 @@
           <label>Description: {{guesses[arrayIndex].description}}</label>
           <br>
 
-          <span>Number of votes in each option: </span>
+          <span>Votes for each outcome: </span>
           <b-progress class="mt-1" :max="10*(guesses[arrayIndex].votes/10)" show-value striped>
             <b-progress-bar :value="10*(guesses[arrayIndex].option1votes/10)" variant="pink">
               {{guesses[arrayIndex].option1}} - {{ guesses[arrayIndex].option1votes }}
@@ -74,7 +74,7 @@
           <br>
 
           <b-form-group id="titleGroup"
-                        label="Ether amount to send:"
+                        label="Amount of ether you want to send:"
                         label-for="amountInput">
             <b-form-input id="amountInput"
                           type="number"
@@ -130,27 +130,28 @@ export default {
         let _index = this.guessesByNumber[i].c[0]
         if (_index !== 0) { // Guess 0 is the empty one
           GuessHelper.getGuessFront(_index).then((guess) => {
-            console.log(guess)
-            let month1 = parseInt(guess[5].getMonth()) + 1
-            let month2 = parseInt(guess[6].getMonth()) + 1
-            this.guesses.push({
-              'id': _index,
-              'title': guess[0],
-              'description': guess[1],
-              'topic': guess[2],
-              'votes': guess[4],
-              'startingDay': guess[5].getUTCDate() + '-' + month1 + '-' + guess[6].getFullYear(),
-              'finishingDay': guess[6].getUTCDate() + '-' + month2 + '-' + guess[5].getFullYear(),
-              'finishingDayUnformated': this.$moment(guess[6]),
-              'option1': 'Loading...',
-              'option2': 'Loading...',
-              'option1votes': 'Loading...',
-              'option2votes': 'Loading...'
-            })
-          }).then(() => {
-            this.totalGuesses += 1
-            this.printGuessesOptions(_index, this.totalGuesses - 1)
-            this.contentLoaded = false
+            // console.log(guess)
+            if (this.$moment(guess[6]) > this.$moment().add(0, 'hours')) {
+              let month1 = parseInt(guess[5].getMonth()) + 1
+              let month2 = parseInt(guess[6].getMonth()) + 1
+              this.guesses.push({
+                'id': _index,
+                'title': guess[0],
+                'description': guess[1],
+                'topic': guess[2],
+                'votes': guess[4],
+                'startingDay': guess[5].getUTCDate() + '-' + month1 + '-' + guess[6].getFullYear(),
+                'finishingDay': guess[6].getUTCDate() + '-' + month2 + '-' + guess[5].getFullYear(),
+                'finishingDayUnformated': this.$moment(guess[6]),
+                'option1': 'Loading...',
+                'option2': 'Loading...',
+                'option1votes': 'Loading...',
+                'option2votes': 'Loading...'
+              })
+              this.printGuessesOptions(_index, this.totalGuesses)
+              this.totalGuesses += 1
+              this.contentLoaded = false
+            }
           }).catch(err => {
             console.log(err)
             this.contentLoaded = false
@@ -178,14 +179,17 @@ export default {
     getGuessesByDate () {
       let self = this
 
-      for (let i = 0; i < 6; i++) {
+      let _counter = 0
+      for (var i = 0; i < 6; i++) {
         GuessHelper.getGuessesByDate(0, this.topic, this.$moment().add(i, 'days').unix()).then((_guesses) => {
-          console.log(_guesses)
           self.guessesByNumber = self.guessesByNumber.concat(_guesses)
-          self.printGuesses()
+          _counter++
+          if (_counter === 6) {
+            self.printGuesses()
+          }
         }).catch(err => {
           this.contentLoaded = false
-          console.log(err)
+          return err
         })
       }
     },

@@ -5,7 +5,7 @@
              dismissible
              :show="guessCreatedAlert"
              @dismissed="showCreatedAlert=false">
-      Guess being created!
+      Event being created!
     </b-alert>
 
     <!--Form-->
@@ -18,6 +18,7 @@
         <b-form-input id="titleInput"
                       type="text"
                       maxlength="31"
+                      placeholder="Short and clear name of the event"
                       v-model="form.title"
                       required>
         </b-form-input>
@@ -29,47 +30,62 @@
                     label-for="descriptionInput">
         <b-form-textarea id="descriptionInput"
                          maxlength="140"
+                         placeholder="Tell people about what's happening in 140 characters"
                          v-model="form.description"
                          required>
         </b-form-textarea>
         <!--TODO: Update when change input-->
         <!--<span> {{ remchar }} characters remaining</span>-->
-        <span> {{ remchar }} characters max </span>
       </b-form-group>
 
       <!--Topics-->
-      <p class='info-section'>Topics:</p>
-      <b-form-radio-group id="btnradios2"
-                          buttons
-                          button-variant="outline-primary"
-                          size="sm"
-                          v-model="form.topic"
-                          :options="topics"
-                          name="radioBtnOutline" />
-      </b-form-group>
+      <p class='info-section'>Topic:</p>
+      <div v-if="windowWidth >= 800">
+        <b-form-radio-group id="btnradios2"
+                            buttons
+                            button-variant="outline-primary"
+                            size="sm"
+                            v-model="form.topic"
+                            :options="topics"
+                            name="radioBtnOutline" />
+        </b-form-group>
+      </div>
+      <div v-else>
+        <b-dropdown id="ddown" text="Select a topic" variant="primary" class="m-2">
+          <b-form-radio-group id="btnradios3"
+                              style="width: 100%"
+                              buttons
+                              stacked
+                              button-variant="outline-primary"
+                              v-model="form.topic"
+                              :options="topics"
+                              name="radioBtnOutline" />
+          </b-form-group>
+        </b-dropdown>
+      </div>
     </b-form-group>
 
     <br>
     <br>
-    <!--Options-->
-    <p class='info-section'>Options:</p>
+    <!--Outcomes-->
+    <p class='info-section'>Outcomes:</p>
     <b-form inline>
-      <label class="sr-only" for="option1Input" >Option1</label>
+      <label class="sr-only" for="option1Input" >Outcome1</label>
       <b-input class="mb-2 mr-sm-2 mb-sm-0"
                id="option1Input"
                v-model='form.option1'
                maxlength="31"
-               placeholder="Option1"/>
-        <label class="sr-only" for="option2Input">Option2</label>
+               placeholder="Outocome1"/>
+        <label class="sr-only" for="option2Input">Outcome2</label>
         <b-input class="mb-2 mr-sm-2 mb-sm-0"
                  id="option2Input"
                  v-model='form.option2'
                  maxlength="31"
-                 placeholder="Option2"/>
+                 placeholder="Outcome2"/>
         </b-form>
         <div>
           <br>
-          <span>End date: {{form.date}}</span>
+          <span>Ending date and time: {{form.date}}</span>
           <V<VueSlideBar
                  v-model="hourValue"
                  :min="1"
@@ -85,7 +101,7 @@
         <br>
 
         <b-button type="submit" variant="primary" size='lg'>Create</b-button>
-     </b-form>
+      </b-form>
   </div>
 </template>
 
@@ -109,6 +125,7 @@ export default {
       },
       remchar: 140,
       hourValue: 1,
+      windowWidth: window.innerWidth,
       slider: {
         lineHeight: 10,
         processStyle: {
@@ -122,7 +139,7 @@ export default {
       let self = this
 
       var startTime = self.$moment()
-      self.form.date = startTime.add(hour, 'hours').format('dddd, D [at] hA')
+      self.form.date = startTime.add(hour, 'hours').format('MMMM D, YYYY [at] H[h]')
     },
     onSubmit (evt) {
       evt.preventDefault()
@@ -173,5 +190,8 @@ export default {
   margin: 0% 10%;
   padding: 3% 0%;
   max-width: 800px;
+}
+.btn-primary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem #ff0d73 !important;
 }
 </style>

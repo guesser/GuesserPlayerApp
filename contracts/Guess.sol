@@ -26,6 +26,10 @@ contract Guess is DateTime{
      */
     mapping (address => uint256[2]) votersOption;
     address[] voters;
+
+    // About validatorsOption
+    // Put it outside
+    // address --> [guess, option]
     mapping (address => uint8) validatorsOption;
     address[] validators;
     uint256 firstDate;
@@ -46,8 +50,7 @@ contract Guess is DateTime{
   mapping (uint256 => uint256[]) guessesByDate; // Storing the guesses by their date
   // The dates are in this format: 0000:year, 00:month, 00:day
   // Example: 19940831
-
-  //Store the day mapped with an array of the id's of the guess created that day
+  mapping (address => uint256[]) guessesByAddress; // Storing the guesses by their voters
 
   // Constructor
   function Guess () public {
@@ -270,6 +273,10 @@ contract Guess is DateTime{
     guesses[_guess].votersOption[msg.sender][0] = _option;
     guesses[_guess].votersOption[msg.sender][1] = msg.value;
     guesses[_guess].voters.push(msg.sender);
+
+    uint256 _guessByAddressLenght = guessesByAddress[msg.sender].length++; // Saving the voter
+    guessesByAddress[msg.sender][_guessByAddressLenght - 1] = _guess;
+
     if (_option == 1) {
       guesses[_guess].option1Votes++;
     } else {
@@ -291,10 +298,15 @@ contract Guess is DateTime{
     require(_option == 1 || _option == 2);
     // Is the date due?
     require(dateDue(guesses[_guess].finalDate) == true);
-    // Enough validations
     uint256 validations = guesses[_guess].option1Validation + guesses[_guess].option2Validation;
-    // uint256 votes = guesses[_guess].option1Votes + guesses[_guess].option2Votes;
-    require(validations < 3); // TODO: Forced to 3
+    uint256 votes = guesses[_guess].option1Votes + guesses[_guess].option2Votes;
+
+    // Enoguh votes to start the validation
+    require(guesses[_guess].option1Validation > 1 && guesses[_guess].option2Validation > 1);
+
+    // Enough validations
+    uint256 half = ((((votes * 10) / 2) - ((votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
+    require(validations < half);
 
     guesses[_guess].validatorsOption[msg.sender] = _option;
     guesses[_guess].validators.push(msg.sender);
@@ -305,9 +317,9 @@ contract Guess is DateTime{
     }
     GuessValidated(_guess, _option, msg.sender);
 
-    // if(validations == votes*0.51) {
-    // TODO: Write the return of the money
-    // }
+    if(validations == half) {
+      returnProfits(_guess);
+    }
   }
 
   /**
@@ -339,9 +351,19 @@ contract Guess is DateTime{
     uint256 _totalWinnersProfits = getGuessProfitsByOption(_guess, _winner);
     for(uint256 _voterIndex = 0; _voterIndex < guesses[_guess].voters.length; _voterIndex++) {
       // WARNING: Only will work with non contracts addresses
+      uint256 index = 10;
+      uint256 _precision = 0;
+      while (_totalProfits*100 > index) {
+        index = index * 10;
+        _precision++;
+      }
+
       address person = guesses[_guess].voters[_voterIndex];
-      percentage = (guesses[_guess].votersOption[person][1])/_totalWinnersProfits;
-      guesses[_guess].voters[_voterIndex].transfer(_totalProfits * percentage); // TODO: Test this actually sends the money
+      percentage = percent(guesses[_guess].votersOption[person][1], _totalWinnersProfits, _precision);
+
+      uint256 _final = ((_totalProfits * 10) * percentage);
+      
+      guesses[_guess].voters[_voterIndex].transfer(_final / index);
     }
 
     guesses[_guess].profitsReturned = true;
@@ -416,6 +438,24 @@ contract Guess is DateTime{
       i--;
     }
     return _validationGuesses;
+  }
+
+  /* @dev Function that returns the events voted by a person
+   * @param _index uint256 the 'page' of the events you want. The first 10, the second 10th, the third...
+   * @param _address address the person from whom you want the events
+   * @return uint256[10] array of the events of the person
+   */
+  function getGuessesByAddress (uint256 _index, address _address) public view returns (uint256[10]) {
+    _index = _index * 10;
+
+    uint8 _eventNumber = 0;
+    uint256[10] memory _firstEvents; // Array to return
+    while (_index < guessesByAddress[_address].length && _eventNumber < 10) {
+      _firstEvents[_eventNumber] = guessesByAddress[_address][_index];
+      _eventNumber ++;
+    }
+
+    return _firstEvents;
   }
 
   /****** Private functions ******/
