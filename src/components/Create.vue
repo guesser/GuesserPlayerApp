@@ -37,8 +37,8 @@
         </b-form-textarea>
         <b-row style="padding-top: 10px" align-h="center">
           <vue-twitter-counter :current-length="140 - remchar"
-                                               safe="pink"
-                                               dangerAt="140"
+                                               safe="#ff66ff"
+                                               :danger-at='140'
                                                animate
                                                round>
           </vue-twitter-counter>
