@@ -18,7 +18,7 @@
           <b-nav-item>
             <form class="navbar-form" role="search">
               <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term" v-model="form._id">
+                <input type="text" class="form-control" placeholder="Search by ID" name="srch-term" id="srch-term" v-model="form._id">
                 <div class="input-group-btn">
                   <button class="btn btn-default" @click="changeToSearched" type="submit"><i class="material-icons" >search</i></button>
                 </div>
@@ -31,6 +31,7 @@
           <b-nav-item href="#home">Play</b-nav-item>
           <b-nav-item href="#create">Create</b-nav-item>
           <b-nav-item href="#validation">Validation</b-nav-item>
+          <b-nav-item href="#myguesses">My Guesses</b-nav-item>
         </b-navbar-nav>
 
       </b-collapse>

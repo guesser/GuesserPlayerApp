@@ -18,6 +18,7 @@
         <b-form-input id="titleInput"
                       type="text"
                       maxlength="31"
+                      placeholder="Short and clear name of the event"
                       v-model="form.title"
                       required>
         </b-form-input>
@@ -26,32 +27,56 @@
       <!--Description-->
       <b-form-group id="descriptionGroup"
                     label="Description:"
-                    label-for="descriptionInput">
+                    label-for="descriptionInput"
+                    style="margin-bottom: 0">
         <b-form-textarea id="descriptionInput"
                          maxlength="140"
+                         placeholder="Tell people about what's happening in 140 characters"
                          v-model="form.description"
                          required>
         </b-form-textarea>
+        <b-row style="padding-top: 10px" align-h="center">
+          <vue-twitter-counter :current-length="140 - remchar"
+                                               safe="pink"
+                                               dangerAt="140"
+                                               animate
+                                               round>
+          </vue-twitter-counter>
+        </b-row>
         <!--TODO: Update when change input-->
         <!--<span> {{ remchar }} characters remaining</span>-->
-        <span> {{ remchar }} characters max </span>
       </b-form-group>
 
       <!--Topics-->
       <p class='info-section'>Topic:</p>
-      <b-form-radio-group id="btnradios2"
-                          buttons
-                          button-variant="outline-primary"
-                          size="sm"
-                          v-model="form.topic"
-                          :options="topics"
-                          name="radioBtnOutline" />
-      </b-form-group>
+      <div v-if="windowWidth >= 800">
+        <b-form-radio-group id="btnradios2"
+                            buttons
+                            button-variant="outline-primary"
+                            size="sm"
+                            v-model="form.topic"
+                            :options="topics"
+                            name="radioBtnOutline" />
+        </b-form-group>
+      </div>
+      <div v-else>
+        <b-dropdown id="ddown" text="Select a topic" variant="primary" class="m-2">
+          <b-form-radio-group id="btnradios3"
+                              style="width: 100%"
+                              buttons
+                              stacked
+                              button-variant="outline-primary"
+                              v-model="form.topic"
+                              :options="topics"
+                              name="radioBtnOutline" />
+          </b-form-group>
+        </b-dropdown>
+      </div>
     </b-form-group>
 
     <br>
     <br>
-    <!--Options-->
+    <!--Outcomes-->
     <p class='info-section'>Outcomes:</p>
     <b-form inline>
       <label class="sr-only" for="option1Input" >Outcome1</label>
@@ -59,13 +84,13 @@
                id="option1Input"
                v-model='form.option1'
                maxlength="31"
-               placeholder="Option1"/>
+               placeholder="Outocome1"/>
         <label class="sr-only" for="option2Input">Outcome2</label>
         <b-input class="mb-2 mr-sm-2 mb-sm-0"
                  id="option2Input"
                  v-model='form.option2'
                  maxlength="31"
-                 placeholder="Option2"/>
+                 placeholder="Outcome2"/>
         </b-form>
         <div>
           <br>
@@ -85,13 +110,14 @@
         <br>
 
         <b-button type="submit" variant="primary" size='lg'>Create</b-button>
-     </b-form>
+      </b-form>
   </div>
 </template>
 
 <script>
 import GuessHelper from '@/js/Guess'
 import VueSlideBar from 'vue-slide-bar'
+import VueTwitterCounter from 'vue-twitter-counter'
 
 export default {
   name: 'Create',
@@ -107,8 +133,8 @@ export default {
         option1: '',
         option2: ''
       },
-      remchar: 140,
       hourValue: 1,
+      windowWidth: window.innerWidth,
       slider: {
         lineHeight: 10,
         processStyle: {
@@ -126,8 +152,8 @@ export default {
     },
     onSubmit (evt) {
       evt.preventDefault()
-
       let self = this
+
       let finalDate = self.$moment().add(self.hourValue, 'hours').unix()
       GuessHelper.setGuessFront(
         this.form.title,
@@ -143,6 +169,14 @@ export default {
         })
     }
   },
+  computed: {
+    remchar () {
+      let self = this
+
+      var charactersremaining = 140 - self.form.description.length
+      return charactersremaining
+    }
+  },
   beforeCreate: function () {
     GuessHelper.init().then(() => {
       // GuessHelper.CreatedGuessEvent()
@@ -156,6 +190,7 @@ export default {
     }
   },
   components: {
+    VueTwitterCounter,
     VueSlideBar
   }
 }
@@ -173,5 +208,8 @@ export default {
   margin: 0% 10%;
   padding: 3% 0%;
   max-width: 800px;
+}
+.btn-primary.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem #ff0d73 !important;
 }
 </style>
