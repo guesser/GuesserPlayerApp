@@ -130,7 +130,7 @@ export default {
         let _index = this.guessesByNumber[i].c[0]
         if (_index !== 0) { // Guess 0 is the empty one
           GuessHelper.getGuessFront(_index).then((guess) => {
-            // console.log(guess)
+            console.log(guess)
             if (this.$moment(guess[6]) > this.$moment().add(0, 'hours')) {
               let month1 = parseInt(guess[5].getMonth()) + 1
               let month2 = parseInt(guess[6].getMonth()) + 1
@@ -179,12 +179,11 @@ export default {
     getGuessesByDate () {
       let self = this
 
-      let _counter = 0
       for (var i = 0; i < 6; i++) {
         GuessHelper.getGuessesByDate(0, this.topic, this.$moment().add(i, 'days').unix()).then((_guesses) => {
           self.guessesByNumber = self.guessesByNumber.concat(_guesses)
-          _counter++
-          if (_counter === 6) {
+          if (i === 6) {
+            console.log('Hola')
             self.printGuesses()
           }
         }).catch(err => {

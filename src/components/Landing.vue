@@ -39,8 +39,8 @@
             <h1>What is Guesser ?</h1>
             <br>
             <h3>Guesser is the DApp where you can dare other members of the net
-              and probe that you can predict the future.<br>
-              Become an expert guesser, the most famous events creator or empower yourself between the validators community.
+              and prove that you can predict the future.<br>
+              Become an expert guesser, the most famous events creator or empower yourself among the validators community.
             </h3>
           </b-container>
         </b-row>
@@ -105,7 +105,7 @@
                 <b-row class="justify-content-md-center">
                   <b-col lg="10" style="">
                     <h1>Create your</h1>
-                    <h1>dreamed event</h1>
+                    <h1>dream event</h1>
                     <br>
                     <h3 style="color: gray;">
                       Easy, fast and clean.<br>

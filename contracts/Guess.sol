@@ -302,7 +302,7 @@ contract Guess is DateTime{
     uint256 votes = guesses[_guess].option1Votes + guesses[_guess].option2Votes;
 
     // Enoguh votes to start the validation
-    require(guesses[_guess].option1Validation > 1 && guesses[_guess].option2Validation > 1);
+    require(guesses[_guess].option1Votes > 0 && guesses[_guess].option2Votes > 0);
 
     // Enough validations
     uint256 half = ((((votes * 10) / 2) - ((votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
@@ -317,6 +317,7 @@ contract Guess is DateTime{
     }
     GuessValidated(_guess, _option, msg.sender);
 
+    validations = guesses[_guess].option1Validation + guesses[_guess].option2Validation;
     if(validations == half) {
       returnProfits(_guess);
     }
@@ -362,7 +363,6 @@ contract Guess is DateTime{
       percentage = percent(guesses[_guess].votersOption[person][1], _totalWinnersProfits, _precision);
 
       uint256 _final = ((_totalProfits * 10) * percentage);
-      
       guesses[_guess].voters[_voterIndex].transfer(_final / index);
     }
 
@@ -423,22 +423,37 @@ contract Guess is DateTime{
   * @param _index uint256 Index of the list, If you want the 10 last or the second 10 last Guesses
   * @return uint256[10] a list with the guesses to validate
   */
-  function getGuessesToValidate (uint256 _index) public view returns (uint256[10]) {
-    require(guesses.length > 1);
+  function getGuessesToValidate (uint256 _index, uint256 _date) public view returns (uint256[10]) {
+    require(dateDue(_date) == true);
+    // TODO: Control the date limits
+    uint256 _year = DateTime.getYear(_date) * 10000;
+    uint32 _month = DateTime.getMonth(_date) * 100;
+    uint32 _day = DateTime.getDay(_date);
+    uint256[] memory _events = guessesByDate[_year + _month + _day];
 
-    // Check the range is inside the length
-    uint8 _guessNumber = 0;
-    uint256[10] memory _validationGuesses;
-    uint256 i = guesses.length - (_index * 10) - 1;
-    while(_guessNumber<11 && i>0) {
-      if(dateDue(guesses[i].finalDate) == true) {
-        _validationGuesses[_guessNumber] = i;
-        _guessNumber++;
+    require(_events.length > _index*10);
+
+
+    //Check the range is inside the length
+    uint8 _eventNumber = 0;
+    uint256[10] memory _dateEvents;
+    uint i = _index * 10;
+    while (_eventNumber < 10 && i < _events.length) {
+      // Does it has enough votes?
+      uint256 _votes = guesses[_events[i]].option1Votes + guesses[_events[i]].option2Votes;
+      uint256 _validations = guesses[_events[i]].option1Validation + guesses[_events[i]].option2Validation;
+      uint256 _half = ((((_votes * 10) / 2) - ((_votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
+      if (guesses[_events[i]].option1Votes > 0 && guesses[_events[i]].option2Votes > 0)
+      if (_validations < _half) { // Does it has enough validations?
+        _dateEvents[_eventNumber] = _events[i];
+        _eventNumber++;
       }
-      i--;
+      i++;
     }
-    return _validationGuesses;
+
   }
+
+
 
   /* @dev Function that returns the events voted by a person
    * @param _index uint256 the 'page' of the events you want. The first 10, the second 10th, the third...

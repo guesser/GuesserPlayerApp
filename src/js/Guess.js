@@ -230,7 +230,7 @@ const GuessHelper = {
       self.instance.voteGuess(
         _guessIndex,
         _option,
-        {from: self.address[0], value: window.web3.utils.toWei(ethAmount.toString(), 'ether'), gas: 500000} // TODO: Gas forced
+        {from: self.address[0], value: window.web3.utils.toWei(ethAmount.toString(), 'ether'), gas: 600000} // TODO: Gas forced
       ).then(() => {
         resolve()
       }).catch(err => {
