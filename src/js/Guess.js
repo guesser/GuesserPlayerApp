@@ -226,11 +226,16 @@ const GuessHelper = {
     let self = this
 
     ethAmount = 10 * (ethAmount / 10)
+    console.log('Guess index ', _guessIndex)
+    console.log('Option ', ethAmount)
     return new Promise((resolve, reject) => {
+      console.log(self.address[0])
       self.instance.voteGuess(
         _guessIndex,
         _option,
-        {from: self.address[0], value: window.web3.utils.toWei(ethAmount.toString(), 'ether'), gas: 600000} // TODO: Gas forced
+        {from: self.address[0],
+          value: window.web3.utils.toWei(ethAmount.toString(), 'ether'),
+          gas: 6385876} // TODO: Gas forced
       ).then(() => {
         resolve()
       }).catch(err => {

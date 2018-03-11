@@ -25,6 +25,7 @@
     "epic-spinners": "^1.0.2",
     "ganache-cli": "^6.0.3",
     "moment": "^2.20.1",
+    "npm": "^5.7.1",
     "truffle": "^4.0.0-beta.2",
     "truffle-contract": "^3.0.0",
     "v-qrcode": "^1.0.3",

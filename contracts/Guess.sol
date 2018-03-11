@@ -274,8 +274,9 @@ contract Guess is DateTime{
     guesses[_guess].votersOption[msg.sender][1] = msg.value;
     guesses[_guess].voters.push(msg.sender);
 
-    uint256 _guessByAddressLenght = guessesByAddress[msg.sender].length++; // Saving the voter
-    guessesByAddress[msg.sender][_guessByAddressLenght - 1] = _guess;
+    // uint256 _guessByAddressLength = guessesByAddress[msg.sender].length++; // Saving the voter
+    // guessesByAddress[msg.sender][_guessByAddressLength - 1] = _guess;
+    guessesByAddress[msg.sender].push(_guess);
 
     if (_option == 1) {
       guesses[_guess].option1Votes++;

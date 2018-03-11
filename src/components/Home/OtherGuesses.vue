@@ -182,12 +182,10 @@ export default {
       for (var i = 0; i < 6; i++) {
         GuessHelper.getGuessesByDate(0, this.topic, this.$moment().add(i, 'days').unix()).then((_guesses) => {
           self.guessesByNumber = self.guessesByNumber.concat(_guesses)
-          if (i === 6) {
-            console.log('Hola')
-            self.printGuesses()
-          }
+          self.printGuesses()
         }).catch(err => {
           this.contentLoaded = false
+          console.log(err)
           return err
         })
       }
@@ -202,16 +200,6 @@ export default {
       }).catch(err => {
         console.log(err)
         this.guessVotingFailedAlert = true
-      })
-    },
-    getOptions () {
-      let self = this
-
-      GuessHelper.getGuessOptions(this.guessIndex).then((guessOptions) => {
-        self.guess.option1 = guessOptions[0]
-        self.guess.option2 = guessOptions[1]
-        self.guess.option1votes = guessOptions[2].c[0]
-        self.guess.option2votes = guessOptions[3].c[0]
       })
     }
   },
