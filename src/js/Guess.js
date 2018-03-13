@@ -275,9 +275,35 @@ const GuessHelper = {
     })
   },
 
-  getAddressGuesses: function (index, address) {
+  getCurrentGuessesByAddress: function (index, address) {
     return new Promise((resolve, reject) => {
-      self.instance.getGuessesByAddress.call(
+      self.instance.getCurrentGuessesByAddress.call(
+        index,
+        address
+      ).then(addressEvents => {
+        resolve(addressEvents)
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  },
+
+  getValidatingGuessesByAddress: function (index, address) {
+    return new Promise((resolve, reject) => {
+      self.instance.getValidatingGuessesByAddress.call(
+        index,
+        address
+      ).then(addressEvents => {
+        resolve(addressEvents)
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  },
+
+  getPastGuessesByAddress: function (index, address) {
+    return new Promise((resolve, reject) => {
+      self.instance.getPastGuessesByAddress.call(
         index,
         address
       ).then(addressEvents => {

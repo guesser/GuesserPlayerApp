@@ -461,14 +461,67 @@ contract Guess is DateTime{
    * @param _address address the person from whom you want the events
    * @return uint256[10] array of the events of the person
    */
-  function getGuessesByAddress (uint256 _index, address _address) public view returns (uint256[10]) {
+  function getCurrentGuessesByAddress (uint256 _index, address _address) public view returns (uint256[10]) {
     _index = _index * 10;
 
     uint8 _eventNumber = 0;
     uint256[10] memory _firstEvents; // Array to return
     while (_index < guessesByAddress[_address].length && _eventNumber < 10) {
-      _firstEvents[_eventNumber] = guessesByAddress[_address][_index];
-      _eventNumber ++;
+      uint256 _eventIndex = guessesByAddress[_address][_index];
+      if(dateDue(guesses[_eventIndex]) == false) {
+        _firstEvents[_eventNumber] = guessesByAddress[_address][_index];
+        _eventNumber ++;
+      }
+    }
+
+    return _firstEvents;
+  }
+
+  /* @dev Function that returns the events voted by a person that are being validated
+   * @param _index uint256 the 'page' of the events you want. The first 10, the second 10th, the third...
+   * @param _address address the person from whom you want the events
+   * @return uint256[10] array of the events of the person
+   */
+  function getValidatingGuessesByAddress (uint256 _index, address _address) public view returns (uint256[10]) {
+    _index = _index * 10;
+
+    uint8 _eventNumber = 0;
+    uint256[10] memory _firstEvents; // Array to return
+    while (_index < guessesByAddress[_address].length && _eventNumber < 10) {
+      uint256 _eventIndex = guessesByAddress[_address][_index];
+      // Does it has enough validations to count as a Past event?
+      uint256 _votes = guesses[_eventIndex].option1Votes + guesses[_eventIndex].option2Votes;
+      uint256 _validations = guesses[_eventIndex].option1Validation + guesses[_eventIndex].option2Validation;
+      uint256 _half = ((((_votes * 10) / 2) - ((_votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
+      if(dateDue(guesses[_eventIndex].finalDate) == true && _validations < _half) {
+        _firstEvents[_eventNumber] = guessesByAddress[_address][_index];
+        _eventNumber ++;
+      }
+    }
+
+    return _firstEvents;
+  }
+
+  /* @dev Function that returns the events voted by a person that have already passed
+   * @param _index uint256 the 'page' of the events you want. The first 10, the second 10th, the third...
+   * @param _address address the person from whom you want the events
+   * @return uint256[10] array of the events of the person
+   */
+  function getPastGuessesByAddress (uint256 _index, address _address) public view returns (uint256[10]) {
+    _index = _index * 10;
+
+    uint8 _eventNumber = 0;
+    uint256[10] memory _firstEvents; // Array to return
+    while (_index < guessesByAddress[_address].length && _eventNumber < 10) {
+      uint256 _eventIndex = guessesByAddress[_address][_index];
+      // Does it has enough validations to count as a Past event?
+      uint256 _votes = guesses[_eventIndex].option1Votes + guesses[_eventIndex].option2Votes;
+      uint256 _validations = guesses[_eventIndex].option1Validation + guesses[_eventIndex].option2Validation;
+      uint256 _half = ((((_votes * 10) / 2) - ((_votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
+      if(dateDue(guesses[_eventIndex].finalDate) == true && _validations >= _half) {
+        _firstEvents[_eventNumber] = guessesByAddress[_address][_index];
+        _eventNumber ++;
+      }
     }
 
     return _firstEvents;
@@ -477,10 +530,10 @@ contract Guess is DateTime{
   /****** Private functions ******/
 
   /* @dev Function that tells you if a date is due
-  * @param _date uint256 the date you want to check with the current date.
-  * The minutes and seconds are not being checked.
-    * @return bool if the date is due then will return true
-  */
+   * @param _date uint256 the date you want to check with the current date.
+   * The minutes and seconds are not being checked.
+   * @return bool if the date is due then will return true
+   */
   function dateDue (uint256 _date) private view returns (bool) {
     uint256 _currentYear = DateTime.getYear(now);
     uint256 _currentMonth = DateTime.getMonth(now);
