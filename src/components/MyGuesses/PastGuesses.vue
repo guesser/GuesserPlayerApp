@@ -1,6 +1,7 @@
 <template>
   <div>
 
+<div v-if="totalEvents > 0">
 <span v-for="n in counter1">
         <b-card-group deck class="mb-3">
           <b-card
@@ -26,7 +27,25 @@
           </b-card>
         </b-card-group>
       </span>
+  </div>
+<div v-else>
+<b-container class="" style="">
+    <b-row align-h="between">
+      <b-col align-self="center">
+        <h3>Looks like there are no events you voted that have finished!</h3>
+        <h5>Is not the best time to try one?</h5>
+        <br>
+        <b-button href="#home" variant="primary" size="lg">Guess events</b-button>
+      </b-col>
+      <b-col>
+        <img src="static/beard-hold.png" style="width: 60%;" alt=":'("/>         
+      </b-col>
+    </b-row>
+    <b-row>
+    </b-row>    
+  </b-container>
 
+  </div>
           </div>
 </template>
 
