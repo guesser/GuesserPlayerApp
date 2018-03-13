@@ -275,11 +275,13 @@ const GuessHelper = {
     })
   },
 
-  getCurrentGuessesByAddress: function (index, address) {
+  getCurrentGuessesByAddress: function (index) {
+    let self = this
+
     return new Promise((resolve, reject) => {
       self.instance.getCurrentGuessesByAddress.call(
         index,
-        address
+        self.address[0]
       ).then(addressEvents => {
         resolve(addressEvents)
       }).catch(err => {
@@ -288,11 +290,13 @@ const GuessHelper = {
     })
   },
 
-  getValidatingGuessesByAddress: function (index, address) {
+  getValidatingGuessesByAddress: function (index) {
+    let self = this
+
     return new Promise((resolve, reject) => {
       self.instance.getValidatingGuessesByAddress.call(
         index,
-        address
+        self.address[0]
       ).then(addressEvents => {
         resolve(addressEvents)
       }).catch(err => {
@@ -301,11 +305,13 @@ const GuessHelper = {
     })
   },
 
-  getPastGuessesByAddress: function (index, address) {
+  getPastGuessesByAddress: function (index) {
+    let self = this
+
     return new Promise((resolve, reject) => {
       self.instance.getPastGuessesByAddress.call(
         index,
-        address
+        self.address[0]
       ).then(addressEvents => {
         resolve(addressEvents)
       }).catch(err => {

@@ -468,10 +468,11 @@ contract Guess is DateTime{
     uint256[10] memory _firstEvents; // Array to return
     while (_index < guessesByAddress[_address].length && _eventNumber < 10) {
       uint256 _eventIndex = guessesByAddress[_address][_index];
-      if(dateDue(guesses[_eventIndex]) == false) {
+      if(dateDue(guesses[_eventIndex].finalDate) == false) {
         _firstEvents[_eventNumber] = guessesByAddress[_address][_index];
         _eventNumber ++;
       }
+      _index++;
     }
 
     return _firstEvents;
@@ -497,6 +498,7 @@ contract Guess is DateTime{
         _firstEvents[_eventNumber] = guessesByAddress[_address][_index];
         _eventNumber ++;
       }
+      _index++;
     }
 
     return _firstEvents;
@@ -522,6 +524,7 @@ contract Guess is DateTime{
         _firstEvents[_eventNumber] = guessesByAddress[_address][_index];
         _eventNumber ++;
       }
+      _index++;
     }
 
     return _firstEvents;

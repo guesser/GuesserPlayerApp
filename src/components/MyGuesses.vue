@@ -1,5 +1,7 @@
 <template>
   <div class="justify-content-md-center margin">
+    <h2>Events I have participated</h2>
+    <br>
     <b-card no-body>
       <b-tabs card v-model="tabIndex">
         <b-tab title="Actual Events" :title-link-class="linkClass(0)">
@@ -47,7 +49,7 @@ export default {
 
 <style>
 .margin{
-  margin: 0% 4%;
+  margin: 0% 10%;
   padding: 2% 0%;
 }
 </style>

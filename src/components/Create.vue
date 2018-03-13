@@ -178,9 +178,7 @@ export default {
     }
   },
   beforeCreate: function () {
-    GuessHelper.init().then(() => {
-      // GuessHelper.CreatedGuessEvent()
-    }).catch(err => {
+    GuessHelper.init().catch(err => {
       console.log(err)
     })
   },
