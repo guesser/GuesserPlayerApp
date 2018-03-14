@@ -33,7 +33,6 @@
                            header-text-variant="black"
                            align="center">
             <p class="card-text">
-              {{guesses[2*n + j].id}}
             Created at: <b>{{guesses[2*n + j].startingDay}}</b>
             <br>
             Voting open until: <b>{{guesses[2*n + j].finishingDay}}</b>
@@ -180,16 +179,16 @@ export default {
     getGuessesByDate () {
       let self = this
       var finished = 0
-      for (var i = 0; i < 6; i++) {
+      for (var i = 0; i < 7; i++) {
         GuessHelper.getGuessesByDate(0, this.topic, this.$moment().add(i, 'days').unix()).then((_guesses) => {
           self.guessesByNumber = self.guessesByNumber.concat(_guesses)
           finished++
-          if (finished === 6) {
+          if (finished === 7) {
             self.printGuesses()
           }
         }).catch(err => {
           finished++
-          if (finished === 6) {
+          if (finished === 7) {
             self.printGuesses()
           }
           // console.log(err)
