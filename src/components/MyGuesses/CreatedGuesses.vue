@@ -63,15 +63,15 @@
     <b-container class="" style="">
       <b-row align-h="between">
         <b-col align-self="center">
-          <h3>Looks like there are no events you voted in process!</h3>
-          <h5>Is not the best time to try one?</h5>
+          <h3>Looks like you haven't created any current event!</h3>
+          <h5>Feel like creating one?</h5>
         </b-col>
         <b-col>
           <img src="static/beard-hold.png" style="width: 70%;" alt=":'("/>         
         </b-col>
       </b-row>
       <b-row>
-        <b-button href="#home" variant="primary" size="lg">Guess events</b-button>
+        <b-button href="#create" variant="primary" size="lg">Create event</b-button>
       </b-row>    
     </b-container>
     

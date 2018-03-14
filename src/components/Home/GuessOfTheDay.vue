@@ -72,7 +72,7 @@
         <b-row align-h="between">
           <b-col align-self="center">
             <h3>Looks like there are no recent events for this topic!</h3>
-            <h3>Is not the best time to create one?</h3>
+            <h3>Feel like creating one?</h3>
           </b-col>
           <b-col>
               <img src="static/beard-hold.png" style="width: 70%;" alt=":'("/>         

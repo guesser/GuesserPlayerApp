@@ -22,7 +22,7 @@
       </b-card>
     </div>
     <div>
-      <h4 class="absolute-center" v-if='totalGuesses == 0'>What a shame... !There are no Guesses to validate!</h4>
+      <h4 class="absolute-center" v-if='totalGuesses == 0'>What a shame... There are no Guesses to validate!</h4>
     </div>
   </div>
 </template>

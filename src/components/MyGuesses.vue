@@ -1,11 +1,11 @@
 <template>
   <div class="justify-content-md-center margin">
-    <h2>Events I have participated</h2>
+    <h2>Events I have participated in</h2>
     <br>
     <b-card no-body>
       <b-tabs card v-model="tabIndex">
-        <b-tab title="Actual Events" :title-link-class="linkClass(0)">
-          <ActualGuesses/>
+        <b-tab title="Current Events" :title-link-class="linkClass(0)">
+          <CurrentGuesses/>
         </b-tab>
         <b-tab title="Events being validated" :title-link-class="linkClass(1)">
           <ValidatingGuesses/>
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import ActualGuesses from './MyGuesses/ActualGuesses.vue'
+import CurrentGuesses from './MyGuesses/CurrentGuesses.vue'
 import ValidatingGuesses from './MyGuesses/ValidatingGuesses.vue'
 import PastGuesses from './MyGuesses/PastGuesses.vue'
 import CreatedGuesses from './MyGuesses/CreatedGuesses.vue'
@@ -35,7 +35,7 @@ export default {
     }
   },
   components: {
-    ActualGuesses,
+    CurrentGuesses,
     ValidatingGuesses,
     PastGuesses,
     CreatedGuesses

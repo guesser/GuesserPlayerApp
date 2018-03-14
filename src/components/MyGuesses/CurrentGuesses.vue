@@ -65,8 +65,8 @@
     <b-container class="" style="">
       <b-row align-h="between">
         <b-col align-self="center">
-          <h3>Looks like there are no events you voted in process!</h3>
-          <h5>Is not the best time to try one?</h5>
+          <h3>Looks like you haven't participated in any current event yet!</h3>
+          <h5>Feel like taking a guess?</h5>
         </b-col>
         <b-col>
           <img src="static/beard-hold.png" style="width: 70%;" alt=":'("/>         

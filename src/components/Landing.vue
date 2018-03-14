@@ -68,7 +68,7 @@
     <div class="section tipe2" style='background-image: url("static/beardground.png");'>
       <div class="explainer">
         <b-row class="maket" align-h="center">
-          <b-container class="show" style="min-width: 80%; padding: 3rem 1rem">
+          <b-container class="show" style="min-width: 80%; padding: 2rem 0.1rem">
             <b-row align-h="between" style="">
               <b-col lg="6" style="padding: 0 1% 0 1%;">
                 <b-container style="display: flex; justify-content: center; padding: 5%;">
@@ -84,12 +84,12 @@
                     {{guess.description}}
                     </p>   
                     <p class="card-text">
-                    From: <b>{{guess.startingDay}}</b>
+                    Created at: <b>{{guess.startingDay}}</b>
                     <br>
-                    To: <b>{{guess.finishingDay}}</b>
+                    Open until: <b>{{guess.finishingDay}}</b>
                     </p>
                     <br>
-                    <span>Number of votes in each option: </span>
+                    <span>Votes for each outcome: </span>
                     <b-progress class="mt-1" :max="10*(guess.votes/10)" style="font-size: 0.5em" show-value striped>
                       <b-progress-bar :value="10*(guess.option1votes/10)" variant="pink">
                         {{guess.option1}} - {{ guess.option1votes }}
@@ -100,7 +100,7 @@
                     </b-progress>
                     <small>Total: {{guess.votes}} people</small>
                     <br>
-                    <span>Eth amout in each option: </span>
+                    <span>Eth staked on each outcome: </span>
                     <b-progress class="mt-1" :max="10*(guess.amountEth/10)" style="font-size: 0.5rem" show-value striped>
                       <b-progress-bar :value="10*(guess.option1AmountEth/10)" variant="pink">
                         {{guess.option1}} - {{ guess.option1AmountEth }}
@@ -203,7 +203,7 @@ export default {
       guess: {
         id: '0',
         title: 'Will SpaceX recover the fairing?',
-        description: 'They want, could they do it?',
+        description: 'They want, but can they do it?',
         topic: 'Humor',
         creator: '0x00000000000000000000000000000000',
         votes: 666,
