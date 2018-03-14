@@ -51,6 +51,7 @@ contract Guess is DateTime{
   // The dates are in this format: 0000:year, 00:month, 00:day
   // Example: 19940831
   mapping (address => uint256[]) guessesByAddress; // Storing the guesses by their voters
+  mapping (address => uint256[]) guessesCreatedByAddress; // Storing the guesses by their creators
 
   // Constructor
   function Guess () public {
@@ -118,6 +119,7 @@ contract Guess is DateTime{
     uint256 _month = DateTime.getMonth(_finalDate) * 100;
     uint256 _day = DateTime.getDay(_finalDate);
     guessesByDate[_year + _month + _day].push(_len);
+    guessesCreatedByAddress[msg.sender].push(_len);
     GuessCreated(_len, _title);
   }
 
@@ -521,6 +523,28 @@ contract Guess is DateTime{
       uint256 _validations = guesses[_eventIndex].option1Validation + guesses[_eventIndex].option2Validation;
       uint256 _half = ((((_votes * 10) / 2) - ((_votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
       if(dateDue(guesses[_eventIndex].finalDate) == true && _validations >= _half) {
+        _firstEvents[_eventNumber] = guessesByAddress[_address][_index];
+        _eventNumber ++;
+      }
+      _index++;
+    }
+
+    return _firstEvents;
+  }
+
+  /* @dev Function that returns the events created by a person
+   * @param _index uint256 the 'page' of the events you want. The first 10, the second 10th, the third...
+   * @param _address address the person from whom you want the events
+   * @return uint256[10] array of the events of the person
+   */
+  function getCreatedGuessesByAddress (uint256 _index, address _address) public view returns (uint256[10]) {
+    _index = _index * 10;
+
+    uint8 _eventNumber = 0;
+    uint256[10] memory _firstEvents; // Array to return
+    while (_index < guessesByAddress[_address].length && _eventNumber < 10) {
+      uint256 _eventIndex = guessesCreatedByAddress[_address][_index];
+      if(guesses[_eventIndex].creator == _address) {
         _firstEvents[_eventNumber] = guessesByAddress[_address][_index];
         _eventNumber ++;
       }
