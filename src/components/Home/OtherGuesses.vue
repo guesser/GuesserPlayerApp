@@ -130,18 +130,17 @@ export default {
         let _index = this.guessesByNumber[i].c[0]
         if (_index !== 0) { // Guess 0 is the empty one
           GuessHelper.getGuessFront(_index).then((guess) => {
-            // console.log(guess)
-            if (this.$moment(guess[6]) > this.$moment().add(0, 'hours')) {
-              let month1 = parseInt(guess[5].getMonth()) + 1
-              let month2 = parseInt(guess[6].getMonth()) + 1
+            // console.log('Current time:', this.$moment().unix(), this.$moment().format('D H mm'))
+            // TODO: Adjust the time left in wich we want to show the event
+            if (this.$moment(guess[6]).unix() > this.$moment().unix()) {
               this.guesses.push({
                 'id': _index,
                 'title': guess[0],
                 'description': guess[1],
                 'topic': guess[2],
                 'votes': guess[4],
-                'startingDay': guess[5].getUTCDate() + '-' + month1 + '-' + guess[6].getFullYear(),
-                'finishingDay': guess[6].getUTCDate() + '-' + month2 + '-' + guess[5].getFullYear(),
+                'startingDay': this.$moment(guess[5]).format('MMMM D, YYYY [at] H[h]'),
+                'finishingDay': this.$moment(guess[6]).format('MMMM D, YYYY [at] H[h]'),
                 'finishingDayUnformated': this.$moment(guess[6]),
                 'option1': 'Loading...',
                 'option2': 'Loading...',
