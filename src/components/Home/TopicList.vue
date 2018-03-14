@@ -71,10 +71,11 @@ export default {
   width: 70%;
   max-width: 50px;
   max-height: 50px;
+  margin-right: 10px;
 }
 .list-group-item{
   /* padding: .75rem 0.25rem; */
-  padding: 0;
+  padding: .25rem;
   margin:0;
 }
 .list-group-item.active{

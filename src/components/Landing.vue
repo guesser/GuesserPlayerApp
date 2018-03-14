@@ -68,7 +68,7 @@
     <div class="section tipe2" style='background-image: url("static/beardground.png");'>
       <div class="explainer">
         <b-row class="maket" align-h="center">
-          <b-container class="show" style="min-width: 80%">
+          <b-container class="show" style="min-width: 80%; padding: 3rem 1rem">
             <b-row align-h="between" style="">
               <b-col lg="6" style="padding: 0 1% 0 1%;">
                 <b-container style="display: flex; justify-content: center; padding: 5%;">
