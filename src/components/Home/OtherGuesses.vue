@@ -185,11 +185,13 @@ export default {
           finished++
           if (finished === 7) {
             self.printGuesses()
+            self.contentLoaded = false
           }
         }).catch(err => {
           finished++
           if (finished === 7) {
             self.printGuesses()
+            self.contentLoaded = false
           }
           // console.log(err)
           return err
