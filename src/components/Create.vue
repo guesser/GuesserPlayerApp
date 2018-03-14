@@ -1,117 +1,117 @@
 <template>
-  <div class="justify-content-md-center litle-margin">
-    <!--Alert-->
-    <b-alert variant="success"
-             dismissible
-             :show="guessCreatedAlert"
-             @dismissed="showCreatedAlert=false">
-      Event being created!
-    </b-alert>
-
-    <!--Form-->
-    <b-form @submit="onSubmit">
-      <h2 style="margin-bottom: 2%;"> Create an event </h2>
-      <!--Title-->
-      <b-form-group id="titleGroup"
-                    label="Title:"
-                    label-for="titleInput">
-        <b-form-input id="titleInput"
-                      type="text"
-                      maxlength="31"
-                      placeholder="Short and clear name of the event"
-                      v-model="form.title"
-                      required>
-        </b-form-input>
-      </b-form-group>
-
-      <!--Description-->
-      <b-form-group id="descriptionGroup"
-                    label="Description:"
-                    label-for="descriptionInput"
-                    style="margin-bottom: 0">
-        <b-form-textarea id="descriptionInput"
-                         maxlength="140"
-                         placeholder="Tell people about what's happening in 140 characters"
-                         v-model="form.description"
-                         required>
-        </b-form-textarea>
-        <b-row style="padding-top: 10px" align-h="center">
-          <vue-twitter-counter :current-length="140 - remchar"
-                                               safe="#ff66ff"
-                                               :danger-at='140'
-                                               animate
-                                               round>
-          </vue-twitter-counter>
-        </b-row>
-        <!--TODO: Update when change input-->
-        <!--<span> {{ remchar }} characters remaining</span>-->
-      </b-form-group>
-
-      <!--Topics-->
-      <p class='info-section'>Topic:</p>
-      <div v-if="windowWidth >= 800">
-        <b-form-radio-group id="btnradios2"
-                            buttons
-                            button-variant="outline-primary"
-                            size="sm"
-                            v-model="form.topic"
-                            :options="topics"
-                            name="radioBtnOutline" />
-        </b-form-group>
-      </div>
-      <div v-else>
-        <b-dropdown id="ddown" text="Select a topic" variant="primary" class="m-2">
-          <b-form-radio-group id="btnradios3"
-                              style="width: 100%"
-                              buttons
-                              stacked
-                              button-variant="outline-primary"
-                              v-model="form.topic"
-                              :options="topics"
-                              name="radioBtnOutline" />
-          </b-form-group>
-        </b-dropdown>
-      </div>
+<div class="justify-content-md-center litle-margin">
+  <!--Alert-->
+  <b-alert variant="success"
+           dismissible
+           :show="guessCreatedAlert"
+           @dismissed="showCreatedAlert=false">
+    Event being created!
+  </b-alert>
+  
+  <!--Form-->
+  <b-form @submit="onSubmit">
+    <h2 style="margin-bottom: 2%;"> Create an event </h2>
+    <!--Title-->
+    <b-form-group id="titleGroup"
+                  label="Title:"
+                  label-for="titleInput">
+      <b-form-input id="titleInput"
+                    type="text"
+                    maxlength="31"
+                    placeholder="Short and clear name of the event"
+                    v-model="form.title"
+                    required>
+      </b-form-input>
     </b-form-group>
+    
+    <!--Description-->
+    <b-form-group id="descriptionGroup"
+                  label="Description:"
+                  label-for="descriptionInput"
+                  style="margin-bottom: 0">
+      <b-form-textarea id="descriptionInput"
+                       maxlength="140"
+                       placeholder="Tell people about what's happening in 140 characters"
+                       v-model="form.description"
+                       required>
+      </b-form-textarea>
+      <b-row style="padding-top: 10px" align-h="center">
+        <vue-twitter-counter :current-length="140 - remchar"
+                             safe="#ff66ff"
+                             :danger-at='140'
+                             animate
+                             round>
+        </vue-twitter-counter>
+      </b-row>
+      <!--TODO: Update when change input-->
+      <!--<span> {{ remchar }} characters remaining</span>-->
+    </b-form-group>
+    
+    <!--Topics-->
+    <p class='info-section'>Topic:</p>
+    <div v-if="windowWidth >= 800">
+      <b-form-radio-group id="btnradios2"
+                          buttons
+                          button-variant="outline-primary"
+                          size="sm"
+                          v-model="form.topic"
+                          :options="topics"
+                          name="radioBtnOutline" />
+</b-form-group>
+</div>
+<div v-else>
+  <b-dropdown id="ddown" text="Select a topic" variant="primary" class="m-2">
+    <b-form-radio-group id="btnradios3"
+                        style="width: 100%"
+                        buttons
+                        stacked
+                        button-variant="outline-primary"
+                        v-model="form.topic"
+                        :options="topics"
+                        name="radioBtnOutline" />
+</b-form-group>
+</b-dropdown>
+</div>
+</b-form-group>
 
-    <br>
-    <br>
-    <!--Outcomes-->
-    <p class='info-section'>Outcomes:</p>
-    <b-form inline>
-      <label class="sr-only" for="option1Input" >Outcome1</label>
-      <b-input class="mb-2 mr-sm-2 mb-sm-0"
-               id="option1Input"
-               v-model='form.option1'
-               maxlength="31"
-               placeholder="Outocome1"/>
-        <label class="sr-only" for="option2Input">Outcome2</label>
-        <b-input class="mb-2 mr-sm-2 mb-sm-0"
-                 id="option2Input"
-                 v-model='form.option2'
-                 maxlength="31"
-                 placeholder="Outcome2"/>
-        </b-form>
-        <div>
-          <br>
-          <span>Ending date and time: {{form.date}}</span>
-          <V<VueSlideBar
-                 v-model="hourValue"
-                 :min="1"
-                 :max="168"
-                 :processStyle="slider.processStyle"
-                 :lineHeight="slider.lineHeight"
-                 :tooltipStyles="{ backgroundColor: '#ff0d73', borderColor: '#ff0d73',
-                 color: '#ff0d73'}">
-          </VueSlideBar>
-        </div>
-        <br>
-        <br>
-        <br>
+<br>
+<br>
+<!--Outcomes-->
+<p class='info-section'>Outcomes:</p>
+<b-form inline>
+  <label class="sr-only" for="option1Input" >Outcome1</label>
+  <b-input class="mb-2 mr-sm-2 mb-sm-0"
+           id="option1Input"
+           v-model='form.option1'
+           maxlength="31"
+           placeholder="Outocome1"/>
+  <label class="sr-only" for="option2Input">Outcome2</label>
+  <b-input class="mb-2 mr-sm-2 mb-sm-0"
+           id="option2Input"
+           v-model='form.option2'
+           maxlength="31"
+           placeholder="Outcome2"/>
+</b-form>
+<div>
+  <br>
+  <span>Ending date and time: {{updateDate}}</span>
+  <V<VueSlideBar
+       v-model="hourValue"
+       :min="1"
+       :max="168"
+       :processStyle="slider.processStyle"
+       :lineHeight="slider.lineHeight"
+       :tooltipStyles="{ backgroundColor: '#ff0d73', borderColor: '#ff0d73',
+                       color: '#ff0d73'}">
+     </VueSlideBar>
+</div>
+<br>
+<br>
+<br>
 
-        <b-button type="submit" variant="primary" size='lg'>Create</b-button>
-      </b-form>
-  </div>
+<b-button type="submit" variant="primary" size='lg'>Create</b-button>
+</b-form>
+</div>
 </template>
 
 <script>
@@ -144,12 +144,6 @@ export default {
     }
   },
   methods: {
-    updateDate (hour) {
-      let self = this
-
-      var startTime = self.$moment()
-      self.form.date = startTime.add(hour, 'hours').format('MMMM D, YYYY [at] H[h]')
-    },
     onSubmit (evt) {
       evt.preventDefault()
       let self = this
@@ -175,17 +169,19 @@ export default {
 
       var charactersremaining = 140 - self.form.description.length
       return charactersremaining
+    },
+    updateDate () {
+      let self = this
+
+      var startTime = self.$moment()
+      self.form.date = startTime.add(self.hourValue, 'hours').format('MMMM D, YYYY [at] H[h]')
+      return self.form.date
     }
   },
   beforeCreate: function () {
     GuessHelper.init().catch(err => {
       console.log(err)
     })
-  },
-  watch: {
-    hourValue: function (hourValue) {
-      this.updateDate(hourValue)
-    }
   },
   components: {
     VueTwitterCounter,
@@ -196,18 +192,18 @@ export default {
 
 <style>
 .info-section{
-  margin-bottom: 3px;
+    margin-bottom: 3px;
 }
 .row{
-  margin-left: 2% !important;
-  margin-right: 2% !important;
+    margin-left: 2% !important;
+    margin-right: 2% !important;
 }
 .litle-margin{
-  margin: 0% 10%;
-  padding: 3% 0%;
-  max-width: 800px;
+    margin: 0% 10%;
+    padding: 3% 0%;
+    max-width: 800px;
 }
 .btn-primary.dropdown-toggle:focus {
-  box-shadow: 0 0 0 0.2rem #ff0d73 !important;
+    box-shadow: 0 0 0 0.2rem #ff0d73 !important;
 }
 </style>
