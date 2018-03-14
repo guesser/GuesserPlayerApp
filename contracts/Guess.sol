@@ -201,8 +201,6 @@ contract Guess is DateTime{
     uint256 _hour = DateTime.getHour(now);
     uint256[] storage _guesses = guessesByDate[_year + _month + _day];
 
-    require(_guesses.length > 0);
-
     // Search by the _topic (filter)
     bool found = false;
     uint256 _choosen = 0;
@@ -219,8 +217,11 @@ contract Guess is DateTime{
         }
       }
     }
-    require(found==true);
-    return _guesses[_choosen];
+    if (found == true) {
+      return _guesses[_choosen];
+    } else {
+      return 0;
+    }
   }
 
   /**
