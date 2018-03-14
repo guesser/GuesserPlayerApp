@@ -53,9 +53,7 @@
                     variant="outline-secondary" size="sm">
             {{events[2*n +j].option1}}
           </b-button>
-          <b-button disabled
-                    variant="outline-secondary"
-                    size="sm">{{events[2*n +j].option2}}</b-button>
+          <b-button disabled variant="outline-secondary" size="sm">{{events[2*n +j].option2}}</b-button>
         </b-card>
       </b-card-group>
     </span>
@@ -85,7 +83,7 @@
 import GuessHelper from '@/js/Guess'
 
 export default {
-  name: 'ActualGuesses',
+  name: 'CreatedGuesses',
   data () {
     return {
       counter1: [0, 1, 2, 3, 4, 5],
@@ -149,8 +147,8 @@ export default {
       })
     },
 
-    getCurrentGuessesByAddress () {
-      GuessHelper.getCurrentGuessesByAddress(0).then((_events) => {
+    getCreatedGuessesByAddress () {
+      GuessHelper.getCreatedGuessesByAddress(0).then((_events) => {
         this.currentEvents = _events
         this.printEvents()
       }).catch((err) => {
@@ -161,7 +159,7 @@ export default {
   beforeCreate: function () {
     let self = this
     GuessHelper.init().then(() => {
-      self.getCurrentGuessesByAddress()
+      self.getCreatedGuessesByAddress()
     }).catch(err => {
       console.log(err)
     })

@@ -318,6 +318,21 @@ const GuessHelper = {
         reject(err)
       })
     })
+  },
+
+  getCreatedGuessesByAddress (index) {
+    let self = this
+
+    return new Promise((resolve, reject) => {
+      self.instance.getCreatedGuessesByAddress.call(
+        index,
+        self.address[0]
+      ).then(addressEvents => {
+        resolve(addressEvents)
+      }).catch(err => {
+        reject(err)
+      })
+    })
   }
 }
 
