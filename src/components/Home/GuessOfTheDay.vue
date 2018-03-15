@@ -26,7 +26,7 @@
         {{guess.description}}
         </p>
         <br>
-        <p class="card-text">
+         <p class="card-text">
         Created at: <b>{{guess.startingDay}}</b>
         <br>
         Open until: <b>{{guess.finishingDay}}</b>
@@ -198,9 +198,11 @@ export default {
       let self = this
 
       GuessHelper.getGuessOptionsProfits(this.guessIndex).then((optionsAmount) => {
-        self.guess.option1AmountEth = parseInt(optionsAmount[0]) / 10
-        self.guess.option2AmountEth = parseInt(optionsAmount[1]) / 10
-        self.guess.amountEth = parseInt(optionsAmount[0]) / 10 + parseInt(optionsAmount[1]) / 10
+        console.log(optionsAmount[0])
+
+        self.guess.option1AmountEth = parseFloat(optionsAmount[0]) / 10
+        self.guess.option2AmountEth = parseFloat(optionsAmount[1]) / 10
+        self.guess.amountEth = parseFloat(optionsAmount[0]) / 10 + parseFloat(optionsAmount[1]) / 10
       })
     }
   },
