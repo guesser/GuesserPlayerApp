@@ -148,7 +148,7 @@ export default {
       evt.preventDefault()
       let self = this
 
-      let finalDate = self.$moment().add(self.hourValue, 'hours').unix()
+      let finalDate = self.$moment().subtract(self.$moment().minute(), 'minutes').add(self.hourValue, 'hours').unix()
       GuessHelper.setGuessFront(
         this.form.title,
         this.form.description,
@@ -173,7 +173,7 @@ export default {
     updateDate () {
       let self = this
 
-      var startTime = self.$moment()
+      var startTime = self.$moment().subtract(self.$moment().minute(), 'minutes')
       self.form.date = startTime.add(self.hourValue, 'hours').format('MMMM D, YYYY [at] H[h]')
       return self.form.date
     }
