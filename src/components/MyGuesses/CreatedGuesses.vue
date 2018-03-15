@@ -141,9 +141,9 @@ export default {
       let self = this
 
       GuessHelper.getGuessOptionsProfits(eventIndex).then((optionsAmount) => {
-        self.events[arrIndex].option1AmountEth = parseInt(optionsAmount[0]) / 10
-        self.events[arrIndex].option2AmountEth = parseInt(optionsAmount[1]) / 10
-        self.events[arrIndex].amountEth = parseInt(optionsAmount[0]) / 10 + parseInt(optionsAmount[1]) / 10
+        self.events[arrIndex].option1AmountEth = parseFloat(optionsAmount[0]) / 10
+        self.events[arrIndex].option2AmountEth = parseFloat(optionsAmount[1]) / 10
+        self.events[arrIndex].amountEth = parseFloat(optionsAmount[0]) / 10 + parseFloat(optionsAmount[1]) / 10
       })
     },
 

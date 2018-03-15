@@ -34,14 +34,16 @@ export default {
   name: 'guessesvalidation',
   data () {
     return {
-      guesses: [],
+      guessesByNumber: [],
       totalGuesses: 0,
-      guessIndex: null
+      guessIndex: null,
+      guesses: []
     }
   },
   methods: {
     printGuesses () {
-      for (var i = 0; i < 10; i++) {
+      for (var i = 0; i < this.guessesByNumber.length; i++) {
+        console.log(this.guessesByNumber[i].c[0])
         let _index = this.guessesByNumber[i].c[0]
         if (_index !== 0) { // Guess 0 is the empty one
           GuessHelper.getGuessFront(_index).then((guess) => {
@@ -69,7 +71,6 @@ export default {
         }
       }
     },
-
     printGuessesOptions (_index, _localIndex) {
       let self = this
       GuessHelper.getGuessOptions(_index).then((guess) => {
@@ -82,18 +83,29 @@ export default {
         console.log(err)
       })
     },
-
     getGuessesToValidate () {
       let self = this
 
       this.guesses = [] // Clean the array of showed Guesses
-      GuessHelper.getGuessesToValidate(0).then((_guesses) => {
-        console.log(_guesses)
-        self.guessesByNumber = _guesses
-        self.printGuesses()
-      }).catch(err => {
-        console.log(err)
-      })
+      var finished = 0
+      for (var i = 0; i < 7; i++) {
+        GuessHelper.getGuessesToValidate(0, this.$moment().subtract(i, 'days').unix()).then((_guesses) => {
+          self.guessesByNumber = self.guessesByNumber.concat(_guesses)
+          console.log(self.guessesByNumber)
+          finished++
+          if (finished === 7) {
+            self.printGuesses()
+            // self.contentLoaded = false
+          }
+        }).catch(err => {
+          finished++
+          if (finished === 7) {
+            self.printGuesses()
+            // self.contentLoaded = false
+          }
+          return err
+        })
+      }
     },
     validateGuess (_index, _option) { // Option has to be 1 or 2
       // let self = this
@@ -114,12 +126,6 @@ export default {
     }).catch(err => {
       console.log(err)
     })
-  },
-
-  watch: {
-    topic: function () {
-      this.getGuesses()
-    }
   }
 }
 </script>

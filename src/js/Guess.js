@@ -260,12 +260,13 @@ const GuessHelper = {
     })
   },
 
-  getGuessesToValidate: function (index) {
+  getGuessesToValidate: function (index, date) {
     let self = this
 
     return new Promise((resolve, reject) => {
       self.instance.getGuessesToValidate.call(
         index,
+        date,
         {from: self.address}
       ).then(guessesIndex => {
         resolve(guessesIndex)
