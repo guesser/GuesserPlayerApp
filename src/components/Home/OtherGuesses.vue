@@ -130,9 +130,7 @@ export default {
         let _index = this.guessesByNumber[i].c[0]
         if (_index !== 0) { // Guess 0 is the empty one
           GuessHelper.getGuessFront(_index).then((guess) => {
-            // console.log('Current time:', this.$moment().unix(), this.$moment().format('D H mm'))
-            // TODO: Adjust the time left in wich we want to show the event
-            if (this.$moment(guess[6]).unix() > this.$moment().unix()) {
+            if (this.$moment(guess[6]).subtract(this.$moment(guess[6]).minute(), 'minutes').unix() > this.$moment().unix()) {
               this.guesses.push({
                 'id': _index,
                 'title': guess[0],
