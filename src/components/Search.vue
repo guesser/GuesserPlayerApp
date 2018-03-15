@@ -1,5 +1,20 @@
 <template>
   <div class='outside' style="">
+    <!--Alert-->
+    <b-alert variant="success"
+             dismissible
+             :show="guessVotingAlert"
+             @dismissed="showVotingAlert=false">
+      Hang in there... Guess being voted.
+    </b-alert>
+    <b-alert variant="danger"
+             dismissible
+             :show="guessVotingFailedAlert"
+             @dismissed="showVotingFailedAlert=false">
+      It seems the voting failed...
+    </b-alert>
+
+
     <div v-if='contentLoaded'>
       <Loading/>
     </div>
@@ -13,14 +28,14 @@
         {{guess.description}}
         </p>
         <br>
-        <p class="card-text">
-        From: <b>{{guess.startingDay}}</b>
+         <p class="card-text">
+        Created at: <b>{{guess.startingDay}}</b>
         <br>
-        To: <b>{{guess.finishingDay}}</b>
+        Open until: <b>{{guess.finishingDay}}</b>
         </p>
         <br>
         <!--Number of people Progress Bar-->
-        <span>Number of votes in each option: </span>
+        <span>Votes for each outcome: </span>
         <b-progress class="mt-1" :max="10*(guess.votes/10)" show-value striped>
           <b-progress-bar :value="10*(guess.option1votes/10)" variant="pink">
             {{guess.option1}} - {{ guess.option1votes }}
@@ -34,7 +49,7 @@
         <!--Amount of eth in each option-->
         <br>
         <br>
-        <span>Eth amout in each option: </span>
+        <span>Eth staked on each outcome: </span>
         <b-progress class="mt-1" :max="10*(guess.amountEth/10)" show-value striped>
           <b-progress-bar :value="10*(guess.option1AmountEth/10)" variant="pink">
             {{guess.option1}} - {{ guess.option1AmountEth }}
@@ -68,7 +83,7 @@
              hide-footer
              :header-bg-variant="topic">
       <b-form-group id="titleGroup"
-                    label="Ether amount to send:"
+                    label="Amount of other you want to sent:"
                     label-for="amountInput">
         <b-form-input id="amountInput"
                       type="number"
@@ -93,11 +108,12 @@ export default {
   components: {
     Loading
   },
-  data: function () {
+  data () {
     return {
-      form: {
-        _id: ''
-      },
+      guessVotingAlert: false,
+      guessVotingFailedAlert: false,
+      contentLoaded: true,
+      guessIndex: '',
       guess: {
         id: '0',
         title: 'Loading...',
@@ -121,41 +137,68 @@ export default {
     }
   },
   created: function () {
-    this.searchForGuess()
+    let self = this
+
+    GuessHelper.init().then(() => {
+      self.contentLoaded = false
+      self.searchForGuess()
+    }).catch(err => {
+      console.log(err)
+    })
   },
   beforeUpdate: function () {
-    this.searchForGuess()
+    let self = this
+
+    self.searchForGuess()
   },
   methods: {
     searchForGuess () {
       let self = this
-      let _id = this.form._id
-      _id = this.$route.query._id
-      console.log('Identification in browser: ', _id)
+
+      self.guessIndex = this.$route.query._id
+      this.contentLoaded = false
+      self.getGuess(self.guessIndex)
+      self.getOptions(self.guessIndex)
+      self.getOptionsProfits(self.guessIndex)
+    },
+    getGuess (_id) {
+      let self = this
+
+      GuessHelper.getGuessFront(_id).then((guessFound) => {
+        // console.log(guessFound)
+
+        self.guess.title = guessFound[0]
+        self.guess.description = guessFound[1]
+        self.guess.topic = guessFound[2]
+        self.guess.votes = guessFound[4]
+        self.guess.startingDay = this.$moment(guessFound[5]).format('MMMM D, YYYY [at] H[h]')
+        self.guess.finishingDay = this.$moment(guessFound[6]).format('MMMM D, YYYY [at] H[h]')
+        self.guessExists = true
+      }).catch(err => {
+        return err
+      })
+    },
+    getOptions (_id) {
+      let self = this
+
       GuessHelper.getGuessOptions(_id).then((guessOptions) => {
         self.guess.option1 = guessOptions[0]
         self.guess.option2 = guessOptions[1]
         self.guess.option1votes = guessOptions[2].c[0]
         self.guess.option2votes = guessOptions[3].c[0]
-      })
-      GuessHelper.getGuessFront(_id).then((guessFound) => {
-        self.guess.title = guessFound[0]
-        self.guess.description = guessFound[1]
-        self.guess.topic = guessFound[2]
-        self.guess.votes = guessFound[4]
-        self.guess.startingDay = this.$moment(guessFound[5]).format('MMMM Do YYYY, h a')
-        self.guess.finishingDay = this.$moment(guessFound[6]).format('MMMM Do YYYY, h a')
-        self.guessExists = true
       }).catch(err => {
-        console.log(err)
+        self.guessExists = false
+        return err
       })
+    },
+    getOptionsProfits (_id) {
+      let self = this
+
       GuessHelper.getGuessOptionsProfits(_id).then((optionsAmount) => {
         self.guess.option1AmountEth = parseInt(optionsAmount[0]) / 10
         self.guess.option2AmountEth = parseInt(optionsAmount[1]) / 10
         self.guess.amountEth = parseInt(optionsAmount[0]) / 10 + parseInt(optionsAmount[1]) / 10
       })
-      console.log('Guess: ', self.guess)
-      this.contentLoaded = false
     },
     showPaymentModal (_optionVoted) {
       this.optionVoted = _optionVoted
@@ -169,8 +212,8 @@ export default {
         // TODO: Show alert of voting
         this.guessVotingAlert = true
       }).catch(err => {
-        console.log(err)
         this.guessVotingFailedAlert = true
+        return err
       })
     }
   }
@@ -203,6 +246,6 @@ export default {
 }
 
 .inside {
-  width:50%;
+  width:60%;
 }
 </style>
