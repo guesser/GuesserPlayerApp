@@ -22,6 +22,17 @@
              :header-bg-variant="topic"
              header-text-variant="white"
              class="text-center">
+        <div slot="header">
+          <b-row align-v="center">
+            <b-col></b-col>
+            <b-col cols="10">
+            {{guess.title}}
+            </b-col>
+            <b-col>
+              <b-btn id="idCopy" variant="outline-primary" size="sm" v-clipboard="guess.url">Share</b-btn>
+            </b-col>
+          </b-row>
+        </div>
         <p class="card-text">
         {{guess.description}}
         </p>
@@ -71,7 +82,7 @@
       <b-container class="" style="">
         <b-row align-h="between">
           <b-col align-self="center">
-            <h3>Looks like there are no recent events for this topic!</h3>
+            <h3>Looks like today there are no events for this topic!</h3>
             <h3>Feel like creating one?</h3>
           </b-col>
           <b-col>
@@ -102,6 +113,8 @@
 
       <b-button @click="voteGuess()" variant="primary" size="sm">Vote</b-button>
     </b-modal>
+    <!-- Share Notification -->
+    <!-- TODO -->
   </div>
 </template>
 
@@ -117,6 +130,7 @@ export default {
       guessVotingFailedAlert: false,
       guess: {
         id: '0',
+        url: 'www.guesser.io/#/search?_id=',
         title: 'Loading...',
         description: 'Loading...',
         topic: 'Crypto',
@@ -142,6 +156,10 @@ export default {
       this.optionVoted = _optionVoted
       this.$refs.paymentModal.show()
     },
+    generateEventUrl () {
+      this.guess.url += this.guess.id
+      console.log(this.guess.url)
+    },
     getGuess () {
       let self = this
 
@@ -164,9 +182,11 @@ export default {
         if (guessNumber !== 0) {
           console.log('Number: ', guessNumber)
           self.guessIndex = guessNumber
+          self.guess.id = self.guessIndex
           self.getGuess()
           self.getOptions()
           self.getOptionsProfits()
+          self.generateEventUrl()
         }
       }).catch(err => {
         return err

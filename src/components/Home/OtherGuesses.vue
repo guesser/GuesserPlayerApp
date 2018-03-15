@@ -32,11 +32,23 @@
                            :header-border-variant="topic"
                            header-text-variant="black"
                            align="center">
+            <div slot="header">
+              <b-row align-v="center">
+                <b-col></b-col>
+                <b-col col lg="6">
+                  {{guesses[2*n +j].title}}
+                </b-col>
+                <b-col>
+                  <b-btn id="idCopy" variant="outline-primary" size="sm" v-clipboard="guesses[2*n +j].url">Share</b-btn>
+                </b-col>
+              </b-row>
+            </div>
             <p class="card-text">
             Created at: <b>{{guesses[2*n + j].startingDay}}</b>
             <br>
             Voting open until: <b>{{guesses[2*n + j].finishingDay}}</b>
             </p>
+            <br>
             <b-button style="margin-right: 20px"
                       @click="showPaymentModal(guesses[2*n + j].id, 1, 2*n +j)"
                       variant="outline-pink" size="sm">
@@ -128,11 +140,13 @@ export default {
       this.guesses = []
       for (var i = 0; i < this.guessesByNumber.length; i++) {
         let _index = this.guessesByNumber[i].c[0]
+        let _url = 'www.guesser.io/#/search?_id=' + _index
         if (_index !== 0) { // Guess 0 is the empty one
           GuessHelper.getGuessFront(_index).then((guess) => {
             if (this.$moment(guess[6]).subtract(this.$moment(guess[6]).minute(), 'minutes').unix() > this.$moment().unix()) {
               this.guesses.push({
                 'id': _index,
+                'url': _url,
                 'title': guess[0],
                 'description': guess[1],
                 'topic': guess[2],

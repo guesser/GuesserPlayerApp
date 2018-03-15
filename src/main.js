@@ -11,8 +11,11 @@ import BootstrapVue from 'bootstrap-vue'
 import Qrcode from 'v-qrcode/src/index'
 import VueClipboard from 'vue-clipboard2'
 import moment from 'moment'
+import Clipboard from 'v-clipboard'
+
 Vue.prototype.$moment = moment
 
+Vue.use(Clipboard)
 Vue.use(BootstrapVue)
 Vue.use(Qrcode)
 Vue.use(VueClipboard)
