@@ -390,4 +390,25 @@ $random: lighten(#FDDF6D, 10%);
 main{
   background: rgba(250, 250, 250, 0.6);
 }
+.copyAlert{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  text-align: left;
+  font-size: 1rem;
+  text-align: center;
+  margin: 5px;
+  margin-top: 0;
+  align-items: center;
+  justify-content: center;
+  background-color: #ff0d73;
+  color: white;
+  border: 2px solid #ff0d73;
+  border-radius: 2px;
+
+ .copyAlert-content {
+    padding: 5px;
+    flex: 1 0 auto;
+ }
+}
 </style>

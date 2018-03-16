@@ -11,11 +11,14 @@ import BootstrapVue from 'bootstrap-vue'
 import Qrcode from 'v-qrcode/src/index'
 import VueClipboard from 'vue-clipboard2'
 import moment from 'moment'
+import Notifications from 'vue-notification'
+
 Vue.prototype.$moment = moment
 
 Vue.use(BootstrapVue)
 Vue.use(Qrcode)
 Vue.use(VueClipboard)
+Vue.use(Notifications)
 
 Vue.config.productionTip = false
 

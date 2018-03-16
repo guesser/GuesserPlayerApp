@@ -17,6 +17,19 @@
              @dismissed="showVotingFailedAlert=false">
       It seems the voting failed...
     </b-alert>
+    <notifications group="copyAlert"
+                   position="bottom right"
+                   width="120"
+                   :speed="500">
+      <template slot="body" slot-scope="props">
+        <div class="copyAlert">
+          <div class="copyAlert-content">
+            Url copied!
+          </div>
+        </div>
+      </template>
+    </notifications>
+
 
     <div v-if="totalGuesses != 0">
       <h2>Events you may like:</h2>
@@ -37,12 +50,20 @@
             <br>
             Voting open until: <b>{{guesses[2*n + j].finishingDay}}</b>
             </p>
-            <b-button style="margin-right: 20px"
+            <b-row align-h="end" align-v="end" style="color: #ff0d78">
+              #{{guesses[2*n + j].id}}
+              <b-btn id="idCopy" variant="link" size="sm"
+                     @click="show('copyAlert')"
+                     v-clipboard:copy="guesses[2*n +j].url">
+                <img width="20px" src="../../assets/shareicon.png"/>
+              </b-btn>
+            </b-row>
+            <b-button style="margin: 2px 20px"
                       @click="showPaymentModal(guesses[2*n + j].id, 1, 2*n +j)"
                       variant="outline-pink" size="sm">
               {{guesses[2*n +j].option1}}
             </b-button>
-            <b-button @click="showPaymentModal(guesses[2*n + j].id, 2, 2*n + j)" variant="outline-magenta" size="sm">{{guesses[2*n +j].option2}}</b-button>
+            <b-button style="margin: 2px 20px" @click="showPaymentModal(guesses[2*n + j].id, 2, 2*n + j)" variant="outline-magenta" size="sm">{{guesses[2*n +j].option2}}</b-button>
           </b-card>
         </b-card-group>
       </span>
@@ -118,6 +139,11 @@ export default {
     }
   },
   methods: {
+    show (group) {
+      this.$notify({
+        group
+      })
+    },
     showPaymentModal (_guessId, _optionVoted, _arrayIndex) {
       this.arrayIndex = _arrayIndex
       this.optionVoted = _optionVoted
@@ -128,11 +154,13 @@ export default {
       this.guesses = []
       for (var i = 0; i < this.guessesByNumber.length; i++) {
         let _index = this.guessesByNumber[i].c[0]
+        let _url = 'www.guesser.io/#/search?_id=' + _index
         if (_index !== 0) { // Guess 0 is the empty one
           GuessHelper.getGuessFront(_index).then((guess) => {
             if (this.$moment(guess[6]).subtract(this.$moment(guess[6]).minute(), 'minutes').unix() > this.$moment().unix()) {
               this.guesses.push({
                 'id': _index,
+                'url': _url,
                 'title': guess[0],
                 'description': guess[1],
                 'topic': guess[2],

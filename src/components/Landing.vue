@@ -110,10 +110,14 @@
                       </b-progress-bar>
                     </b-progress>
                     <small>Total: {{guess.amountEth}} ether</small>
-                    <div style="margin-top: 5%">
-                      <b-button style="margin-right: 20px" @click="showPaymentModal(1)" variant="outline-pink" size="sm">{{guess.option1}}</b-button>
-                      <b-button @click="showPaymentModal(2)" variant="outline-magenta" size="sm">{{guess.option2}}</b-button>
-                    </div>
+                    <b-row align-h="end" align-v="end" style="color: #ff0d78">
+                      <span>#{{guess.id}}</span>
+                      <b-btn id="idCopy" variant="link" href="http://lmgtfy.com/?s=d&q=Where+are+the+lambos%3F" target="_blank" size="sm">
+                        <img width="20px" src="../assets/shareicon.png"/>
+                      </b-btn>
+                    </b-row>
+                    <b-button style="margin: 2px 20px" @click="showPaymentModal(1)" variant="outline-pink" size="sm">{{guess.option1}}</b-button>
+                    <b-button style="margin: 2px 20px" @click="showPaymentModal(2)" variant="outline-magenta" size="sm">{{guess.option2}}</b-button>
                   </b-card>
 
                 </b-container>
@@ -201,7 +205,7 @@ export default {
       },
       topics: ['Crypto', 'Celebrities', 'Entertainment', 'Gaming', 'Humor', 'News', 'Politics', 'Sports', 'Technology', 'Random'],
       guess: {
-        id: '0',
+        id: '314',
         title: 'Will SpaceX recover the fairing?',
         description: 'They want, but can they do it?',
         topic: 'Humor',

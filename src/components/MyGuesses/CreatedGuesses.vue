@@ -97,12 +97,14 @@ export default {
     printEvents () {
       for (var i in this.currentEvents) {
         let _index = this.currentEvents[i].c[0]
+        let _url = 'www.guesser.io/#/search?_id=' + _index
         if (_index !== 0) { // Guess 0 is the empty one
           GuessHelper.getGuessFront(_index).then((guess) => {
             let month1 = parseInt(guess[5].getMonth()) + 1
             let month2 = parseInt(guess[6].getMonth()) + 1
             this.events.push({
               'id': _index,
+              'url': _url,
               'title': guess[0],
               'description': guess[1],
               'topic': guess[2],
