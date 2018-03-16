@@ -208,7 +208,8 @@ contract Guess is DateTime{
     uint256 _guessHour;
     for (uint256 i = 0; i<_guesses.length; i++) {
       _guessHour = DateTime.getHour(guesses[_guesses[i]].finalDate);
-      if(guesses[_guesses[i]].topic == _topic && _guessHour > _hour) { // Same topic and in the correct time
+      if (dateDue(guesses[_guesses[i]].finalDate) == false)
+      if(guesses[_guesses[i]].topic == _topic) { // Same topic and in the correct time
         // TODO: Correct filter time
         // It returns the last best guess
         if (_choosenVotes < (guesses[_guesses[i]].option1Votes + guesses[_guesses[i]].option2Votes) || found==false) {
