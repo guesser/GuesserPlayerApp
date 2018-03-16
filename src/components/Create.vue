@@ -98,7 +98,7 @@
   <V<VueSlideBar
        v-model="hourValue"
        :min="1"
-       :max="168"
+       :max="120"
        :processStyle="slider.processStyle"
        :lineHeight="slider.lineHeight"
        :tooltipStyles="{ backgroundColor: '#ff0d73', borderColor: '#ff0d73',
