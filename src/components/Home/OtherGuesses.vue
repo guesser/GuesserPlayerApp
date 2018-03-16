@@ -17,6 +17,19 @@
              @dismissed="showVotingFailedAlert=false">
       It seems the voting failed...
     </b-alert>
+    <notifications group="copyAlert"
+                   position="bottom right"
+                   width="120"
+                   :speed="500">
+      <template slot="body" slot-scope="props">
+        <div class="copyAlert">
+          <div class="copyAlert-content">
+            Url copied!
+          </div>
+        </div>
+      </template>
+    </notifications>
+
 
     <div v-if="totalGuesses != 0">
       <h2>Events you may like:</h2>
@@ -32,29 +45,24 @@
                            :header-border-variant="topic"
                            header-text-variant="black"
                            align="center">
-            <div slot="header">
-              <b-row align-v="center">
-                <b-col></b-col>
-                <b-col col lg="6">
-                  {{guesses[2*n +j].title}}
-                </b-col>
-                <b-col>
-                  <b-btn id="idCopy" variant="outline-primary" size="sm" v-clipboard="guesses[2*n +j].url">Share</b-btn>
-                </b-col>
-              </b-row>
-            </div>
             <p class="card-text">
             Created at: <b>{{guesses[2*n + j].startingDay}}</b>
             <br>
             Voting open until: <b>{{guesses[2*n + j].finishingDay}}</b>
             </p>
-            <br>
-            <b-button style="margin-right: 20px"
+            <b-row align-h="end">
+              <b-btn id="idCopy" variant="link" size="sm"
+                     @click="show('copyAlert')"
+                     v-clipboard:copy="guesses[2*n +j].url">
+                <img width="20px" src="../../assets/shareicon.png"/>
+              </b-btn>
+            </b-row>
+            <b-button style="margin: 2px 20px"
                       @click="showPaymentModal(guesses[2*n + j].id, 1, 2*n +j)"
                       variant="outline-pink" size="sm">
               {{guesses[2*n +j].option1}}
             </b-button>
-            <b-button @click="showPaymentModal(guesses[2*n + j].id, 2, 2*n + j)" variant="outline-magenta" size="sm">{{guesses[2*n +j].option2}}</b-button>
+            <b-button style="margin: 2px 20px" @click="showPaymentModal(guesses[2*n + j].id, 2, 2*n + j)" variant="outline-magenta" size="sm">{{guesses[2*n +j].option2}}</b-button>
           </b-card>
         </b-card-group>
       </span>
@@ -130,6 +138,11 @@ export default {
     }
   },
   methods: {
+    show (group) {
+      this.$notify({
+        group
+      })
+    },
     showPaymentModal (_guessId, _optionVoted, _arrayIndex) {
       this.arrayIndex = _arrayIndex
       this.optionVoted = _optionVoted

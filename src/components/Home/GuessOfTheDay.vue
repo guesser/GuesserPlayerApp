@@ -14,6 +14,18 @@
              @dismissed="showVotingFailedAlert=false">
       It seems the voting failed...
     </b-alert>
+    <notifications group="copyalert"
+                   position="bottom right"
+                   width="120"
+                   :speed="500">
+      <template slot="body" slot-scope="props">
+        <div class="copyalert">
+          <div class="copyalert-content">
+            url copied!
+          </div>
+        </div>
+      </template>
+    </notifications>
 
     <!--If events-->
     <div v-if='guessIndex != null'>
@@ -22,17 +34,6 @@
              :header-bg-variant="topic"
              header-text-variant="white"
              class="text-center">
-        <div slot="header">
-          <b-row align-v="center">
-            <b-col></b-col>
-            <b-col cols="10">
-            {{guess.title}}
-            </b-col>
-            <b-col>
-              <b-btn id="idCopy" variant="outline-primary" size="sm" v-clipboard="guess.url">Share</b-btn>
-            </b-col>
-          </b-row>
-        </div>
         <p class="card-text">
         {{guess.description}}
         </p>
@@ -70,10 +71,15 @@
         <small>Total: {{guess.amountEth}} ether</small>
 
         <br>
-        <br>
-        <br>
-        <b-button style="margin-right: 20px" @click="showPaymentModal(1)" variant="outline-pink" size="sm">{{guess.option1}}</b-button>
-        <b-button @click="showPaymentModal(2)" variant="outline-magenta" size="sm">{{guess.option2}}</b-button>
+        <b-row align-h="end">
+          <b-btn id="idCopy" variant="link" size="sm"
+                 @click="show('copyAlert')"
+                 v-clipboard:copy="guess.url">
+            <img width="20px" src="../../assets/shareicon.png"/>
+          </b-btn>
+        </b-row>
+        <b-button style="margin: 2px 20px" @click="showPaymentModal(1)" variant="outline-pink" size="sm">{{guess.option1}}</b-button>
+        <b-button style="margin: 2px 20px" @click="showPaymentModal(2)" variant="outline-magenta" size="sm">{{guess.option2}}</b-button>
       </b-card>
     </div>
 
@@ -113,8 +119,6 @@
 
       <b-button @click="voteGuess()" variant="primary" size="sm">Vote</b-button>
     </b-modal>
-    <!-- Share Notification -->
-    <!-- TODO -->
   </div>
 </template>
 
@@ -152,19 +156,26 @@ export default {
     }
   },
   methods: {
+    show (group) {
+      this.$notify({
+        group
+      })
+    },
+    clean (group) {
+      this.$notify({ group, clean: true })
+    },
     showPaymentModal (_optionVoted) {
       this.optionVoted = _optionVoted
       this.$refs.paymentModal.show()
     },
     generateEventUrl () {
       this.guess.url += this.guess.id
-      console.log(this.guess.url)
     },
     getGuess () {
       let self = this
 
       GuessHelper.getGuessFront(this.guessIndex).then((guessDay) => {
-        console.log(guessDay)
+        // console.log(guessDay)
 
         self.guess.title = guessDay[0]
         self.guess.description = guessDay[1]
@@ -180,7 +191,6 @@ export default {
       let self = this
       GuessHelper.getGuessOfTheDay(this.topic).then((guessNumber) => {
         if (guessNumber !== 0) {
-          console.log('Number: ', guessNumber)
           self.guessIndex = guessNumber
           self.guess.id = self.guessIndex
           self.getGuess()
@@ -218,7 +228,7 @@ export default {
       let self = this
 
       GuessHelper.getGuessOptionsProfits(this.guessIndex).then((optionsAmount) => {
-        console.log(optionsAmount[0])
+        // console.log(optionsAmount[0])
 
         self.guess.option1AmountEth = parseFloat(optionsAmount[0]) / 10
         self.guess.option2AmountEth = parseFloat(optionsAmount[1]) / 10
@@ -247,6 +257,7 @@ export default {
 
 <style>
 .card-link{
-  text-decoration: underline;
+    text-decoration: underline;
 }
+
 </style>
