@@ -251,7 +251,7 @@ const GuessHelper = {
       self.instance.validateGuess(
         _guessIndex,
         _option,
-        {from: self.address[0], gas: 400000} // TODO: Gas forced again
+        {from: self.address[0], gas: 6385876} // TODO: Gas forced again
       ).then(() => {
         resolve()
       }).catch(err => {
@@ -260,12 +260,13 @@ const GuessHelper = {
     })
   },
 
-  getGuessesToValidate: function (index) {
+  getGuessesToValidate: function (index, date) {
     let self = this
 
     return new Promise((resolve, reject) => {
       self.instance.getGuessesToValidate.call(
         index,
+        date,
         {from: self.address}
       ).then(guessesIndex => {
         resolve(guessesIndex)
