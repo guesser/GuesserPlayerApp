@@ -49,19 +49,22 @@ export default {
           GuessHelper.getGuessFront(_index).then((guess) => {
             let month1 = parseInt(guess[5].getMonth()) + 1
             let month2 = parseInt(guess[6].getMonth()) + 1
-            this.guesses.push({
-              'id': _index,
-              'title': guess[0],
-              'description': guess[1],
-              'topic': guess[2],
-              'votes': guess[4],
-              'startingDay': guess[5].getUTCDate() + '-' + month1 + '-' + guess[6].getFullYear(),
-              'finishingDay': guess[6].getUTCDate() + '-' + month2 + '-' + guess[5].getFullYear(),
-              'option1': 'Loading...',
-              'option2': 'Loading...',
-              'option1Validations': 0,
-              'option2Validations': 0
-            })
+            let guessTime = this.$moment(guess[6]).subtract(this.$moment(guess[6]).minute(), 'minutes')
+            if (guessTime.unix() < this.$moment().unix()) {
+              this.guesses.push({
+                'id': _index,
+                'title': guess[0],
+                'description': guess[1],
+                'topic': guess[2],
+                'votes': guess[4],
+                'startingDay': guess[5].getUTCDate() + '-' + month1 + '-' + guess[6].getFullYear(),
+                'finishingDay': guess[6].getUTCDate() + '-' + month2 + '-' + guess[5].getFullYear(),
+                'option1': 'Loading...',
+                'option2': 'Loading...',
+                'option1Validations': 0,
+                'option2Validations': 0
+              })
+            }
           }).then(() => {
             this.totalGuesses += 1
             this.printGuessesOptions(_index, this.totalGuesses - 1)
