@@ -5,18 +5,13 @@
     </div>
 
     <!--Alert-->
-    <b-alert variant="success"
-             dismissible
-             :show="guessVotingAlert"
-             @dismissed="showVotingAlert=false">
-      Hang in there... Guess being voted.
-    </b-alert>
-    <b-alert variant="danger"
-             dismissible
-             :show="guessVotingFailedAlert"
-             @dismissed="showVotingFailedAlert=false">
-      It seems the voting failed...
-    </b-alert>
+    <notifications group="voteAlert"
+                   position="top center"
+                   classes="vue-notification voteAlert"
+                   max="2"
+                   width="300px"
+                   speed="500" />
+
     <notifications group="copyAlert"
                    position="bottom right"
                    width="120"
@@ -103,7 +98,6 @@
                           required>
             </b-form-input>
           </b-form-group>
-
           <b-button @click="voteGuess()" variant="primary" size="sm">Vote</b-button>
         </b-modal>
 
@@ -125,8 +119,6 @@ export default {
   data () {
     return {
       contentLoaded: true,
-      guessVotingAlert: false,
-      guessVotingFailedAlert: false,
       arrayIndex: 0, // The selected guess to vote
       guesses: [],
       guessesByNumber: [],
@@ -139,6 +131,23 @@ export default {
     }
   },
   methods: {
+    showVoteAlert (group, type = '') {
+      var title = ''
+      var text = ''
+      if (type === 'success') {
+        title = 'Votation success!'
+        text = 'Your prediction is being processed'
+      } else {
+        title = 'Votation error!'
+        text = 'Your prediction process failed, try again'
+      }
+      this.$notify({
+        group,
+        title,
+        text,
+        type
+      })
+    },
     show (group) {
       this.$notify({
         group
@@ -228,11 +237,10 @@ export default {
       this.$refs.paymentModal.hide()
       GuessHelper.voteGuess(this.guessToVote, this.optionVoted, this.ethAmountToVote).then(() => {
         console.log('Transaction pending...')
-        // TODO: Show alert of voting
-        this.guessVotingAlert = true
+        this.showVoteAlert('voteAlert', 'success')
       }).catch(err => {
         console.log(err)
-        this.guessVotingFailedAlert = true
+        this.showVoteAlert('voteAlert', 'error')
       })
     }
   },
@@ -264,5 +272,10 @@ export default {
   margin: auto;
   text-align: center;
   position: relative;
+}
+.voteAlert {
+    margin: 5px;
+    border-radius: 2px;
+    border-left: 0px !important;
 }
 </style>

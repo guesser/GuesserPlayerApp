@@ -2,9 +2,14 @@
   <div>
     <TopBar/>
     <main>
-
     <br>
-    <b-alert
+    <notifications group="eventAlert"
+                   position="top right"
+                   classes="vue-notification eventAlert"
+                   max="2"
+                   width="350px"
+                   speed="1000"/>
+    <!-- <b-alert 
       style='width: 70%; margin-left: 15%;'
              :show="dismissCountDown"
              dismissible
@@ -17,7 +22,7 @@
                   :value="dismissCountDown"
                   height="4px">
       </b-progress>
-    </b-alert>
+    </b-alert> -->
 
     <router-view></router-view>
     </main>
@@ -56,6 +61,15 @@ export default {
     },
     showAlert () {
       this.dismissCountDown = this.dismissSecs
+    },
+    showEventAlert () {
+      // TODO: Catch the id and the topic of the event
+      var text = '<br>Event #{{id}} is being created in {{topic}}'
+      this.$notify({
+        group: 'eventAlert',
+        title: 'NEW Event has been created!',
+        text
+      })
     }
   },
   beforeCreate: function () {
@@ -66,8 +80,10 @@ export default {
           if (!self.firstEventPassed) {
             self.firstEventPassed = true
           } else {
+            self.showEventAlert()
             self.showAlert()
             self.GuessCreated = result.event
+            console.log(self.GuessCreated)
           }
         } else {
           console.log(error)
@@ -401,14 +417,22 @@ main{
   margin-top: 0;
   align-items: center;
   justify-content: center;
-  background-color: #ff0d73;
+  background-color: darken(gray, 40);
   color: white;
-  border: 2px solid #ff0d73;
-  border-radius: 2px;
+  border: 0;
+  border-radius: 3px;
 
  .copyAlert-content {
     padding: 5px;
     flex: 1 0 auto;
  }
+}
+.eventAlert{
+    margin: 5px;
+    font-size: 1rem;
+    border-radius: 2px;
+    color: #ff0d78; 
+    background-color: lighten(#ff0d78, 40);
+    border: 2px solid #ff0d78 !important;
 }
 </style>

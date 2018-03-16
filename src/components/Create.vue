@@ -1,17 +1,10 @@
 <template>
 <div class="justify-content-md-center litle-margin">
   <!--Alert-->
-  <b-alert variant="success"
-           dismissible
-           :show="guessCreatedAlert"
-           @dismissed="showCreatedAlert=false">
-    Event being created!
-  </b-alert>
   <notifications group="creation"
                  position="top center"
                  classes="vue-notification creation"
                  max="2"
-                 width="300px"
                  speed="500" />
   
   <!--Form-->
@@ -229,7 +222,7 @@ export default {
 }
 .creation{
     margin: 5px;
-    border-radius: 5px;
+    border-radius: 2px;
     border-left: 0px !important;
 }
 </style>

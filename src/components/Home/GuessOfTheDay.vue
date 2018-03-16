@@ -2,30 +2,12 @@
   <div>
 
     <!--Alert-->
-    <b-alert variant="success"
-             dismissible
-             :show="guessVotingAlert"
-             @dismissed="showVotingAlert=false">
-      Hang in there... Guess being voted.
-    </b-alert>
-    <b-alert variant="danger"
-             dismissible
-             :show="guessVotingFailedAlert"
-             @dismissed="showVotingFailedAlert=false">
-      It seems the voting failed...
-    </b-alert>
-    <notifications group="copyalert"
-                   position="bottom right"
-                   width="120"
-                   :speed="500">
-      <template slot="body" slot-scope="props">
-        <div class="copyalert">
-          <div class="copyalert-content">
-            url copied!
-          </div>
-        </div>
-      </template>
-    </notifications>
+    <notifications group="voteAlert"
+                   position="top center"
+                   classes="vue-notification voteAlert"
+                   max="2"
+                   width="300px"
+                   speed="500" />
 
     <!--If events-->
     <div v-if='guessIndex != null'>
@@ -157,6 +139,23 @@ export default {
     }
   },
   methods: {
+    showVoteAlert (group, type = '') {
+      var title = ''
+      var text = ''
+      if (type === 'success') {
+        title = 'Votation success!'
+        text = 'Your prediction is being processed'
+      } else {
+        title = 'Votation error!'
+        text = 'Your prediction process failed, try again'
+      }
+      this.$notify({
+        group,
+        title,
+        text,
+        type
+      })
+    },
     show (group) {
       this.$notify({
         group
@@ -208,11 +207,10 @@ export default {
       this.$refs.paymentModal.hide()
       GuessHelper.voteGuess(this.guessIndex, this.optionVoted, this.ethAmountToVote).then(() => {
         console.log('Transaction pending...')
-        // TODO: Show alert of voting
-        this.guessVotingAlert = true
+        this.showVoteAlert('voteAlert', 'success')
       }).catch(err => {
         console.log(err)
-        this.guessVotingFailedAlert = true
+        this.showVoteAlert('voteAlert', 'error')
       })
     },
     getOptions () {
@@ -260,5 +258,9 @@ export default {
 .card-link{
     text-decoration: underline;
 }
-
+.voteAlert {
+    margin: 5px;
+    border-radius: 2px;
+    border-left: 0px !important;
+}
 </style>
