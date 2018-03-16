@@ -91,7 +91,7 @@ export default {
       for (var i = 0; i < 7; i++) {
         GuessHelper.getGuessesToValidate(0, this.$moment().subtract(i, 'days').unix()).then((_guesses) => {
           self.guessesByNumber = self.guessesByNumber.concat(_guesses)
-          console.log(self.guessesByNumber)
+          console.log(_guesses)
           finished++
           if (finished === 7) {
             self.printGuesses()

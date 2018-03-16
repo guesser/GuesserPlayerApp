@@ -429,33 +429,52 @@ contract Guess is DateTime{
   * @return uint256[10] a list with the guesses to validate
   */
   function getGuessesToValidate (uint256 _index, uint256 _date) public view returns (uint256[10]) {
-    require(dateDue(_date) == true);
+    // require(dateDue(_date) == true);
+    /* // TODO: Control the date limits */
+    /* uint256 _year = DateTime.getYear(_date) * 10000; */
+    /* uint32 _month = DateTime.getMonth(_date) * 100; */
+    /* uint32 _day = DateTime.getDay(_date); */
+    /* uint256[] memory _events = guessesByDate[_year + _month + _day]; */
+
+    /* require(_events.length > _index*10); */
+
+
+    /* //Check the range is inside the length */
+    /* uint256 _eventNumber = 0; */
+    /* uint256[10] memory _dateEvents; */
+    /* uint256 i = (_index * 10); */
+    /* while (_eventNumber < 10 && i < _events.length) { */
+    /*   // Does it has enough votes? */
+    /*   // uint256 _votes = guesses[_events[i]].option1Votes + guesses[_events[i]].option2Votes; */
+    /*   /\* uint256 _validations = guesses[_events[i]].option1Validation + guesses[_events[i]].option2Validation; *\/ */
+    /*   // uint256 _half = ((((_votes * 10) / 2) - ((_votes * 10) / 2) % 10) / 10) + 1; // Divide by 2 */
+    /*   // if (guesses[_events[i]].option1Votes > 0 && guesses[_events[i]].option2Votes > 0) */
+    /*   //if (_validations < _half) { // Does it has enough validations? */
+    /*     _dateEvents[_eventNumber] = _events[i]; */
+    /*     _eventNumber++; */
+    /*     //} */
+    /*   i++; */
+    /* } */
+    /* return _events[0]; */
+
     // TODO: Control the date limits
     uint256 _year = DateTime.getYear(_date) * 10000;
     uint32 _month = DateTime.getMonth(_date) * 100;
     uint32 _day = DateTime.getDay(_date);
-    uint256[] memory _events = guessesByDate[_year + _month + _day];
+    uint256[] memory _guesses = guessesByDate[_year + _month + _day];
 
-    require(_events.length > _index*10);
+    require(_guesses.length > _index*10);
 
-
-    //Check the range is inside the length
-    uint8 _eventNumber = 0;
-    uint256[10] memory _dateEvents;
-    uint i = _index * 10;
-    while (_eventNumber < 10 && i < _events.length) {
-      // Does it has enough votes?
-      uint256 _votes = guesses[_events[i]].option1Votes + guesses[_events[i]].option2Votes;
-      uint256 _validations = guesses[_events[i]].option1Validation + guesses[_events[i]].option2Validation;
-      uint256 _half = ((((_votes * 10) / 2) - ((_votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
-      if (guesses[_events[i]].option1Votes > 0 && guesses[_events[i]].option2Votes > 0)
-      if (_validations < _half) { // Does it has enough validations?
-        _dateEvents[_eventNumber] = _events[i];
-        _eventNumber++;
-      }
+    // Check the range is inside the length
+    uint8 _guessNumber = 0;
+    uint256[10] memory _todayGuesses;
+    uint256 i = _index * 10;
+    while (_guessNumber<10 && i<_guesses.length) {
+        _todayGuesses[_guessNumber] = _guesses[i];
+        _guessNumber++;
       i++;
     }
-
+    return _todayGuesses;
   }
 
 
