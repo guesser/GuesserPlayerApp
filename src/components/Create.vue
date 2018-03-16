@@ -7,6 +7,12 @@
            @dismissed="showCreatedAlert=false">
     Event being created!
   </b-alert>
+  <notifications group="creation"
+                 position="top center"
+                 classes="vue-notification creation"
+                 max="2"
+                 width="300px"
+                 speed="500" />
   
   <!--Form-->
   <b-form @submit="onSubmit">
@@ -107,8 +113,6 @@
 </div>
 <br>
 <br>
-<br>
-
 <b-button type="submit" variant="primary" size='lg'>Create</b-button>
 </b-form>
 </div>
@@ -123,7 +127,6 @@ export default {
   name: 'Create',
   data () {
     return {
-      guessCreatedAlert: false,
       topics: ['Crypto', 'Celebrities', 'Entertainment', 'Gaming', 'Humor', 'News', 'Politics', 'Sports', 'Technology', 'Random'],
       form: {
         title: '',
@@ -144,6 +147,23 @@ export default {
     }
   },
   methods: {
+    show (group, type = '') {
+      var title = ''
+      var text = ''
+      if (type === 'success') {
+        title = 'Creation success!'
+        text = 'Your event has been pushed to the network'
+      } else {
+        title = 'Creation error!'
+        text = 'Event creation failed, try again'
+      }
+      this.$notify({
+        group,
+        title,
+        text,
+        type
+      })
+    },
     onSubmit (evt) {
       evt.preventDefault()
       let self = this
@@ -157,8 +177,9 @@ export default {
         this.form.option1,
         this.form.option2).then(() => {
           console.log('Transaction pending...')
-          self.guessCreatedAlert = true
+          self.show('creation', 'success')
         }).catch(err => {
+          self.show('creation', 'error')
           console.log(err)
         })
     }
@@ -205,5 +226,10 @@ export default {
 }
 .btn-primary.dropdown-toggle:focus {
     box-shadow: 0 0 0 0.2rem #ff0d73 !important;
+}
+.creation{
+    margin: 5px;
+    border-radius: 5px;
+    border-left: 0px !important;
 }
 </style>
