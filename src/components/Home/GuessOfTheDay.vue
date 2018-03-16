@@ -71,7 +71,8 @@
         <small>Total: {{guess.amountEth}} ether</small>
 
         <br>
-        <b-row align-h="end">
+        <b-row align-h="end" align-v="end" style="color: #ff0d78">
+          #{{guess.id}}
           <b-btn id="idCopy" variant="link" size="sm"
                  @click="show('copyAlert')"
                  v-clipboard:copy="guess.url">

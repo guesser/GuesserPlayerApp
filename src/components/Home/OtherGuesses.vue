@@ -50,7 +50,8 @@
             <br>
             Voting open until: <b>{{guesses[2*n + j].finishingDay}}</b>
             </p>
-            <b-row align-h="end">
+            <b-row align-h="end" align-v="end" style="color: #ff0d78">
+              #{{guesses[2*n + j].id}}
               <b-btn id="idCopy" variant="link" size="sm"
                      @click="show('copyAlert')"
                      v-clipboard:copy="guesses[2*n +j].url">
