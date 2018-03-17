@@ -8,9 +8,9 @@
     <notifications group="voteAlert"
                    position="top center"
                    classes="vue-notification voteAlert"
-                   max="2"
+                   :max="2"
                    width="300px"
-                   speed="500" />
+                   :speed="500"/>
 
     <notifications group="copyAlert"
                    position="bottom right"
@@ -34,7 +34,7 @@
                            v-for="j in counter2"
                            :key="j"
                            v-if="guesses[2*n + j]"
-                           style="width: 20rem; height: 100%;"
+                           style="height: 100%;"
                            :border-variant="topic"
                            :header="guesses[2*n + j].title"
                            :header-border-variant="topic"

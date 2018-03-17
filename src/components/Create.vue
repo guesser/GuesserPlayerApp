@@ -4,8 +4,8 @@
   <notifications group="creation"
                  position="top center"
                  classes="vue-notification creation"
-                 max="2"
-                 speed="500" />
+                 :max="2"
+                 :speed="500" />
   
   <!--Form-->
   <b-form @submit="onSubmit">

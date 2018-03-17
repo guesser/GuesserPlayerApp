@@ -6,9 +6,11 @@
     <notifications group="eventAlert"
                    position="top right"
                    classes="vue-notification eventAlert"
-                   max="2"
+                   :max="1"
                    width="350px"
-                   speed="1000"/>
+                   :speed="1000"/>
+
+    <!-- <b-button @click="showEventAlert()" variant="primary" size='lg'>Create</b-button> -->
     <!-- <b-alert 
       style='width: 70%; margin-left: 15%;'
              :show="dismissCountDown"
@@ -431,8 +433,8 @@ main{
     margin: 5px;
     font-size: 1rem;
     border-radius: 2px;
-    color: #ff0d78; 
-    background-color: lighten(#ff0d78, 40);
-    border: 2px solid #ff0d78 !important;
+    color: #8a6d3b; 
+    background-color: lighten(#FFFF03, 40);
+    border: 2px solid #ffff03 !important;
 }
 </style>

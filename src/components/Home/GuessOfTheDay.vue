@@ -5,9 +5,9 @@
     <notifications group="voteAlert"
                    position="top center"
                    classes="vue-notification voteAlert"
-                   max="2"
+                   :max="2"
                    width="300px"
-                   speed="500" />
+                   :speed="500" />
 
     <!--If events-->
     <div v-if='guessIndex != null'>
