@@ -198,7 +198,6 @@ contract Guess is DateTime{
     uint256 _year = DateTime.getYear(now) * 10000;
     uint256 _month = DateTime.getMonth(now) * 100;
     uint256 _day = DateTime.getDay(now);
-    uint256 _hour = DateTime.getHour(now);
     uint256[] storage _guesses = guessesByDate[_year + _month + _day];
 
     // Search by the _topic (filter)
@@ -279,8 +278,6 @@ contract Guess is DateTime{
     guesses[_guess].votersOption[msg.sender][1] = msg.value;
     guesses[_guess].voters.push(msg.sender);
 
-    uint256 _guessByAddressLength = guessesByAddress[msg.sender].length++; // Saving the voter
-    guessesByAddress[msg.sender][_guessByAddressLength - 1] = _guess;
     guessesByAddress[msg.sender].push(_guess);
 
     if (_option == 1) {

@@ -38,7 +38,15 @@ const GuessHelper = {
 
         // Getting events
         self.GuessCreated = self.instance.GuessCreated()
-        self.GuessVoted = self.instance.GuessVoted()
+        self.GuessVoted = self.instance.guessesByAddress[msg.sender].push(_guess);
+
+    if (_option == 1) {
+      guesses[_guess].option1Votes++;
+    } else {
+      guesses[_guess].option2Votes++;
+    }
+    GuessVoted(_guess, _option);
+GuessVoted()
         self.GuessValidated = self.instance.GuessValidated()
         self.ProfitsReturned = self.instance.ProfitsReturned()
 
@@ -226,8 +234,6 @@ const GuessHelper = {
     let self = this
 
     ethAmount = 10 * (ethAmount / 10)
-    console.log('Guess index ', _guessIndex)
-    console.log('Option ', ethAmount)
     return new Promise((resolve, reject) => {
       console.log(self.address[0])
       self.instance.voteGuess(
@@ -235,7 +241,7 @@ const GuessHelper = {
         _option,
         {from: self.address[0],
           value: window.web3.utils.toWei(ethAmount.toString(), 'ether'),
-          gas: 6385876} // TODO: Gas forced
+          gas: 6385875} // TODO: Gas forced
       ).then(() => {
         resolve()
       }).catch(err => {
