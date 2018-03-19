@@ -38,15 +38,7 @@ const GuessHelper = {
 
         // Getting events
         self.GuessCreated = self.instance.GuessCreated()
-        self.GuessVoted = self.instance.guessesByAddress[msg.sender].push(_guess);
-
-    if (_option == 1) {
-      guesses[_guess].option1Votes++;
-    } else {
-      guesses[_guess].option2Votes++;
-    }
-    GuessVoted(_guess, _option);
-GuessVoted()
+        self.GuessVoted = self.instance.GuessVoted()
         self.GuessValidated = self.instance.GuessValidated()
         self.ProfitsReturned = self.instance.ProfitsReturned()
 
