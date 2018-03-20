@@ -58,6 +58,7 @@ export default {
       newEventTitle: '',
       newEventTopic: '',
       newEventUrl: '',
+      lastEventId: 0,
       shareUrl: '#/search?_id='
     }
   },
@@ -89,10 +90,13 @@ export default {
           self.newEventTopic = window.web3.utils.hexToUtf8(result.args.topic)
           self.newEventUrl = self.shareUrl + self.newEventId
 
-          self.showEventAlert()
-          console.log(self.newEventTitle)
-          console.log(self.newEventTopic)
-          console.log(self.newEventId)
+          if (self.newEventId !== self.lastEventId) {
+            // self.showEventAlert()
+            // console.log(self.newEventTitle)
+            // console.log(self.newEventTopic)
+            // console.log(self.newEventId)
+            self.lastEventId = self.newEventId
+          }
         } else {
           console.log(error)
         }
@@ -440,7 +444,7 @@ main{
     font-size: 1rem;
     border-radius: 2px;
     color: #8a6d3b; 
-    background-color: lighten(#FFFF03, 40);
+    background-color: #ffffcf;
     border: 2px solid #ffff03 !important;
 }
 </style>
