@@ -17,22 +17,6 @@
       </template>
     </notifications>
 
-    <b-button @click="showEventAlert()" variant="primary" size='lg'>Create</b-button>
-    <!-- <b-alert 
-      style='width: 70%; margin-left: 15%;'
-             :show="dismissCountDown"
-             dismissible
-             variant="warning"
-             @dismissed="dismissCountDown=0"
-             @dismiss-count-down="countDownChanged">
-      <p>Another Event created!</p>
-      <b-progress variant="warning"
-                  :max="dismissSecs"
-                  :value="dismissCountDown"
-                  height="4px">
-      </b-progress>
-    </b-alert> -->
-
     <router-view></router-view>
     </main>
 
