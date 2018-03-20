@@ -75,7 +75,7 @@ export default {
           self.newEventUrl = self.shareUrl + self.newEventId
 
           if (self.newEventId !== self.lastEventId) {
-            // self.showEventAlert()
+            self.showEventAlert()
             // console.log(self.newEventTitle)
             // console.log(self.newEventTopic)
             // console.log(self.newEventId)
