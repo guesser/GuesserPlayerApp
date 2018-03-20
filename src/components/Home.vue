@@ -40,17 +40,18 @@ export default {
 <style>
 .topics{
   width: 20%;
-  display: inline-block;
   float: left;
   padding-right: 10px;
   padding-left: 1.5%;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 5px;
 }
 .guesses{
   width: 60%;
   min-width: 220px;
-  margin-left: 5%;
-  display: inline-block;
-  float: left;
+  margin-left: 25%;
+  position: relative;
 }
 .pink{
   background-color: pink;

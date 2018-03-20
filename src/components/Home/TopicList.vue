@@ -1,5 +1,5 @@
 <template>
-  <div style="max-width: 300px;">
+  <div class="topicList" style="max-width: 300px;">
     <!--<h2>Topics:</h2>-->
     <b-list-group >
       <b-list-group-item v-bind:class="{ 'active' : isSelected(0) }" href="#" @click='topiClick("Crypto", 0)' variant="Crypto">
@@ -68,19 +68,20 @@ export default {
 
 <style>
 .topic-icon{
-  width: 70%;
-  max-width: 50px;
-  max-height: 50px;
+  width: 23%;
+  min-width: 40px;
   margin-right: 10px;
 }
 .list-group-item{
   /* padding: .75rem 0.25rem; */
   padding: .25rem;
   margin:0;
+  display: block;
+  height: 100%;
 }
 .list-group-item.active{
   margin-bottom: 7px;
   margin-top: 7px;
-border-width: 1.5px;
+  border-width: 1.5px;
 }
 </style>
