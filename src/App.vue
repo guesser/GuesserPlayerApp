@@ -424,11 +424,11 @@ main{
  }
 }
 .eventAlert{
-    margin: 5px;
+    margin: 5px !important;
     font-size: 1rem;
-    border-radius: 2px;
-    color: #8a6d3b; 
-    background-color: #ffff03 !important;
+    border-radius: 2px !important;
+    color: #8a6d3b !important; 
+    background-color: #ffffc3 !important;
     border: 2px solid #ffff03 !important;
 }
 </style>
