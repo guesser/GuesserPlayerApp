@@ -8,7 +8,7 @@ import "./library/DateTime.sol";
  */
 contract Guess is DateTime{
   // Events
-  event GuessCreated(uint256 index, bytes32 title);
+  event GuessCreated(uint256 index, bytes32 title, bytes32 topic);
   event GuessVoted(uint256 guess, uint8 option);
   event GuessValidated(uint256 guess, uint8 option, address sender);
   event ProfitsReturned(uint256 guess);
@@ -120,7 +120,7 @@ contract Guess is DateTime{
     uint256 _day = DateTime.getDay(_finalDate);
     guessesByDate[_year + _month + _day].push(_len);
     guessesCreatedByAddress[msg.sender].push(_len);
-    GuessCreated(_len, _title);
+    GuessCreated(_len, _title, _topic);
   }
 
   /**

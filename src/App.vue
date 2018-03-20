@@ -4,13 +4,20 @@
     <main>
     <br>
     <notifications group="eventAlert"
-                   position="top right"
-                   classes="vue-notification eventAlert"
+                   position="bottom right"
                    :max="1"
                    width="350px"
-                   :speed="1000"/>
+                   :speed="1000">
+      <template slot="body" slot-scope="props">
+        <div class="vue-notification eventAlert">
+          <h5>New Event has been created!</h5>
+          <span>Event <a :href="newEventUrl">'{{newEventTitle}}'</a>
+            <br>With id: #{{newEventId}} was created in {{newEventTopic}}</span>
+        </div>
+      </template>
+    </notifications>
 
-    <!-- <b-button @click="showEventAlert()" variant="primary" size='lg'>Create</b-button> -->
+    <b-button @click="showEventAlert()" variant="primary" size='lg'>Create</b-button>
     <!-- <b-alert 
       style='width: 70%; margin-left: 15%;'
              :show="dismissCountDown"
@@ -45,13 +52,13 @@ export default {
   components: {
     TopBar
   },
-  data: function () {
+  data () {
     return {
-      firstEventPassed: false,
-      GuessCreated: '',
-      dismissSecs: 5,
-      dismissCountDown: 0,
-      showDismissibleAlert: false
+      newEventId: '',
+      newEventTitle: '',
+      newEventTopic: '',
+      newEventUrl: '',
+      shareUrl: '#/search?_id='
     }
   },
   methods: {
@@ -66,11 +73,8 @@ export default {
     },
     showEventAlert () {
       // TODO: Catch the id and the topic of the event
-      var text = '<br>Event #{{id}} is being created in {{topic}}'
       this.$notify({
-        group: 'eventAlert',
-        title: 'NEW Event has been created!',
-        text
+        group: 'eventAlert'
       })
     }
   },
@@ -79,14 +83,16 @@ export default {
     GuessHelper.init().then(() => {
       GuessHelper.GuessCreated.watch(function (error, result) {
         if (!error) {
-          if (!self.firstEventPassed) {
-            self.firstEventPassed = true
-          } else {
-            self.showEventAlert()
-            self.showAlert()
-            self.GuessCreated = result.event
-            console.log(self.GuessCreated)
-          }
+          self.newEventUrl = ''
+          self.newEventId = result.args.index.c[0]
+          self.newEventTitle = window.web3.utils.hexToUtf8(result.args.title)
+          self.newEventTopic = window.web3.utils.hexToUtf8(result.args.topic)
+          self.newEventUrl = self.shareUrl + self.newEventId
+
+          self.showEventAlert()
+          console.log(self.newEventTitle)
+          console.log(self.newEventTopic)
+          console.log(self.newEventId)
         } else {
           console.log(error)
         }
