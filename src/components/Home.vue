@@ -4,7 +4,7 @@
       <TopicList @topic-updated="updateTopic"/>
     </div>
     <div class='guesses'>
-      <h2>The <b>{{topic}}</b> event of the day!</h2>
+      <h2 style="font-size:calc(1em + 2vw);">The <b>{{topic}}</b> event of the day!</h2>
       <GuessOfTheDay :topic="topic"/>
       <br>
       <OtherGuesses :topic="topic"/>
@@ -56,7 +56,6 @@ export default {
 .pink{
   background-color: pink;
 }
-
 .container{
   margin:0;
   padding:0;

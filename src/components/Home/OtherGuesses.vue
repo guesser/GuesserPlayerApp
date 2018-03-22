@@ -27,7 +27,7 @@
 
 
     <div v-if="totalGuesses != 0">
-      <h2>Events you may like:</h2>
+      <h2 style="font-size:calc(1em + 1vw);">Events you may like:</h2>
       <span v-for="n in counter1">
         <b-card-group deck class="mb-3">
           <b-card

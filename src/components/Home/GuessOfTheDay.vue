@@ -12,15 +12,15 @@
     <!--If events-->
     <div v-if='guessIndex != null'>
       <b-card :border-variant="topic"
-             :header="guess.title"
-             :header-bg-variant="topic"
-             header-text-variant="white"
-             class="text-center">
+        :header="guess.title"
+        :header-bg-variant="topic"
+        header-text-variant="white"
+        class="text-center">
         <p class="card-text">
         {{guess.description}}
         </p>
         <br>
-         <p class="card-text">
+        <p class="card-text">
         Created at: <b>{{guess.startingDay}}</b>
         <br>
         Open until: <b>{{guess.finishingDay}}</b>
@@ -56,8 +56,8 @@
         <b-row align-h="end" align-v="end" style="color: #ff0d78">
           #{{guess.id}}
           <b-btn id="idCopy" variant="link" size="sm"
-                 @click="show('copyAlert')"
-                 v-clipboard:copy="guess.url">
+                                            @click="show('copyAlert')"
+                                            v-clipboard:copy="guess.url">
             <img width="20px" src="../../assets/shareicon.png"/>
           </b-btn>
         </b-row>
@@ -70,18 +70,24 @@
     <div v-else>
       <b-container class="" style="">
         <b-row align-h="between">
-          <b-col align-self="center">
-            <h3>Looks like today there are no events for this topic!</h3>
-            <h3>Feel like creating one?</h3>
-          </b-col>
           <b-col>
+          <b-container style="display: flex; justify-content: center; padding: 5%;">
+            <b-col align-self="center">
+              <h3 style="font-size:calc(1em + 1vw);">Looks like today there are no events for this topic!</h3>
+              <h3 style="font-size:calc(1em + 1vw);">Feel like creating one?</h3>
+            </b-col>
+          </b-container>
+          </b-col>
+          <b-col lg="5">
               <img src="static/beard-hold.png" style="width: 70%;" alt=":'("/>         
           </b-col>
         </b-row>
         <b-row>
-              <b-button href="#create" variant="primary" size="lg">Create</b-button>
+          <b-container style="padding: 6%; display: flex; justify-content: left;">
+            <b-button href="#create" variant="primary" size="lg">Create</b-button>
+          </b-container>
         </b-row>    
-        </b-container>
+      </b-container>
     </div>
 
     <!-- Modal Payment -->
@@ -256,11 +262,11 @@ export default {
 
 <style>
 .card-link{
-    text-decoration: underline;
+  text-decoration: underline;
 }
 .voteAlert {
-    margin: 5px;
-    border-radius: 2px;
-    border-left: 0px !important;
+  margin: 5px;
+  border-radius: 2px;
+  border-left: 0px !important;
 }
 </style>
