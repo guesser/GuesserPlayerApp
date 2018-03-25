@@ -5,17 +5,17 @@
         <b-card
                          v-for="j in counter2"
                          :key="j"
-                         v-if="guesses[2*n + j]"
+                         v-if="events[2*n + j]"
                          style="height: 100%;"
-                         :border-variant="guesses[0].topic"
-                         :header="guesses[2*n + j].title"
-                         :header-border-variant="guesses[0].topic"
+                         :border-variant="events[2*n + j].topic"
+                         :header="events[2*n + j].title"
+                         :header-border-variant="events[2*n +j].topic"
                          header-text-variant="black"
                          align="center">
           <p class="card-text">
-          Created at: <b>{{guesses[2*n + j].startingDay}}</b>
+          Created at: <b>{{events[2*n + j].startingDay}}</b>
           <br>
-          Voting open until: <b>{{guesses[2*n + j].finishingDay}}</b>
+          Voting open until: <b>{{events[2*n + j].finishingDay}}</b>
           </p>
           <div v-if="peopleBar">
             <!--Number of people Progress Bar-->
@@ -31,46 +31,46 @@
             <small>Total: {{events[2*n + j].votes}} people</small>
           </div>
           <b-row align-h="end" align-v="end" style="color: #ff0d78">
-            #{{guesses[2*n + j].id}}
+            #{{events[2*n + j].id}}
             <b-btn id="idCopy" variant="link" size="sm"
                                               @click="show('copyAlert')"
-                                              v-clipboard:copy="guesses[2*n +j].url">
+                                              v-clipboard:copy="events[2*n +j].url">
               <img width="20px" src="../../assets/shareicon.png"/>
             </b-btn>
           </b-row>
           <b-button style="margin: 2px 20px"
-                    @click="showPaymentModal(guesses[2*n + j].id, 1, 2*n +j)"
+                    @click="showPaymentModal(events[2*n + j].id, 1, 2*n +j)"
                     variant="outline-pink" size="sm">
-            {{guesses[2*n +j].option1}}
+            {{events[2*n +j].option1}}
           </b-button>
-          <b-button style="margin: 2px 20px" @click="showPaymentModal(guesses[2*n + j].id, 2, 2*n + j)" variant="outline-magenta" size="sm">{{guesses[2*n +j].option2}}</b-button>
+          <b-button style="margin: 2px 20px" @click="showPaymentModal(events[2*n + j].id, 2, 2*n + j)" variant="outline-magenta" size="sm">{{events[2*n +j].option2}}</b-button>
         </b-card>
       </b-card-group>
     </span>
 
     <!-- Modal Payment -->
-    <div v-if='guesses.length > 0'>
+    <div v-if='events.length > 0'>
       <b-modal ref="paymentModal"
                centered
                title="Vote an event"
                hide-footer
-               :header-bg-variant="guesses[arrayIndex].topic">
-        <label>Title: {{guesses[arrayIndex].title}}</label>
+               :header-bg-variant="events[arrayIndex].topic">
+        <label>Title: {{events[arrayIndex].title}}</label>
         <br>
 
-        <label>Description: {{guesses[arrayIndex].description}}</label>
+        <label>Description: {{events[arrayIndex].description}}</label>
         <br>
 
         <span>Votes for each outcome: </span>
-        <b-progress class="mt-1" :max="10*(guesses[arrayIndex].votes/10)" show-value striped>
-          <b-progress-bar :value="10*(guesses[arrayIndex].option1votes/10)" variant="pink">
-            {{guesses[arrayIndex].option1}} - {{ guesses[arrayIndex].option1votes }}
+        <b-progress class="mt-1" :max="10*(events[arrayIndex].votes/10)" show-value striped>
+          <b-progress-bar :value="10*(events[arrayIndex].option1votes/10)" variant="pink">
+            {{events[arrayIndex].option1}} - {{ events[arrayIndex].option1votes }}
           </b-progress-bar>
-          <b-progress-bar :value="10*(guesses[arrayIndex].option2votes/10)" variant="magenta">
-            {{guesses[arrayIndex].option2}} - {{ guesses[arrayIndex].option2votes }}
+          <b-progress-bar :value="10*(events[arrayIndex].option2votes/10)" variant="magenta">
+            {{events[arrayIndex].option2}} - {{ events[arrayIndex].option2votes }}
           </b-progress-bar>
         </b-progress>
-        <small>Total: {{guesses[arrayIndex].votes}} people</small>
+        <small>Total: {{events[arrayIndex].votes}} people</small>
         <br>
         <br>
 
@@ -94,7 +94,7 @@ import GuessHelper from '@/js/Guess'
 
 export default {
   name: 'carddeck',
-  props: ['guesses', 'peopleBar'],
+  props: ['events', 'peopleBar'],
   data () {
     return {
       contentLoaded: true,

@@ -28,7 +28,7 @@
 
     <div v-if="totalGuesses != 0">
       <h2 style="font-size:calc(1em + 1vw);">Events you may like:</h2>
-        <CardDeck :guesses="guesses"/>
+        <CardDeck :events="guesses" :peopleBar="true"/>
       </div>
     </div>
   </div>
