@@ -17,8 +17,10 @@
           <br>
           Voting open until: <b>{{events[2*n + j].finishingDay}}</b>
           </p>
+
+          <!--Number of people Progress Bar-->
           <div v-if="peopleBar">
-            <!--Number of people Progress Bar-->
+            <br>
             <span>Votes for each outcome: </span>
             <b-progress class="mt-1" :max="10*(events[2*n + j].votes/10)" show-value striped>
               <b-progress-bar :value="10*(events[2*n + j].option1votes/10)" variant="pink">
@@ -30,6 +32,23 @@
             </b-progress>
             <small>Total: {{events[2*n + j].votes}} people</small>
           </div>
+
+          <!--Amount of eth in each option-->
+          <div v-if="ethBar">
+            <br>
+            <span>Eth staked on each outcome: </span>
+            <b-progress class="mt-1" :max="10*(events[2*n + j].amountEth/10)" show-value striped>
+              <b-progress-bar :value="10*(events[2*n + j].option1AmountEth/10)" variant="pink">
+                {{events[2*n + j].option1}} - {{ events[2*n + j].option1AmountEth }}
+              </b-progress-bar>
+              <b-progress-bar :value="10*(events[2*n + j].option2AmountEth/10)" variant="magenta">
+                {{events[2*n + j].option2}} - {{ events[2*n + j].option2AmountEth }}
+              </b-progress-bar>
+            </b-progress>
+            <small>Total: {{events[2*n + j].amountEth}} ether</small>
+          </div>
+
+          <!-- Share button and ID -->
           <b-row align-h="end" align-v="end" style="color: #ff0d78">
             #{{events[2*n + j].id}}
             <b-btn id="idCopy" variant="link" size="sm"
@@ -38,12 +57,26 @@
               <img width="20px" src="../../assets/shareicon.png"/>
             </b-btn>
           </b-row>
-          <b-button style="margin: 2px 20px"
-                    @click="showPaymentModal(events[2*n + j].id, 1, 2*n +j)"
-                    variant="outline-pink" size="sm">
-            {{events[2*n +j].option1}}
-          </b-button>
-          <b-button style="margin: 2px 20px" @click="showPaymentModal(events[2*n + j].id, 2, 2*n + j)" variant="outline-magenta" size="sm">{{events[2*n +j].option2}}</b-button>
+
+          <!-- Votation buttons -->
+          <div v-if="votationAllow">
+            <b-button style="margin: 2px 20px"
+                      @click="showPaymentModal(events[2*n + j].id, 1, 2*n +j)"
+                      variant="outline-pink" size="sm">
+              {{events[2*n +j].option1}}
+            </b-button>
+            <b-button style="margin: 2px 20px" @click="showPaymentModal(events[2*n + j].id, 2, 2*n + j)" variant="outline-magenta" size="sm">{{events[2*n +j].option2}}</b-button>
+          </div>
+          <div v-else>
+            <b-button style="margin: 2px 20px" disabled
+                      variant="outline-secondary" size="sm">
+              {{events[2*n +j].option1}}
+            </b-button>
+            <b-button style="margin: 2px 20px" disabled
+                      variant="outline-secondary"
+                      size="sm">{{events[2*n +j].option2}}</b-button>
+          </div>
+
         </b-card>
       </b-card-group>
     </span>
@@ -94,7 +127,7 @@ import GuessHelper from '@/js/Guess'
 
 export default {
   name: 'carddeck',
-  props: ['events', 'peopleBar'],
+  props: ['events', 'peopleBar', 'ethBar', 'votationAllow'],
   data () {
     return {
       contentLoaded: true,
