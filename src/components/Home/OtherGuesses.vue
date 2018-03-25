@@ -110,9 +110,13 @@ export default {
                 'option1': 'Loading...',
                 'option2': 'Loading...',
                 'option1votes': 'Loading...',
-                'option2votes': 'Loading...'
+                'option2votes': 'Loading...',
+                'option1AmountEth': 'Loading...',
+                'option2AmountEth': 'Loading...',
+                'amountEth': 'Loading...'
               })
               this.printGuessesOptions(_index, this.totalGuesses)
+              this.printOptionsProfits(_index, this.totalGuesses)
               this.totalGuesses += 1
               this.contentLoaded = false
             }
@@ -137,6 +141,18 @@ export default {
         }
       }).catch(err => {
         console.log(err)
+      })
+    },
+
+    printOptionsProfits (_index, _localIndex) {
+      let self = this
+
+      GuessHelper.getGuessOptionsProfits(_index).then((guess) => {
+        if (self.$moment(self.guesses[_localIndex].finishingDayUnformated) > self.$moment().add(0, 'hours')) {
+          self.guesses[_localIndex].option1AmountEth = parseFloat(guess[0]) / 10
+          self.guesses[_localIndex].option2AmountEth = parseFloat(guess[1]) / 10
+          self.guesses[_localIndex].amountEth = parseFloat(guess[0]) / 10 + parseFloat(guess[1]) / 10
+        }
       })
     },
 
