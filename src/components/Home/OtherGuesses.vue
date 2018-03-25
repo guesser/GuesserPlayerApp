@@ -93,10 +93,10 @@ export default {
       this.guesses = []
       for (var i = 0; i < this.guessesByNumber.length; i++) {
         let _index = this.guessesByNumber[i].c[0]
-        let _url = 'www.guesser.io/#/search?_id=' + _index
         if (_index !== 0) { // Guess 0 is the empty one
           GuessHelper.getGuessFront(_index).then((guess) => {
             if (this.$moment(guess[6]).subtract(this.$moment(guess[6]).minute(), 'minutes').unix() > this.$moment().unix()) {
+              let _url = 'www.guesser.io/#/search?_id=' + _index
               this.guesses.push({
                 'id': _index,
                 'url': _url,
@@ -111,8 +111,8 @@ export default {
                 'option2': 'Loading...',
                 'option1votes': 'Loading...',
                 'option2votes': 'Loading...',
-                'option1AmountEth': 'Loading...',
-                'option2AmountEth': 'Loading...',
+                'option1amounteth': 'loading...',
+                'option2amounteth': 'loading...',
                 'amountEth': 'Loading...'
               })
               this.printGuessesOptions(_index, this.totalGuesses)
