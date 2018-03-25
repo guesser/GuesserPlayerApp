@@ -1,29 +1,29 @@
 <template>
-<div>
-  <div v-if="totalEvents > 0">
-    <CardDeck :events="events"
-              :peopleBar="true"
-              :ethBar="true"
-              :votationAllow="false"/>
+  <div>
+    <div v-if="totalEvents > 0">
+      <CardDeck :events="events"
+         :peopleBar="true"
+         :ethBar="true"
+         :votationAllow="false"/>
+    </div>
+    <div v-else>
+      <b-container class="" style="">
+        <b-row align-h="between">
+          <b-col align-self="center">
+            <h3>Looks like you haven't participated in any current event yet!</h3>
+            <h5>Feel like taking a guess?</h5>
+          </b-col>
+          <b-col>
+            <img src="static/beard-hold.png" style="width: 70%;" alt=":'("/>         
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-button href="#home" variant="primary" size="lg">Guess events</b-button>
+        </b-row>    
+      </b-container>
+
+    </div>
   </div>
-  <div v-else>
-    <b-container class="" style="">
-      <b-row align-h="between">
-        <b-col align-self="center">
-          <h3>Looks like you haven't participated in any current event yet!</h3>
-          <h5>Feel like taking a guess?</h5>
-        </b-col>
-        <b-col>
-          <img src="static/beard-hold.png" style="width: 70%;" alt=":'("/>         
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-button href="#home" variant="primary" size="lg">Guess events</b-button>
-      </b-row>    
-    </b-container>
-    
-  </div>
-</div>
 </template>
 
 <script>
@@ -50,8 +50,10 @@ export default {
         let _index = this.currentEvents[i].c[0]
         if (_index !== 0) { // Guess 0 is the empty one
           GuessHelper.getGuessFront(_index).then((guess) => {
+            let _url = 'www.guesser.io/#/search?_id=' + _index
             this.events.push({
               'id': _index,
+              'url': _url,
               'title': guess[0],
               'description': guess[1],
               'topic': guess[2],

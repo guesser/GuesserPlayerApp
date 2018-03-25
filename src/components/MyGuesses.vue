@@ -1,5 +1,22 @@
 <template>
   <div class="justify-content-md-center margin">
+
+    <!--Alert-->
+    <notifications group="copyAlert"
+                   position="bottom right"
+                   width="120"
+                   :speed="500">
+    <template slot="body" slot-scope="props">
+      <div class="copyAlert">
+        <div class="copyAlert-content">
+          Url copied!
+        </div>
+      </div>
+    </template>
+    </notifications>
+
+
+
     <h2>Events I have participated in</h2>
     <br>
     <b-card no-body>
