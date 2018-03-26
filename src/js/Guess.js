@@ -275,8 +275,7 @@ const GuessHelper = {
     return new Promise((resolve, reject) => {
       self.instance.getGuessesToValidate.call(
         index,
-        date,
-        {from: self.address}
+        date
       ).then(guessesIndex => {
         resolve(guessesIndex)
       }).catch(err => {
