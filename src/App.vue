@@ -85,6 +85,14 @@ export default {
           console.log(error)
         }
       })
+
+      GuessHelper.TestValue.watch(function (error, result) {
+        if (!error) {
+          console.log('Test Value:', result)
+        } else {
+          console.log(error)
+        }
+      })
     }).catch(err => {
       console.log(err)
     })

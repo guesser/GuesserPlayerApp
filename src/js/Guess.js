@@ -41,6 +41,7 @@ const GuessHelper = {
         self.GuessVoted = self.instance.GuessVoted()
         self.GuessValidated = self.instance.GuessValidated()
         self.ProfitsReturned = self.instance.ProfitsReturned()
+        self.TestValue = self.instance.test_value()
 
         resolve()
       }).catch(err => {
@@ -83,6 +84,16 @@ const GuessHelper = {
     this.ProfitsReturned.watch(function (error, result) {
       if (!error) {
         console.log('No error on returning profit event catcher! See: ', result)
+      } else {
+        console.log(error)
+      }
+    })
+  },
+
+  TestValue: function () {
+    this.TestValue.watch(function (error, result) {
+      if (!error) {
+        console.log('Test Value: ', result)
       } else {
         console.log(error)
       }
