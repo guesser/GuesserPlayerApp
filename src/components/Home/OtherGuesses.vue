@@ -95,7 +95,7 @@ export default {
         let _index = this.guessesByNumber[i].c[0]
         if (_index !== 0) { // Guess 0 is the empty one
           GuessHelper.getGuessFront(_index).then((guess) => {
-            if (this.$moment(guess[6]).subtract(this.$moment(guess[6]).minute(), 'minutes').unix() > this.$moment().unix()) {
+            if (this.$moment(guess[5]).subtract(this.$moment(guess[5]).minute(), 'minutes').unix() > this.$moment().unix()) {
               let _url = 'www.guesser.io/#/search?_id=' + _index
               this.guesses.push({
                 'id': _index,
@@ -103,10 +103,10 @@ export default {
                 'title': guess[0],
                 'description': guess[1],
                 'topic': guess[2],
-                'votes': guess[4],
-                'startingDay': this.$moment(guess[5]).format('MMMM D, YYYY [at] H[h]'),
-                'finishingDay': this.$moment(guess[6]).format('MMMM D, YYYY [at] H[h]'),
-                'finishingDayUnformated': this.$moment(guess[6]),
+                'votes': 0,
+                'startingDay': this.$moment(guess[4]).format('MMMM D, YYYY [at] H[h]'),
+                'finishingDay': this.$moment(guess[5]).format('MMMM D, YYYY [at] H[h]'),
+                'finishingDayUnformated': this.$moment(guess[5]),
                 'option1': 'Loading...',
                 'option2': 'Loading...',
                 'option1votes': 'Loading...',
@@ -138,6 +138,7 @@ export default {
           self.guesses[_localIndex].option2 = guess[1]
           self.guesses[_localIndex].option1votes = guess[2].c[0]
           self.guesses[_localIndex].option2votes = guess[3].c[0]
+          self.guesses[_localIndex].votes = guess[2].c[0] + guess[3].c[0]
         }
       }).catch(err => {
         console.log(err)
