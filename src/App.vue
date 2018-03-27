@@ -76,9 +76,6 @@ export default {
 
           if (self.newEventId !== self.lastEventId) {
             self.showEventAlert()
-            // console.log(self.newEventTitle)
-            // console.log(self.newEventTopic)
-            // console.log(self.newEventId)
             self.lastEventId = self.newEventId
           }
         } else {
