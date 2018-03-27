@@ -14,12 +14,12 @@
             <h5>Feel like taking a guess?</h5>
           </b-col>
           <b-col>
-            <img src="static/beard-hold.png" style="width: 70%;" alt=":'("/>         
+            <img src="static/beard-hold.png" style="width: 70%;" alt=":'("/>
           </b-col>
         </b-row>
         <b-row>
           <b-button href="#home" variant="primary" size="lg">Guess events</b-button>
-        </b-row>    
+        </b-row>
       </b-container>
 
     </div>
@@ -111,9 +111,8 @@ export default {
     }
   },
   beforeCreate: function () {
-    let self = this
     GuessHelper.init().then(() => {
-      self.getCurrentGuessesByAddress()
+      this.getCurrentGuessesByAddress()
     }).catch(err => {
       console.log(err)
     })

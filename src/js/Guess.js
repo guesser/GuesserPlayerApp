@@ -29,21 +29,20 @@ const GuessHelper = {
 
         // Getting the accounts
         window.web3.eth.getAccounts(function (error, accounts) {
+          // Getting events
+          self.GuessCreated = self.instance.GuessCreated()
+          self.GuessVoted = self.instance.GuessVoted()
+          self.GuessValidated = self.instance.GuessValidated()
+          self.ProfitsReturned = self.instance.ProfitsReturned()
+          self.TestValue = self.instance.test_value()
+
           if (error) {
             console.log(error)
           } else {
             self.address = accounts
+            resolve()
           }
         })
-
-        // Getting events
-        self.GuessCreated = self.instance.GuessCreated()
-        self.GuessVoted = self.instance.GuessVoted()
-        self.GuessValidated = self.instance.GuessValidated()
-        self.ProfitsReturned = self.instance.ProfitsReturned()
-        self.TestValue = self.instance.test_value()
-
-        resolve()
       }).catch(err => {
         reject(err)
       })
@@ -288,6 +287,7 @@ const GuessHelper = {
     let self = this
 
     return new Promise((resolve, reject) => {
+      console.log(self.address[0])
       self.instance.getCurrentGuessesByAddress.call(
         index,
         self.address[0]
