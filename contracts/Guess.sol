@@ -8,7 +8,7 @@ import "./library/DateTime.sol";
  */
 contract Guess is DateTime{
   // Events
-  event GuessCreated(uint256 index, bytes32 title, bytes32 topic);
+  event GuessCreated(uint256 index, string title, bytes32 topic);
   event GuessVoted(uint256 guess, uint8 option);
   event GuessValidated(uint256 guess, uint8 option, address sender);
   event ProfitsReturned(uint256 guess);
@@ -16,7 +16,7 @@ contract Guess is DateTime{
 
   // Data structures
   struct GuessStruct {
-    bytes32 title;
+    string title;
     string description;
     bytes32 topic;
     address creator;
@@ -36,8 +36,8 @@ contract Guess is DateTime{
     uint256 firstDate;
     uint256 finalDate;
     // Options to vote
-    bytes32 option1;
-    bytes32 option2;
+    string option1;
+    string option2;
     // Number of votes an option has
     uint256 option1Votes;
     uint256 option2Votes;
@@ -80,20 +80,20 @@ contract Guess is DateTime{
 
   /**
   * @dev Function that creates a Guess.
-  * @param _title bytes32 The title of the Guess.
+  * @param _title string The title of the Guess.
     * @param _description string The description of the Guess
   * @param _topic bytes32 The topic of the Guess
   * @param _finalDate uint256 The final date of the Guess
-  * @param _option1 bytes32 The first option to vote on the Guess
-  * @param _option2 bytes32 The first option to vote on the Guess
+  * @param _option1 string The first option to vote on the Guess
+  * @param _option2 string The first option to vote on the Guess
   */
   function setGuess(
-    bytes32 _title,
+    string _title,
     string _description,
     bytes32 _topic,
     uint256 _finalDate,
-    bytes32 _option1,
-    bytes32 _option2
+    string _option1,
+    string _option2
   ) public {
     address[] memory _voters; // TODO: Be sure this has to be memory and not internal
     address[] memory _validators; // TODO: Be sure this has to be memory and not internal
@@ -135,7 +135,7 @@ contract Guess is DateTime{
     * @return uint256 The date when the Guess started.
     * @return uint256 The date when the Guess finish.
     */
-  function getGuess(uint256 _index) public view returns (bytes32, string, bytes32, address, uint256, uint256) {
+  function getGuess(uint256 _index) public view returns (string, string, bytes32, address, uint256, uint256) {
     return (guesses[_index].title,
             guesses[_index].description,
             guesses[_index].topic,
@@ -150,14 +150,14 @@ contract Guess is DateTime{
   * its votes and validations.
     * @param _index uint256 represents the index of the stored Guess in the
   * global array.
-    * @return bytes32 The first option to vote on the Guess
-  * @return bytes32 The second option to vote on the Guess
+    * @return string The first option to vote on the Guess
+  * @return string The second option to vote on the Guess
   * @return uint256 The votes of the first option in the Guess
   * @return uint256 The votes of the second option in the Guess
   * @return uint256 The number of validations for the first option
     * @return uint256 The number of validations for the second option
       */
-  function getGuessOptions (uint256 _index) public view returns (bytes32, bytes32, uint256, uint256,uint256, uint256) {
+  function getGuessOptions (uint256 _index) public view returns (string, string, uint256, uint256,uint256, uint256) {
     if (DateTime.dateDue(guesses[_index].finalDate) == true) {
       uint256 validations = guesses[_index].option1Validation + guesses[_index].option2Validation;
       uint256 votes = guesses[_index].option1Votes + guesses[_index].option2Votes;

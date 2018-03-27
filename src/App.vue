@@ -70,7 +70,7 @@ export default {
         if (!error) {
           self.newEventUrl = ''
           self.newEventId = result.args.index.c[0]
-          self.newEventTitle = window.web3.utils.hexToUtf8(result.args.title)
+          self.newEventTitle = result.args.title
           self.newEventTopic = window.web3.utils.hexToUtf8(result.args.topic)
           self.newEventUrl = self.shareUrl + self.newEventId
 
