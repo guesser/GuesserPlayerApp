@@ -14,12 +14,12 @@
             <h5>Feel like creating one?</h5>
           </b-col>
           <b-col>
-            <img src="static/beard-hold.png" style="width: 70%;" alt=":'("/>         
+            <img src="static/beard-hold.png" style="width: 70%;" alt=":'("/>
           </b-col>
         </b-row>
         <b-row>
           <b-button href="#create" variant="primary" size="lg">Create event</b-button>
-        </b-row>    
+        </b-row>
       </b-container>
 
     </div>
@@ -95,9 +95,10 @@ export default {
       let self = this
 
       GuessHelper.getGuessOptionsProfits(eventIndex).then((optionsAmount) => {
-        self.events[arrIndex].option1AmountEth = parseFloat(optionsAmount[0]) / 10
-        self.events[arrIndex].option2AmountEth = parseFloat(optionsAmount[1]) / 10
-        self.events[arrIndex].amountEth = parseFloat(optionsAmount[0]) / 10 + parseFloat(optionsAmount[1]) / 10
+        self.events[arrIndex].option1AmountEth = parseFloat(optionsAmount[0]).toFixed(4) / 10
+        self.events[arrIndex].option2AmountEth = parseFloat(optionsAmount[1]).toFixed(4) / 10
+        self.events[arrIndex].amountEth = parseFloat(optionsAmount[0]).toFixed(4) / 10 +
+parseFloat(optionsAmount[1]).toFixed(4) / 10
       })
     },
 

@@ -149,9 +149,10 @@ export default {
 
       GuessHelper.getGuessOptionsProfits(_index).then((guess) => {
         if (self.$moment(self.guesses[_localIndex].finishingDayUnformated) > self.$moment().add(0, 'hours')) {
-          self.guesses[_localIndex].option1AmountEth = parseFloat(guess[0]) / 10
-          self.guesses[_localIndex].option2AmountEth = parseFloat(guess[1]) / 10
-          self.guesses[_localIndex].amountEth = parseFloat(guess[0]) / 10 + parseFloat(guess[1]) / 10
+          self.guesses[_localIndex].option1AmountEth = parseFloat(guess[0]).toFixed(4) / 10
+          self.guesses[_localIndex].option2AmountEth = parseFloat(guess[1]).toFixed(4) / 10
+          self.guesses[_localIndex].amountEth = parseFloat(guess[0]).toFixed(4) / 10 +
+            parseFloat(guess[1]).toFixed(4) / 10
         }
       })
     },

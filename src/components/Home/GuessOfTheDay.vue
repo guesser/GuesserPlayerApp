@@ -79,14 +79,14 @@
           </b-container>
           </b-col>
           <b-col lg="5">
-              <img src="static/beard-hold.png" style="width: 70%;" alt=":'("/>         
+              <img src="static/beard-hold.png" style="width: 70%;" alt=":'("/>
           </b-col>
         </b-row>
         <b-row>
           <b-container style="padding: 6%; display: flex; justify-content: left;">
             <b-button href="#create" variant="primary" size="lg">Create</b-button>
           </b-container>
-        </b-row>    
+        </b-row>
       </b-container>
     </div>
 
@@ -237,7 +237,8 @@ export default {
 
         self.guess.option1AmountEth = parseFloat(optionsAmount[0]).toFixed(4) / 10
         self.guess.option2AmountEth = parseFloat(optionsAmount[1]).toFixed(4) / 10
-        self.guess.amountEth = parseFloat(optionsAmount[0]) / 10 + parseFloat(optionsAmount[1]) / 10
+        self.guess.amountEth = parseFloat(optionsAmount[0]).toFixed(4) / 10 +
+          parseFloat(optionsAmount[1]).toFixed(4) / 10
       })
     }
   },
