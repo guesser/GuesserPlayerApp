@@ -138,9 +138,8 @@ const GuessHelper = {
           guess[1], // description
           window.web3.utils.hexToUtf8(guess[2]), // topic
           guess[3], // creator
-          guess[4].c[0], // votes it has
-          new Date(guess[5].c[0] * 1000), // the day it started
-          new Date(guess[6].c[0] * 1000) // the final date
+          new Date(guess[4].c[0] * 1000), // the day it started
+          new Date(guess[5].c[0] * 1000) // the final date
         ])
       }).catch(err => {
         reject(err)
