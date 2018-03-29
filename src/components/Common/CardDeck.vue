@@ -186,9 +186,11 @@ export default {
       })
     },
     showPaymentModal (_guessId, _arrayIndex) {
-      this.arrayIndex = _arrayIndex
-      this.guessToVote = _guessId
-      this.$refs.paymentModal.show()
+      if (this.votationAllow) {
+        this.arrayIndex = _arrayIndex
+        this.guessToVote = _guessId
+        this.$refs.paymentModal.show()
+      }
     },
     voteGuess (optionVoted) { // Option has to be 1 or 2
       // let self = this
