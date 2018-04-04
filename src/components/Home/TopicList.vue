@@ -2,43 +2,43 @@
   <div class="topicList" style="max-width: 300px;">
     <!--<h2>Topics:</h2>-->
     <b-list-group >
-      <b-list-group-item v-bind:class="{ 'active' : isSelected(0) }" href="#" @click='topiClick("Crypto", 0)' variant="Crypto">
+      <b-list-group-item v-bind:class="{ 'active' : isSelected('Crypto') }" href="#home/Crypto" @click='topiClick("Crypto")' variant="Crypto">
         <img class="topic-icon" src="../../assets/bitcoin.png"/>
         <span class="toplist">Crypto</span>
       </b-list-group-item>
-      <b-list-group-item v-bind:class="{ 'active' : isSelected(1) }" href="#" @click='topiClick("Celebrities", 1)' variant="Celebrities">
+      <b-list-group-item v-bind:class="{ 'active' : isSelected('Celebrities') }" href="#home/Celebrities" @click='topiClick("Celebrities")' variant="Celebrities">
         <img class="topic-icon" src="../../assets/sunglasses.png"/>
         <span class="toplist">Celebrities</span>
       </b-list-group-item>
-      <b-list-group-item v-bind:class="{ 'active' : isSelected(2) }" href="#" @click='topiClick("Entertainment", 2)' variant="Entertainment">
+      <b-list-group-item v-bind:class="{ 'active' : isSelected('Entertainment') }" href="#home/Entertainment" @click='topiClick("Entertainment")' variant="Entertainment">
         <img class="topic-icon" src="../../assets/monitor.png"/>
                 <span class="toplist">Entertainment</span>
       </b-list-group-item>
-      <b-list-group-item v-bind:class="{ 'active' : isSelected(3) }" href="#" @click='topiClick("Gaming", 3)' variant="Gaming">
+      <b-list-group-item v-bind:class="{ 'active' : isSelected('Gaming') }" href="#home/Gaming" @click='topiClick("Gaming")' variant="Gaming">
         <img class="topic-icon" src="../../assets/gamepad.png"/> 
         <span class="toplist">Gaming</span>
       </b-list-group-item>
-      <b-list-group-item v-bind:class="{ 'active' : isSelected(4) }" href="#" @click='topiClick("Humor", 4)' variant="Humor">
+      <b-list-group-item v-bind:class="{ 'active' : isSelected('Humor') }" href="#home/Humor" @click='topiClick("Humor")' variant="Humor">
         <img class="topic-icon" src="../../assets/cat.png"/>
         <span class="toplist">Humor</span>
       </b-list-group-item>
-      <b-list-group-item v-bind:class="{ 'active' : isSelected(5) }" href="#" @click='topiClick("News", 5)' variant="News">
+      <b-list-group-item v-bind:class="{ 'active' : isSelected('News') }" href="#home/News" @click='topiClick("News")' variant="News">
         <img class="topic-icon" src="../../assets/text-lines.png"/>
         <span class="toplist">News</span>
       </b-list-group-item>
-      <b-list-group-item v-bind:class="{ 'active' : isSelected(6) }" href="#" @click='topiClick("Politics", 6)' variant="Politics">
+      <b-list-group-item v-bind:class="{ 'active' : isSelected('Politics') }" href="#home/Politics" @click='topiClick("Politics")' variant="Politics">
         <img class="topic-icon" src="../../assets/mayor.png"/>
         <span class="toplist">Politics</span>
       </b-list-group-item>
-      <b-list-group-item v-bind:class="{ 'active' : isSelected(7) }" href="#" @click='topiClick("Sports", 7)' variant="Sports">
+      <b-list-group-item v-bind:class="{ 'active' : isSelected('Sports') }" href="#home/Sports" @click='topiClick("Sports")' variant="Sports">
         <img class="topic-icon" src="../../assets/cup.png"/>
         <span class="toplist">Sports</span>
       </b-list-group-item>
-      <b-list-group-item v-bind:class="{ 'active' : isSelected(8) }" href="#" @click='topiClick("Technology", 8)' variant="Technology">
+      <b-list-group-item v-bind:class="{ 'active' : isSelected('Technology') }" href="#home/Technology" @click='topiClick("Technology")' variant="Technology">
         <img class="topic-icon" src="../../assets/robot.png"/>
         <span class="toplist">Technology</span>
       </b-list-group-item>
-      <b-list-group-item v-bind:class="{ 'active' : isSelected(9) }" href="#" @click='topiClick("Random", 9)' variant="Random">
+      <b-list-group-item v-bind:class="{ 'active' : isSelected('Random') }" href="#home/Random" @click='topiClick("Random")' variant="Random">
         <img class="topic-icon" src="../../assets/vomiting.png"/>
         <span class="toplist">Random</span>
       </b-list-group-item>
@@ -51,17 +51,30 @@ export default {
   name: 'TopicList',
   data () {
     return {
-      selected: 0
+      selected: ''
     }
   },
   methods: {
-    topiClick (topic, topicNumber) {
-      this.selected = topicNumber
-      this.$emit('topic-updated', topic)
+    topiClick (topic) {
+      this.selected = topic
     },
     isSelected (i) {
       return i === this.selected
     }
+  },
+  watch: {
+    '$route': function () {
+      this.topic = this.$route.params.topic
+      this.selected = this.topic
+    }
+  },
+  created: function () {
+    if (this.$route.params.topic) {
+      this.topic = this.$route.params.topic
+    } else {
+      this.topic = 'Crypto'
+    }
+    this.selected = this.topic
   }
 }
 </script>

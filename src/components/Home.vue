@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class='topics'>
-      <TopicList @topic-updated="updateTopic"/>
+      <TopicList/>
     </div>
     <div class='guesses'>
       <h2 style="font-size:calc(1em + 2vw);">The <b>{{topic}}</b> event of the day!</h2>
@@ -26,12 +26,19 @@ export default {
   },
   data () {
     return {
-      topic: 'Crypto'
+      topic: ''
     }
   },
-  methods: {
-    updateTopic (_topic) {
-      this.topic = _topic
+  watch: {
+    '$route': function () {
+      this.topic = this.$route.params.topic
+    }
+  },
+  created: function () {
+    if (this.$route.params.topic) {
+      this.topic = this.$route.params.topic
+    } else {
+      this.topic = 'Crypto'
     }
   }
 }

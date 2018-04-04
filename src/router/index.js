@@ -22,6 +22,11 @@ export default new Router({
       component: Home
     },
     {
+      path: '/home/:topic',
+      name: 'home',
+      component: Home
+    },
+    {
       path: '/create',
       name: 'create',
       component: Create
