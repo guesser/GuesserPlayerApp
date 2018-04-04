@@ -12,10 +12,6 @@
         <br>
         {{guess.startingDay}} - {{guess.finishingDay}}
         </p>
-        <p class="card-text">
-        Option 1 validations: {{guess.option1Validations}} <br>
-        Option 2 validations: {{guess.option2Validations}}
-        </p>
         <br>
         <b-button @click="validateGuess(guess.id, 1)" variant="outline-pink" size="sm">{{guess.option1}}</b-button>
         <b-button @click="validateGuess(guess.id, 2)" variant="outline-magenta" size="sm">{{guess.option2}}</b-button>
@@ -47,18 +43,18 @@ export default {
         let _index = this.guessesByNumber[i].c[0]
         if (_index !== 0) { // Guess 0 is the empty one
           GuessHelper.getGuessFront(_index).then((guess) => {
-            let month1 = parseInt(guess[5].getMonth()) + 1
-            let month2 = parseInt(guess[6].getMonth()) + 1
-            let guessTime = this.$moment(guess[6]).subtract(this.$moment(guess[6]).minute(), 'minutes')
+            let month1 = parseInt(guess[4].getMonth()) + 1
+            let month2 = parseInt(guess[5].getMonth()) + 1
+            let guessTime = this.$moment(guess[5]).subtract(this.$moment(guess[5]).minute(), 'minutes')
             if (guessTime.unix() < this.$moment().unix()) {
               this.guesses.push({
                 'id': _index,
                 'title': guess[0],
                 'description': guess[1],
                 'topic': guess[2],
-                'votes': guess[4],
-                'startingDay': guess[5].getUTCDate() + '-' + month1 + '-' + guess[6].getFullYear(),
-                'finishingDay': guess[6].getUTCDate() + '-' + month2 + '-' + guess[5].getFullYear(),
+                'votes': 0,
+                'startingDay': guess[4].getUTCDate() + '-' + month1 + '-' + guess[4].getFullYear(),
+                'finishingDay': guess[5].getUTCDate() + '-' + month2 + '-' + guess[5].getFullYear(),
                 'option1': 'Loading...',
                 'option2': 'Loading...',
                 'option1Validations': 0,

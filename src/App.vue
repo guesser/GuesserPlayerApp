@@ -70,17 +70,22 @@ export default {
         if (!error) {
           self.newEventUrl = ''
           self.newEventId = result.args.index.c[0]
-          self.newEventTitle = window.web3.utils.hexToUtf8(result.args.title)
+          self.newEventTitle = result.args.title
           self.newEventTopic = window.web3.utils.hexToUtf8(result.args.topic)
           self.newEventUrl = self.shareUrl + self.newEventId
 
           if (self.newEventId !== self.lastEventId) {
             self.showEventAlert()
-            // console.log(self.newEventTitle)
-            // console.log(self.newEventTopic)
-            // console.log(self.newEventId)
             self.lastEventId = self.newEventId
           }
+        } else {
+          console.log(error)
+        }
+      })
+
+      GuessHelper.TestValue.watch(function (error, result) {
+        if (!error) {
+          console.log('Test Value:', result)
         } else {
           console.log(error)
         }

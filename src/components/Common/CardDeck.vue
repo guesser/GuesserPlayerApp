@@ -11,6 +11,7 @@
                          :header="events[2*n + j].title"
                          :header-border-variant="events[2*n +j].topic"
                          header-text-variant="black"
+                         @click="showPaymentModal(events[2*n + j].id, 2*n +j)"
                          align="center">
           <p class="card-text">
           Created at: <b>{{events[2*n + j].startingDay}}</b>
@@ -61,11 +62,11 @@
           <!-- Votation buttons -->
           <div v-if="votationAllow">
             <b-button style="margin: 2px 20px"
-                      @click="showPaymentModal(events[2*n + j].id, 1, 2*n +j)"
+                      @click="showPaymentModal(events[2*n + j].id, 2*n +j)"
                       variant="outline-pink" size="sm">
               {{events[2*n +j].option1}}
             </b-button>
-            <b-button style="margin: 2px 20px" @click="showPaymentModal(events[2*n + j].id, 2, 2*n + j)" variant="outline-magenta" size="sm">{{events[2*n +j].option2}}</b-button>
+            <b-button style="margin: 2px 20px" @click="showPaymentModal(events[2*n + j].id, 2*n + j)" variant="outline-magenta" size="sm">{{events[2*n +j].option2}}</b-button>
           </div>
           <div v-else>
             <b-button style="margin: 2px 20px" disabled
@@ -85,13 +86,16 @@
     <div v-if='events.length > 0'>
       <b-modal ref="paymentModal"
                centered
-               title="Vote an event"
+               :title=events[arrayIndex].title
                hide-footer
                :header-bg-variant="events[arrayIndex].topic">
-        <label>Title: {{events[arrayIndex].title}}</label>
-        <br>
 
-        <label>Description: {{events[arrayIndex].description}}</label>
+        <p>Description: <b>{{events[arrayIndex].description}}</b></p>
+          <p class="card-text">
+          Created at: <b>{{events[arrayIndex].startingDay}}</b>
+          <br>
+          Voting open until: <b>{{events[arrayIndex].finishingDay}}</b>
+          </p>
         <br>
 
         <span>Votes for each outcome: </span>
@@ -104,9 +108,20 @@
           </b-progress-bar>
         </b-progress>
         <small>Total: {{events[arrayIndex].votes}} people</small>
+<!--Amount of eth in each option-->
+            <br>
+            <span>Eth staked on each outcome: </span>
+            <b-progress class="mt-1" :max="10*(events[arrayIndex].amountEth/10)" show-value striped>
+              <b-progress-bar :value="10*(events[arrayIndex].option1AmountEth/10)" variant="pink">
+                {{events[arrayIndex].option1}} - {{ events[arrayIndex].option1AmountEth }}
+              </b-progress-bar>
+              <b-progress-bar :value="10*(events[arrayIndex].option2AmountEth/10)" variant="magenta">
+                {{events[arrayIndex].option2}} - {{ events[arrayIndex].option2AmountEth }}
+              </b-progress-bar>
+            </b-progress>
+            <small>Total: {{events[arrayIndex].amountEth}} ether</small>
         <br>
         <br>
-
         <b-form-group id="titleGroup"
                       label="Amount of ether you want to send:"
                       label-for="amountInput">
@@ -116,7 +131,14 @@
                         required>
           </b-form-input>
         </b-form-group>
-        <b-button @click="voteGuess()" variant="primary" size="sm">Vote</b-button>
+        <b-button style="margin: 2px 20px"
+                  @click="voteGuess(1)"
+                  variant="outline-pink" size="sm">
+          {{events[arrayIndex].option1}}
+        </b-button>
+        <b-button style="margin: 2px 20px" @click="voteGuess(2)" variant="outline-magenta" size="sm">{{events[arrayIndex].option2}}</b-button>
+<br>
+<br>
       </b-modal>
     </div>
   </div>
@@ -163,16 +185,17 @@ export default {
         group
       })
     },
-    showPaymentModal (_guessId, _optionVoted, _arrayIndex) {
-      this.arrayIndex = _arrayIndex
-      this.optionVoted = _optionVoted
-      this.guessToVote = _guessId
-      this.$refs.paymentModal.show()
+    showPaymentModal (_guessId, _arrayIndex) {
+      if (this.votationAllow) {
+        this.arrayIndex = _arrayIndex
+        this.guessToVote = _guessId
+        this.$refs.paymentModal.show()
+      }
     },
-    voteGuess () { // Option has to be 1 or 2
+    voteGuess (optionVoted) { // Option has to be 1 or 2
       // let self = this
       this.$refs.paymentModal.hide()
-      GuessHelper.voteGuess(this.guessToVote, this.optionVoted, this.ethAmountToVote).then(() => {
+      GuessHelper.voteGuess(this.guessToVote, optionVoted, this.ethAmountToVote).then(() => {
         console.log('Transaction pending...')
         this.showVoteAlert('voteAlert', 'success')
       }).catch(err => {

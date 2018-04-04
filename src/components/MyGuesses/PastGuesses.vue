@@ -17,11 +17,11 @@
             <b-button href="#home" variant="primary" size="lg">Guess events</b-button>
           </b-col>
           <b-col>
-            <img src="static/beard-hold.png" style="width: 60%;" alt=":'("/>         
+            <img src="static/beard-hold.png" style="width: 60%;" alt=":'("/>
           </b-col>
         </b-row>
         <b-row>
-        </b-row>    
+        </b-row>
       </b-container>
 
     </div>
@@ -59,19 +59,20 @@ export default {
               'title': guess[0],
               'description': guess[1],
               'topic': guess[2],
-              'votes': guess[4],
-              'startingDay': this.$moment(guess[5]).format('MMMM D, YYYY [at] H[h]'),
-              'finishingDay': this.$moment(guess[6]).format('MMMM D, YYYY [at] H[h]'),
-              'finishingDayUnformated': this.$moment(guess[6]),
+              'votes': 0,
+              'startingDay': this.$moment(guess[4]).format('MMMM D, YYYY [at] H[h]'),
+              'finishingDay': this.$moment(guess[5]).format('MMMM D, YYYY [at] H[h]'),
+              'finishingDayUnformated': this.$moment(guess[5]),
               'option1': 'Loading...',
               'option2': 'Loading...',
               'option1votes': 'Loading...',
               'option2votes': 'Loading...',
-              'option1amounteth': 'loading...',
-              'option2amounteth': 'loading...',
+              'option1AmountEth': 'loading...',
+              'option2AmountEth': 'loading...',
               'amountEth': 'Loading...'
             })
             this.printEventsOptions(_index, this.totalEvents)
+            this.getOptionsProfits(_index, this.totalEvents)
             this.totalEvents++
           }).catch((err) => {
             return err
@@ -87,8 +88,20 @@ export default {
         self.events[arrIndex].option2 = event[1]
         self.events[arrIndex].option1votes = event[2].c[0]
         self.events[arrIndex].option2votes = event[3].c[0]
+        self.events[arrIndex].votes = event[3].c[0] + event[2].c[0]
       }).catch(err => {
         console.log(err)
+      })
+    },
+
+    getOptionsProfits (eventIndex, arrIndex) {
+      let self = this
+
+      GuessHelper.getGuessOptionsProfits(eventIndex).then((optionsAmount) => {
+        self.events[arrIndex].option1AmountEth = parseFloat(optionsAmount[0]).toFixed(4) / 10
+        self.events[arrIndex].option2AmountEth = parseFloat(optionsAmount[1]).toFixed(4) / 10
+        self.events[arrIndex].amountEth = parseFloat(optionsAmount[0]).toFixed(4) / 10 +
+          parseFloat(optionsAmount[1]).toFixed(4) / 10
       })
     },
 

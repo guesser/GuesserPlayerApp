@@ -8,20 +8,21 @@ import "./library/DateTime.sol";
  */
 contract Guess is DateTime{
   // Events
-  event GuessCreated(uint256 index, bytes32 title, bytes32 topic);
+  event GuessCreated(uint256 index, string title, bytes32 topic);
   event GuessVoted(uint256 guess, uint8 option);
   event GuessValidated(uint256 guess, uint8 option, address sender);
   event ProfitsReturned(uint256 guess);
+  event test_value(uint256 indexed value1);
 
   // Data structures
   struct GuessStruct {
-    bytes32 title;
+    string title;
     string description;
     bytes32 topic;
     address creator;
     /* The voters and the option the voted
      * It will store an array which has:
-     * 1. The option voted as a first argument (0 or 1)
+     * 1. The option voted as a first argument (1 or 2)
      * 2. The amount voted as a second argument
      */
     mapping (address => uint256[2]) votersOption;
@@ -35,8 +36,8 @@ contract Guess is DateTime{
     uint256 firstDate;
     uint256 finalDate;
     // Options to vote
-    bytes32 option1;
-    bytes32 option2;
+    string option1;
+    string option2;
     // Number of votes an option has
     uint256 option1Votes;
     uint256 option2Votes;
@@ -79,20 +80,20 @@ contract Guess is DateTime{
 
   /**
   * @dev Function that creates a Guess.
-  * @param _title bytes32 The title of the Guess.
+  * @param _title string The title of the Guess.
     * @param _description string The description of the Guess
   * @param _topic bytes32 The topic of the Guess
   * @param _finalDate uint256 The final date of the Guess
-  * @param _option1 bytes32 The first option to vote on the Guess
-  * @param _option2 bytes32 The first option to vote on the Guess
+  * @param _option1 string The first option to vote on the Guess
+  * @param _option2 string The first option to vote on the Guess
   */
   function setGuess(
-    bytes32 _title,
+    string _title,
     string _description,
     bytes32 _topic,
     uint256 _finalDate,
-    bytes32 _option1,
-    bytes32 _option2
+    string _option1,
+    string _option2
   ) public {
     address[] memory _voters; // TODO: Be sure this has to be memory and not internal
     address[] memory _validators; // TODO: Be sure this has to be memory and not internal
@@ -131,16 +132,14 @@ contract Guess is DateTime{
     * @return string The description of the Guess.
     * @return bytes32 The topic of the Guess.
     * @return address The creator of the Event.
-    * @return uint256 The number of votes the Guess has.
     * @return uint256 The date when the Guess started.
     * @return uint256 The date when the Guess finish.
     */
-  function getGuess(uint256 _index) public view returns (bytes32, string, bytes32, address, uint256, uint256, uint256) {
+  function getGuess(uint256 _index) public view returns (string, string, bytes32, address, uint256, uint256) {
     return (guesses[_index].title,
             guesses[_index].description,
             guesses[_index].topic,
             guesses[_index].creator,
-            guesses[_index].option1Votes + guesses[_index].option2Votes,
             guesses[_index].firstDate,
             guesses[_index].finalDate
            );
@@ -151,14 +150,31 @@ contract Guess is DateTime{
   * its votes and validations.
     * @param _index uint256 represents the index of the stored Guess in the
   * global array.
-    * @return bytes32 The first option to vote on the Guess
-  * @return bytes32 The second option to vote on the Guess
+    * @return string The first option to vote on the Guess
+  * @return string The second option to vote on the Guess
   * @return uint256 The votes of the first option in the Guess
   * @return uint256 The votes of the second option in the Guess
   * @return uint256 The number of validations for the first option
     * @return uint256 The number of validations for the second option
       */
-  function getGuessOptions (uint256 _index) public view returns (bytes32, bytes32, uint256, uint256,uint256, uint256) {
+  function getGuessOptions (uint256 _index) public view returns (string, string, uint256, uint256,uint256, uint256) {
+    if (DateTime.dateDue(guesses[_index].finalDate) == true) {
+      uint256 validations = guesses[_index].option1Validation + guesses[_index].option2Validation;
+      uint256 votes = guesses[_index].option1Votes + guesses[_index].option2Votes;
+
+      // Enough validations
+      uint256 half = ((((votes * 10) / 2) - ((votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
+      if (validations < half) {
+        return (
+                guesses[_index].option1,
+                guesses[_index].option2,
+                0,
+                0,
+                0,
+                0
+                );
+      }
+    }
     return (
       guesses[_index].option1,
       guesses[_index].option2,
@@ -175,10 +191,19 @@ contract Guess is DateTime{
   * @return uint256 the amount of eth in the second option
   */
   function getGuessOptionsProfits (uint256 _index) public view returns (uint256, uint256) {
+    uint256 validations = guesses[_index].option1Validation + guesses[_index].option2Validation;
+    uint256 votes = guesses[_index].option1Votes + guesses[_index].option2Votes;
+    uint256 half = ((((votes * 10) / 2) - ((votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
+    if (DateTime.dateDue(guesses[_index].finalDate) == true && validations < half) {
+        return (
+                0,
+                0
+                );
+    }
     return (
-      getGuessProfitsByOption(_index, 1),
-      getGuessProfitsByOption(_index, 2)
-    );
+            getGuessProfitsByOption(_index, 1),
+            getGuessProfitsByOption(_index, 2)
+            );
   }
 
   /**
@@ -207,7 +232,7 @@ contract Guess is DateTime{
     uint256 _guessHour;
     for (uint256 i = 0; i<_guesses.length; i++) {
       _guessHour = DateTime.getHour(guesses[_guesses[i]].finalDate);
-      if (dateDue(guesses[_guesses[i]].finalDate) == false)
+      if (DateTime.dateDue(guesses[_guesses[i]].finalDate) == false)
       if(guesses[_guesses[i]].topic == _topic) { // Same topic and in the correct time
         // TODO: Correct filter time
         // It returns the last best guess
@@ -272,7 +297,7 @@ contract Guess is DateTime{
     // Is the option valid?
     require(_option == 1 || _option == 2);
     // Is the date due?
-    require(dateDue(guesses[_guess].finalDate) == false);
+    require(DateTime.dateDue(guesses[_guess].finalDate) == false);
 
     guesses[_guess].votersOption[msg.sender][0] = _option;
     guesses[_guess].votersOption[msg.sender][1] = msg.value;
@@ -300,12 +325,10 @@ contract Guess is DateTime{
     // Is the option valid?
     require(_option == 1 || _option == 2);
     // Is the date due?
-    require(dateDue(guesses[_guess].finalDate) == true);
+    require(DateTime.dateDue(guesses[_guess].finalDate) == true);
+
     uint256 validations = guesses[_guess].option1Validation + guesses[_guess].option2Validation;
     uint256 votes = guesses[_guess].option1Votes + guesses[_guess].option2Votes;
-
-    // Enoguh votes to start the validation
-    require(guesses[_guess].option1Votes > 0 && guesses[_guess].option2Votes > 0);
 
     // Enough validations
     uint256 half = ((((votes * 10) / 2) - ((votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
@@ -320,21 +343,21 @@ contract Guess is DateTime{
     }
     GuessValidated(_guess, _option, msg.sender);
 
-    /* validations = guesses[_guess].option1Validation + guesses[_guess].option2Validation; */
-    /* if(validations == half) { */
-      /* returnProfits(_guess); */
-    /* } */
+    validations = guesses[_guess].option1Validation + guesses[_guess].option2Validation;
+    if(validations == half) {
+      returnProfits(_guess);
+    }
   }
 
   /**
   * @dev Function that returns the profit to the voters
   * @param _guess uint256 the event to ask for the profits of
     */
-  function returnProfits (uint256 _guess) public {
+  function returnProfits (uint256 _guess) private {
     // Does the guess exists?
     require(_guess <= guesses.length-1);
     // Is the date due?
-    require(dateDue(guesses[_guess].finalDate) == true);
+    // require(DateTime.dateDue(guesses[_guess].finalDate) == true);
     // Has anybody voted in the guess?
     require(guesses[_guess].voters.length > 0);
     // Has anybody validated the guess?
@@ -342,11 +365,22 @@ contract Guess is DateTime{
     // Have the profits already been returned
     require(guesses[_guess].profitsReturned == false);
 
+
     uint8 _winner;
     if (guesses[_guess].option1Validation > guesses[_guess].option2Validation) {
-      _winner = 0; // The winner is the first one
+      _winner = 1; // The winner is the first one
     } else {
-      _winner = 1; // The winner is the second one
+      _winner = 2; // The winner is the second one
+    }
+
+    // If there is only one side of the votes, they are instantly the winners
+    if ( guesses[_guess].option1Votes > 0 && guesses[_guess].option2Votes == 0 ||
+         guesses[_guess].option2Votes > 0 && guesses[_guess].option1Votes == 0) {
+      if (guesses[_guess].option1Votes > guesses[_guess].option2Votes) {
+        _winner = 1; // The winner is the first one
+      } else {
+        _winner = 2; // The winner is the second one
+      }
     }
 
     uint256 percentage; // The percentage of the win a person has
@@ -363,10 +397,15 @@ contract Guess is DateTime{
       }
 
       address person = guesses[_guess].voters[_voterIndex];
-      percentage = percent(guesses[_guess].votersOption[person][1], _totalWinnersProfits, _precision);
 
-      uint256 _final = ((_totalProfits * 10) * percentage);
-      guesses[_guess].voters[_voterIndex].transfer(_final / index);
+      if (guesses[_guess].votersOption[person][0] == _winner) {
+        percentage=percent(guesses[_guess].votersOption[person][1], _totalWinnersProfits, _precision);
+
+        uint256 _final = ((_totalProfits * 10) * percentage);
+        test_value(_final);
+        test_value(index);
+        guesses[_guess].voters[_voterIndex].transfer(_final / index); // Error
+      }
     }
 
     guesses[_guess].profitsReturned = true;
@@ -427,7 +466,6 @@ contract Guess is DateTime{
   * @return uint256[10] a list with the guesses to validate
   */
   function getGuessesToValidate (uint256 _index, uint256 _date) public view returns (uint256[10]) {
-    // require(dateDue(_date) == true);
     // TODO: Control the date limits
     uint256 _year = DateTime.getYear(_date) * 10000;
     uint32 _month = DateTime.getMonth(_date) * 100;
@@ -441,14 +479,17 @@ contract Guess is DateTime{
     uint256[10] memory _todayGuesses;
     uint256 i = _index * 10;
     while (_guessNumber<10 && i<_guesses.length) {
-      /*   Does it has enough votes? */
-      uint256 _votes = guesses[_guesses[i]].option1Votes + guesses[_guesses[i]].option2Votes;
-      uint256 _validations = guesses[_guesses[i]].option1Validation + guesses[_guesses[i]].option2Validation;
-      uint256 _half = ((((_votes * 10) / 2) - ((_votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
+      // Proper date
+      if (DateTime.dateDue(guesses[_guesses[i]].finalDate) == true) {
+        /*   Does it has enough votes? */
+        uint256 _votes = guesses[_guesses[i]].option1Votes + guesses[_guesses[i]].option2Votes;
+        uint256 _validations = guesses[_guesses[i]].option1Validation + guesses[_guesses[i]].option2Validation;
+        uint256 _half = ((((_votes * 10) / 2) - ((_votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
 
-      if (_validations < _half) { // Does it has enough validations?
-        _todayGuesses[_guessNumber] = _guesses[i];
-        _guessNumber++;
+        if (_validations < _half) { // Does it has enough validations?
+          _todayGuesses[_guessNumber] = _guesses[i];
+          _guessNumber++;
+        }
       }
       i++;
     }
@@ -469,7 +510,7 @@ contract Guess is DateTime{
     uint256[10] memory _firstEvents; // Array to return
     while (_index < guessesByAddress[_address].length && _eventNumber < 10) {
       uint256 _eventIndex = guessesByAddress[_address][_index];
-      if(dateDue(guesses[_eventIndex].finalDate) == false) {
+      if(DateTime.dateDue(guesses[_eventIndex].finalDate) == false) {
         _firstEvents[_eventNumber] = guessesByAddress[_address][_index];
         _eventNumber ++;
       }
@@ -495,7 +536,7 @@ contract Guess is DateTime{
       uint256 _votes = guesses[_eventIndex].option1Votes + guesses[_eventIndex].option2Votes;
       uint256 _validations = guesses[_eventIndex].option1Validation + guesses[_eventIndex].option2Validation;
       uint256 _half = ((((_votes * 10) / 2) - ((_votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
-      if(dateDue(guesses[_eventIndex].finalDate) == true && _validations < _half) {
+      if(DateTime.dateDue(guesses[_eventIndex].finalDate) == true && _validations < _half) {
         _firstEvents[_eventNumber] = guessesByAddress[_address][_index];
         _eventNumber ++;
       }
@@ -521,7 +562,7 @@ contract Guess is DateTime{
       uint256 _votes = guesses[_eventIndex].option1Votes + guesses[_eventIndex].option2Votes;
       uint256 _validations = guesses[_eventIndex].option1Validation + guesses[_eventIndex].option2Validation;
       uint256 _half = ((((_votes * 10) / 2) - ((_votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
-      if(dateDue(guesses[_eventIndex].finalDate) == true && _validations >= _half) {
+      if(DateTime.dateDue(guesses[_eventIndex].finalDate) == true && _validations >= _half) {
         _firstEvents[_eventNumber] = guessesByAddress[_address][_index];
         _eventNumber ++;
       }
@@ -549,51 +590,7 @@ contract Guess is DateTime{
     return _firstEvents;
   }
 
-  /****** Private functions ******/
-
-  /* @dev Function that tells you if a date is due
-   * @param _date uint256 the date you want to check with the current date.
-   * The minutes and seconds are not being checked.
-   * @return bool if the date is due then will return true
-   */
-  function dateDue (uint256 _date) private view returns (bool) {
-    uint256 _currentYear = DateTime.getYear(now);
-    uint256 _currentMonth = DateTime.getMonth(now);
-    uint256 _currentDay = DateTime.getDay(now);
-    uint256 _currentHour = DateTime.getHour(now);
-
-    uint256 _year = DateTime.getYear(_date);
-    uint256 _month = DateTime.getMonth(_date);
-    uint256 _day = DateTime.getDay(_date);
-    uint256 _hour = DateTime.getHour(_date);
-
-    // Comparing the dates
-    if (_currentYear == _year) { // Is it the same year?
-      if (_currentMonth == _month) { // Is it the same month?
-        if (_currentDay == _day) { // Is it the same day?
-          if (_currentHour < _hour) { // is the current hour higher?
-            return false;
-          } else {
-            return true;
-          }
-        } else if (_currentDay < _day) {
-          return false;
-        } else {
-          return true;
-        }
-      } else if(_currentMonth < _month) {
-        return false;
-      } else {
-        return true;
-      }
-    } else if(_currentYear < _year){
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  function percent(uint numerator, uint denominator, uint precision) public pure returns(uint quotient) {
+  function percent(uint numerator, uint denominator, uint precision) private pure returns(uint quotient) {
 
     // TODO: caution, check safe-to-multiply here
     uint _numerator  = numerator * 10 ** (precision+1);

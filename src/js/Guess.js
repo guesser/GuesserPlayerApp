@@ -29,20 +29,20 @@ const GuessHelper = {
 
         // Getting the accounts
         window.web3.eth.getAccounts(function (error, accounts) {
+          // Getting events
+          self.GuessCreated = self.instance.GuessCreated()
+          self.GuessVoted = self.instance.GuessVoted()
+          self.GuessValidated = self.instance.GuessValidated()
+          self.ProfitsReturned = self.instance.ProfitsReturned()
+          self.TestValue = self.instance.test_value()
+
           if (error) {
             console.log(error)
           } else {
             self.address = accounts
+            resolve()
           }
         })
-
-        // Getting events
-        self.GuessCreated = self.instance.GuessCreated()
-        self.GuessVoted = self.instance.GuessVoted()
-        self.GuessValidated = self.instance.GuessValidated()
-        self.ProfitsReturned = self.instance.ProfitsReturned()
-
-        resolve()
       }).catch(err => {
         reject(err)
       })
@@ -89,6 +89,16 @@ const GuessHelper = {
     })
   },
 
+  TestValue: function () {
+    this.TestValue.watch(function (error, result) {
+      if (!error) {
+        console.log('Test Value: ', result)
+      } else {
+        console.log(error)
+      }
+    })
+  },
+
   setGuessFront: function (
     _title,
     _description,
@@ -100,12 +110,12 @@ const GuessHelper = {
 
     return new Promise((resolve, reject) => {
       self.instance.setGuess(
-        window.web3.utils.asciiToHex(_title),
+        _title,
         _description,
         window.web3.utils.asciiToHex(_topic),
         _finalDate,
-        window.web3.utils.asciiToHex(_option1),
-        window.web3.utils.asciiToHex(_option2),
+        _option1,
+        _option2,
         {from: self.address[0], gas: 600000} // TODO: Gas forced to high #WARNING
       ).then(() => {
         resolve()
@@ -120,17 +130,15 @@ const GuessHelper = {
 
     return new Promise((resolve, reject) => {
       self.instance.getGuess.call(
-        index,
-        {from: self.address[0]}
+        index
       ).then(guess => {
         resolve([
-          window.web3.utils.hexToUtf8(guess[0]), // title
+          guess[0], // title
           guess[1], // description
           window.web3.utils.hexToUtf8(guess[2]), // topic
           guess[3], // creator
-          guess[4].c[0], // votes it has
-          new Date(guess[5].c[0] * 1000), // the day it started
-          new Date(guess[6].c[0] * 1000) // the final date
+          new Date(guess[4].c[0] * 1000), // the day it started
+          new Date(guess[5].c[0] * 1000) // the final date
         ])
       }).catch(err => {
         reject(err)
@@ -147,8 +155,8 @@ const GuessHelper = {
         {from: self.address[0]}
       ).then(guess => {
         resolve([
-          window.web3.utils.hexToUtf8(guess[0]), // option1
-          window.web3.utils.hexToUtf8(guess[1]), // option2
+          guess[0], // option1
+          guess[1], // option2
           guess[2], // option1Votes
           guess[3], // option2Votes
           guess[4], // option1Validation
@@ -264,8 +272,7 @@ const GuessHelper = {
     return new Promise((resolve, reject) => {
       self.instance.getGuessesToValidate.call(
         index,
-        date,
-        {from: self.address}
+        date
       ).then(guessesIndex => {
         resolve(guessesIndex)
       }).catch(err => {
@@ -278,6 +285,7 @@ const GuessHelper = {
     let self = this
 
     return new Promise((resolve, reject) => {
+      console.log(self.address[0])
       self.instance.getCurrentGuessesByAddress.call(
         index,
         self.address[0]

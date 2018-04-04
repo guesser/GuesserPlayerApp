@@ -46,20 +46,30 @@ export default {
 
 <style>
 .topics{
-  width: 20%;
-  float: left;
-  padding-right: 10px;
-  padding-left: 1.5%;
-  position: -webkit-sticky;
-  position: sticky;
-  top: 5px;
+    width: 20%;
+    float: left;
+    padding-right: 10px;
+    padding-left: 1.5%;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 5px;
 }
 .guesses{
-  width: 60%;
-  min-width: 220px;
-  margin-left: 25%;
-  position: relative;
+    width: 60%;
+    min-width: 220px;
+    margin-left: 25%;
+    position: relative;
 }
+
+@media screen and (max-width: 600px) {
+    .topics {
+    }
+    .guesses {
+        margin-left:20%;
+        width: 77%; 
+    }
+}
+
 .pink{
   background-color: pink;
 }

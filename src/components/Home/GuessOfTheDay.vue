@@ -79,14 +79,14 @@
           </b-container>
           </b-col>
           <b-col lg="5">
-              <img src="static/beard-hold.png" style="width: 70%;" alt=":'("/>         
+              <img src="static/beard-hold.png" style="width: 70%;" alt=":'("/>
           </b-col>
         </b-row>
         <b-row>
           <b-container style="padding: 6%; display: flex; justify-content: left;">
             <b-button href="#create" variant="primary" size="lg">Create</b-button>
           </b-container>
-        </b-row>    
+        </b-row>
       </b-container>
     </div>
 
@@ -186,9 +186,8 @@ export default {
         self.guess.title = guessDay[0]
         self.guess.description = guessDay[1]
         self.guess.topic = guessDay[2]
-        self.guess.votes = guessDay[4]
-        self.guess.startingDay = this.$moment(guessDay[5]).format('MMMM D, YYYY [at] H[h]')
-        self.guess.finishingDay = this.$moment(guessDay[6]).format('MMMM D, YYYY [at] H[h]')
+        self.guess.startingDay = this.$moment(guessDay[4]).format('MMMM D, YYYY [at] H[h]')
+        self.guess.finishingDay = this.$moment(guessDay[5]).format('MMMM D, YYYY [at] H[h]')
       }).catch(err => {
         console.log(err)
       })
@@ -227,17 +226,17 @@ export default {
         self.guess.option2 = guessOptions[1]
         self.guess.option1votes = guessOptions[2].c[0]
         self.guess.option2votes = guessOptions[3].c[0]
+        self.guess.votes = self.guess.option1votes + self.guess.option2votes
       })
     },
     getOptionsProfits () {
       let self = this
 
       GuessHelper.getGuessOptionsProfits(this.guessIndex).then((optionsAmount) => {
-        // console.log(optionsAmount[0])
-
-        self.guess.option1AmountEth = parseFloat(optionsAmount[0]) / 10
-        self.guess.option2AmountEth = parseFloat(optionsAmount[1]) / 10
-        self.guess.amountEth = parseFloat(optionsAmount[0]) / 10 + parseFloat(optionsAmount[1]) / 10
+        self.guess.option1AmountEth = parseFloat(optionsAmount[0]).toFixed(4) / 10
+        self.guess.option2AmountEth = parseFloat(optionsAmount[1]).toFixed(4) / 10
+        self.guess.amountEth = parseFloat(optionsAmount[0]).toFixed(4) / 10 +
+          parseFloat(optionsAmount[1]).toFixed(4) / 10
       })
     }
   },
