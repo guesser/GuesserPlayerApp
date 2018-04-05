@@ -9,7 +9,12 @@ import "./library/DateTime.sol";
 contract Guess is DateTime{
   // Events
   event GuessCreated(uint256 index, string title, bytes32 topic);
-  event GuessVoted(uint256 guess, uint8 option);
+  event GuessVoted(uint256 index,
+                   uint8 option,
+                   string title,
+                   string optionName,
+                   uint256 value,
+                   address user);
   event GuessValidated(uint256 guess, uint8 option, address sender);
   event ProfitsReturned(uint256 guess);
   event test_value(uint256 indexed value1);
@@ -307,10 +312,21 @@ contract Guess is DateTime{
 
     if (_option == 1) {
       guesses[_guess].option1Votes++;
+      GuessVoted(_guess,
+                 _option,
+                 guesses[_guess].title,
+                 guesses[_guess].option1,
+                 msg.value,
+                 msg.sender);
     } else {
       guesses[_guess].option2Votes++;
+      GuessVoted(_guess,
+                 _option,
+                 guesses[_guess].title,
+                 guesses[_guess].option2,
+                 msg.value,
+                 msg.sender);
     }
-    GuessVoted(_guess, _option);
   }
 
   /* @dev Function to validate the guesses
