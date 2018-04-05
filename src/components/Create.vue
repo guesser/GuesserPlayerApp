@@ -94,15 +94,23 @@
 <div>
   <br>
   <span>Ending date and time: {{updateDate}}</span>
-  <V<VueSlideBar
-       v-model="hourValue"
-       :min="1"
-       :max="120"
-       :processStyle="slider.processStyle"
-       :lineHeight="slider.lineHeight"
-       :tooltipStyles="{ backgroundColor: '#ff0d73', borderColor: '#ff0d73',
-                       color: '#ff0d73'}">
-     </VueSlideBar>
+<br>
+<input 
+  id="sliderRange" 
+  type="text"
+  data-provide="slider"
+  data-slider-min="0"
+  :value='hourValue'
+  data-slider-max="119"
+  data-slider-step="1"
+  data-slider-value="0"
+  data-slider-rangeHighlights='[{ "start": 0, "end": 24, "class": "primary-slider" },
+                                   { "start": 24, "end": 47, "class": "secondary-slider" },
+                                   { "start": 47, "end": 71, "class": "primary-slider"},
+                                   { "start": 71, "end": 95, "class": "secondary-slider"},
+                                   { "start": 95, "end": 119, "class": "primary-slider"}]'
+/>
+
 </div>
 <br>
 <br>
@@ -113,13 +121,15 @@
 
 <script>
 import GuessHelper from '@/js/Guess'
-import VueSlideBar from 'vue-slide-bar'
+import bFormSlider from 'vue-bootstrap-slider'
+import 'bootstrap-slider/dist/css/bootstrap-slider.css'
 import VueTwitterCounter from 'vue-twitter-counter'
 
 export default {
   name: 'Create',
   data () {
     return {
+      rangeData: '',
       topics: ['Crypto', 'Celebrities', 'Entertainment', 'Gaming', 'Humor', 'News', 'Politics', 'Sports', 'Technology', 'Random'],
       form: {
         title: '',
@@ -204,7 +214,7 @@ export default {
   },
   components: {
     VueTwitterCounter,
-    VueSlideBar
+    bFormSlider
   }
 }
 </script>
@@ -229,5 +239,21 @@ export default {
     margin: 5px;
     border-radius: 2px;
     border-left: 0px !important;
+}
+
+.slider {
+    width: 100% !important;
+}
+.slider-tick-label {
+}
+
+.primary-slider {
+    background: purple;
+}
+.secondary-slider {
+  background: pink;
+}
+.slider-handle {
+  background: #EB3874;
 }
 </style>
