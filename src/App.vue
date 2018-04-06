@@ -9,7 +9,7 @@
                    width="300px"
                    :speed="1000">
       <template slot="body" slot-scope="props">
-        <a :href="votedEventUrl" style="text-decoration:none">
+        <a :href="newEventUrl" style="text-decoration:none">
           <div class="vue-notification eventAlert">
             <h5>New Event has been created!</h5>
             <span>Event <a :href="newEventUrl">'{{newEventTitle}}'</a>

@@ -5,76 +5,100 @@
         <b-card
                          v-for="j in counter2"
                          :key="j"
-                         v-if="events[2*n + j]"
+                         v-if="events[maxCol*n + j]"
                          style="height: 100%;"
-                         :border-variant="events[2*n + j].topic"
-                         :header="events[2*n + j].title"
-                         :header-border-variant="events[2*n +j].topic"
+                         :border-variant="events[maxCol*n + j].topic"
+                         :header="events[maxCol*n + j].title"
+                         :header-bg-variant="bgVariant(events[maxCol*n + j].topic)"
+                         :header-border-variant="events[maxCol*n +j].topic"
                          header-text-variant="black"
                          align="center">
           <p class="card-text">
-          Created at: <b>{{events[2*n + j].startingDay}}</b>
+          <span v-if="descriptionAllow">
+            {{events[maxCol*n + j].description}}<br><br>
+          </span>
+          Created at: <b>{{events[maxCol*n + j].startingDay}}</b>
           <br>
-          Voting open until: <b>{{events[2*n + j].finishingDay}}</b>
+          Voting open until: <b>{{events[maxCol*n + j].finishingDay}}</b>
           </p>
 
           <!--Number of people Progress Bar-->
           <div v-if="peopleBar">
             <br>
             <span>Votes for each outcome: </span>
-            <b-progress class="mt-1" :max="10*(events[2*n + j].votes/10)" show-value striped>
-              <b-progress-bar :value="10*(events[2*n + j].option1votes/10)" variant="pink">
-                {{events[2*n + j].option1}} - {{ events[2*n + j].option1votes }}
+            <b-progress class="mt-1" :max="10*(events[maxCol*n + j].votes/10)" show-value striped>
+              <b-progress-bar :value="10*(events[maxCol*n + j].option1votes/10)" variant="pink">
+                {{events[maxCol*n + j].option1}} - {{ events[maxCol*n + j].option1votes }}
               </b-progress-bar>
-              <b-progress-bar :value="10*(events[2*n + j].option2votes/10)" variant="magenta">
-                {{events[2*n + j].option2}} - {{ events[2*n + j].option2votes }}
+              <b-progress-bar :value="10*(events[maxCol*n + j].option2votes/10)" variant="magenta">
+                {{events[maxCol*n + j].option2}} - {{ events[maxCol*n + j].option2votes }}
               </b-progress-bar>
             </b-progress>
-            <small>Total: {{events[2*n + j].votes}} people</small>
+            <small>Total: {{events[maxCol*n + j].votes}} people</small>
           </div>
 
           <!--Amount of eth in each option-->
           <div v-if="ethBar">
             <br>
             <span>Eth staked on each outcome: </span>
-            <b-progress class="mt-1" :max="10*(events[2*n + j].amountEth/10)" show-value striped>
-              <b-progress-bar :value="10*(events[2*n + j].option1AmountEth/10)" variant="pink">
-                {{events[2*n + j].option1}} - {{ events[2*n + j].option1AmountEth }}
+            <b-progress class="mt-1" :max="10*(events[maxCol*n + j].amountEth/10)" show-value striped>
+              <b-progress-bar :value="10*(events[maxCol*n + j].option1AmountEth/10)" variant="pink">
+                {{events[maxCol*n + j].option1}} - {{ events[maxCol*n + j].option1AmountEth }}
               </b-progress-bar>
-              <b-progress-bar :value="10*(events[2*n + j].option2AmountEth/10)" variant="magenta">
-                {{events[2*n + j].option2}} - {{ events[2*n + j].option2AmountEth }}
+              <b-progress-bar :value="10*(events[maxCol*n + j].option2AmountEth/10)" variant="magenta">
+                {{events[maxCol*n + j].option2}} - {{ events[maxCol*n + j].option2AmountEth }}
               </b-progress-bar>
             </b-progress>
-            <small>Total: {{events[2*n + j].amountEth}} ether</small>
+            <small>Total: {{events[maxCol*n + j].amountEth}} ether</small>
           </div>
 
           <!-- Share button and ID -->
-          <b-row align-h="end" align-v="end" style="color: #ff0d78">
-            #{{events[2*n + j].id}}
+          <b-row v-if="shareable" align-h="end" align-v="end" style="color: #ff0d78">
+            #{{events[maxCol*n + j].id}}
             <b-btn id="idCopy" variant="link" size="sm"
                                               @click="show('copyAlert')"
-                                              v-clipboard:copy="events[2*n +j].url">
+                                              v-clipboard:copy="events[maxCol*n +j].url">
               <img width="20px" src="../../assets/shareicon.png"/>
             </b-btn>
           </b-row>
 
-          <!-- Votation buttons -->
-          <div v-if="votationAllow">
-            <b-button style="margin: 2px 20px"
-                      @click="showPaymentModal(events[2*n + j].id, 1, 2*n +j)"
-                      variant="outline-pink" size="sm">
-              {{events[2*n +j].option1}}
-            </b-button>
-            <b-button style="margin: 2px 20px" @click="showPaymentModal(events[2*n + j].id, 2, 2*n + j)" variant="outline-magenta" size="sm">{{events[2*n +j].option2}}</b-button>
+          <!-- Buuttons -->
+          <div v-if="buttomsAllow">
+            <div v-if="mode === 1">
+              <b-button style="margin: 2px 20px"
+                        @click="showPaymentModal(events[maxCol*n + j].id, 1, maxCol*n +j)"
+                        variant="outline-pink" size="sm">
+                {{events[maxCol*n +j].option1}}
+              </b-button>
+              <b-button style="margin: 2px 20px"
+                        @click="showPaymentModal(events[maxCol*n + j].id, 2, maxCol*n + j)"
+                        variant="outline-magenta" size="sm">
+                {{events[maxCol*n +j].option2}}
+              </b-button>
+            </div>
+            <div v-else>
+              <br>
+              <b-button style="margin: 2px 20px"
+                        @click="validateGuess(events[maxCol*n + j].id, 1)"
+                        variant="outline-pink" size="sm">
+                {{events[maxCol*n + j].option1}}
+              </b-button>
+              <b-button style="margin: 2px 20px"
+                        @click="validateGuess(events[maxCol*n + j].id, 2)"
+                        variant="outline-magenta"
+                        size="sm">
+                {{events[maxCol*n + j].option2}}
+              </b-button>
+            </div>
           </div>
           <div v-else>
             <b-button style="margin: 2px 20px" disabled
                       variant="outline-secondary" size="sm">
-              {{events[2*n +j].option1}}
+              {{events[maxCol*n +j].option1}}
             </b-button>
             <b-button style="margin: 2px 20px" disabled
                       variant="outline-secondary"
-                      size="sm">{{events[2*n +j].option2}}</b-button>
+                      size="sm">{{events[maxCol*n +j].option2}}</b-button>
           </div>
 
         </b-card>
@@ -116,7 +140,7 @@
                         required>
           </b-form-input>
         </b-form-group>
-        <b-button @click="voteGuess()" variant="primary" size="sm">Debug</b-button>
+        <b-button @click="voteGuess()" variant="primary" size="sm">Vote</b-button>
       </b-modal>
     </div>
   </div>
@@ -127,13 +151,50 @@ import GuessHelper from '@/js/Guess'
 
 export default {
   name: 'carddeck',
-  props: ['events', 'peopleBar', 'ethBar', 'votationAllow'],
+  props: {
+    events: {
+      default: [],
+      type: Array
+    },
+    maxCol: {
+      default: 2,
+      type: Number
+    },
+    mode: {
+      default: 1,
+      type: Number
+    },
+    peopleBar: {
+      default: false,
+      type: Boolean
+    },
+    ethBar: {
+      default: false,
+      type: Boolean
+    },
+    descriptionAllow: {
+      default: false,
+      type: Boolean
+    },
+    shareable: {
+      default: true,
+      type: Boolean
+    },
+    buttomsAllow: {
+      default: true,
+      type: Boolean
+    },
+    headerBg: {
+      default: false,
+      type: Boolean
+    }
+  },
   data () {
     return {
       contentLoaded: true,
       arrayIndex: 0, // The selected guess to vote
       counter1: [0, 1, 2, 3, 4, 5],
-      counter2: [0, 1],
+      counter2: [],
       totalGuesses: 0,
       optionVoted: 0,
       guessToVote: 0,
@@ -141,6 +202,18 @@ export default {
     }
   },
   methods: {
+    bgVariant (topic) {
+      if (this.headerBg) {
+        return topic
+      } else {
+        return 'none'
+      }
+    },
+    defineCols () {
+      for (var i = 0; i < this.maxCol; i++) {
+        this.counter2[i] = i
+      }
+    },
     showVoteAlert (group, type = '') {
       var title = ''
       var text = ''
@@ -169,9 +242,6 @@ export default {
       this.guessToVote = _guessId
       this.$refs.paymentModal.show()
     },
-    debugVote () {
-      this.showVoteAlert('voteAlert', 'success', this.guessToVote, this.optionVoted, this.ethAmountToVote)
-    },
     voteGuess () { // Option has to be 1 or 2
       // let self = this
       this.$refs.paymentModal.hide()
@@ -182,7 +252,19 @@ export default {
         console.log(err)
         this.showVoteAlert('voteAlert', 'error')
       })
+    },
+    validateGuess (_index, _option) { // Option has to be 1 or 2
+      // let self = this
+      console.log(_index)
+      GuessHelper.validateGuess(_index, _option).then(() => {
+        console.log('Transaction pending...')
+      }).catch(err => {
+        console.log(err)
+      })
     }
+  },
+  created: function () {
+    this.defineCols()
   }
 }
 </script>

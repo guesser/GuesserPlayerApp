@@ -30,8 +30,7 @@
       <h2 style="font-size:calc(1em + 1vw);">Events you may like:</h2>
       <CardDeck :events="guesses"
                 :peopleBar="false"
-                :ethBar="false"
-                :votationAllow="true"/>
+                :ethBar="false"/>
     </div>
     </div>
   </div>
@@ -149,19 +148,6 @@ export default {
         })
       }
     }
-    /*
-    voteGuess () { // Option has to be 1 or 2
-      // let self = this
-      this.$refs.paymentModal.hide()
-      GuessHelper.voteGuess(this.guessToVote, this.optionVoted, this.ethAmountToVote).then(() => {
-        console.log('Transaction pending...')
-        this.showVoteAlert('voteAlert', 'success')
-      }).catch(err => {
-        console.log(err)
-        this.showVoteAlert('voteAlert', 'error')
-      })
-    }
-    */
   },
 
   created: function () {

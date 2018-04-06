@@ -1,33 +1,23 @@
 <template>
   <div class="container">
-    <div v-for='guess in guesses'>
-      <b-card
-       :border-variant="guess.topic"
-       :header="guess.title"
-       :header-bg-variant="guess.topic"
-       header-text-variant="white"
-       class="text-center">
-        <p class="card-text">
-        {{guess.description}}
-        <br>
-        {{guess.startingDay}} - {{guess.finishingDay}}
-        </p>
-        <br>
-        <b-button @click="validateGuess(guess.id, 1)" variant="outline-pink" size="sm">{{guess.option1}}</b-button>
-        <b-button @click="validateGuess(guess.id, 2)" variant="outline-magenta" size="sm">{{guess.option2}}</b-button>
-      </b-card>
-    </div>
-    <div>
-      <h4 class="absolute-center" v-if='totalGuesses == 0'>What a shame... There are no Guesses to validate!</h4>
-    </div>
+    <CardDeck :events="guesses"
+       :mode='2'
+       :maxCol='1'
+       :descriptionAllow='true'
+       :shareable='false'
+       :headerBg='true'/>
   </div>
 </template>
 
 <script>
 import GuessHelper from '@/js/Guess'
+import CardDeck from './Common/CardDeck.vue'
 
 export default {
   name: 'guessesvalidation',
+  components: {
+    CardDeck
+  },
   data () {
     return {
       guessesByNumber: [],
@@ -105,7 +95,8 @@ export default {
           return err
         })
       }
-    },
+    }
+    /*
     validateGuess (_index, _option) { // Option has to be 1 or 2
       // let self = this
       console.log(_index)
@@ -117,6 +108,7 @@ export default {
         console.log(err)
       })
     }
+    */
   },
 
   created: function () {
