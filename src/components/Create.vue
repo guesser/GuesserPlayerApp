@@ -95,7 +95,7 @@
   <br>
   <span>Ending date and time: {{updateDate}}</span>
 <br>
-<!-- <input 
+ <input 
   id="sliderRange" 
   type="text"
   data-provide="slider"
@@ -108,16 +108,15 @@
                                    { "start": 47, "end": 71, "class": "primary-slider"},
                                    { "start": 71, "end": 95, "class": "secondary-slider"},
                                    { "start": 95, "end": 119, "class": "primary-slider"}]'/>
-                                   -->
 <b-form-slider 
   :v-model='hourValue'
   :value='0'
   :min='0'
   :max='119'
   :step='1'
-  :rangeHighlights='highlights'
+  v-bind:rangeHighlights='highlights'
   @change="changeSlider"
-  ></b-form-slider>
+  />
 
 </div>
 <br>
@@ -136,6 +135,7 @@ export default {
   data () {
     return {
       value: 0,
+      highlights2: [{'start': 15, 'end': 47, 'class': 'primary-slider'}],
       highlights: [{ 'start': 0, 'end': 24, 'class': 'primary-slider' },
         { 'start': 24, 'end': 47, 'class': 'secondary-slider' },
         {'start': 47, 'end': 71, 'class': 'primary-slider'},
