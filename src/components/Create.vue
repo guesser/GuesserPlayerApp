@@ -95,12 +95,11 @@
   <br>
   <span>Ending date and time: {{updateDate}}</span>
 <br>
-<input 
+<!-- <input 
   id="sliderRange" 
   type="text"
   data-provide="slider"
   data-slider-min="0"
-  :value='hourValue'
   data-slider-max="119"
   data-slider-step="1"
   data-slider-value="0"
@@ -108,8 +107,17 @@
                                    { "start": 24, "end": 47, "class": "secondary-slider" },
                                    { "start": 47, "end": 71, "class": "primary-slider"},
                                    { "start": 71, "end": 95, "class": "secondary-slider"},
-                                   { "start": 95, "end": 119, "class": "primary-slider"}]'
-/>
+                                   { "start": 95, "end": 119, "class": "primary-slider"}]'/>
+                                   -->
+<b-form-slider 
+  :v-model='hourValue'
+  :value='0'
+  :min='0'
+  :max='119'
+  :step='1'
+  :rangeHighlights='highlights'
+  @change="changeSlider"
+  ></b-form-slider>
 
 </div>
 <br>
@@ -121,15 +129,19 @@
 
 <script>
 import GuessHelper from '@/js/Guess'
-import bFormSlider from 'vue-bootstrap-slider'
-import 'bootstrap-slider/dist/css/bootstrap-slider.css'
 import VueTwitterCounter from 'vue-twitter-counter'
 
 export default {
   name: 'Create',
   data () {
     return {
-      rangeData: '',
+      value: 0,
+      highlights: [{ 'start': 0, 'end': 24, 'class': 'primary-slider' },
+        { 'start': 24, 'end': 47, 'class': 'secondary-slider' },
+        {'start': 47, 'end': 71, 'class': 'primary-slider'},
+        {'start': 71, 'end': 95, 'class': 'secondary-slider'},
+        {'start': 95, 'end': 119, 'class': 'primary-slider'}],
+
       topics: ['Crypto', 'Celebrities', 'Entertainment', 'Gaming', 'Humor', 'News', 'Politics', 'Sports', 'Technology', 'Random'],
       form: {
         title: '',
@@ -140,6 +152,7 @@ export default {
         option2: ''
       },
       hourValue: 1,
+      updateDate: '',
       windowWidth: window.innerWidth,
       slider: {
         lineHeight: 10,
@@ -190,6 +203,13 @@ export default {
           self.show('creation', 'error')
           console.log(err)
         })
+    },
+    changeSlider: function (value) {
+      let self = this
+
+      var startTime = self.$moment().subtract(self.$moment().minute(), 'minutes')
+      self.form.date = startTime.add(value.newValue, 'hours').format('MMMM D, YYYY [at] H[h]')
+      self.updateDate = self.form.date
     }
   },
   computed: {
@@ -198,13 +218,6 @@ export default {
 
       var charactersremaining = 140 - self.form.description.length
       return charactersremaining
-    },
-    updateDate () {
-      let self = this
-
-      var startTime = self.$moment().subtract(self.$moment().minute(), 'minutes')
-      self.form.date = startTime.add(self.hourValue, 'hours').format('MMMM D, YYYY [at] H[h]')
-      return self.form.date
     }
   },
   beforeCreate: function () {
@@ -212,9 +225,15 @@ export default {
       console.log(err)
     })
   },
+  created: function () {
+    let self = this
+
+    var startTime = self.$moment().subtract(self.$moment().minute(), 'minutes')
+    self.form.date = startTime.add(0, 'hours').format('MMMM D, YYYY [at] H[h]')
+    self.updateDate = self.form.date
+  },
   components: {
-    VueTwitterCounter,
-    bFormSlider
+    VueTwitterCounter
   }
 }
 </script>
@@ -241,6 +260,12 @@ export default {
     border-left: 0px !important;
 }
 
+.d-inline-block {
+    display: inline !important;
+}
+.slider.slider-horizontal {
+    width: 100% !important;
+}
 .slider {
     width: 100% !important;
 }
