@@ -150,7 +150,7 @@
 import GuessHelper from '@/js/Guess'
 
 export default {
-  name: 'carddeck',
+  name: 'CardDeck',
   props: {
     events: {
       default: [],
@@ -192,13 +192,12 @@ export default {
   data () {
     return {
       contentLoaded: true,
-      arrayIndex: 0, // The selected guess to vote
+      arrayIndex: 0, // The selected event to vote
       counter1: [0, 1, 2, 3, 4, 5],
       counter2: [],
-      totalGuesses: 0,
-      optionVoted: 0,
-      guessToVote: 0,
-      ethAmountToVote: 0
+      optionVoted: null,
+      eventToVote: null,
+      ethAmountToVote: null
     }
   },
   methods: {
@@ -239,15 +238,15 @@ export default {
     showPaymentModal (_guessId, _optionVoted, _arrayIndex) {
       this.arrayIndex = _arrayIndex
       this.optionVoted = _optionVoted
-      this.guessToVote = _guessId
+      this.eventToVote = _guessId
       this.$refs.paymentModal.show()
     },
     voteGuess () { // Option has to be 1 or 2
       // let self = this
       this.$refs.paymentModal.hide()
-      GuessHelper.voteGuess(this.guessToVote, this.optionVoted, this.ethAmountToVote).then(() => {
+      GuessHelper.voteGuess(this.eventToVote, this.optionVoted, this.ethAmountToVote).then(() => {
         console.log('Transaction pending...')
-        this.showVoteAlert('voteAlert', 'success', this.guessToVote, this.optionVoted, this.ethAmountToVote)
+        this.showVoteAlert('voteAlert', 'success', this.eventToVote, this.optionVoted, this.ethAmountToVote)
       }).catch(err => {
         console.log(err)
         this.showVoteAlert('voteAlert', 'error')
