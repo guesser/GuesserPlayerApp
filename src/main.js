@@ -12,6 +12,8 @@ import Qrcode from 'v-qrcode/src/index'
 import VueClipboard from 'vue-clipboard2'
 import moment from 'moment'
 import Notifications from 'vue-notification'
+import bFormSlider from 'vue-bootstrap-slider'
+import 'bootstrap-slider/dist/css/bootstrap-slider.css'
 
 Vue.prototype.$moment = moment
 
@@ -19,6 +21,7 @@ Vue.use(BootstrapVue)
 Vue.use(Qrcode)
 Vue.use(VueClipboard)
 Vue.use(Notifications)
+Vue.use(bFormSlider)
 
 Vue.config.productionTip = false
 
