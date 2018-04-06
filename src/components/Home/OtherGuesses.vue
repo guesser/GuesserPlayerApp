@@ -58,37 +58,6 @@ export default {
     }
   },
   methods: {
-    /*
-    showVoteAlert (group, type = '') {
-      var title = ''
-      arrayIndex: 0, // The selected guess to vote
-      var text = ''
-      if (type === 'success') {
-        title = 'Votation success!'
-        text = 'Your prediction is being processed'
-      } else {
-        title = 'Votation error!'
-        text = 'Your prediction process failed, try again'
-      }
-      this.$notify({
-        group,
-        title,
-        text,
-        type
-      })
-    },
-    show (group) {
-      this.$notify({
-        group
-      })
-    },
-    showPaymentModal (_guessId, _optionVoted, _arrayIndex) {
-      this.arrayIndex = _arrayIndex
-      this.optionVoted = _optionVoted
-      this.guessToVote = _guessId
-      this.$refs.paymentModal.show()
-    },
-    */
     printGuesses () {
       this.guesses = []
       for (var i = 0; i < this.guessesByNumber.length; i++) {

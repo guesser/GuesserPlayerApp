@@ -1,19 +1,37 @@
 <template>
-  <div>
-    <TopBar/>
-    <main>
+<div>
+  <TopBar/>
+  <main>
     <br>
     <notifications group="eventAlert"
                    position="bottom right"
                    :max="1"
-                   width="350px"
+                   width="300px"
                    :speed="1000">
       <template slot="body" slot-scope="props">
-        <div class="vue-notification eventAlert">
-          <h5>New Event has been created!</h5>
-          <span>Event <a :href="newEventUrl">'{{newEventTitle}}'</a>
-            <br>With id: #{{newEventId}} was created in {{newEventTopic}}</span>
-        </div>
+        <a :href="votedEventUrl" style="text-decoration:none">
+          <div class="vue-notification eventAlert">
+            <h5>New Event has been created!</h5>
+            <span>Event <a :href="newEventUrl">'{{newEventTitle}}'</a>
+              <br>With id: #{{newEventId}} was created in {{newEventTopic}}</span>
+          </div>
+        </a>
+      </template>
+    </notifications>
+    <notifications group="votedEventAlert"
+                   position="bottom center"
+                   :max="1"
+                   width="320px"
+                   :speed="1000">
+      <template slot="body" slot-scope="props">
+        <a :href="votedEventUrl" style="text-decoration:none">
+          <div class="vue-notification votedAlert">
+            <h5>Event Voted!</h5>
+            <span>Event #{{votedEventId}}: '{{votedEventTitle}}'
+              <br>You have staked {{votedEventValue}} eth to Outcome: {{votedEventOutcomeName}}
+            </span>
+          </div>
+        </a>
       </template>
     </notifications>
 
@@ -43,6 +61,12 @@ export default {
       newEventTopic: '',
       newEventUrl: '',
       lastEventId: 0,
+      votedEventId: '',
+      votedEventTitle: '',
+      votedEventOptionName: '',
+      votedEventValue: '',
+      votedEventUrl: '',
+      lastVotedEventId: '',
       shareUrl: '#/search?_id='
     }
   },
@@ -56,10 +80,10 @@ export default {
     showAlert () {
       this.dismissCountDown = this.dismissSecs
     },
-    showEventAlert () {
+    showEventAlert (_group) {
       // TODO: Catch the id and the topic of the event
       this.$notify({
-        group: 'eventAlert'
+        group: _group
       })
     }
   },
@@ -75,8 +99,27 @@ export default {
           self.newEventUrl = self.shareUrl + self.newEventId
 
           if (self.newEventId !== self.lastEventId) {
-            self.showEventAlert()
+            self.showEventAlert('eventAlert')
             self.lastEventId = self.newEventId
+          }
+        } else {
+          console.log(error)
+        }
+      })
+
+      GuessHelper.GuessVoted.watch(function (error, result) {
+        if (!error) {
+          if (GuessHelper.address[0].toUpperCase() === result.args.user.toUpperCase()) {
+            self.votedEventId = result.args.index.c[0]
+            self.votedEventTitle = result.args.title
+            self.votedEventOutcomeName = result.args.optionName
+            self.votedEventValue = result.args.value.c[0] / 10000
+            self.votedEventUrl = self.shareUrl + self.votedEventId
+
+            if (self.votedEventId !== self.lastVotedEventId) {
+              self.showEventAlert('votedEventAlert')
+              self.lastVotedEventId = self.votedEventId
+            }
           }
         } else {
           console.log(error)
@@ -430,10 +473,18 @@ main{
 }
 .eventAlert{
     margin: 5px !important;
-    font-size: 1rem;
+    font-size: 0.8rem;
     border-radius: 2px !important;
-    color: #8a6d3b !important; 
+    color: #8a6d3b !important;
     background-color: #ffffc3 !important;
-    border: 2px solid #ffff03 !important;
+    border: 2px solid #E88E0C !important;
+}
+.votedAlert{
+    margin: 5px !important;
+    font-size: 0.8rem;
+    border-radius: 2px !important;
+    color: #ffffff !important;
+    background-color: #0DAAFF !important;
+    border: 2px solid #6C87E8 !important;
 }
 </style>
