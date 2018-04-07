@@ -2,9 +2,7 @@
   <div>
     <div v-if="totalEvents > 0">
       <CardDeck :events="events"
-         :peopleBar="true"
-         :ethBar="true"
-         :votationAllow="false"/>
+         :buttonsAllow="false"/>
     </div>
     <div v-else>
       <b-container class="" style="">
