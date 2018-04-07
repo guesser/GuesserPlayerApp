@@ -4,28 +4,6 @@
       <Loading/>
     </div>
 
-    <!--Alert-->
-    <notifications group="voteAlert"
-                   position="top center"
-                   classes="vue-notification voteAlert"
-                   :max="2"
-                   width="300px"
-                   :speed="500"/>
-
-    <notifications group="copyAlert"
-                   position="bottom right"
-                   width="120"
-                   :speed="500">
-      <template slot="body" slot-scope="props">
-        <div class="copyAlert">
-          <div class="copyAlert-content">
-            Url copied!
-          </div>
-        </div>
-      </template>
-    </notifications>
-
-
     <div v-if="totalGuesses != 0">
       <h2 style="font-size:calc(1em + 1vw);">Events you may like:</h2>
       <CardDeck :events="guesses"
@@ -178,11 +156,4 @@ export default {
   text-align: center;
   position: relative;
 }
-/*
-.voteAlert {
-    margin: 5px;
-    border-radius: 2px;
-    border-left: 0px !important;
-}
-*/
 </style>

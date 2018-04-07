@@ -3,6 +3,7 @@
   <TopBar/>
   <main>
     <br>
+    <!--Alerts-->
     <notifications group="eventAlert"
                    position="bottom right"
                    :max="1"

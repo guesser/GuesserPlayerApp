@@ -1,14 +1,5 @@
 <template>
   <div>
-
-    <!--Alert-->
-    <notifications group="voteAlert"
-                   position="top center"
-                   classes="vue-notification voteAlert"
-                   :max="2"
-                   width="300px"
-                   :speed="500" />
-
     <!--If events-->
     <div v-if='guessIndex != null'>
       <b-card :border-variant="topic"
@@ -262,10 +253,5 @@ export default {
 <style>
 .card-link{
   text-decoration: underline;
-}
-.voteAlert {
-  margin: 5px;
-  border-radius: 2px;
-  border-left: 0px !important;
 }
 </style>

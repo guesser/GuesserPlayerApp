@@ -1,5 +1,26 @@
 <template>
   <div>
+    <!--Alert-->
+    <notifications group="voteAlert"
+                   position="top center"
+                   classes="vue-notification voteAlert"
+                   :max="2"
+                   width="320px"
+                   :speed="800"/>
+
+    <notifications group="copyAlert"
+                   position="bottom right"
+                   width="120"
+                   :speed="500">
+      <template slot="body" slot-scope="props">
+        <div class="copyAlert">
+          <div class="copyAlert-content">
+            Url copied!
+          </div>
+        </div>
+      </template>
+    </notifications>
+
     <div class='topics'>
       <TopicList/>
     </div>
@@ -76,5 +97,11 @@ export default {
 .container{
   margin:0;
   padding:0;
+}
+.voteAlert {
+    margin: 5px;
+    font-size: 0.7rem;
+    border-radius: 2px;
+    border-left: 0px !important;
 }
 </style>
