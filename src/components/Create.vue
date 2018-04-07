@@ -167,8 +167,8 @@ export default {
       var title = ''
       var text = ''
       if (type === 'success') {
-        title = 'Creation success!'
-        text = 'Your event has been pushed to the network'
+        title = 'Data ready to sent!'
+        text = 'Ready to sent your event, waiting for confirmation!'
       } else {
         title = 'Creation error!'
         text = 'Event creation failed, try again'
@@ -185,6 +185,7 @@ export default {
       let self = this
 
       let finalDate = self.$moment().subtract(self.$moment().minute(), 'minutes').add(self.hourValue, 'hours').unix()
+      self.show('creation', 'success')
       GuessHelper.setGuessFront(
         this.form.title,
         this.form.description,
@@ -193,7 +194,6 @@ export default {
         this.form.option1,
         this.form.option2).then(() => {
           console.log('Transaction pending...')
-          self.show('creation', 'success')
           self.form.title = ''
           self.form.description = ''
           self.form.topic = ''

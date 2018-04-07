@@ -65,7 +65,7 @@
       </b-row>
 
       <!--Buttons-->
-      <div v-if="buttomsAllow">
+      <div v-if="buttonsAllow">
         <div v-if="mode === 1">
           <b-button style="margin: 2px 20px"
                     @click="showPaymentModal(1)"
@@ -100,7 +100,7 @@
     <!-- Modal Payment -->
     <b-modal ref="paymentModal"
              centered
-             title="Choose amount"
+             title="Choose amount:"
              hide-footer
              :header-bg-variant="eventItem.topic">
       <b-form-group id="titleGroup"
@@ -146,7 +146,7 @@ export default {
       default: true,
       type: Boolean
     },
-    buttomsAllow: {
+    buttonsAllow: {
       default: true,
       type: Boolean
     },

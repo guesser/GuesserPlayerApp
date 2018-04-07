@@ -8,13 +8,15 @@
                          v-if="events[maxCol*n + j]"
                          style="height: 100%;"
                          :border-variant="events[maxCol*n + j].topic"
-                         :header="events[maxCol*n + j].title"
+                         header-tag="header"
                          :header-bg-variant="bgVariant(events[maxCol*n + j].topic)"
                          :header-border-variant="events[maxCol*n +j].topic"
                          header-text-variant="black"
-                         @click="showPaymentModal(events[maxCol*n +j].id, maxCol*n+j)"
                          align="center">
-          <p class="card-text">
+          <div slot="header" @click="showPaymentModal(events[maxCol*n + j].id, maxCol*n + j)">
+            {{events[maxCol*n + j].title}}
+          </div>
+          <p class="card-text" @click="showPaymentModal(events[maxCol*n + j].id, maxCol*n + j)">
           <span v-if="descriptionAllow">
             {{events[maxCol*n + j].description}}<br><br>
           </span>
@@ -57,14 +59,14 @@
           <b-row v-if="shareable" align-h="end" align-v="end" style="color: #ff0d78">
             #{{events[maxCol*n + j].id}}
             <b-btn id="idCopy" variant="link" size="sm"
-                                              @click="show('copyAlert')"
+                                              @click="show('copyAlert');"
                                               v-clipboard:copy="events[maxCol*n +j].url">
               <img width="20px" src="../../assets/shareicon.png"/>
             </b-btn>
           </b-row>
 
-          <!-- Buuttons -->
-          <div v-if="buttomsAllow">
+          <!-- Buttons -->
+          <div v-if="buttonsAllow">
             <div v-if="mode === 1">
               <b-button style="margin: 2px 20px"
                         @click="showPaymentModal(events[maxCol*n + j].id, maxCol*n +j)"
@@ -113,7 +115,7 @@
                :title="events[arrayIndex].topic"
                hide-footer
                :header-bg-variant="events[arrayIndex].topic"
-                align="center">
+               align="center">
         <p>Description: <b>{{events[arrayIndex].description}}</b></p>
         <p class="card-text">
         Created at: <b>{{events[arrayIndex].startingDay}}</b>
@@ -133,19 +135,19 @@
         </b-progress>
         <small>Total: {{events[arrayIndex].votes}} people</small>
 
-          <!--Amount of eth in each option-->
-            <br>
-            <br>
-            <span>Eth staked on each outcome: </span>
-            <b-progress class="mt-1" :max="10*(events[arrayIndex].amountEth/10)" show-value striped>
-              <b-progress-bar :value="10*(events[arrayIndex].option1AmountEth/10)" variant="pink">
-                {{events[arrayIndex].option1}} - {{ events[arrayIndex].option1AmountEth }}
-              </b-progress-bar>
-              <b-progress-bar :value="10*(events[arrayIndex].option2AmountEth/10)" variant="magenta">
-                {{events[arrayIndex].option2}} - {{ events[arrayIndex].option2AmountEth }}
-              </b-progress-bar>
-            </b-progress>
-            <small>Total: {{events[arrayIndex].amountEth}} ether</small>
+        <!--Amount of eth in each option-->
+        <br>
+        <br>
+        <span>Eth staked on each outcome: </span>
+        <b-progress class="mt-1" :max="10*(events[arrayIndex].amountEth/10)" show-value striped>
+          <b-progress-bar :value="10*(events[arrayIndex].option1AmountEth/10)" variant="pink">
+            {{events[arrayIndex].option1}} - {{ events[arrayIndex].option1AmountEth }}
+          </b-progress-bar>
+          <b-progress-bar :value="10*(events[arrayIndex].option2AmountEth/10)" variant="magenta">
+            {{events[arrayIndex].option2}} - {{ events[arrayIndex].option2AmountEth }}
+          </b-progress-bar>
+        </b-progress>
+        <small>Total: {{events[arrayIndex].amountEth}} ether</small>
         <br>
         <br>
         <b-form-group id="titleGroup"
@@ -208,7 +210,7 @@ export default {
       default: true,
       type: Boolean
     },
-    buttomsAllow: {
+    buttonsAllow: {
       default: true,
       type: Boolean
     },
@@ -245,8 +247,8 @@ export default {
       var title = ''
       var text = ''
       if (type === 'success') {
-        title = 'Votation success!'
-        text = 'Your prediction is being processed'
+        title = 'Data ready to sent!'
+        text = 'Ready to sent your prediction, waiting for confirmation!'
       } else {
         title = 'Votation error!'
         text = 'Your prediction process failed, try again'
@@ -264,16 +266,18 @@ export default {
       })
     },
     showPaymentModal (_guessId, _arrayIndex) {
-      this.arrayIndex = _arrayIndex
-      this.eventToVote = _guessId
-      this.$refs.paymentModal.show()
+      if (this.buttonsAllow) {
+        this.arrayIndex = _arrayIndex
+        this.eventToVote = _guessId
+        this.$refs.paymentModal.show()
+      }
     },
     voteGuess (optionVoted) { // Option has to be 1 or 2
       // let self = this
       this.$refs.paymentModal.hide()
+      this.showVoteAlert('voteAlert', 'success')
       GuessHelper.voteGuess(this.eventToVote, optionVoted, this.ethAmountToVote).then(() => {
         console.log('Transaction pending...')
-        this.showVoteAlert('voteAlert', 'success', this.eventToVote, this.optionVoted, this.ethAmountToVote)
       }).catch(err => {
         console.log(err)
         this.showVoteAlert('voteAlert', 'error')
@@ -299,10 +303,5 @@ export default {
   margin: auto;
   text-align: center;
   position: relative;
-}
-.voteAlert {
-  margin: 5px;
-  border-radius: 2px;
-  border-left: 0px !important;
 }
 </style>
