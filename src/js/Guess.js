@@ -340,6 +340,23 @@ const GuessHelper = {
         reject(err)
       })
     })
+  },
+  signMessage (msgParams) {
+    let from = this.address[0]
+
+    return new Promise((resolve, reject) => {
+      window.web3.currentProvider.sendAsync({
+        method: 'eth_signTypedData',
+        params: [msgParams, from],
+        from: from
+      }, function (err, result) {
+        if (err) reject(console.error(err))
+        if (result.error) {
+          reject(console.error(result.error.message))
+        }
+        resolve(result.result)
+      })
+    })
   }
 }
 

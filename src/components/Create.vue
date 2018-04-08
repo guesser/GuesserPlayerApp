@@ -6,7 +6,7 @@
                  classes="vue-notification creation"
                  :max="2"
                  :speed="500" />
-  
+
   <!--Form-->
   <b-form @submit="onSubmit">
     <h2 style="margin-bottom: 2%;"> Create an event </h2>
@@ -22,7 +22,7 @@
                     required>
       </b-form-input>
     </b-form-group>
-    
+
     <!--Description-->
     <b-form-group id="descriptionGroup"
                   label="Description:"
@@ -45,7 +45,7 @@
       <!--TODO: Update when change input-->
       <!--<span> {{ remchar }} characters remaining</span>-->
     </b-form-group>
-    
+
     <!--Topics-->
     <p class='info-section'>Topic:</p>
     <div v-if="windowWidth >= 800">
@@ -95,8 +95,8 @@
   <br>
   <span>Ending date and time: {{updateDate}}</span>
 <br>
- <input 
-  id="sliderRange" 
+ <input
+  id="sliderRange"
   type="text"
   data-provide="slider"
   data-slider-min="0"
@@ -108,13 +108,13 @@
                                    { "start": 47, "end": 71, "class": "primary-slider"},
                                    { "start": 71, "end": 95, "class": "secondary-slider"},
                                    { "start": 95, "end": 119, "class": "primary-slider"}]'/>
-<b-form-slider 
+<b-form-slider
   :v-model='hourValue'
   :value='0'
   :min='0'
   :max='119'
   :step='1'
-  v-bind:rangeHighlights='highlights'
+  :rangeHighlights='highlights'
   @change="changeSlider"
   />
 
@@ -123,11 +123,16 @@
 <br>
 <b-button type="submit" variant="primary" size='lg'>Create</b-button>
 </b-form>
+
+<br>
+<br>
+<b-button @click='signData()' variant="secondary" size='lg'>Create</b-button>
 </div>
 </template>
 
 <script>
 import GuessHelper from '@/js/Guess'
+import ServerHelper from '@/js/ServerHelper'
 import VueTwitterCounter from 'vue-twitter-counter'
 
 export default {
@@ -137,10 +142,10 @@ export default {
       value: 0,
       highlights2: [{'start': 15, 'end': 47, 'class': 'primary-slider'}],
       highlights: [{ 'start': 0, 'end': 24, 'class': 'primary-slider' },
-        { 'start': 24, 'end': 47, 'class': 'secondary-slider' },
-        {'start': 47, 'end': 71, 'class': 'primary-slider'},
-        {'start': 71, 'end': 95, 'class': 'secondary-slider'},
-        {'start': 95, 'end': 119, 'class': 'primary-slider'}],
+                   { 'start': 24, 'end': 47, 'class': 'secondary-slider' },
+                   {'start': 47, 'end': 71, 'class': 'primary-slider'},
+                   {'start': 71, 'end': 95, 'class': 'secondary-slider'},
+                   {'start': 95, 'end': 119, 'class': 'primary-slider'}],
 
       topics: ['Crypto', 'Celebrities', 'Entertainment', 'Gaming', 'Humor', 'News', 'Politics', 'Sports', 'Technology', 'Random'],
       form: {
@@ -163,6 +168,23 @@ export default {
     }
   },
   methods: {
+    signData () {
+      const msgParams = [
+        {
+          type: 'string',      // Any valid solidity type
+          name: 'Message',     // Any string label you want
+          value: 'Hi, Alice!'  // The value to sign
+        },
+        {
+          type: 'uint32',
+          name: 'A number',
+          value: '1337'
+        }
+      ]
+      GuessHelper.signMessage(msgParams).then((signedMsg) => {
+        console.log(signedMsg)
+      })
+    },
     show (group, type = '') {
       var title = ''
       var text = ''
