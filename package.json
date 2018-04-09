@@ -31,7 +31,7 @@
     "truffle-contract": "^3.0.0",
     "v-qrcode": "^1.0.3",
     "vue": "^2.5.13",
-    "vue-bootstrap-slider": "^1.1.1",
+    "vue-bootstrap-slider": "^1.2.0",
     "vue-clipboard2": "0.0.8",
     "vue-gh-pages": "^1.10.2",
     "vue-notification": "^1.3.7",

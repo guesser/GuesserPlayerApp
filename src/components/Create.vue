@@ -95,24 +95,11 @@
   <br>
   <span>Ending date and time: {{updateDate}}</span>
 <br>
- <input 
-  id="sliderRange" 
-  type="text"
-  data-provide="slider"
-  data-slider-min="0"
-  data-slider-max="119"
-  data-slider-step="1"
-  data-slider-value="0"
-  data-slider-rangeHighlights='[{ "start": 0, "end": 24, "class": "primary-slider" },
-                                   { "start": 24, "end": 47, "class": "secondary-slider" },
-                                   { "start": 47, "end": 71, "class": "primary-slider"},
-                                   { "start": 71, "end": 95, "class": "secondary-slider"},
-                                   { "start": 95, "end": 119, "class": "primary-slider"}]'/>
 <b-form-slider 
   :v-model='hourValue'
   :value='0'
-  :min='0'
-  :max='119'
+  :min='1'
+  :max='120'
   :step='1'
   v-bind:rangeHighlights='highlights'
   @change="changeSlider"
@@ -136,11 +123,11 @@ export default {
     return {
       value: 0,
       highlights2: [{'start': 15, 'end': 47, 'class': 'primary-slider'}],
-      highlights: [{ 'start': 0, 'end': 24, 'class': 'primary-slider' },
+      highlights: [{ 'start': 1, 'end': 24, 'class': 'primary-slider' },
         { 'start': 24, 'end': 47, 'class': 'secondary-slider' },
         {'start': 47, 'end': 71, 'class': 'primary-slider'},
         {'start': 71, 'end': 95, 'class': 'secondary-slider'},
-        {'start': 95, 'end': 119, 'class': 'primary-slider'}],
+        {'start': 95, 'end': 120, 'class': 'primary-slider'}],
 
       topics: ['Crypto', 'Celebrities', 'Entertainment', 'Gaming', 'Humor', 'News', 'Politics', 'Sports', 'Technology', 'Random'],
       form: {
@@ -185,6 +172,7 @@ export default {
       let self = this
 
       let finalDate = self.$moment().subtract(self.$moment().minute(), 'minutes').add(self.hourValue, 'hours').unix()
+      // console.log(self.$moment().subtract(self.$moment().minute(), 'minutes').add(self.hourValue, 'hours').format('MMMM D, YYYY [at] H[h]'))
       self.show('creation', 'success')
       GuessHelper.setGuessFront(
         this.form.title,
@@ -207,8 +195,9 @@ export default {
     changeSlider: function (value) {
       let self = this
 
+      self.hourValue = value.newValue // This is necesary becouse the v-model doesn't work
       var startTime = self.$moment().subtract(self.$moment().minute(), 'minutes')
-      self.form.date = startTime.add(value.newValue, 'hours').format('MMMM D, YYYY [at] H[h]')
+      self.form.date = startTime.add(self.hourValue, 'hours').format('MMMM D, YYYY [at] H[h]')
       self.updateDate = self.form.date
     }
   },
@@ -229,7 +218,7 @@ export default {
     let self = this
 
     var startTime = self.$moment().subtract(self.$moment().minute(), 'minutes')
-    self.form.date = startTime.add(0, 'hours').format('MMMM D, YYYY [at] H[h]')
+    self.form.date = startTime.add(1, 'hours').format('MMMM D, YYYY [at] H[h]')
     self.updateDate = self.form.date
   },
   components: {
