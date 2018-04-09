@@ -497,12 +497,11 @@ contract Guess is DateTime{
     while (_guessNumber<10 && i<_guesses.length) {
       // Proper date
       if (DateTime.dateDue(guesses[_guesses[i]].finalDate) == true) {
-        /*   Does it has enough votes? */
         uint256 _votes = guesses[_guesses[i]].option1Votes + guesses[_guesses[i]].option2Votes;
         uint256 _validations = guesses[_guesses[i]].option1Validation + guesses[_guesses[i]].option2Validation;
         uint256 _half = ((((_votes * 10) / 2) - ((_votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
 
-        if (_validations < _half) { // Does it has enough validations?
+        if (_validations < _half && _votes > 0) { // Does it has enough validations and enough votes?
           _todayGuesses[_guessNumber] = _guesses[i];
           _guessNumber++;
         }
