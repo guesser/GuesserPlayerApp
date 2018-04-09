@@ -1,5 +1,9 @@
 <template>
-  <div class="container">
+  <div class="wrapper">
+    <div v-if='!contentLoaded'>
+      <Loading/>
+    </div>
+
     <CardDeck :events="guesses"
        :mode='2'
        :maxCol='1'
@@ -12,10 +16,12 @@
 <script>
 import GuessHelper from '@/js/Guess'
 import CardDeck from './Common/CardDeck.vue'
+import Loading from './Loading.vue'
 
 export default {
   name: 'guessesvalidation',
   components: {
+    Loading,
     CardDeck
   },
   data () {
@@ -23,7 +29,8 @@ export default {
       guessesByNumber: [],
       totalGuesses: 0,
       guessIndex: null,
-      guesses: []
+      guesses: [],
+      contentLoaded: false
     }
   },
   methods: {
@@ -33,8 +40,6 @@ export default {
         let _index = this.guessesByNumber[i].c[0]
         if (_index !== 0) { // Guess 0 is the empty one
           GuessHelper.getGuessFront(_index).then((guess) => {
-            let month1 = parseInt(guess[4].getMonth()) + 1
-            let month2 = parseInt(guess[5].getMonth()) + 1
             let guessTime = this.$moment(guess[5]).subtract(this.$moment(guess[5]).minute(), 'minutes')
             if (guessTime.unix() < this.$moment().unix()) {
               this.guesses.push({
@@ -43,8 +48,8 @@ export default {
                 'description': guess[1],
                 'topic': guess[2],
                 'votes': 0,
-                'startingDay': guess[4].getUTCDate() + '-' + month1 + '-' + guess[4].getFullYear(),
-                'finishingDay': guess[5].getUTCDate() + '-' + month2 + '-' + guess[5].getFullYear(),
+                'startingDay': this.$moment(guess[4]).format('MMMM D, YYYY [at] H[h]'),
+                'finishingDay': this.$moment(guess[5]).format('MMMM D, YYYY [at] H[h]'),
                 'option1': 'Loading...',
                 'option2': 'Loading...',
                 'option1Validations': 0,
@@ -84,13 +89,13 @@ export default {
           finished++
           if (finished === 7) {
             self.printGuesses()
-            // self.contentLoaded = false
+            self.contentLoaded = true
           }
         }).catch(err => {
           finished++
           if (finished === 7) {
             self.printGuesses()
-            // self.contentLoaded = false
+            self.contentLoaded = true
           }
           return err
         })
@@ -110,13 +115,15 @@ export default {
     }
     */
   },
-
   created: function () {
     GuessHelper.init().then(() => {
       this.getGuessesToValidate()
     }).catch(err => {
       console.log(err)
     })
+  },
+  beforeCreated: function () {
+    this.contentLoaded = false
   }
 }
 </script>
@@ -126,5 +133,9 @@ export default {
   margin: auto;
   text-align: center;
   position: relative;
+}
+.wrapper {
+  margin: 0 15% 0 15%;
+  padding: 0;
 }
 </style>
