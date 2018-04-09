@@ -138,6 +138,7 @@ export default {
     getGuessOfTheDay () {
       let self = this
       GuessHelper.getGuessOfTheDay(this.topic).then((guessNumber) => {
+        console.log(guessNumber)
         if (guessNumber !== 0) {
           self.guessIndex = guessNumber
           self.guess.id = self.guessIndex

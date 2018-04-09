@@ -104,6 +104,7 @@ const GuessHelper = {
     _description,
     _topic,
     _finalDate,
+    _validationDate,
     _option1,
     _option2) {
     let self = this
@@ -114,6 +115,7 @@ const GuessHelper = {
         _description,
         window.web3.utils.asciiToHex(_topic),
         _finalDate,
+        _validationDate,
         _option1,
         _option2,
         {from: self.address[0], gas: 600000} // TODO: Gas forced to high #WARNING
@@ -138,7 +140,8 @@ const GuessHelper = {
           window.web3.utils.hexToUtf8(guess[2]), // topic
           guess[3], // creator
           new Date(guess[4].c[0] * 1000), // the day it started
-          new Date(guess[5].c[0] * 1000) // the final date
+          new Date(guess[5].c[0] * 1000), // the final voting date
+          new Date(guess[6].c[0] * 1000) // the validation start date
         ])
       }).catch(err => {
         reject(err)
