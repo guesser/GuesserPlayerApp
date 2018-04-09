@@ -237,7 +237,7 @@ contract DateTime {
     if (_currentYear == _year) { // Is it the same year?
       if (_currentMonth == _month) { // Is it the same month?
         if (_currentDay == _day) { // Is it the same day?
-          if (_currentHour < _hour) { // is the current hour higher?
+          if (_currentHour <= _hour) { // is the current hour higher?
             return false;
           } else {
             return true;

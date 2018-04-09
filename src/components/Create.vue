@@ -199,6 +199,7 @@ export default {
       var startTime = self.$moment().subtract(self.$moment().minute(), 'minutes')
       self.form.date = startTime.add(self.hourValue, 'hours').format('MMMM D, YYYY [at] H[h]')
       self.updateDate = self.form.date
+      console.log(startTime.add(self.hourValue, 'hours').unix())
     }
   },
   computed: {
