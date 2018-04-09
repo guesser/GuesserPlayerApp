@@ -240,7 +240,6 @@ contract Guess is DateTime{
       if (DateTime.dateDue(guesses[_guesses[i]].finalDate) == false)
       if(guesses[_guesses[i]].topic == _topic) {
         // Same topic and in the correct time
-        // TODO: Correct filter time
         // It returns the last best guess
         if (_choosenVotes < (guesses[_guesses[i]].option1Votes + guesses[_guesses[i]].option2Votes) || found==false) {
           _choosen = i;
@@ -264,7 +263,6 @@ contract Guess is DateTime{
   * @return A uint256[10] the top guesses of the day
   */
   function getGuessesByDate(uint256 _index, bytes32 _topic, uint256 _date) public view returns(uint256[10]){
-    // TODO: Control the date limits
     uint256 _year = DateTime.getYear(_date) * 10000;
     uint32 _month = DateTime.getMonth(_date) * 100;
     uint32 _day = DateTime.getDay(_date);
@@ -279,7 +277,7 @@ contract Guess is DateTime{
     uint256[10] memory _todayGuesses;
     uint256 i = _index * 10;
     while (_guessNumber<10 && i<_guesses.length) {
-      if (guesses[_guesses[i]].topic == _topic && _guesses[i] != _todayGuess && guesses[_guesses[i]].finalDate < _date) {
+      if (guesses[_guesses[i]].topic == _topic && _guesses[i] != _todayGuess) {
         _todayGuesses[_guessNumber] = _guesses[i];
         _guessNumber++;
       }
