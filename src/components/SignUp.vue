@@ -128,8 +128,8 @@ export default {
 
 .signup {
   max-width: 800px;
-margin: 4% 15% 0 15%;
-padding: 0;
+  margin: 4% 15% 0 15%;
+  padding: 0;
 }
 .mini-margin {
   margin-top: 40px;
