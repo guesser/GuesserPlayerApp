@@ -72,7 +72,6 @@ export default {
     },
     checkIfUserExists () {
       ServerHelper.getUsername(GuessHelper.address[0]).then((data) => {
-        console.log(data)
         this.userExists = true
       }).catch((err) => {
         this.userExists = false

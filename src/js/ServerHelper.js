@@ -9,7 +9,6 @@ const ServerHelper = {
         signedData: signedData,
         msgData: msgData
       })).then((response) => {
-        console.log(response.data)
         resolve(response.data)
       }).catch(err => {
         reject(err)
@@ -19,10 +18,7 @@ const ServerHelper = {
 
   getUsername: function (address) {
     return new Promise((resolve, reject) => {
-      console.log(address.toLowerCase())
-      console.log('username?address=' + address.toLowerCase().toString())
       axios.get(this.url + 'username?address=' + address.toLowerCase()).then((response) => {
-        console.log(response.data)
         resolve(response.data)
       }).catch(err => {
         reject(err)

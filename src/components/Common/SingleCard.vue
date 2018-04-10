@@ -1,74 +1,83 @@
 <template>
-  <div>
-
-    <!--Alert-->
-    <notifications group="voteAlert"
-                   position="top center"
-                   classes="vue-notification voteAlert"
-                   :max="1"
-                   width="300px"
-                   :speed="500"/>
-
-    <b-card :border-variant="eventItem.topic"
-                   :header="eventItem.title"
-                   :header-bg-variant="eventItem.topic"
-                   header-text-variant="white"
-                   class="text-center">
-      <p class="card-text">
+<div>
+  
+  <!--Alert-->
+  <notifications group="voteAlert"
+                 position="top center"
+                 classes="vue-notification voteAlert"
+                 :max="1"
+                 width="300px"
+                 :speed="500"/>
+  
+  <b-card :border-variant="eventItem.topic"
+          :header="eventItem.title"
+          :header-bg-variant="eventItem.topic"
+          header-text-variant="white"
+          class="text-center">
+    <p class="card-text">
       {{eventItem.description}}
-      </p>
-      <br>
-      <p class="card-text">
+    </p>
+    <br>
+    <p class="card-text">
       Created at: <b>{{eventItem.startingDay}}</b>
       <br>
       Open until: <b>{{eventItem.finishingDay}}</b>
-      </p>
-
-      <!--Number of people Progress Bar-->
-      <div v-if="peopleBar">
-        <br>
-        <span>Votes for each outcome: </span>
-        <b-progress class="mt-1" :max="10*(eventItem.votes/10)" show-value striped>
-          <b-progress-bar :value="10*(eventItem.option1votes/10)" variant="pink">
-            {{eventItem.option1}} - {{ eventItem.option1votes }}
-          </b-progress-bar>
-          <b-progress-bar :value="10*(eventItem.option2votes/10)" variant="magenta">
-            {{eventItem.option2}} - {{ eventItem.option2votes }}
-          </b-progress-bar>
-        </b-progress>
-        <small>Total: {{eventItem.votes}} people</small>
-      </div>
-
-      <!--Amount of eth in each option-->
-      <div v-if="ethBar">
-        <br>
-        <span>Eth staked on each outcome: </span>
-        <b-progress class="mt-1" :max="10*(eventItem.amountEth/10)" show-value striped>
-          <b-progress-bar :value="10*(eventItem.option1AmountEth/10)" variant="pink">
-            {{eventItem.option1}} - {{ eventItem.option1AmountEth }}
-          </b-progress-bar>
-          <b-progress-bar :value="10*(eventItem.option2AmountEth/10)" variant="magenta">
-            {{eventItem.option2}} - {{ eventItem.option2AmountEth }}
-          </b-progress-bar>
-        </b-progress>
-        <small>Total: {{eventItem.amountEth}} ether</small>
-      </div>
+    </p>
+    
+    <!--Number of people Progress Bar-->
+    <div v-if="peopleBar">
+      <br>
+      <span>Votes for each outcome: </span>
+      <b-progress class="mt-1" :max="10*(eventItem.votes/10)" show-value striped>
+        <b-progress-bar :value="10*(eventItem.option1votes/10)" variant="pink">
+          {{eventItem.option1}} - {{ eventItem.option1votes }}
+        </b-progress-bar>
+        <b-progress-bar :value="10*(eventItem.option2votes/10)" variant="magenta">
+          {{eventItem.option2}} - {{ eventItem.option2votes }}
+        </b-progress-bar>
+      </b-progress>
+      <small>Total: {{eventItem.votes}} people</small>
+    </div>
+    
+    <!--Amount of eth in each option-->
+    <div v-if="ethBar">
+      <br>
+      <span>Eth staked on each outcome: </span>
+      <b-progress class="mt-1" :max="10*(eventItem.amountEth/10)" show-value striped>
+        <b-progress-bar :value="10*(eventItem.option1AmountEth/10)" variant="pink">
+          {{eventItem.option1}} - {{ eventItem.option1AmountEth }}
+        </b-progress-bar>
+        <b-progress-bar :value="10*(eventItem.option2AmountEth/10)" variant="magenta">
+          {{eventItem.option2}} - {{ eventItem.option2AmountEth }}
+        </b-progress-bar>
+      </b-progress>
+      <small>Total: {{eventItem.amountEth}} ether</small>
+    </div>
+    
+    <!--Address-->
+    <b-row>
+      <b-col v-if="username" align-h="start" align-v="end">
+        By: <span style="color: #ff0d78">@{{username}}</span>
+        <b-btn id="" variant="link" size="sm">
+        </b-btn>
+      </b-col>
 
       <!--Share button and ID-->
-      <b-row v-if="shareable" align-h="end" align-v="end" style="color: #ff0d78">
+      <b-col cols="6" v-if="shareable" align-h="end" align-v="end" style="color: #ff0d78">
         #{{eventItem.id}}
         <b-btn id="idCopy" variant="link" size="sm"
-                                          @click="show('copyAlert')"
-                                          v-clipboard:copy="eventItem.url">
+               @click="show('copyAlert')"
+               v-clipboard:copy="eventItem.url">
           <img width="20px" src="../../assets/shareicon.png"/>
         </b-btn>
-      </b-row>
-
-      <!--Buttons-->
-      <div v-if="buttonsAllow">
-        <div v-if="mode === 1">
-          <b-button style="margin: 2px 20px"
-                    @click="showPaymentModal(1)"
+      </b-col>
+    </b-row>
+    
+    <!--Buttons-->
+    <div v-if="buttonsAllow">
+      <div v-if="mode === 1">
+        <b-button style="margin: 2px 20px"
+                  @click="showPaymentModal(1)"
                     variant="outline-pink"
                     size="sm">
             {{eventItem.option1}}
@@ -119,6 +128,7 @@
 
 <script>
 import GuessHelper from '@/js/Guess'
+import ServerHelper from '@/js/ServerHelper'
 
 export default {
   name: 'SingleCard',
@@ -159,7 +169,8 @@ export default {
     return {
       optionVoted: null,
       eventToVote: null,
-      ethAmountToVote: null
+      ethAmountToVote: null,
+      username: null
     }
   },
   methods: {
@@ -202,7 +213,20 @@ export default {
         console.log(err)
         this.showVoteAlert('voteAlert', 'error')
       })
+    },
+    getUsername () {
+      ServerHelper.getUsername(GuessHelper.address[0]).then((data) => {
+        console.log(data.username)
+        this.username = data.username
+      })
     }
+  },
+  beforeCreate: function () {
+    let self = this
+
+    GuessHelper.init().then(() => {
+      self.getUsername()
+    })
   }
 }
 </script>
