@@ -91,6 +91,7 @@ export default {
   beforeCreate: function () {
     let self = this
     GuessHelper.init().then(() => {
+      // Getting the events ready
       GuessHelper.GuessCreated.watch(function (error, result) {
         if (!error) {
           self.newEventUrl = ''

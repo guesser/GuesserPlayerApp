@@ -55,14 +55,23 @@
         <small>Total: {{eventItem.amountEth}} ether</small>
       </div>
 
-      <!--Share button and ID-->
-      <b-row v-if="shareable" align-h="end" align-v="end" style="color: #ff0d78">
-        #{{eventItem.id}}
-        <b-btn id="idCopy" variant="link" size="sm"
-                                          @click="show('copyAlert')"
-                                          v-clipboard:copy="eventItem.url">
-          <img width="20px" src="../../assets/shareicon.png"/>
-        </b-btn>
+      <!--Address-->
+      <b-row>
+        <b-col v-if="username" align-h="start" align-v="end">
+          By: <span style="color: #ff0d78">@{{username}}</span>
+          <b-btn id="" variant="link" size="sm">
+          </b-btn>
+        </b-col>
+
+        <!--Share button and ID-->
+        <b-col cols="6" v-if="shareable" align-h="end" align-v="end" style="color: #ff0d78">
+          #{{eventItem.id}}
+          <b-btn id="idCopy" variant="link" size="sm"
+                                            @click="show('copyAlert')"
+                                            v-clipboard:copy="eventItem.url">
+            <img width="20px" src="../../assets/shareicon.png"/>
+          </b-btn>
+        </b-col>
       </b-row>
 
       <!--Buttons-->
@@ -120,6 +129,7 @@
 
 <script>
 import GuessHelper from '@/js/Guess'
+import ServerHelper from '@/js/ServerHelper'
 
 export default {
   name: 'SingleCard',
@@ -160,7 +170,8 @@ export default {
     return {
       optionVoted: null,
       eventToVote: null,
-      ethAmountToVote: null
+      ethAmountToVote: null,
+      username: null
     }
   },
   methods: {
@@ -203,7 +214,20 @@ export default {
         console.log(err)
         this.showVoteAlert('voteAlert', 'error')
       })
+    },
+    getUsername () {
+      ServerHelper.getUsername(GuessHelper.address[0]).then((data) => {
+        console.log(data.username)
+        this.username = data.username
+      })
     }
+  },
+  beforeCreate: function () {
+    let self = this
+
+    GuessHelper.init().then(() => {
+      self.getUsername()
+    })
   }
 }
 </script>
