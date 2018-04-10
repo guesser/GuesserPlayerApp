@@ -140,6 +140,16 @@ export default {
         console.log(err)
       })
     },
+    getGuessState () {
+      // let self = this
+
+      console.log('HOla')
+      GuessHelper.getEventItemState(this.guessIndex).then((eventItemState) => {
+        console.log(eventItemState)
+      }).catch(err => {
+        console.log(err)
+      })
+    },
     getGuessOfTheDay () {
       let self = this
       GuessHelper.getGuessOfTheDay(this.topic).then((guessNumber) => {
@@ -151,6 +161,7 @@ export default {
           self.getOptions()
           self.getOptionsProfits()
           self.generateEventUrl()
+          self.getGuessState()
         }
       }).catch(err => {
         return err
