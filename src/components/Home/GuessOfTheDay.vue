@@ -1,69 +1,8 @@
 <template>
   <div>
-
-    <!--Alert-->
-    <notifications group="voteAlert"
-                   position="top center"
-                   classes="vue-notification voteAlert"
-                   :max="2"
-                   width="300px"
-                   :speed="500" />
-
     <!--If events-->
     <div v-if='guessIndex != null'>
-      <b-card :border-variant="topic"
-        :header="guess.title"
-        :header-bg-variant="topic"
-        header-text-variant="white"
-        class="text-center">
-        <p class="card-text">
-        {{guess.description}}
-        </p>
-        <br>
-        <p class="card-text">
-        Created at: <b>{{guess.startingDay}}</b>
-        <br>
-        Open until: <b>{{guess.finishingDay}}</b>
-        </p>
-        <br>
-        <!--Number of people Progress Bar-->
-        <span>Votes for each outcome: </span>
-        <b-progress class="mt-1" :max="10*(guess.votes/10)" show-value striped>
-          <b-progress-bar :value="10*(guess.option1votes/10)" variant="pink">
-            {{guess.option1}} - {{ guess.option1votes }}
-          </b-progress-bar>
-          <b-progress-bar :value="10*(guess.option2votes/10)" variant="magenta">
-            {{guess.option2}} - {{ guess.option2votes }}
-          </b-progress-bar>
-        </b-progress>
-        <small>Total: {{guess.votes}} people</small>
-
-        <!--Amount of eth in each option-->
-        <br>
-        <br>
-        <span>Eth staked on each outcome: </span>
-        <b-progress class="mt-1" :max="10*(guess.amountEth/10)" show-value striped>
-          <b-progress-bar :value="10*(guess.option1AmountEth/10)" variant="pink">
-            {{guess.option1}} - {{ guess.option1AmountEth }}
-          </b-progress-bar>
-          <b-progress-bar :value="10*(guess.option2AmountEth/10)" variant="magenta">
-            {{guess.option2}} - {{ guess.option2AmountEth }}
-          </b-progress-bar>
-        </b-progress>
-        <small>Total: {{guess.amountEth}} ether</small>
-
-        <br>
-        <b-row align-h="end" align-v="end" style="color: #ff0d78">
-          #{{guess.id}}
-          <b-btn id="idCopy" variant="link" size="sm"
-                                            @click="show('copyAlert')"
-                                            v-clipboard:copy="guess.url">
-            <img width="20px" src="../../assets/shareicon.png"/>
-          </b-btn>
-        </b-row>
-        <b-button style="margin: 2px 20px" @click="showPaymentModal(1)" variant="outline-pink" size="sm">{{guess.option1}}</b-button>
-        <b-button style="margin: 2px 20px" @click="showPaymentModal(2)" variant="outline-magenta" size="sm">{{guess.option2}}</b-button>
-      </b-card>
+      <SingleCard :eventItem="guess"/>
     </div>
 
     <!--If no events-->
@@ -113,10 +52,14 @@
 
 <script>
 import GuessHelper from '@/js/Guess'
+import SingleCard from '../Common/SingleCard.vue'
 
 export default {
   name: 'GuessOfTheDay',
   props: ['topic'],
+  components: {
+    SingleCard
+  },
   data () {
     return {
       guessVotingAlert: false,
@@ -195,6 +138,7 @@ export default {
     getGuessOfTheDay () {
       let self = this
       GuessHelper.getGuessOfTheDay(this.topic).then((guessNumber) => {
+        console.log(guessNumber)
         if (guessNumber !== 0) {
           self.guessIndex = guessNumber
           self.guess.id = self.guessIndex
@@ -262,10 +206,5 @@ export default {
 <style>
 .card-link{
   text-decoration: underline;
-}
-.voteAlert {
-  margin: 5px;
-  border-radius: 2px;
-  border-left: 0px !important;
 }
 </style>

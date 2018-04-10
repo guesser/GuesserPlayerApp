@@ -4,34 +4,11 @@
       <Loading/>
     </div>
 
-    <!--Alert-->
-    <notifications group="voteAlert"
-                   position="top center"
-                   classes="vue-notification voteAlert"
-                   :max="2"
-                   width="300px"
-                   :speed="500"/>
-
-    <notifications group="copyAlert"
-                   position="bottom right"
-                   width="120"
-                   :speed="500">
-      <template slot="body" slot-scope="props">
-        <div class="copyAlert">
-          <div class="copyAlert-content">
-            Url copied!
-          </div>
-        </div>
-      </template>
-    </notifications>
-
-
     <div v-if="totalGuesses != 0">
       <h2 style="font-size:calc(1em + 1vw);">Events you may like:</h2>
       <CardDeck :events="guesses"
                 :peopleBar="false"
-                :ethBar="false"
-                :votationAllow="true"/>
+                :ethBar="false"/>
     </div>
     </div>
   </div>
@@ -149,19 +126,6 @@ export default {
         })
       }
     }
-    /*
-    voteGuess () { // Option has to be 1 or 2
-      // let self = this
-      this.$refs.paymentModal.hide()
-      GuessHelper.voteGuess(this.guessToVote, this.optionVoted, this.ethAmountToVote).then(() => {
-        console.log('Transaction pending...')
-        this.showVoteAlert('voteAlert', 'success')
-      }).catch(err => {
-        console.log(err)
-        this.showVoteAlert('voteAlert', 'error')
-      })
-    }
-    */
   },
 
   created: function () {
@@ -192,11 +156,4 @@ export default {
   text-align: center;
   position: relative;
 }
-/*
-.voteAlert {
-    margin: 5px;
-    border-radius: 2px;
-    border-left: 0px !important;
-}
-*/
 </style>
