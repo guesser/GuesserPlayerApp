@@ -123,16 +123,12 @@
 <br>
 <b-button type="submit" variant="primary" size='lg'>Create</b-button>
 </b-form>
-
-<br>
-<br>
-<b-button @click='signData()' variant="secondary" size='lg'>Create</b-button>
 </div>
 </template>
 
 <script>
 import GuessHelper from '@/js/Guess'
-import ServerHelper from '@/js/ServerHelper'
+// import ServerHelper from '@/js/ServerHelper'
 import VueTwitterCounter from 'vue-twitter-counter'
 
 export default {
@@ -168,23 +164,33 @@ export default {
     }
   },
   methods: {
-    signData () {
-      const msgParams = [
+    /*
+     signData () {
+      let msgParams = [
         {
           type: 'string',      // Any valid solidity type
-          name: 'Message',     // Any string label you want
-          value: 'Hi, Alice!'  // The value to sign
+          name: 'username',     // Any string label you want
+          value: 'carlosgj94'  // The value to sign
         },
         {
-          type: 'uint32',
-          name: 'A number',
-          value: '1337'
-        }
-      ]
+          type: 'address',
+          name: 'address',
+          value: GuessHelper.address[0]
+        }]
+
       GuessHelper.signMessage(msgParams).then((signedMsg) => {
-        console.log(signedMsg)
+        msgParams = JSON.stringify(msgParams)
+        console.log(msgParams)
+        ServerHelper.setUsername(msgParams, signedMsg).then((data) => {
+          console.log(data)
+        })
       })
     },
+    retrieveData () {
+      ServerHelper.getUsername(GuessHelper.address[0]).then((data) => {
+        console.log(data)
+      })
+    }, */
     show (group, type = '') {
       var title = ''
       var text = ''

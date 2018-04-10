@@ -17,16 +17,17 @@ import 'bootstrap-slider/dist/css/bootstrap-slider.css'
 
 // Server Libraries
 import axios from 'axios'
-import VueAxios from 'vue-axios'
+// import VueAxios from 'vue-axios'
 
 Vue.prototype.$moment = moment
+Vue.prototype.$axios = axios
 
 Vue.use(BootstrapVue)
 Vue.use(Qrcode)
 Vue.use(VueClipboard)
 Vue.use(Notifications)
 Vue.use(bFormSlider)
-Vue.use(VueAxios, axios)
+// Vue.use(VueAxios, axios)
 
 Vue.config.productionTip = false
 
