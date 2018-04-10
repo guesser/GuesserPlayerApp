@@ -29,7 +29,8 @@
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
           <b-nav-item href="#home">Play</b-nav-item>
-          <b-nav-item href="#create">Create</b-nav-item>
+          <b-nav-item v-if='userExists' href="#create">Create</b-nav-item>
+          <b-nav-item v-else class="signup" href="#signup">SignUp</b-nav-item>
           <b-nav-item href="#validation">Validation</b-nav-item>
           <b-nav-item href="#myguesses">My Guesses</b-nav-item>
         </b-navbar-nav>
@@ -46,10 +47,14 @@
 </template>
 
 <script>
+import GuessHelper from '@/js/Guess'
+import ServerHelper from '@/js/ServerHelper'
+
 export default {
   name: 'TopBar',
   data: function () {
     return {
+      userExists: false,
       fixedActive: false,
       networkStatus: 'Network is faster than ⚡',
       form: {
@@ -64,21 +69,39 @@ export default {
         path: 'search', query: { _id: `${this.form._id}` }
       })
       console.log('Identifier: ', this.form._id)
+    },
+    checkIfUserExists () {
+      ServerHelper.getUsername(GuessHelper.address[0]).then((data) => {
+        console.log(data)
+        this.userExists = true
+      }).catch((err) => {
+        this.userExists = false
+        return err
+      })
     }
+  },
+  beforeCreate: function () {
+    let self = this
+
+    GuessHelper.init().then(() => {
+      self.checkIfUserExists()
+    })
   }
 }
 </script>
 
 <style lang="scss">
 .navbar-brand{
-  font-size: 28px;
+    font-size: 28px;
 }
 .bg-transparent{
     background-color: rgba(white, 0.5) !important;
 }
 .fixed {
-  position: fixed !important;
-  width: 100%;
+    position: fixed !important;
+    width: 100%;
+}
+.signup a {
+    color: #ff0d73 !important;
 }
 </style>
-

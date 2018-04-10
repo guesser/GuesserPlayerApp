@@ -118,7 +118,7 @@
         <br>
         <br>
         <b-button type="submit" variant="primary" size='lg'>Create</b-button>
-            </b-form>
+</b-form>
   </div>
 </template>
 

@@ -235,15 +235,13 @@ contract Guess is DateTime{
     uint256 _day = DateTime.getDay(now);
     uint256[] storage _guesses = guessesByDate[_year + _month + _day];
 
-    // Search by the _topic (filter)
     bool found = false;
     uint256 _choosen = 0;
     uint256 _choosenVotes = 0;
-    uint256 _guessHour;
+    bool _guessFinished;
     for (uint256 i = 0; i<_guesses.length; i++) {
-      _guessHour = DateTime.getHour(guesses[_guesses[i]].finalDate);
-      if (DateTime.dateDue(guesses[_guesses[i]].finalDate) == false)
-      if(guesses[_guesses[i]].topic == _topic) {
+      _guessFinished = DateTime.dateDue(guesses[_guesses[i]].finalDate);
+      if(guesses[_guesses[i]].topic == _topic && _guessFinished == false) {
         // Same topic and in the correct time
         // It returns the last best guess
         if (_choosenVotes < (guesses[_guesses[i]].option1Votes + guesses[_guesses[i]].option2Votes) || found==false) {
@@ -253,7 +251,7 @@ contract Guess is DateTime{
         }
       }
     }
-    if (found == true) {
+    if (found == true && DateTime.dateDue(guesses[_guesses[_choosen]].finalDate) == false) {
       return _guesses[_choosen];
     } else {
       return 0;
