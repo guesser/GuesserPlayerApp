@@ -43,6 +43,7 @@ export default {
           GuessHelper.getGuessFront(_index).then((guess) => {
             if (this.$moment(guess[5]).subtract(this.$moment(guess[5]).minute(), 'minutes').unix() > this.$moment().unix()) {
               let _url = 'www.guesser.io/#/search?_id=' + _index
+              let _eventDuration = this.$moment(guess[6]).unix() - this.$moment(guess[5]).unix()
               this.guesses.push({
                 'id': _index,
                 'url': _url,
@@ -53,6 +54,7 @@ export default {
                 'startingDay': this.$moment(guess[4]).format('MMMM D, YYYY [at] H[h]'),
                 'finishingDay': this.$moment(guess[5]).format('MMMM D, YYYY [at] H[h]'),
                 'finishingDayUnformated': this.$moment(guess[5]),
+                'eventDuration': this.$moment.duration(_eventDuration, 'seconds').humanize(),
                 'option1': 'Loading...',
                 'option2': 'Loading...',
                 'option1votes': 'Loading...',

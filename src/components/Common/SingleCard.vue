@@ -17,11 +17,12 @@
       <p class="card-text">
       {{eventItem.description}}
       </p>
-      <br>
       <p class="card-text">
       Created at: <b>{{eventItem.startingDay}}</b>
       <br>
       Open until: <b>{{eventItem.finishingDay}}</b>
+      <br>
+      <small>Validation starts after: <b>{{eventItem.eventDuration}}</b></small>
       </p>
 
       <!--Number of people Progress Bar-->
