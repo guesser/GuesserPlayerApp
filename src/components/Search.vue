@@ -81,6 +81,7 @@ export default {
         votes: 0,
         startingDay: '10-10-10',
         finishingDay: '10-10-10',
+        eventDuration: '',
         option1: 'Loading...',
         option2: 'Loading...',
         option1votes: '0',
@@ -120,6 +121,9 @@ export default {
         self.guess.topic = guessFound[2]
         self.guess.startingDay = this.$moment(guessFound[4]).format('MMMM D, YYYY [at] H[h]')
         self.guess.finishingDay = this.$moment(guessFound[5]).format('MMMM D, YYYY [at] H[h]')
+
+        let _eventDuration = this.$moment(guessFound[6]).unix() - this.$moment(guessFound[5]).unix()
+        self.guess.eventDuration = this.$moment.duration(_eventDuration, 'seconds').humanize()
         self.guessExists = true
       }).catch(err => {
         return err
@@ -147,6 +151,8 @@ export default {
         self.guess.option2AmountEth = parseFloat(optionsAmount[1]).toFixed(4) / 10
         self.guess.amountEth = parseFloat(optionsAmount[0]).toFixed(4) / 10 +
           parseFloat(optionsAmount[1]).toFixed(4) / 10
+      }).catch(err => {
+        return err
       })
     }
   },
