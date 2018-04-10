@@ -330,7 +330,7 @@ const GuessHelper = {
     })
   },
 
-  getCreatedGuessesByAddress (index) {
+  getCreatedGuessesByAddress: function (index) {
     let self = this
 
     return new Promise((resolve, reject) => {
@@ -344,6 +344,19 @@ const GuessHelper = {
       })
     })
   },
+
+  getEventItemState: function (index) {
+    let self = this
+
+    return new Promise((resolve, reject) => {
+      self.instance.getEventItemState.call(index).then((eventItemState) => {
+        resolve(window.web3.utils.hexToUtf8(eventItemState)) // topic
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  },
+
   signMessage (msgParams) {
     let from = this.address[0]
 
