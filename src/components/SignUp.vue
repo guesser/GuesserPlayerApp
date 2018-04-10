@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-container class="signup">
+    <div class="signup">
       <b-row class="justify-content-md-center">
         <b-col cols="12" md="auto">
           <h1>Welcome to Guesser</h1>
@@ -60,7 +60,7 @@ Make sure to save your MetaMask login information and account recovery details! 
         </b-col>
       </b-row>
 
-    </b-container>
+    </div>
   </div>
 </template>
 
@@ -81,6 +81,7 @@ export default {
       ServerHelper.getUsername(GuessHelper.address[0]).then((data) => {
         console.log(data)
         this.userExists = true
+        window.location.replace('/#/home')
       }).catch((err) => {
         this.userExists = false
         return err
@@ -103,8 +104,7 @@ export default {
         msgParams = JSON.stringify(msgParams)
         console.log(msgParams)
         ServerHelper.setUsername(msgParams, signedMsg).then((data) => {
-          console.log(data)
-          // TODO: Launch the event of user created
+          window.location.reload()
         })
       })
     }
@@ -127,8 +127,9 @@ export default {
 }
 
 .signup {
-  margin-top: 4%;
   max-width: 800px;
+margin: 4% 15% 0 15%;
+padding: 0;
 }
 .mini-margin {
   margin-top: 40px;

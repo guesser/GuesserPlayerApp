@@ -30,7 +30,7 @@
         <b-navbar-nav class="ml-auto">
           <b-nav-item href="#home">Play</b-nav-item>
           <b-nav-item v-if='userExists' href="#create">Create</b-nav-item>
-          <b-nav-item v-else class="signup" href="#signup">SignUp</b-nav-item>
+          <b-nav-item v-else class="signup-header" href="#signup">SignUp</b-nav-item>
           <b-nav-item href="#validation">Validation</b-nav-item>
           <b-nav-item href="#myguesses">My Guesses</b-nav-item>
         </b-navbar-nav>
@@ -101,7 +101,7 @@ export default {
     position: fixed !important;
     width: 100%;
 }
-.signup a {
+.signup-header a {
     color: #ff0d73 !important;
 }
 </style>
