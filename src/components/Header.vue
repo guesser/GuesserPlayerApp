@@ -71,7 +71,7 @@ export default {
       console.log('Identifier: ', this.form._id)
     },
     checkIfUserExists () {
-      ServerHelper.getUsername(GuessHelper.address[0]).then((data) => {
+      ServerHelper.getUser(GuessHelper.address[0]).then((data) => {
         this.userExists = true
       }).catch((err) => {
         this.userExists = false

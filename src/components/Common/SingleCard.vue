@@ -57,8 +57,8 @@
 
       <!--Address-->
       <b-row>
-        <b-col v-if="username" align-h="start" align-v="end">
-          By: <span style="color: #ff0d78">@{{username}}</span>
+        <b-col v-if="eventItem.creator" align-h="start" align-v="end">
+          By: <span style="color: #ff0d78;">@{{ creatorUserName }}</span>
           <b-btn id="" variant="link" size="sm">
           </b-btn>
         </b-col>
@@ -171,7 +171,7 @@ export default {
       optionVoted: null,
       eventToVote: null,
       ethAmountToVote: null,
-      username: null
+      creatorUserName: ''
     }
   },
   methods: {
@@ -216,9 +216,11 @@ export default {
       })
     },
     getUsername () {
-      ServerHelper.getUsername(GuessHelper.address[0]).then((data) => {
+      this.creatorUserName = this.eventItem.creator.substring(0, 8) + '...'
+
+      ServerHelper.getUser(this.eventItem.creator).then((data) => {
         console.log(data.username)
-        this.username = data.username
+        this.creatorUserName = data.username
       })
     }
   },

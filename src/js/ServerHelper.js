@@ -3,9 +3,9 @@ import axios from 'axios'
 const ServerHelper = {
   url: 'https://li8ko64r87.execute-api.us-east-1.amazonaws.com/dev/',
 
-  setUsername: function (msgData, signedData) {
+  setUser: function (msgData, signedData) {
     return new Promise((resolve, reject) => {
-      axios.post(this.url + 'username', JSON.stringify({
+      axios.post(this.url + 'user', JSON.stringify({
         signedData: signedData,
         msgData: msgData
       })).then((response) => {
@@ -16,9 +16,9 @@ const ServerHelper = {
     })
   },
 
-  getUsername: function (address) {
+  getUser: function (address) {
     return new Promise((resolve, reject) => {
-      axios.get(this.url + 'username?address=' + address.toLowerCase()).then((response) => {
+      axios.get(this.url + 'user?address=' + address.toLowerCase()).then((response) => {
         resolve(response.data)
       }).catch(err => {
         reject(err)
