@@ -104,12 +104,14 @@
             <br>
             <span>Ending date and time: {{updateDate}}</span>
             <br>
-            <b-form-slider 
+            <b-form-slider
                      :v-model='hourValue'
                      :value='0'
                      :min='1'
-                     :max='120'
+                     :max='sliderMaxValue'
                      :step='1'
+              :ticks='sliderTicks'
+              :ticks-labels='sliderTicksLabels'
                      v-bind:rangeHighlights='highlights'
                      @change="changeSlider"
                      />
@@ -132,11 +134,14 @@ export default {
   data () {
     return {
       value: 0,
+      sliderMaxValue: 120,
+      sliderTicks: [],
+      sliderTicksLabels: [],
       highlights: [{ 'start': 1, 'end': 24, 'class': 'primary-slider' },
-        { 'start': 24, 'end': 47, 'class': 'secondary-slider' },
-        {'start': 47, 'end': 71, 'class': 'primary-slider'},
-        {'start': 71, 'end': 95, 'class': 'secondary-slider'},
-        {'start': 95, 'end': 120, 'class': 'primary-slider'}],
+                   { 'start': 24, 'end': 47, 'class': 'secondary-slider' },
+                   {'start': 47, 'end': 71, 'class': 'primary-slider'},
+                   {'start': 71, 'end': 95, 'class': 'secondary-slider'},
+                   {'start': 95, 'end': 120, 'class': 'primary-slider'}],
 
       topics: ['Crypto', 'Celebrities', 'Entertainment', 'Gaming', 'Humor', 'News', 'Politics', 'Sports', 'Technology', 'Random'],
       form: {
@@ -160,33 +165,34 @@ export default {
     }
   },
   methods: {
-    /*
-     signData () {
-      let msgParams = [
-        {
-          type: 'string',      // Any valid solidity type
-          name: 'username',     // Any string label you want
-          value: 'carlosgj94'  // The value to sign
-        },
-        {
-          type: 'address',
-          name: 'address',
-          value: GuessHelper.address[0]
-        }]
+    updateHighlights () {
+      let endDay = 24 - this.$moment().format('H')
+      this.highlights = []
+      this.sliderTicks = []
+      this.sliderTicksLabels = []
 
-      GuessHelper.signMessage(msgParams).then((signedMsg) => {
-        msgParams = JSON.stringify(msgParams)
-        console.log(msgParams)
-        ServerHelper.setUsername(msgParams, signedMsg).then((data) => {
-          console.log(data)
-        })
-      })
+      this.sliderTicks.push(0)
+      this.sliderTicksLabels.push('Today')
+      this.highlights.push({'start': 1, 'end': endDay, 'class': 'primary-slider'})
+      let previous = endDay
+      let actual = endDay + 24
+      let even = true
+      this.sliderTicks.push(endDay)
+      this.sliderTicksLabels.push('Tomorrow')
+      for (let i = 0; i < 5; i++) {
+        if (even) {
+          this.highlights.push({'start': previous, 'end': actual, 'class': 'secondary-slider'})
+        } else {
+          this.highlights.push({'start': previous, 'end': actual, 'class': 'primary-slider'})
+        }
+        even = !even
+        previous = actual
+        this.sliderTicks.push(actual)
+        this.sliderTicksLabels.push('In ' + (i + 2) + ' days')
+        actual += 24
+        this.sliderMaxValue = actual - 24
+      }
     },
-    retrieveData () {
-      ServerHelper.getUsername(GuessHelper.address[0]).then((data) => {
-        console.log(data)
-      })
-    }, */
     show (group, type = '') {
       var title = ''
       var text = ''
@@ -260,6 +266,7 @@ export default {
     var startTime = self.$moment().subtract(self.$moment().minute(), 'minutes')
     self.form.date = startTime.add(1, 'hours').format('MMMM D, YYYY [at] H[h]')
     self.updateDate = self.form.date
+    this.updateHighlights()
   },
   components: {
     VueTwitterCounter
@@ -269,45 +276,53 @@ export default {
 
 <style>
 .info-section{
-  margin-bottom: 3px;
+    margin-bottom: 3px;
 }
 .row{
-  margin-left: 2% !important;
-  margin-right: 2% !important;
+    margin-left: 2% !important;
+    margin-right: 2% !important;
 }
 .litle-margin{
-  margin: 0% 10%;
-  padding: 3% 0%;
-  max-width: 800px;
+    margin: 0% 10%;
+    padding: 3% 0%;
+    max-width: 800px;
 }
 .btn-primary.dropdown-toggle:focus {
-  box-shadow: 0 0 0 0.2rem #ff0d73 !important;
+    box-shadow: 0 0 0 0.2rem #ff0d73 !important;
 }
 .creation{
-  margin: 5px;
-  border-radius: 2px;
-  border-left: 0px !important;
+    margin: 5px;
+    border-radius: 2px;
+    border-left: 0px !important;
 }
 
 .d-inline-block {
-  display: inline !important;
+    display: inline !important;
 }
 .slider.slider-horizontal {
-  width: 100% !important;
+    width: 100% !important;
 }
 .slider {
-  width: 100% !important;
+    width: 100% !important;
 }
 .slider-tick-label {
 }
 
 .primary-slider {
-  background: purple;
+    background: purple;
 }
 .secondary-slider {
-  background: pink;
+    background: pink;
 }
 .slider-handle {
-  background: #EB3874;
+    background: #EB3874;
+}
+.slider.slider-horizontal .slider-tick-label-container .slider-tick-label {
+  color: gray;
+}
+@media only screen and (max-width: 768px) {
+.slider.slider-horizontal .slider-tick-label-container .slider-tick-label {
+ display: none;
+}
 }
 </style>
