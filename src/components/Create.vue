@@ -317,6 +317,9 @@ export default {
 .slider-handle {
     background: #EB3874;
 }
+.slider.slider-horizontal .slider-tick-label-container .slider-tick-label {
+  color: gray;
+}
 @media only screen and (max-width: 768px) {
 .slider.slider-horizontal .slider-tick-label-container .slider-tick-label {
  display: none;
