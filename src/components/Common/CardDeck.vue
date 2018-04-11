@@ -23,6 +23,8 @@
           Created at: <b>{{events[maxCol*n + j].startingDay}}</b>
           <br>
           Voting open until: <b>{{events[maxCol*n + j].finishingDay}}</b>
+          <br>
+          <small>Validation starts after: <b>{{events[maxCol*n +j].eventDuration}}</b></small>
           </p>
 
           <!--Number of people Progress Bar-->
@@ -121,6 +123,8 @@
         Created at: <b>{{events[arrayIndex].startingDay}}</b>
         <br>
         Voting open until: <b>{{events[arrayIndex].finishingDay}}</b>
+        <br>
+        <small>Validation starts after: <b>{{events[arrayIndex].eventDuration}}</b></small>
         </p>
         <br>
 

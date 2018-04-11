@@ -612,19 +612,23 @@ contract Guess is DateTime{
    * @param _address address the person from whom you want the events
    * @return bytes32 state of the event
    */
-   /*
-  function getGuessState (uint256 _index) public view returns (bytes32) {
+  function getEventItemState (uint256 _index) public view returns (bytes32) {
     bytes32 _state;
+    uint256 _votes = guesses[_index].option1Votes + guesses[_index].option2Votes;
+    uint256 _validations = guesses[_index].option1Validation + guesses[_index].option2Validation;
+    uint256 _half = ((((_votes * 10) / 2) - ((_votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
 
     if (DateTime.dateDue(guesses[_index].finalDate) == false)
       _state = "voting";
     else if (DateTime.dateDue(guesses[_index].finalDate) && DateTime.dateDue(guesses[_index].validationDate) == false)
       _state = "waiting";
-    else if (DateTime.dateDue(guesses[_index].validationDate) && )
+    else if(DateTime.dateDue(guesses[_index].validationDate) == true && _validations < _half)
+      _state = "validating";
+    else if(DateTime.dateDue(guesses[_index].validationDate) == true && _validations >= _half)
+      _state = "passed";
 
-    
+    return _state;
   }
-  */
 
   function percent(uint numerator, uint denominator, uint precision) private pure returns(uint quotient) {
 

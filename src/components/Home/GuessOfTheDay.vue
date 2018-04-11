@@ -74,6 +74,7 @@ export default {
         votes: 0,
         startingDay: '10-10-10',
         finishingDay: '10-10-10',
+        eventDuration: '',
         option1: 'Loading...',
         option2: 'Loading...',
         option1votes: '0',
@@ -131,6 +132,20 @@ export default {
         self.guess.topic = guessDay[2]
         self.guess.startingDay = this.$moment(guessDay[4]).format('MMMM D, YYYY [at] H[h]')
         self.guess.finishingDay = this.$moment(guessDay[5]).format('MMMM D, YYYY [at] H[h]')
+
+        let _eventDuration = this.$moment(guessDay[6]).unix() - this.$moment(guessDay[5]).unix()
+        self.guess.eventDuration = this.$moment.duration(_eventDuration, 'seconds').humanize()
+        console.log('EventDuration:', self.guess.eventDuration)
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    getGuessState () {
+      // let self = this
+
+      console.log('HOla')
+      GuessHelper.getEventItemState(this.guessIndex).then((eventItemState) => {
+        console.log(eventItemState)
       }).catch(err => {
         console.log(err)
       })
@@ -146,6 +161,7 @@ export default {
           self.getOptions()
           self.getOptionsProfits()
           self.generateEventUrl()
+          self.getGuessState()
         }
       }).catch(err => {
         return err
