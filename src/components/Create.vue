@@ -104,11 +104,11 @@
             <br>
             <span>Ending date and time: {{updateDate}}</span>
             <br>
-            <b-form-slider 
+            <b-form-slider
                      :v-model='hourValue'
                      :value='0'
                      :min='1'
-                     :max='120'
+                     :max='sliderMaxValue'
                      :step='1'
                      v-bind:rangeHighlights='highlights'
                      @change="changeSlider"
@@ -132,11 +132,12 @@ export default {
   data () {
     return {
       value: 0,
+      sliderMaxValue: 120,
       highlights: [{ 'start': 1, 'end': 24, 'class': 'primary-slider' },
-        { 'start': 24, 'end': 47, 'class': 'secondary-slider' },
-        {'start': 47, 'end': 71, 'class': 'primary-slider'},
-        {'start': 71, 'end': 95, 'class': 'secondary-slider'},
-        {'start': 95, 'end': 120, 'class': 'primary-slider'}],
+                   { 'start': 24, 'end': 47, 'class': 'secondary-slider' },
+                   {'start': 47, 'end': 71, 'class': 'primary-slider'},
+                   {'start': 71, 'end': 95, 'class': 'secondary-slider'},
+                   {'start': 95, 'end': 120, 'class': 'primary-slider'}],
 
       topics: ['Crypto', 'Celebrities', 'Entertainment', 'Gaming', 'Humor', 'News', 'Politics', 'Sports', 'Technology', 'Random'],
       form: {
@@ -160,33 +161,25 @@ export default {
     }
   },
   methods: {
-    /*
-     signData () {
-      let msgParams = [
-        {
-          type: 'string',      // Any valid solidity type
-          name: 'username',     // Any string label you want
-          value: 'carlosgj94'  // The value to sign
-        },
-        {
-          type: 'address',
-          name: 'address',
-          value: GuessHelper.address[0]
-        }]
-
-      GuessHelper.signMessage(msgParams).then((signedMsg) => {
-        msgParams = JSON.stringify(msgParams)
-        console.log(msgParams)
-        ServerHelper.setUsername(msgParams, signedMsg).then((data) => {
-          console.log(data)
-        })
-      })
+    updateHighlights () {
+      let endDay = 24 - this.$moment().format('H')
+      this.highlights = []
+      this.highlights.push({'start': 1, 'end': endDay, 'class': 'primary-slider'})
+      let previous = endDay
+      let actual = endDay + 24
+      let even = true
+      for (let i = 0; i < 5; i++) {
+        if (even) {
+          this.highlights.push({'start': previous, 'end': actual, 'class': 'secondary-slider'})
+        } else {
+          this.highlights.push({'start': previous, 'end': actual, 'class': 'primary-slider'})
+        }
+        even = !even
+        previous = actual
+        actual += 24
+        this.sliderMaxValue = actual - 24
+      }
     },
-    retrieveData () {
-      ServerHelper.getUsername(GuessHelper.address[0]).then((data) => {
-        console.log(data)
-      })
-    }, */
     show (group, type = '') {
       var title = ''
       var text = ''
@@ -260,6 +253,7 @@ export default {
     var startTime = self.$moment().subtract(self.$moment().minute(), 'minutes')
     self.form.date = startTime.add(1, 'hours').format('MMMM D, YYYY [at] H[h]')
     self.updateDate = self.form.date
+    this.updateHighlights()
   },
   components: {
     VueTwitterCounter
