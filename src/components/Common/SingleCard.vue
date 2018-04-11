@@ -66,12 +66,14 @@
         <!--Share button and ID-->
         <b-col v-if="shareable" align-self="end" style="color: #ff0d78">
           <b-row align-v="end" align-h="end">
-          #{{eventItem.id}}
-          <b-btn id="idCopy" variant="link" size="sm"
-                                            @click="show('copyAlert')"
-                                            v-clipboard:copy="eventItem.url">
-            <img width="20px" src="../../assets/shareicon.png"/>
-          </b-btn>
+            #{{eventItem.id}}
+            <b-btn id="idCopy"
+                   variant="link"
+                   size="sm"
+                   @click="show('copyAlert')"
+                   v-clipboard:copy="eventItem.url">
+              <img width="20px" src="../../assets/shareicon.png"/>
+            </b-btn>
           </b-row>
         </b-col>
       </b-row>

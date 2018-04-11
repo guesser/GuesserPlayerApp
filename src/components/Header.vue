@@ -91,16 +91,16 @@ export default {
 
 <style lang="scss">
 .navbar-brand{
-    font-size: 28px;
+  font-size: 28px;
 }
 .bg-transparent{
-    background-color: rgba(white, 0.5) !important;
+  background-color: rgba(white, 0.5) !important;
 }
 .fixed {
-    position: fixed !important;
-    width: 100%;
+  position: fixed !important;
+  width: 100%;
 }
 .signup-header a {
-    color: #ff0d73 !important;
+  color: #ff0d73 !important;
 }
 </style>
