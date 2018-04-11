@@ -56,21 +56,23 @@
       </div>
 
       <!--Address-->
-      <b-row>
-        <b-col v-if="eventItem.creator" align-h="start" align-v="end">
+      <b-row align-v="end" align-h="between">
+        <b-col v-if="creatorUserName" align-self="end" align-h="start" style="text-align: left">
           By: <span style="color: #ff0d78;">@{{ creatorUserName }}</span>
           <b-btn id="" variant="link" size="sm">
           </b-btn>
         </b-col>
 
         <!--Share button and ID-->
-        <b-col cols="6" v-if="shareable" align-h="end" align-v="end" style="color: #ff0d78">
+        <b-col v-if="shareable" align-self="end" style="color: #ff0d78">
+          <b-row align-v="end" align-h="end">
           #{{eventItem.id}}
           <b-btn id="idCopy" variant="link" size="sm"
                                             @click="show('copyAlert')"
                                             v-clipboard:copy="eventItem.url">
             <img width="20px" src="../../assets/shareicon.png"/>
           </b-btn>
+          </b-row>
         </b-col>
       </b-row>
 

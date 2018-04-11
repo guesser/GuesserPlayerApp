@@ -119,6 +119,7 @@ export default {
         self.guess.title = guessFound[0]
         self.guess.description = guessFound[1]
         self.guess.topic = guessFound[2]
+        self.guess.creator = guessFound[3]
         self.guess.startingDay = this.$moment(guessFound[4]).format('MMMM D, YYYY [at] H[h]')
         self.guess.finishingDay = this.$moment(guessFound[5]).format('MMMM D, YYYY [at] H[h]')
 
