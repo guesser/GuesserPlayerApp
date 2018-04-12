@@ -19,13 +19,13 @@
       <Loading/>
     </div>
     <div v-if="guessExists" class='inside' style="">
-      <SingleCard :eventItem="guess"/>
+      <SingleCard ref="singleCard" :eventItem="guess"/>
     </div>
 
     <!--If event doesn't exist-->
     <div v-else>
       <b-row align-h="center">
-        <img src="static/beard-hold.png" style="width: 30%; height: 30%;" alt=":'("/>         
+        <img src="static/beard-hold.png" style="width: 30%; height: 30%;" alt=":'("/>
       </b-row>
       <b-row align-h="center">
         <h3>Looks like this event doesn't exist</h3>
@@ -126,6 +126,7 @@ export default {
         let _eventDuration = this.$moment(guessFound[6]).unix() - this.$moment(guessFound[5]).unix()
         self.guess.eventDuration = this.$moment.duration(_eventDuration, 'seconds').humanize()
         self.guessExists = true
+        self.$refs.singleCard.setUsername(guessFound[3])
       }).catch(err => {
         return err
       })

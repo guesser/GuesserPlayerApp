@@ -175,7 +175,8 @@ export default {
       optionVoted: null,
       eventToVote: null,
       ethAmountToVote: null,
-      creatorUserName: ''
+      creatorUserName: '',
+      currentUsername: null
     }
   },
   methods: {
@@ -219,12 +220,21 @@ export default {
         this.showVoteAlert('voteAlert', 'error')
       })
     },
-    getUsername () {
-      this.creatorUserName = this.eventItem.creator.substring(0, 8) + '...'
-
-      ServerHelper.getUser(this.eventItem.creator).then((data) => {
-        console.log(data.username)
+    getUsername (address) {
+      return new Promise((resolve, reject) => {
+        ServerHelper.getUser(address).then((data) => {
+          resolve(data.username)
+        }).catch((err) => {
+          reject(err)
+        })
+      })
+    },
+    setUsername (address) {
+      ServerHelper.getUser(address).then((data) => {
         this.creatorUserName = data.username
+      }).catch((err) => {
+        this.creatorUserName = address.substring(0, 8) + '...'
+        return (err)
       })
     }
   },
@@ -232,7 +242,17 @@ export default {
     let self = this
 
     GuessHelper.init().then(() => {
-      self.getUsername()
+      // Redo this, this is not asyncronous
+      self.getUsername(this.eventItem.creator).then((username) => {
+        this.creatorUserName = username
+      }).catch((err) => {
+        this.creatorUserName = this.eventItem.creator.substring(0, 8) + '...'
+        return err
+      })
+      self.getUsername(GuessHelper.address[0]).catch((err) => {
+        self.buttonsAllow = false
+        return err
+      })
     })
   }
 }
