@@ -33,6 +33,9 @@
         <b-tab title="Created events" :title-link-class="linkClass(3)">
           <CreatedGuesses/>
         </b-tab>
+        <b-tab title="Charts" :title-link-class="linkClass(4)">
+          <Charts/>
+        </b-tab>
       </b-tabs>
     </b-card>
   </div>
@@ -43,6 +46,7 @@ import CurrentGuesses from './MyGuesses/CurrentGuesses.vue'
 import ValidatingGuesses from './MyGuesses/ValidatingGuesses.vue'
 import PastGuesses from './MyGuesses/PastGuesses.vue'
 import CreatedGuesses from './MyGuesses/CreatedGuesses.vue'
+import Charts from './MyGuesses/Charts.vue'
 
 export default {
   name: 'MyGuesses',
@@ -55,7 +59,8 @@ export default {
     CurrentGuesses,
     ValidatingGuesses,
     PastGuesses,
-    CreatedGuesses
+    CreatedGuesses,
+    Charts
   },
   methods: {
     linkClass (idx) {

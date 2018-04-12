@@ -14,6 +14,7 @@ import moment from 'moment'
 import Notifications from 'vue-notification'
 import bFormSlider from 'vue-bootstrap-slider'
 import 'bootstrap-slider/dist/css/bootstrap-slider.css'
+import VueCharts from 'vue-chartjs'
 
 // Server Libraries
 import axios from 'axios'
@@ -28,6 +29,7 @@ Vue.use(VueClipboard)
 Vue.use(Notifications)
 Vue.use(bFormSlider)
 // Vue.use(VueAxios, axios)
+Vue.use(VueCharts)
 
 Vue.config.productionTip = false
 
