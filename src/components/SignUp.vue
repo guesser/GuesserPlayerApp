@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-row align-h="center" align-v="center">
+    <b-row align-h="center" align-v="center" v-if="web3State == 'connected'">
       <div class="signup" align-self="center">
         <b-row class="justify-content-md-center">
           <b-col cols="12" md="auto">
@@ -74,12 +74,49 @@
 
       </div>
     </b-row>
-  </div>
+    <!-- User disconnected -->
+      <div v-else-if="web3State == 'locked'">
+
+<b-row style="margin-top:5%;">
+  <b-col offset-md="1" md="auto">
+      <h1>Your MetaMask is locked</h1>
+      <br>
+      <h4 style='color:gray'>Simply open MetaMask and follow the instructions to unlock it.</h4>
+  </b-col>
+  <b-col>
+        <b-img src="http://www.emoji.co.uk/files/mozilla-emojis/objects-mozilla/11971-lock.png" fluid alt="Responsive image" />
+  </b-col>
+    </b-row>
+      </div>
+
+    <!-- User disconnected -->
+    <div v-else-if="web3State == 'disconnected'">
+    <b-row align-h="center" align-v="center">
+      <h1><i>"Where are you?"</i></h1>
+      <div>
+        <b-img src="https://i.imgur.com/j51uHm1.gif" fluid alt="Responsive image" />
+      </div>
+    </b-row>
+    <b-row align-h="center" align-v="center">
+      <b-alert show variant="primary">
+        <h4 class="alert-heading">You need to install Metamask</h4>
+        <p>
+          You’ll need a safe place to store all of your wins! The perfect place is in a secure wallet like MetaMask. This will also act as your login to the game (no extra password needed).
+        </p>
+        <hr>
+        <b-button :size="lg" variant="primary">
+          INSTALL METAMASK
+        </b-button>
+      </b-alert>
+    </b-row>
+    </div>
+</div>
 </template>
 
 <script>
 import ServerHelper from '@/js/ServerHelper'
 import GuessHelper from '@/js/Guess'
+import NetworkHelper from '@/js/NetworkHelper'
 
 export default {
   name: 'SignUp',
@@ -87,7 +124,8 @@ export default {
     return {
       address: '',
       username: '',
-      usermail: ''
+      usermail: '',
+      web3State: null
     }
   },
   methods: {
@@ -134,9 +172,22 @@ export default {
   beforeCreate: function () {
     let self = this
 
+    NetworkHelper.init().then(() => {
+      if (NetworkHelper.state === 'disconnected') {
+        self.web3State = 'disconnected'
+      } else if (NetworkHelper.state === 'locked') {
+        self.web3State = 'locked'
+      } else {
+        self.web3State = 'connected'
+      }
+      console.log(self.web3State)
+    })
+
     GuessHelper.init().then(() => {
       self.address = GuessHelper.address[0]
       self.checkIfUserExists()
+    }).catch((err) => {
+      return err
     })
   }
 }
