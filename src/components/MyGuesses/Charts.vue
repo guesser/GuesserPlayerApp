@@ -12,7 +12,7 @@
         </div>
       </b-col>
     </b-row>
-    <b-row>
+    <b-row style="padding-top: 4%;">
       <b-col>
         <div class="small">
           <doughnut-chart :chart-data="dataevents"></doughnut-chart>
@@ -44,8 +44,21 @@ export default {
         datasets: [
           {
             label: 'Profits',
-            backgroundColor: '#f87979',
+            borderColor: '#8d141a',
+            pointBackgroundColor: '#8d141a',
+            borderWidth: 1,
+            pointBorderColor: '#8d141a',
+            backgroundColor: 'rgba(25,25,25,.27)',
             data: [40, 60, 80, 20, 30, 90, 70]
+          },
+          {
+            label: 'Losses',
+            borderColor: '#249EBF',
+            pointBackgroundColor: '#249EBF',
+            borderWidth: 1,
+            pointBorderColor: '#249EBF',
+            backgroundColor: 'transparent',
+            data: [20, 10, 20, 5, 50, 35, 25]
           }
         ]
       },
@@ -54,7 +67,18 @@ export default {
         datasets: [
           {
             label: 'Topics',
-            backgroundColor: '#f87979',
+            backgroundColor: [
+              '#f8e98d',
+              '#e6b5ee',
+              '#bae1ff',
+              '#ffce54',
+              '#cf9',
+              '#9db5c4',
+              '#dcebef',
+              '#fff',
+              '#bcbcbc',
+              '#d9414c'
+            ],
             data: [20, 10, 1, 5, 7, 9, 11, 8, 4, 11]
           }
         ]
@@ -64,17 +88,16 @@ export default {
         datasets: [
           {
             label: 'Topics',
-            backgroundColor: '#f87979',
-            data: [20, 10, 50]
+            backgroundColor: [
+              '#ff0d73',
+              '#f87979',
+              '#d52c38'
+            ],
+            data: [50, 10, 30]
           }
         ]
       }
     }
-  },
-  mounted () {
-    this.LineChart.renderChart(this.dataprofits)
-    this.PieChart.renderChart(this.datatopics)
-    this.DoughnutChart.renderChart(this.dataevents)
   }
 }
 </script>
@@ -82,6 +105,7 @@ export default {
 <style>
 .small {
   max-width: 300px;
+  border-radius: 20px;
 }
 </style>
 

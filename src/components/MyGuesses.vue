@@ -33,12 +33,14 @@
         <b-tab title="Created events" :title-link-class="linkClass(3)">
           <CreatedGuesses/>
         </b-tab>
-        <b-tab title="Charts" :title-link-class="linkClass(4)">
-          <Charts/>
-        </b-tab>
       </b-tabs>
     </b-card>
+  
+    <div class="charts">
+      <Charts/>
+    </div>
   </div>
+
 </template>
 
 <script>
@@ -78,5 +80,8 @@ export default {
 .margin{
   margin: 0% 10%;
   padding: 2% 0%;
+}
+.charts{
+  padding: 3% 7%;
 }
 </style>
