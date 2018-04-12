@@ -82,6 +82,7 @@ export default {
         startingDay: '10-10-10',
         finishingDay: '10-10-10',
         eventDuration: '',
+        eventState: '',
         option1: 'Loading...',
         option2: 'Loading...',
         option1votes: '0',
@@ -103,6 +104,7 @@ export default {
       this.contentLoaded = false
       self.guess.id = self.guessIndex
       self.getGuess(self.guessIndex)
+      self.getEventState(self.guessIndex)
       self.getOptions(self.guessIndex)
       self.getOptionsProfits(self.guessIndex)
     },
@@ -129,6 +131,16 @@ export default {
         self.$refs.singleCard.setUsername(guessFound[3])
       }).catch(err => {
         return err
+      })
+    },
+    getEventState (_id) {
+      let self = this
+
+      GuessHelper.getEventItemState(_id).then((eventItemState) => {
+        console.log('EvenOfTheDay: ', eventItemState)
+        self.guess.eventState = eventItemState
+      }).catch(err => {
+        console.log(err)
       })
     },
     getOptions (_id) {

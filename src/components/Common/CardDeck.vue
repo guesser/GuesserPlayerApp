@@ -24,37 +24,44 @@
           <br>
           Voting open until: <b>{{events[maxCol*n + j].finishingDay}}</b>
           <br>
-          <small>Validation starts after: <b>{{events[maxCol*n +j].eventDuration}}</b></small>
+          <span v-if="events[maxCol*n + j].eventState == 'voting' || events[maxCol*n +j].eventState == 'waiting'">
+          <small>Validation starts after: <b>{{events[maxCol*n + j].eventDuration}}</b></small>
+          </span>
           </p>
 
-          <!--Number of people Progress Bar-->
-          <div v-if="peopleBar">
-            <br>
-            <span>Votes for each outcome: </span>
-            <b-progress class="mt-1" :max="10*(events[maxCol*n + j].votes/10)" show-value striped>
-              <b-progress-bar :value="10*(events[maxCol*n + j].option1votes/10)" variant="pink">
-                {{events[maxCol*n + j].option1}} - {{ events[maxCol*n + j].option1votes }}
-              </b-progress-bar>
-              <b-progress-bar :value="10*(events[maxCol*n + j].option2votes/10)" variant="magenta">
-                {{events[maxCol*n + j].option2}} - {{ events[maxCol*n + j].option2votes }}
-              </b-progress-bar>
-            </b-progress>
-            <small>Total: {{events[maxCol*n + j].votes}} people</small>
-          </div>
+          <div v-if="events[maxCol*n + j].eventState != 'validating'">
+            <!--Number of people Progress Bar-->
+            <div v-if="peopleBar">
+              <br>
+              <span>Votes for each outcome: </span>
+              <b-progress class="mt-1" :max="10*(events[maxCol*n + j].votes/10)" show-value striped>
+                <b-progress-bar :value="10*(events[maxCol*n + j].option1votes/10)" variant="pink">
+                  {{events[maxCol*n + j].option1}} - {{ events[maxCol*n + j].option1votes }}
+                </b-progress-bar>
+                <b-progress-bar :value="10*(events[maxCol*n + j].option2votes/10)" variant="magenta">
+                  {{events[maxCol*n + j].option2}} - {{ events[maxCol*n + j].option2votes }}
+                </b-progress-bar>
+              </b-progress>
+              <small>Total: {{events[maxCol*n + j].votes}} people</small>
+            </div>
 
-          <!--Amount of eth in each option-->
-          <div v-if="ethBar">
-            <br>
-            <span>Eth staked on each outcome: </span>
-            <b-progress class="mt-1" :max="10*(events[maxCol*n + j].amountEth/10)" show-value striped>
-              <b-progress-bar :value="10*(events[maxCol*n + j].option1AmountEth/10)" variant="pink">
-                {{events[maxCol*n + j].option1}} - {{ events[maxCol*n + j].option1AmountEth }}
-              </b-progress-bar>
-              <b-progress-bar :value="10*(events[maxCol*n + j].option2AmountEth/10)" variant="magenta">
-                {{events[maxCol*n + j].option2}} - {{ events[maxCol*n + j].option2AmountEth }}
-              </b-progress-bar>
-            </b-progress>
-            <small>Total: {{events[maxCol*n + j].amountEth}} ether</small>
+            <!--Amount of eth in each option-->
+            <div v-if="ethBar">
+              <br>
+              <span>Eth staked on each outcome: </span>
+              <b-progress class="mt-1" :max="10*(events[maxCol*n + j].amountEth/10)" show-value striped>
+                <b-progress-bar :value="10*(events[maxCol*n + j].option1AmountEth/10)" variant="pink">
+                  {{events[maxCol*n + j].option1}} - {{ events[maxCol*n + j].option1AmountEth }}
+                </b-progress-bar>
+                <b-progress-bar :value="10*(events[maxCol*n + j].option2AmountEth/10)" variant="magenta">
+                  {{events[maxCol*n + j].option2}} - {{ events[maxCol*n + j].option2AmountEth }}
+                </b-progress-bar>
+              </b-progress>
+              <small>Total: {{events[maxCol*n + j].amountEth}} ether</small>
+            </div>
+          </div>
+          <div v-else>
+            VALIDATING
           </div>
 
           <!-- Share button and ID -->
@@ -68,7 +75,7 @@
           </b-row>
 
           <!-- Buttons -->
-          <div v-if="buttonsAllow">
+          <div v-if="buttonsAllow && events[maxCol*n + j].eventState != 'validating'">
             <div v-if="mode === 1">
               <b-button style="margin: 2px 20px"
                         @click="showPaymentModal(events[maxCol*n + j].id, maxCol*n +j)"

@@ -50,6 +50,7 @@ export default {
                 'votes': 0,
                 'startingDay': this.$moment(guess[4]).format('MMMM D, YYYY [at] H[h]'),
                 'finishingDay': this.$moment(guess[5]).format('MMMM D, YYYY [at] H[h]'),
+                'eventState': '',
                 'option1': 'Loading...',
                 'option2': 'Loading...',
                 'option1Validations': 0,
@@ -59,12 +60,24 @@ export default {
           }).then(() => {
             this.totalGuesses += 1
             this.printGuessesOptions(_index, this.totalGuesses - 1)
+            this.printEventState(_index, this.totalGuesses - 1)
           }).catch(err => {
             console.log(err)
           })
         }
       }
     },
+
+    printEventState (_index, _localIndex) {
+      let self = this
+
+      GuessHelper.getEventItemState(_index).then((eventItemState) => {
+        self.guesses[_localIndex].eventState = eventItemState
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+
     printGuessesOptions (_index, _localIndex) {
       let self = this
       GuessHelper.getGuessOptions(_index).then((guess) => {
