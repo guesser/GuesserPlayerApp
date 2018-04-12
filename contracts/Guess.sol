@@ -308,17 +308,18 @@ contract Guess is DateTime{
 
     if (guesses[_guess].votersOption[msg.sender][0] == uint8(0x0)) {
       guesses[_guess].votersOption[msg.sender][0] = _option;
+      guesses[_guess].voters.push(msg.sender); // New voter
     } else {
       guesses[_guess].votersOption[msg.sender][0] = 3;
     }
-    guesses[_guess].voters.push(msg.sender);
+    // Option profits by address
+    guesses[_guess].votersOption[msg.sender][_option] += msg.value;
+
 
     guessesByAddress[msg.sender].push(_guess);
 
     if (_option == 1) {
       guesses[_guess].option1Votes++;
-      // The second value (1) stores the amount in the first option
-      guesses[_guess].votersOption[msg.sender][1] = msg.value;
       GuessVoted(_guess,
                  _option,
                  guesses[_guess].title,
@@ -327,8 +328,6 @@ contract Guess is DateTime{
                  msg.sender);
     } else {
       guesses[_guess].option2Votes++;
-      // The third value (2) stores the amount in the second option
-      guesses[_guess].votersOption[msg.sender][2] = msg.value;
       GuessVoted(_guess,
                  _option,
                  guesses[_guess].title,
@@ -400,6 +399,15 @@ contract Guess is DateTime{
       _winner = 2; // The winner is the second one
     }
 
+    // If there is only one voter (even in both sides)
+    if (guesses[_guess].voters.length == 1) {
+      address _onlyVoter = guesses[_guess].voters[0];
+      uint256 _profits = guesses[_guess].votersOption[_onlyVoter][1];
+      _profits += guesses[_guess].votersOption[_onlyVoter][2];
+
+      guesses[_guess].voters[_voterIndex].transfer(_profits); // Error
+      return;
+    }
     // If there is only one side of the votes, they are instantly the winners
     if ( guesses[_guess].option1Votes > 0 && guesses[_guess].option2Votes == 0 ||
          guesses[_guess].option2Votes > 0 && guesses[_guess].option1Votes == 0) {
@@ -485,11 +493,14 @@ contract Guess is DateTime{
     }
 
     uint256 _profits = 0;
+    address _address;
     for(uint256 _voterIndex = 0; _voterIndex < guesses[_guess].voters.length; _voterIndex++) {
       // Option has to be the correct or 3, which means the user voted both options
       if(guesses[_guess].votersOption[guesses[_guess].voters[_voterIndex]][0] == _option ||
-         guesses[_guess].votersOption[guesses[_guess].voters[_voterIndex]][0] == 3)
-        _profits += guesses[_guess].votersOption[guesses[_guess].voters[_voterIndex]][1];
+         guesses[_guess].votersOption[guesses[_guess].voters[_voterIndex]][0] == 3) {
+        _address = guesses[_guess].voters[_voterIndex];
+        _profits += guesses[_guess].votersOption[_address][_option];
+      }
     }
 
     return _profits;
