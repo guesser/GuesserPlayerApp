@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-row align-h="center" align-v="center" style="margin-top: 10%">
+    <b-row align-h="center" align-v="center">
       <div class="signup" align-self="center">
         <b-row class="justify-content-md-center">
           <b-col cols="12" md="auto">

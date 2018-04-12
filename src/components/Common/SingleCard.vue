@@ -223,11 +223,18 @@ export default {
     getUsername (address) {
       return new Promise((resolve, reject) => {
         ServerHelper.getUser(address).then((data) => {
-          console.log(data.username)
           resolve(data.username)
         }).catch((err) => {
           reject(err)
         })
+      })
+    },
+    setUsername (address) {
+      ServerHelper.getUser(address).then((data) => {
+        this.creatorUserName = data.username
+      }).catch((err) => {
+        this.creatorUserName = address.substring(0, 8) + '...'
+        return (err)
       })
     }
   },
