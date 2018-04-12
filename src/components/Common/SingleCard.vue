@@ -22,9 +22,15 @@
       <br>
       Open until: <b>{{eventItem.finishingDay}}</b>
       <br>
+      <span v-if="eventItem.eventState == 'voting' || eventItem.eventState == 'waiting'">
       <small>Validation starts after: <b>{{eventItem.eventDuration}}</b></small>
+      </span>
+      <span v-if="eventItem.eventState == 'passed'">
+        Passed event
+      </span>
       </p>
 
+      <div v-if="eventItem.eventState != 'validating'">
       <!--Number of people Progress Bar-->
       <div v-if="peopleBar">
         <br>
@@ -54,6 +60,12 @@
         </b-progress>
         <small>Total: {{eventItem.amountEth}} ether</small>
       </div>
+      </div>
+
+      <!--If event is beeing validating-->
+      <div v-else>
+        VALIDATING
+      </div>
 
       <!--Address-->
       <b-row align-v="end" align-h="between">
@@ -79,7 +91,7 @@
       </b-row>
 
       <!--Buttons-->
-      <div v-if="buttonsAllow">
+      <div v-if="buttonsAllow && eventItem.eventState != 'validating' && eventItem.eventState != 'passed'">
         <div v-if="mode === 1">
           <b-button style="margin: 2px 20px"
                     @click="showPaymentModal(1)"

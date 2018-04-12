@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-row align-h="center" align-v="center" v-if="web3State == 'connected'">
+    <b-row align-h="center" align-v="center" style="margin: 4% 0 4% 0" v-if="web3State == 'connected'">
       <div class="signup" align-self="center">
         <b-row class="justify-content-md-center">
           <b-col cols="12" md="auto">

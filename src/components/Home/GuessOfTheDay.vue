@@ -75,6 +75,7 @@ export default {
         startingDay: '10-10-10',
         finishingDay: '10-10-10',
         eventDuration: '',
+        eventState: '',
         option1: 'Loading...',
         option2: 'Loading...',
         option1votes: '0',
@@ -141,12 +142,12 @@ export default {
         console.log(err)
       })
     },
-    getGuessState () {
-      // let self = this
+    getEventState () {
+      let self = this
 
-      console.log('HOla')
       GuessHelper.getEventItemState(this.guessIndex).then((eventItemState) => {
-        console.log(eventItemState)
+        self.guess.eventState = eventItemState
+        console.log('EvenOfTheDay:', self.guess.eventState)
       }).catch(err => {
         console.log(err)
       })
@@ -162,7 +163,7 @@ export default {
           self.getOptions()
           self.getOptionsProfits()
           self.generateEventUrl()
-          self.getGuessState()
+          self.getEventState()
         }
       }).catch(err => {
         return err
