@@ -13,7 +13,8 @@
       <!--Title-->
       <b-form-group id="titleGroup"
                     label="Title:"
-                    label-for="titleInput">
+                    label-for="titleInput"
+                    style="margin-bottom: 0;">
         <b-form-input id="titleInput"
                       type="text"
                       maxlength="31"
@@ -21,6 +22,15 @@
                       v-model="form.title"
                       required>
         </b-form-input>
+        <b-row style="padding-top: 3px" align-h="end">
+          <vue-twitter-counter :current-length="31 - remchar2"
+                                         safe="#ff66ff"
+                                         :danger-at='31'
+                                         :warnLength='5'
+                                         animate
+                                         round>
+          </vue-twitter-counter>
+        </b-row>
       </b-form-group>
 
       <!--Description-->
@@ -34,7 +44,7 @@
                          v-model="form.description"
                          required>
         </b-form-textarea>
-        <b-row style="padding-top: 10px" align-h="center">
+        <b-row style="padding-top: 3px" align-h="end">
           <vue-twitter-counter :current-length="140 - remchar"
                                          safe="#ff66ff"
                                          :danger-at='140'
@@ -42,7 +52,6 @@
                                          round>
           </vue-twitter-counter>
         </b-row>
-        <!--TODO: Update when change input-->
         <!--<span> {{ remchar }} characters remaining</span>-->
       </b-form-group>
 
@@ -107,7 +116,7 @@
             <b-form-slider
                      :v-model='hourValue'
                      :value='0'
-                     :min='1'
+                     :min='0'
                      :max='sliderMaxValue'
                      :step='1'
               :ticks='sliderTicks'
@@ -137,11 +146,11 @@ export default {
       sliderMaxValue: 120,
       sliderTicks: [],
       sliderTicksLabels: [],
-      highlights: [{ 'start': 1, 'end': 24, 'class': 'primary-slider' },
-                   { 'start': 24, 'end': 47, 'class': 'secondary-slider' },
-                   {'start': 47, 'end': 71, 'class': 'primary-slider'},
-                   {'start': 71, 'end': 95, 'class': 'secondary-slider'},
-                   {'start': 95, 'end': 120, 'class': 'primary-slider'}],
+      highlights: [{ 'start': 0, 'end': 24, 'class': 'color-slider' },
+                   { 'start': 24, 'end': 47, 'class': 'color1-slider' },
+                   {'start': 47, 'end': 71, 'class': 'color2-slider'},
+                   {'start': 71, 'end': 95, 'class': 'color3-slider'},
+                   {'start': 95, 'end': 120, 'class': 'color4-slider'}],
 
       topics: ['Crypto', 'Celebrities', 'Entertainment', 'Gaming', 'Humor', 'News', 'Politics', 'Sports', 'Technology', 'Random'],
       form: {
@@ -153,7 +162,7 @@ export default {
         option1: '',
         option2: ''
       },
-      hourValue: 1,
+      hourValue: 0,
       updateDate: '',
       windowWidth: window.innerWidth,
       slider: {
@@ -166,26 +175,22 @@ export default {
   },
   methods: {
     updateHighlights () {
-      let endDay = 24 - this.$moment().format('H')
+      let endDay = 23 - this.$moment().format('H')
       this.highlights = []
       this.sliderTicks = []
       this.sliderTicksLabels = []
+      var color = 'color-slider'
 
       this.sliderTicks.push(0)
       this.sliderTicksLabels.push('Today')
-      this.highlights.push({'start': 1, 'end': endDay, 'class': 'primary-slider'})
+      this.highlights.push({'start': 0, 'end': endDay, 'class': color})
       let previous = endDay
       let actual = endDay + 24
-      let even = true
       this.sliderTicks.push(endDay)
       this.sliderTicksLabels.push('Tomorrow')
       for (let i = 0; i < 5; i++) {
-        if (even) {
-          this.highlights.push({'start': previous, 'end': actual, 'class': 'secondary-slider'})
-        } else {
-          this.highlights.push({'start': previous, 'end': actual, 'class': 'primary-slider'})
-        }
-        even = !even
+        color = 'color' + (i + 1) + '-slider'
+        this.highlights.push({'start': previous, 'end': actual, 'class': color})
         previous = actual
         this.sliderTicks.push(actual)
         this.sliderTicksLabels.push('In ' + (i + 2) + ' days')
@@ -214,7 +219,7 @@ export default {
       evt.preventDefault()
       let self = this
 
-      let finalDate = self.$moment().subtract(self.$moment().minute(), 'minutes').add(self.hourValue, 'hours')
+      let finalDate = self.$moment().subtract(self.$moment().minute(), 'minutes').add(self.hourValue + 1, 'hours')
       var validationDate = self.$moment(finalDate).add(self.form.durationTime, 'hours')
       console.log(finalDate.format('[Final:] MMMM D, YYYY [at] H[h]'))
       console.log(validationDate.format('[Validation:] MMMM D, YYYY [at] H[h]'))
@@ -242,7 +247,7 @@ export default {
       let self = this
 
       self.hourValue = value.newValue // This is necesary becouse the v-model doesn't work
-      var startTime = self.$moment().subtract(self.$moment().minute(), 'minutes')
+      var startTime = self.$moment().subtract(self.$moment().minute(), 'minutes').add(1, 'hours')
       self.form.date = startTime.add(self.hourValue, 'hours').format('MMMM D, YYYY [at] H[h]')
       self.updateDate = self.form.date
     }
@@ -252,6 +257,12 @@ export default {
       let self = this
 
       var charactersremaining = 140 - self.form.description.length
+      return charactersremaining
+    },
+    remchar2 () {
+      let self = this
+
+      var charactersremaining = 31 - self.form.title.length
       return charactersremaining
     }
   },
@@ -263,8 +274,8 @@ export default {
   created: function () {
     let self = this
 
-    var startTime = self.$moment().subtract(self.$moment().minute(), 'minutes')
-    self.form.date = startTime.add(1, 'hours').format('MMMM D, YYYY [at] H[h]')
+    var startTime = self.$moment().subtract(self.$moment().minute(), 'minutes').add(1, 'hours')
+    self.form.date = startTime.format('MMMM D, YYYY [at] H[h]')
     self.updateDate = self.form.date
     this.updateHighlights()
   },
@@ -274,7 +285,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .info-section{
     margin-bottom: 3px;
 }
@@ -305,14 +316,29 @@ export default {
 .slider {
     width: 100% !important;
 }
+.slider-tick {
+  display: none;
+}
 .slider-tick-label {
 }
 
-.primary-slider {
-    background: purple;
+.color-slider {
+  background: #ff0d73;
 }
-.secondary-slider {
-    background: pink;
+.color1-slider {
+  background: mix(#3200E8, #ff0d73, 100%);
+}
+.color2-slider {
+  background: mix(#00DAFF, #ff0d73, 100%);
+}
+.color3-slider {
+  background: mix(#00B208, #ff0d73, 100%);
+}
+.color4-slider {
+  background: mix(#FFE800, #ff0d73, 100%);
+}
+.color5-slider {
+  background: mix(#E86C00, #ff0d73, 100%);
 }
 .slider-handle {
     background: #EB3874;
