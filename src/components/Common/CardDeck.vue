@@ -25,7 +25,7 @@
           Voting open until: <b>{{events[maxCol*n + j].finishingDay}}</b>
           <br>
           <span v-if="events[maxCol*n + j].eventState == 'voting' || events[maxCol*n +j].eventState == 'waiting'">
-          <small>Validation starts after: <b>{{events[maxCol*n + j].eventDuration}}</b></small>
+            <small>Validation starts after: <b>{{events[maxCol*n + j].eventDuration}}</b></small>
           </span>
           </p>
 
@@ -61,7 +61,9 @@
             </div>
           </div>
           <div v-else>
-            VALIDATING
+            <div class="warnVal">
+              VALIDATION PROCESS
+            </div>
           </div>
 
           <!-- Share button and ID -->
@@ -314,5 +316,15 @@ export default {
   margin: auto;
   text-align: center;
   position: relative;
+}
+.warnVal {
+  display: inline-block;
+  padding: 5px 10px;
+  border-style: solid;
+  border-color: gray;
+  border-radius: 5px;
+  font-weight: bold;
+  color: gray;
+  margin: 4%;
 }
 </style>

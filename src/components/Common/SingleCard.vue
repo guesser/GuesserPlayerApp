@@ -64,7 +64,9 @@
 
       <!--If event is beeing validating-->
       <div v-else>
-        VALIDATING
+        <div class="warnVal">
+        VALIDATION PROCESS
+        </div>
       </div>
 
       <!--Address-->
@@ -277,5 +279,15 @@ export default {
   margin: 5px;
   border-radius: 2px;
   border-left: 0px !important;
+}
+.warnVal {
+  display: inline-block;
+  padding: 5px 10px;
+  border-style: solid;
+  border-color: gray;
+  border-radius: 5px;
+  font-weight: bold;
+  color: gray;
+  margin: 4%;
 }
 </style>
