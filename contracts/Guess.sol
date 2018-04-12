@@ -27,10 +27,11 @@ contract Guess is DateTime{
     address creator;
     /* The voters and the option the voted
      * It will store an array which has:
-     * 1. The option voted as a first argument (1 or 2)
-     * 2. The amount voted as a second argument
+     * 0. The option voted as a first argument (1 or 2, or 3 if both options were voted by the address)
+     * 1. The amount voted in the first option
+     * 2. The amount voted in the second option
      */
-    mapping (address => uint256[2]) votersOption;
+    mapping (address => uint256[3]) votersOption;
     address[] voters;
 
     // About validatorsOption
@@ -298,7 +299,7 @@ contract Guess is DateTime{
     // Does the guess exists?
     require(_guess < guesses.length);
     // Has the voter already voted?
-    require(guesses[_guess].votersOption[msg.sender][0] == uint8(0x0));
+    // require(guesses[_guess].votersOption[msg.sender][0] == uint8(0x0));
     // TODO: Do we have a minimum bet?
     //require(msg.value > 0);
     // Is the option valid?
@@ -306,9 +307,15 @@ contract Guess is DateTime{
     // Is the date due?
     require(DateTime.dateDue(guesses[_guess].finalDate) == false);
 
-    guesses[_guess].votersOption[msg.sender][0] = _option;
-    guesses[_guess].votersOption[msg.sender][1] = msg.value;
-    guesses[_guess].voters.push(msg.sender);
+    if (guesses[_guess].votersOption[msg.sender][0] == uint8(0x0)) {
+      guesses[_guess].votersOption[msg.sender][0] = _option;
+      guesses[_guess].voters.push(msg.sender); // New voter
+    } else {
+      guesses[_guess].votersOption[msg.sender][0] = 3;
+    }
+    // Option profits by address
+    guesses[_guess].votersOption[msg.sender][_option] += msg.value;
+
 
     guessesByAddress[msg.sender].push(_guess);
 
@@ -344,6 +351,8 @@ contract Guess is DateTime{
     require(_option == 1 || _option == 2);
     // Is the date due?
     require(DateTime.dateDue(guesses[_guess].validationDate) == true);
+    // Has the validator voted the guess?
+    require(guesses[_guess].votersOption[msg.sender][0] == uint256(0x0));
 
     uint256 validations = guesses[_guess].option1Validation + guesses[_guess].option2Validation;
     uint256 votes = guesses[_guess].option1Votes + guesses[_guess].option2Votes;
@@ -375,7 +384,7 @@ contract Guess is DateTime{
     // Does the guess exists?
     require(_guess <= guesses.length-1);
     // Is the date due?
-    // require(DateTime.dateDue(guesses[_guess].finalDate) == true);
+    require(DateTime.dateDue(guesses[_guess].finalDate) == true);
     // Has anybody voted in the guess?
     require(guesses[_guess].voters.length > 0);
     // Has anybody validated the guess?
@@ -391,6 +400,15 @@ contract Guess is DateTime{
       _winner = 2; // The winner is the second one
     }
 
+    // If there is only one voter (even in both sides)
+    if (guesses[_guess].voters.length == 1) {
+      address _onlyVoter = guesses[_guess].voters[0];
+      uint256 _profits = guesses[_guess].votersOption[_onlyVoter][1];
+      _profits += guesses[_guess].votersOption[_onlyVoter][2];
+
+      guesses[_guess].voters[_voterIndex].transfer(_profits); // Error
+      return;
+    }
     // If there is only one side of the votes, they are instantly the winners
     if ( guesses[_guess].option1Votes > 0 && guesses[_guess].option2Votes == 0 ||
          guesses[_guess].option2Votes > 0 && guesses[_guess].option1Votes == 0) {
@@ -416,8 +434,11 @@ contract Guess is DateTime{
 
       address person = guesses[_guess].voters[_voterIndex];
 
-      if (guesses[_guess].votersOption[person][0] == _winner) {
-        percentage=percent(guesses[_guess].votersOption[person][1], _totalWinnersProfits, _precision);
+      // Check if the user voted the winner option or both options (3)
+      if (guesses[_guess].votersOption[person][0] == _winner ||
+          guesses[_guess].votersOption[person][0] == 3) {
+        // Get the percentage of the person in the winner option
+        percentage=percent(guesses[_guess].votersOption[person][_winner], _totalWinnersProfits, _precision);
 
         uint256 _final = ((_totalProfits * 10) * percentage);
         test_value(_final);
@@ -447,7 +468,10 @@ contract Guess is DateTime{
 
     uint256 _profits = 0;
     for(uint256 _voterIndex = 0; _voterIndex < guesses[_guess].voters.length; _voterIndex++) {
+      // Adding to profits the amount of eth in the first option
       _profits += guesses[_guess].votersOption[guesses[_guess].voters[_voterIndex]][1];
+      // Adding to profits the amount of eth in the second option
+      _profits += guesses[_guess].votersOption[guesses[_guess].voters[_voterIndex]][2];
     }
 
     return _profits;
@@ -462,7 +486,6 @@ contract Guess is DateTime{
   function getGuessProfitsByOption (uint256 _guess, uint256 _option) public view returns (uint256) {
     // Does the guess exists?
     require(_guess <= guesses.length-1);
-
     // Is the option valid?
     require(_option == 1 || _option == 2);
 
@@ -471,9 +494,14 @@ contract Guess is DateTime{
     }
 
     uint256 _profits = 0;
+    address _address;
     for(uint256 _voterIndex = 0; _voterIndex < guesses[_guess].voters.length; _voterIndex++) {
-      if(guesses[_guess].votersOption[guesses[_guess].voters[_voterIndex]][0] == _option)
-        _profits += guesses[_guess].votersOption[guesses[_guess].voters[_voterIndex]][1];
+      // Option has to be the correct or 3, which means the user voted both options
+      if(guesses[_guess].votersOption[guesses[_guess].voters[_voterIndex]][0] == _option ||
+         guesses[_guess].votersOption[guesses[_guess].voters[_voterIndex]][0] == 3) {
+        _address = guesses[_guess].voters[_voterIndex];
+        _profits += guesses[_guess].votersOption[_address][_option];
+      }
     }
 
     return _profits;
