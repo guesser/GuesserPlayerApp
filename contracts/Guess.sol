@@ -27,8 +27,9 @@ contract Guess is DateTime{
     address creator;
     /* The voters and the option the voted
      * It will store an array which has:
-     * 1. The option voted as a first argument (1 or 2)
-     * 2. The amount voted as a second argument
+     * 0. The option voted as a first argument (1 or 2, or 3 if both options were voted by the address)
+     * 1. The amount voted in the first option
+     * 2. The amount voted in the second option
      */
     mapping (address => uint256[3]) votersOption;
     address[] voters;
