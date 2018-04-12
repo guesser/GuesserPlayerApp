@@ -176,7 +176,7 @@ export default {
       eventToVote: null,
       ethAmountToVote: null,
       creatorUserName: '',
-      currentUsername: null,
+      currentUsername: null
     }
   },
   methods: {
@@ -221,12 +221,13 @@ export default {
       })
     },
     getUsername (address) {
-
-      ServerHelper.getUser(address).then((data) => {
-        console.log(data.username)
-        return data.username
-      }).catch((err) => {
-        return null
+      return new Promise((resolve, reject) => {
+        ServerHelper.getUser(address).then((data) => {
+          console.log(data.username)
+          resolve(data.username)
+        }).catch((err) => {
+          reject(err)
+        })
       })
     }
   },
@@ -234,13 +235,17 @@ export default {
     let self = this
 
     GuessHelper.init().then(() => {
-      this.creatorUserName = self.getUsername(this.eventItem.creator)
-      if (this.creatorUserName == null) {
+      // Redo this, this is not asyncronous
+      self.getUsername(this.eventItem.creator).then((username) => {
+        this.creatorUserName = username
+      }).catch((err) => {
         this.creatorUserName = this.eventItem.creator.substring(0, 8) + '...'
-      }
-      if (self.getUsername(GuessHelper.address[0]) == null) {
-       buttonsAllow = false
-      }
+        return err
+      })
+      self.getUsername(GuessHelper.address[0]).catch((err) => {
+        self.buttonsAllow = false
+        return err
+      })
     })
   }
 }
