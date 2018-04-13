@@ -2,6 +2,8 @@
   <div>
     <div v-if="totalEvents > 0">
       <CardDeck :events="events"
+         :peopleBar='true'
+         :ethBar='true'
          :buttonsAllow="false"/>
     </div>
     <div v-else>
@@ -61,6 +63,7 @@ export default {
               'finishingDay': this.$moment(guess[5]).format('MMMM D, YYYY [at] H[h]'),
               'finishingDayUnformated': this.$moment(guess[5]),
               'eventDuration': this.$moment.duration(_eventDuration, 'seconds').humanize(),
+              'eventDurationUnformated': _eventDuration,
               'eventState': '',
               'option1': 'Loading...',
               'option2': 'Loading...',
@@ -71,6 +74,7 @@ export default {
               'amountEth': 'Loading...'
             })
             this.printEventsOptions(_index, this.totalEvents)
+            this.getOptionsProfits(_index, this.totalEvents)
             this.printEventState(_index, this.totalEvents)
             this.totalEvents++
           }).catch((err) => {
@@ -97,8 +101,20 @@ export default {
         self.events[arrIndex].option2 = event[1]
         self.events[arrIndex].option1votes = event[2].c[0]
         self.events[arrIndex].option2votes = event[3].c[0]
+        self.events[arrIndex].votes = event[2].c[0] + event[3].c[0]
       }).catch(err => {
         console.log(err)
+      })
+    },
+
+    getOptionsProfits (eventIndex, arrIndex) {
+      let self = this
+
+      GuessHelper.getGuessOptionsProfits(eventIndex).then((optionsAmount) => {
+        self.events[arrIndex].option1AmountEth = parseFloat(optionsAmount[0]).toFixed(4) / 10
+        self.events[arrIndex].option2AmountEth = parseFloat(optionsAmount[1]).toFixed(4) / 10
+        self.events[arrIndex].amountEth = parseFloat(optionsAmount[0]).toFixed(4) / 10 +
+          parseFloat(optionsAmount[1]).toFixed(4) / 10
       })
     },
 

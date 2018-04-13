@@ -22,50 +22,62 @@
       <br>
       Open until: <b>{{eventItem.finishingDay}}</b>
       <br>
-      <span v-if="eventItem.eventState == 'voting' || eventItem.eventState == 'waiting'">
-      <small>Validation starts after: <b>{{eventItem.eventDuration}}</b></small>
+      <span v-if="eventItem.eventState == 'voting'">
+        <small>Validation starts after: <b>{{eventItem.eventDuration}}</b></small>
       </span>
+
+      <!--Waiting time bar-->
+      <span v-if="eventItem.eventState == 'waiting'">
+        <small>Waiting: <b>{{eventItem.eventDuration}}</b></small>
+        <b-row align-h="center">
+          <b-progress class="w-50" :max="waitingTime()" striped>
+            <b-progress-bar :value="waitingDone()" variant="pink">
+            </b-progress-bar>
+          </b-progress>
+        </b-row>
+      </span>
+
       <span v-if="eventItem.eventState == 'passed'">
         Passed event
       </span>
       </p>
 
       <div v-if="eventItem.eventState != 'validating'">
-      <!--Number of people Progress Bar-->
-      <div v-if="peopleBar">
-        <br>
-        <span>Votes for each outcome: </span>
-        <b-progress class="mt-1" :max="10*(eventItem.votes/10)" show-value striped>
-          <b-progress-bar :value="10*(eventItem.option1votes/10)" variant="pink">
-            {{eventItem.option1}} - {{ eventItem.option1votes }}
-          </b-progress-bar>
-          <b-progress-bar :value="10*(eventItem.option2votes/10)" variant="magenta">
-            {{eventItem.option2}} - {{ eventItem.option2votes }}
-          </b-progress-bar>
-        </b-progress>
-        <small>Total: {{eventItem.votes}} people</small>
-      </div>
+        <!--Number of people Progress Bar-->
+        <div v-if="peopleBar">
+          <br>
+          <span>Votes for each outcome: </span>
+          <b-progress class="mt-1" :max="10*(eventItem.votes/10)" show-value striped>
+            <b-progress-bar :value="10*(eventItem.option1votes/10)" variant="pink">
+              {{eventItem.option1}} - {{ eventItem.option1votes }}
+            </b-progress-bar>
+            <b-progress-bar :value="10*(eventItem.option2votes/10)" variant="magenta">
+              {{eventItem.option2}} - {{ eventItem.option2votes }}
+            </b-progress-bar>
+          </b-progress>
+          <small>Total: {{eventItem.votes}} people</small>
+        </div>
 
-      <!--Amount of eth in each option-->
-      <div v-if="ethBar">
-        <br>
-        <span>Eth staked on each outcome: </span>
-        <b-progress class="mt-1" :max="10*(eventItem.amountEth/10)" show-value striped>
-          <b-progress-bar :value="10*(eventItem.option1AmountEth/10)" variant="pink">
-            {{eventItem.option1}} - {{ eventItem.option1AmountEth }}
-          </b-progress-bar>
-          <b-progress-bar :value="10*(eventItem.option2AmountEth/10)" variant="magenta">
-            {{eventItem.option2}} - {{ eventItem.option2AmountEth }}
-          </b-progress-bar>
-        </b-progress>
-        <small>Total: {{eventItem.amountEth}} ether</small>
-      </div>
+        <!--Amount of eth in each option-->
+        <div v-if="ethBar">
+          <br>
+          <span>Eth staked on each outcome: </span>
+          <b-progress class="mt-1" :max="10*(eventItem.amountEth/10)" show-value striped>
+            <b-progress-bar :value="10*(eventItem.option1AmountEth/10)" variant="pink">
+              {{eventItem.option1}} - {{ eventItem.option1AmountEth }}
+            </b-progress-bar>
+            <b-progress-bar :value="10*(eventItem.option2AmountEth/10)" variant="magenta">
+              {{eventItem.option2}} - {{ eventItem.option2AmountEth }}
+            </b-progress-bar>
+          </b-progress>
+          <small>Total: {{eventItem.amountEth}} ether</small>
+        </div>
       </div>
 
       <!--If event is beeing validating-->
       <div v-else>
         <div class="warnVal">
-        VALIDATION PROCESS
+          VALIDATION PROCESS
         </div>
       </div>
 
@@ -211,6 +223,24 @@ export default {
         type
       })
     },
+    waitingTime () {
+      let self = this
+
+      var waitingTimeTotal = self.eventItem.eventDurationUnformated
+      waitingTimeTotal = waitingTimeTotal / 60
+      // console.log('Total', waitingTimeTotal)
+
+      return waitingTimeTotal
+    },
+    waitingDone () {
+      let self = this
+
+      var waitingTimeDone = self.$moment().unix() - self.eventItem.finishingDayUnformated.unix()
+      waitingTimeDone = self.$moment.duration(waitingTimeDone, 'seconds').minutes()
+
+      return waitingTimeDone
+    },
+
     show (group) {
       this.$notify({
         group

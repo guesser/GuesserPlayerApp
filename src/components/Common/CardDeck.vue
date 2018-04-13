@@ -24,8 +24,24 @@
           <br>
           Voting open until: <b>{{events[maxCol*n + j].finishingDay}}</b>
           <br>
-          <span v-if="events[maxCol*n + j].eventState == 'voting' || events[maxCol*n +j].eventState == 'waiting'">
+          <span v-if="events[maxCol*n + j].eventState == 'voting'">
             <small>Validation starts after: <b>{{events[maxCol*n + j].eventDuration}}</b></small>
+          </span>
+
+          <!--Waiting time bar-->
+          <span v-if="events[maxCol*n + j].eventState == 'waiting'">
+            <small>Waiting: <b>{{events[maxCol*n + j].eventDuration}}</b></small>
+            <b-row align-h="center">
+              <b-progress class="w-50" :max="waitingTime(maxCol*n + j)" striped>
+                <b-progress-bar :value="waitingDone(maxCol*n+j)" variant="pink">
+                </b-progress-bar>
+              </b-progress>
+            </b-row>
+          </span>
+          </p>
+
+          <span v-if="events[maxCol*n + j].eventState == 'passed'">
+            Passed event
           </span>
           </p>
 
@@ -272,6 +288,23 @@ export default {
         text,
         type
       })
+    },
+    waitingTime (_index) {
+      let self = this
+
+      var waitingTimeTotal = self.events[_index].eventDurationUnformated
+      waitingTimeTotal = waitingTimeTotal / 60
+      // console.log('Total', waitingTimeTotal)
+
+      return waitingTimeTotal
+    },
+    waitingDone (_index) {
+      let self = this
+
+      var waitingTimeDone = self.$moment().unix() - self.events[_index].finishingDayUnformated.unix()
+      waitingTimeDone = self.$moment.duration(waitingTimeDone, 'seconds').minutes()
+
+      return waitingTimeDone
     },
     show (group) {
       this.$notify({
