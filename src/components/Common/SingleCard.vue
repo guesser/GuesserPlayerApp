@@ -236,7 +236,7 @@ export default {
       let self = this
 
       var waitingTimeDone = self.$moment().unix() - self.eventItem.finishingDayUnformated.unix()
-      waitingTimeDone = self.$moment.duration(waitingTimeDone, 'seconds').minutes()
+      waitingTimeDone = Math.round(waitingTimeDone / 60)
 
       return waitingTimeDone
     },

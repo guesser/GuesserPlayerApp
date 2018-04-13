@@ -93,8 +93,8 @@
           </b-row>
 
           <!-- Buttons -->
-          <div v-if="buttonsAllow && events[maxCol*n + j].eventState != 'validating'">
-            <div v-if="mode === 1">
+          <div v-if="buttonsAllow">
+            <div v-if="mode === 1 && events[maxCol*n + j].eventState != 'validating'">
               <b-button style="margin: 2px 20px"
                         @click="showPaymentModal(events[maxCol*n + j].id, maxCol*n +j)"
                         variant="outline-pink" size="sm">
@@ -294,7 +294,7 @@ export default {
 
       var waitingTimeTotal = self.events[_index].eventDurationUnformated
       waitingTimeTotal = waitingTimeTotal / 60
-      // console.log('Total', waitingTimeTotal)
+      console.log(self.events[_index].id, 'Waiting', waitingTimeTotal)
 
       return waitingTimeTotal
     },
@@ -302,7 +302,8 @@ export default {
       let self = this
 
       var waitingTimeDone = self.$moment().unix() - self.events[_index].finishingDayUnformated.unix()
-      waitingTimeDone = self.$moment.duration(waitingTimeDone, 'seconds').minutes()
+      waitingTimeDone = Math.round(waitingTimeDone / 60)
+      console.log(self.events[_index].id, 'Done', waitingTimeDone)
 
       return waitingTimeDone
     },
