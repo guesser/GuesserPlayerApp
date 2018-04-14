@@ -7,9 +7,21 @@ export default {
   mixins: [reactiveProp],
   props: ['options'],
   mounted () {
-    // this.chartData is created in the mixin.
-    // If you want to pass options please create a local options object
-    this.renderChart(this.chartData, {responsive: true, maintainAspectRatio: false})
+    this.renderChart({
+      labels: ['Created Event', 'Validated Event', 'Voted Event'],
+      datasets: [
+        {
+          label: 'Topics',
+          borderWidth: 0.5,
+          backgroundColor: [
+            '#ff0d73',
+            '#f87979',
+            '#d52c38'
+          ],
+          data: [50, 10, 30]
+        }
+      ]
+    }, {responsive: true, maintainAspectRatio: false})
   }
 }
 </script>

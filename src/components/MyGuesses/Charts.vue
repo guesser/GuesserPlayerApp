@@ -7,19 +7,19 @@
         </div>
       </b-col>
       <b-col >
-        <div class="chart" align-self="center">
-          <pie-chart :chart-data="datatopics"></pie-chart>
+        <div class="chart">
+          <pie-chart></pie-chart>
         </div>
       </b-col>
     </b-row>
     <b-row>
       <b-col>
         <div class="chart">
-          <doughnut-chart :chart-data="dataevents"></doughnut-chart>
+          <doughnut-chart></doughnut-chart>
         </div>
       </b-col>
       <b-col>
-        <div class="chart" style="">
+        <div class="chart">
         </div>
       </b-col>
     </b-row>
@@ -36,45 +36,6 @@ export default {
     LineChart,
     PieChart,
     DoughnutChart
-  },
-  data () {
-    return {
-      datatopics: {
-        labels: ['Crypto', 'Calebrities', 'Entertainment', 'Gaming', 'Humor', 'News', 'Politics', 'Sports', 'Technology', 'Random'],
-        datasets: [
-          {
-            label: 'Topics',
-            backgroundColor: [
-              '#f8e98d',
-              '#e6b5ee',
-              '#bae1ff',
-              '#ffce54',
-              '#cf9',
-              '#9db5c4',
-              '#dcebef',
-              '#fff',
-              '#bcbcbc',
-              '#d9414c'
-            ],
-            data: [20, 10, 1, 5, 7, 9, 11, 8, 4, 11]
-          }
-        ]
-      },
-      dataevents: {
-        labels: ['Created Event', 'Validated Event', 'Voted Event'],
-        datasets: [
-          {
-            label: 'Topics',
-            backgroundColor: [
-              '#ff0d73',
-              '#f87979',
-              '#d52c38'
-            ],
-            data: [50, 10, 30]
-          }
-        ]
-      }
-    }
   }
 }
 </script>
