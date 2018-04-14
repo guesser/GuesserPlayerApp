@@ -2,24 +2,24 @@
   <div>
     <b-row>
       <b-col>
-        <div class="small">
-          <line-chart :chart-data="dataprofits"></line-chart>
+        <div class="chart">
+          <line-chart></line-chart>
         </div>
       </b-col>
-      <b-col>
-        <div class="small">
+      <b-col >
+        <div class="chart" align-self="center">
           <pie-chart :chart-data="datatopics"></pie-chart>
         </div>
       </b-col>
     </b-row>
-    <b-row style="padding-top: 4%;">
+    <b-row>
       <b-col>
-        <div class="small">
+        <div class="chart">
           <doughnut-chart :chart-data="dataevents"></doughnut-chart>
         </div>
       </b-col>
       <b-col>
-        <div class="small" style="">
+        <div class="chart" style="">
         </div>
       </b-col>
     </b-row>
@@ -39,29 +39,6 @@ export default {
   },
   data () {
     return {
-      dataprofits: {
-        labels: ['Week1', 'Week2', 'Week3', 'Week4', 'Week5', 'Week6', 'Week7'],
-        datasets: [
-          {
-            label: 'Profits',
-            borderColor: '#8d141a',
-            pointBackgroundColor: '#8d141a',
-            borderWidth: 1,
-            pointBorderColor: '#8d141a',
-            backgroundColor: 'rgba(25,25,25,.27)',
-            data: [40, 60, 80, 20, 30, 90, 70]
-          },
-          {
-            label: 'Losses',
-            borderColor: '#249EBF',
-            pointBackgroundColor: '#249EBF',
-            borderWidth: 1,
-            pointBorderColor: '#249EBF',
-            backgroundColor: 'transparent',
-            data: [20, 10, 20, 5, 50, 35, 25]
-          }
-        ]
-      },
       datatopics: {
         labels: ['Crypto', 'Calebrities', 'Entertainment', 'Gaming', 'Humor', 'News', 'Politics', 'Sports', 'Technology', 'Random'],
         datasets: [
@@ -103,9 +80,11 @@ export default {
 </script>
 
 <style>
-.small {
-  max-width: 300px;
-  border-radius: 20px;
+.chart {
+  background: transparent;
+  border-radius: 5px;
+  box-shadow: 0px 2px 15px rgba(25, 25, 25, 0.17);
+  margin: 6% 0;
 }
 </style>
 
