@@ -85,6 +85,7 @@ export default {
 
       GuessHelper.getEventItemState(_index).then((eventItemState) => {
         self.guesses[_localIndex].eventState = eventItemState
+        console.log(self.guesses[_localIndex].id, eventItemState)
       }).catch(err => {
         console.log(err)
       })

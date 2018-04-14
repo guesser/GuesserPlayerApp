@@ -54,7 +54,7 @@
           <b-container style="text-align: center;">
             <b-row align-h="between" style="">
             </b-row>
-            <h1 style="font-size: calc(1em + 2vw);">How can I <b>Play</b>?</h1>
+            <h1 style="font-size: calc(1em + 2vw);">How can I <b>Win</b>?</h1>
             <h4 style="font-size: calc(1em + 0.5vw); padding-top: 5%; color: gray;">
               To make a guess at a popular internet event you only have to choose one of the two outcomes available and select how much <img src="../assets/ethereum.png" class="d-inline-block align-top" style="width: 25px;" alt="|eth|">Ether you are willing to lose if you’re wrong. Guessers that vote the right outcome will get all Ether staked on the event (after fees) distributed proportionally to how much they risked.
             </h4>

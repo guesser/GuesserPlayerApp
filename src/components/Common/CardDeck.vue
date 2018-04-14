@@ -24,8 +24,24 @@
           <br>
           Voting open until: <b>{{events[maxCol*n + j].finishingDay}}</b>
           <br>
-          <span v-if="events[maxCol*n + j].eventState == 'voting' || events[maxCol*n +j].eventState == 'waiting'">
-          <small>Validation starts after: <b>{{events[maxCol*n + j].eventDuration}}</b></small>
+          <span v-if="events[maxCol*n + j].eventState == 'voting'">
+            <small>Validation starts after: <b>{{events[maxCol*n + j].eventDuration}}</b></small>
+          </span>
+
+          <!--Waiting time bar-->
+          <span v-if="events[maxCol*n + j].eventState == 'waiting'">
+            <small>Waiting: <b>{{events[maxCol*n + j].eventDuration}}</b></small>
+            <b-row align-h="center">
+              <b-progress class="w-50" :max="waitingTime(maxCol*n + j)" striped>
+                <b-progress-bar :value="waitingDone(maxCol*n+j)" variant="pink">
+                </b-progress-bar>
+              </b-progress>
+            </b-row>
+          </span>
+          </p>
+
+          <span v-if="events[maxCol*n + j].eventState == 'passed'">
+            Passed event
           </span>
           </p>
 
@@ -61,7 +77,9 @@
             </div>
           </div>
           <div v-else>
-            VALIDATING
+            <div class="warnVal">
+              VALIDATION PROCESS
+            </div>
           </div>
 
           <!-- Share button and ID -->
@@ -75,8 +93,8 @@
           </b-row>
 
           <!-- Buttons -->
-          <div v-if="buttonsAllow && events[maxCol*n + j].eventState != 'validating'">
-            <div v-if="mode === 1">
+          <div v-if="buttonsAllow">
+            <div v-if="mode === 1 && events[maxCol*n + j].eventState != 'validating'">
               <b-button style="margin: 2px 20px"
                         @click="showPaymentModal(events[maxCol*n + j].id, maxCol*n +j)"
                         variant="outline-pink" size="sm">
@@ -271,6 +289,24 @@ export default {
         type
       })
     },
+    waitingTime (_index) {
+      let self = this
+
+      var waitingTimeTotal = self.events[_index].eventDurationUnformated
+      waitingTimeTotal = waitingTimeTotal / 60
+      console.log(self.events[_index].id, 'Waiting', waitingTimeTotal)
+
+      return waitingTimeTotal
+    },
+    waitingDone (_index) {
+      let self = this
+
+      var waitingTimeDone = self.$moment().unix() - self.events[_index].finishingDayUnformated.unix()
+      waitingTimeDone = Math.round(waitingTimeDone / 60)
+      console.log(self.events[_index].id, 'Done', waitingTimeDone)
+
+      return waitingTimeDone
+    },
     show (group) {
       this.$notify({
         group
@@ -314,5 +350,15 @@ export default {
   margin: auto;
   text-align: center;
   position: relative;
+}
+.warnVal {
+  display: inline-block;
+  padding: 5px 10px;
+  border-style: solid;
+  border-color: gray;
+  border-radius: 5px;
+  font-weight: bold;
+  color: gray;
+  margin: 4%;
 }
 </style>

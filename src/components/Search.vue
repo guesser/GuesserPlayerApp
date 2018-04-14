@@ -123,10 +123,12 @@ export default {
         self.guess.topic = guessFound[2]
         self.guess.creator = guessFound[3]
         self.guess.startingDay = this.$moment(guessFound[4]).format('MMMM D, YYYY [at] H[h]')
-        self.guess.finishingDay = this.$moment(guessFound[5]).format('MMMM D, YYYY [at] H[h]')
+        self.guess.finishingDay = this.$moment(guessFound[5]).format('MMMM D, YYYY [at] H[h] m s')
+        self.guess.finishingDayUnformated = this.$moment(guessFound[5])
 
         let _eventDuration = this.$moment(guessFound[6]).unix() - this.$moment(guessFound[5]).unix()
         self.guess.eventDuration = this.$moment.duration(_eventDuration, 'seconds').humanize()
+        self.guess.eventDurationUnformated = _eventDuration
         self.guessExists = true
         self.$refs.singleCard.setUsername(guessFound[3])
       }).catch(err => {

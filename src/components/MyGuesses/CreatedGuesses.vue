@@ -63,6 +63,7 @@ export default {
               'finishingDay': this.$moment(guess[5]).format('MMMM D, YYYY [at] H[h]'),
               'finishingDayUnformated': this.$moment(guess[5]),
               'eventDuration': this.$moment.duration(_eventDuration, 'seconds').humanize(),
+              'eventDurationUnformated': _eventDuration,
               'eventState': '',
               'option1': 'Loading...',
               'option2': 'Loading...',
@@ -72,6 +73,7 @@ export default {
               'option2amounteth': 'loading...',
               'amountEth': 'Loading...'
             })
+            console.log()
             this.printEventsOptions(_index, this.totalEvents)
             this.getOptionsProfits(_index, this.totalEvents)
             this.printEventState(_index, this.totalEvents)
