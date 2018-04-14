@@ -41,7 +41,8 @@ export default {
         if (_index !== 0) { // Guess 0 is the empty one
           GuessHelper.getGuessFront(_index).then((guess) => {
             let guessTime = this.$moment(guess[5]).subtract(this.$moment(guess[5]).minute(), 'minutes')
-            if (guessTime.unix() < this.$moment().unix()) {
+            if (guessTime.unix() < this.$moment().unix() &&
+               guess[3] !== GuessHelper.address[0]) {
               this.guesses.push({
                 'id': _index,
                 'title': guess[0],
