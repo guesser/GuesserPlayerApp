@@ -609,7 +609,8 @@ contract Guess is DateTime{
       uint256 _votes = guesses[_eventIndex].option1Votes + guesses[_eventIndex].option2Votes;
       uint256 _validations = guesses[_eventIndex].option1Validation + guesses[_eventIndex].option2Validation;
       uint256 _half = ((((_votes * 10) / 2) - ((_votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
-      if(DateTime.dateDue(guesses[_eventIndex].validationDate) == true && _validations >= _half) {
+      if(DateTime.dateDue(guesses[_eventIndex].validationDate) == true &&
+         (_validations >= _half || _votes == 0)) {
         _firstEvents[_eventNumber] = guessesByAddress[_address][_index];
         _eventNumber ++;
       }
