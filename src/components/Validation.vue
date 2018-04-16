@@ -15,6 +15,8 @@
 
 <script>
 import GuessHelper from '@/js/Guess'
+import NetworkHelper from '@/js/NetworkHelper'
+
 import CardDeck from './Common/CardDeck.vue'
 import Loading from './Loading.vue'
 
@@ -42,7 +44,7 @@ export default {
           GuessHelper.getGuessFront(_index).then((guess) => {
             let guessTime = this.$moment(guess[5]).subtract(this.$moment(guess[5]).minute(), 'minutes')
             if (guessTime.unix() < this.$moment().unix() &&
-               guess[3] !== GuessHelper.address[0]) {
+                guess[3] !== GuessHelper.address[0]) {
               this.guesses.push({
                 'id': _index,
                 'title': guess[0],
@@ -130,10 +132,18 @@ export default {
     */
   },
   created: function () {
+    let self = this
     GuessHelper.init().then(() => {
       this.getGuessesToValidate()
     }).catch(err => {
       console.log(err)
+    })
+
+    NetworkHelper.init().then(() => {
+      if (NetworkHelper.state === 'disconnected' ||
+          NetworkHelper.state === 'locked') {
+        self.$router.push('signup')
+      }
     })
   },
   beforeCreated: function () {

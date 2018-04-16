@@ -55,8 +55,10 @@
 
 <script>
 // Import section
-import Loading from '../components/Loading.vue'
 import GuessHelper from '@/js/Guess'
+import NetworkHelper from '@/js/NetworkHelper'
+
+import Loading from '../components/Loading.vue'
 import SingleCard from './Common/SingleCard.vue'
 
 export default {
@@ -180,6 +182,12 @@ export default {
       self.searchForGuess()
     }).catch(err => {
       console.log(err)
+    })
+    NetworkHelper.init().then(() => {
+      if (NetworkHelper.state === 'disconnected' ||
+          NetworkHelper.state === 'locked') {
+        self.$router.push('signup')
+      }
     })
   },
   beforeUpdate: function () {

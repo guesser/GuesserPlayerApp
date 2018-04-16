@@ -37,6 +37,7 @@
 import TopicList from './Home/TopicList.vue'
 import GuessOfTheDay from './Home/GuessOfTheDay.vue'
 import OtherGuesses from './Home/OtherGuesses.vue'
+import NetworkHelper from '@/js/NetworkHelper'
 
 export default {
   name: 'home',
@@ -56,11 +57,20 @@ export default {
     }
   },
   created: function () {
+    let self = this
+
     if (this.$route.params.topic) {
       this.topic = this.$route.params.topic
     } else {
       this.topic = 'Crypto'
     }
+
+    NetworkHelper.init().then(() => {
+      if (NetworkHelper.state === 'disconnected' ||
+          NetworkHelper.state === 'locked') {
+        self.$router.push('signup')
+      }
+    })
   }
 }
 </script>
@@ -87,7 +97,7 @@ export default {
     }
     .guesses {
         margin-left:20%;
-        width: 77%; 
+        width: 77%;
     }
 }
 

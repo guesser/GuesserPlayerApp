@@ -169,7 +169,7 @@ export default {
       })
     }
   },
-  beforeCreate: function () {
+  mounted: function () {
     let self = this
 
     NetworkHelper.init().then(() => {
@@ -180,8 +180,10 @@ export default {
       } else {
         self.web3State = 'connected'
       }
-      console.log(self.web3State)
     })
+  },
+  beforeCreate: function () {
+    let self = this
 
     GuessHelper.init().then(() => {
       self.address = GuessHelper.address[0]

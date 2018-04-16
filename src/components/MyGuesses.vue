@@ -44,6 +44,8 @@
 </template>
 
 <script>
+import NetworkHelper from '@/js/NetworkHelper'
+
 import CurrentGuesses from './MyGuesses/CurrentGuesses.vue'
 import ValidatingGuesses from './MyGuesses/ValidatingGuesses.vue'
 import PastGuesses from './MyGuesses/PastGuesses.vue'
@@ -72,6 +74,14 @@ export default {
         return ['bg-light', 'text-info']
       }
     }
+  },
+  created: function () {
+    NetworkHelper.init().then(() => {
+      if (NetworkHelper.state === 'disconnected' ||
+          NetworkHelper.state === 'locked') {
+        this.$router.push('signup')
+      }
+    })
   }
 }
 </script>
