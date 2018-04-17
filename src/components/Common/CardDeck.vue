@@ -179,25 +179,30 @@
         <small>Total: {{events[arrayIndex].amountEth}} ether</small>
         <br>
         <br>
+      <b-form @submit="voteGuess">
         <b-form-group id="titleGroup"
                       label="Amount of ether you want to send:"
                       label-for="amountInput">
           <b-form-input id="amountInput"
                         type="number"
+                        step="0.0001"
                         v-model="ethAmountToVote"
                         required>
           </b-form-input>
         </b-form-group>
         <b-button style="margin: 2px 20px"
-                  @click="voteGuess(1)"
+                  @click="optionVoted = 1"
+                  type="submit"
                   variant="outline-pink" size="sm">
           {{events[arrayIndex].option1}}
         </b-button>
         <b-button style="margin: 2px 20px"
-                  @click="voteGuess(2)"
+                  @click="optionVoted = 2"
+                  type="submit"
                   variant="outline-magenta" size="sm">
           {{events[arrayIndex].option2}}
         </b-button>
+      </b-form>
         <br>
         <br>
       </b-modal>
@@ -319,11 +324,11 @@ export default {
         this.$refs.paymentModal.show()
       }
     },
-    voteGuess (optionVoted) { // Option has to be 1 or 2
+    voteGuess () { // Option has to be 1 or 2
       // let self = this
       this.$refs.paymentModal.hide()
       this.showVoteAlert('voteAlert', 'success')
-      GuessHelper.voteGuess(this.eventToVote, optionVoted, this.ethAmountToVote).then(() => {
+      GuessHelper.voteGuess(this.eventToVote, this.optionVoted, this.ethAmountToVote).then(() => {
         console.log('Transaction pending...')
       }).catch(err => {
         console.log(err)

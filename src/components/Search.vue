@@ -125,7 +125,7 @@ export default {
         self.guess.topic = guessFound[2]
         self.guess.creator = guessFound[3]
         self.guess.startingDay = this.$moment(guessFound[4]).format('MMMM D, YYYY [at] H[h]')
-        self.guess.finishingDay = this.$moment(guessFound[5]).format('MMMM D, YYYY [at] H[h] m s')
+        self.guess.finishingDay = this.$moment(guessFound[5]).format('MMMM D, YYYY [at] H[h]')
         self.guess.finishingDayUnformated = this.$moment(guessFound[5])
 
         let _eventDuration = this.$moment(guessFound[6]).unix() - this.$moment(guessFound[5]).unix()

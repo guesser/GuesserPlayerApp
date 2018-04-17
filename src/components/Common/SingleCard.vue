@@ -143,16 +143,19 @@
              title="Choose amount:"
              hide-footer
              :header-bg-variant="eventItem.topic">
+      <b-form @submit="voteGuess()">
       <b-form-group id="titleGroup"
                     label="Amount of other you want to sent:"
                     label-for="amountInput">
         <b-form-input id="amountInput"
                       type="number"
+                      step="0.0001"
                       v-model="ethAmountToVote"
                       required>
         </b-form-input>
       </b-form-group>
-      <b-button @click="voteGuess()" variant="primary" size="sm">Vote</b-button>
+      <b-button type="submit" variant="primary" size="sm">Vote</b-button>
+      </b-form>
     </b-modal>
   </div>
 </template>
@@ -223,6 +226,9 @@ export default {
         type
       })
     },
+    parser (value, event) {
+      return value.toLowerCase()
+    },
     waitingTime () {
       let self = this
 
@@ -256,6 +262,7 @@ export default {
     voteGuess () { // Option has to be 1 or 2
       // let self = this
       this.$refs.paymentModal.hide()
+      console.log(this.ethAmountToVote)
       GuessHelper.voteGuess(this.eventItem.id, this.optionVoted, this.ethAmountToVote).then(() => {
         console.log('Transaction pending...')
         this.showVoteAlert('voteAlert', 'success')

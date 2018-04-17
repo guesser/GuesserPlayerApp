@@ -47,7 +47,7 @@
           <b-col cols="12">
             <b-form-input v-model="usermail"
                           id="usernameInput"
-                          type="text"
+                          type="email"
                           size='lg'
                           placeholder="thisisaexample@guesser.io"></b-form-input>
           </b-col>

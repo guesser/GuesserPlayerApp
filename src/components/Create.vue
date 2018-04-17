@@ -24,11 +24,11 @@
         </b-form-input>
         <b-row style="padding-top: 3px" align-h="end">
           <vue-twitter-counter :current-length="31 - remchar2"
-                                         safe="#ff66ff"
-                                         :danger-at='31'
-                                         :warnLength='5'
-                                         animate
-                                         round>
+                                        safe="#ff66ff"
+                                        :danger-at='31'
+                                        :warnLength='5'
+                                        animate
+                                        round>
           </vue-twitter-counter>
         </b-row>
       </b-form-group>
@@ -46,13 +46,12 @@
         </b-form-textarea>
         <b-row style="padding-top: 3px" align-h="end">
           <vue-twitter-counter :current-length="140 - remchar"
-                                         safe="#ff66ff"
-                                         :danger-at='140'
-                                         animate
-                                         round>
+                                        safe="#ff66ff"
+                                        :danger-at='140'
+                                        animate
+                                        round>
           </vue-twitter-counter>
         </b-row>
-        <!--<span> {{ remchar }} characters remaining</span>-->
       </b-form-group>
 
       <!--Topics-->
@@ -65,7 +64,7 @@
                             v-model="form.topic"
                             :options="topics"
                             name="radioBtnOutline" />
-        </b-form-group>
+        </b-form-radio-group>
       </div>
       <div v-else>
         <b-dropdown id="ddown" text="Select a topic" variant="primary" class="m-2">
@@ -77,7 +76,7 @@
                               v-model="form.topic"
                               :options="topics"
                               name="radioBtnOutline" />
-          </b-form-group>
+          </b-form-radio-group>
         </b-dropdown>
       </div>
     </b-form-group>
@@ -86,50 +85,60 @@
     <br>
     <!--Outcomes-->
     <p class='info-section'>Outcomes:</p>
-    <b-form inline>
-      <label class="sr-only" for="option1Input" >Outcome1</label>
-      <b-input class="mb-2 mr-sm-2 mb-sm-0"
-               id="option1Input"
-               v-model='form.option1'
-               maxlength="31"
-               placeholder="Outocome1"/>
-        <label class="sr-only" for="option2Input">Outcome2</label>
+    <b-row align-h="start" style="margin: 0 !important">
+      <b-col style="padding-left: 0 !important">
+        <label class="sr-only" for="option1Input" >Outcome1</label>
         <b-input class="mb-2 mr-sm-2 mb-sm-0"
-                 id="option2Input"
-                 v-model='form.option2'
+                 id="option1Input"
+                 v-model='form.option1'
                  maxlength="31"
-                 placeholder="Outcome2"/>
-        </b-form>
-        <div>
-          <br>
-          <br>
-          <p class="info-section">Duration of the event (hours):</p>
-          <b-form inline>
-            <b-input class="mb-2 mr-sm-2 mb-sm-0"
-                     id="durationTime"
-                     v-model='form.durationTime'
-                     placeholder="Duration of the event"/>
-            </b-form>
-            <br>
-            <span>Ending date and time: {{updateDate}}</span>
-            <br>
-            <b-form-slider
-                     :v-model='hourValue'
-                     :value='0'
-                     :min='0'
-                     :max='sliderMaxValue'
-                     :step='1'
-              :ticks='sliderTicks'
-              :ticks-labels='sliderTicksLabels'
-                     v-bind:rangeHighlights='highlights'
-                     @change="changeSlider"
-                     />
+                 required
+                 placeholder="Outocome1"/>
+        </b-col>
+        <b-col style="padding-right: 0 !important">
+          <label class="sr-only" for="option2Input">Outcome2</label>
+          <b-input class="mb-2 mr-sm-2 mb-sm-0"
+                   id="option2Input"
+                   v-model='form.option2'
+                   maxlength="31"
+                   required
+                   placeholder="Outcome2"/>
+          </b-col>
+        </b-row>
 
-        </div>
+        <!--Times-->
         <br>
         <br>
-        <b-button type="submit" variant="primary" size='lg'>Create</b-button>
-</b-form>
+        <p class="info-section">Duration of the event (hours):</p>
+        <b-form-group id="durationTime"
+                      label-for="durationTime">
+          <b-form-input id="durationTime"
+                        class="mb-2 mr-sm-2 mb-sm-0"
+                        type="number"
+                        step="0.1"
+                        v-model="form.durationTime"
+                        placeholder="Duration of the event"
+                        required>
+          </b-form-input>
+        </b-form-group>
+        <br>
+        <span>Ending date and time: {{updateDate}}</span>
+        <br>
+        <b-form-slider
+                        :v-model='hourValue'
+                        :value='0'
+                        :min='0'
+                        :max='sliderMaxValue'
+                        :step='1'
+                        :ticks='sliderTicks'
+                        :ticks-labels='sliderTicksLabels'
+                        v-bind:rangeHighlights='highlights'
+                        @change="changeSlider"
+                        />
+          <br>
+          <br>
+          <b-button type="submit" variant="primary" size='lg'>Create</b-button>
+        </b-form>
   </div>
 </template>
 
@@ -147,10 +156,10 @@ export default {
       sliderTicks: [],
       sliderTicksLabels: [],
       highlights: [{ 'start': 0, 'end': 24, 'class': 'color-slider' },
-                   { 'start': 24, 'end': 47, 'class': 'color1-slider' },
-                   {'start': 47, 'end': 71, 'class': 'color2-slider'},
-                   {'start': 71, 'end': 95, 'class': 'color3-slider'},
-                   {'start': 95, 'end': 120, 'class': 'color4-slider'}],
+        { 'start': 24, 'end': 47, 'class': 'color1-slider' },
+        {'start': 47, 'end': 71, 'class': 'color2-slider'},
+        {'start': 71, 'end': 95, 'class': 'color3-slider'},
+        {'start': 95, 'end': 120, 'class': 'color4-slider'}],
 
       topics: ['Crypto', 'Celebrities', 'Entertainment', 'Gaming', 'Humor', 'News', 'Politics', 'Sports', 'Technology', 'Random'],
       form: {
@@ -220,6 +229,10 @@ export default {
       let self = this
 
       let finalDate = self.$moment().subtract(self.$moment().minute(), 'minutes').add(self.hourValue + 1, 'hours')
+      console.log(self.form.durationTime)
+      let _durationTime = Math.ceil(self.form.durationTime)
+      console.log('Duration:', _durationTime, 'hours')
+
       var validationDate = self.$moment(finalDate).add(self.form.durationTime, 'hours')
       console.log(finalDate.format('[Final:] MMMM D, YYYY [at] H[h]'))
       console.log(validationDate.format('[Validation:] MMMM D, YYYY [at] H[h]'))
@@ -287,34 +300,34 @@ export default {
 
 <style lang="scss">
 .info-section{
-    margin-bottom: 3px;
+  margin-bottom: 3px;
 }
 .row{
-    margin-left: 2% !important;
-    margin-right: 2% !important;
+  margin-left: 2% !important;
+  margin-right: 2% !important;
 }
 .litle-margin{
-    margin: 0% 10%;
-    padding: 3% 0%;
-    max-width: 800px;
+  margin: 0% 10%;
+  padding: 3% 0%;
+  max-width: 800px;
 }
 .btn-primary.dropdown-toggle:focus {
-    box-shadow: 0 0 0 0.2rem #ff0d73 !important;
+  box-shadow: 0 0 0 0.2rem #ff0d73 !important;
 }
 .creation{
-    margin: 5px;
-    border-radius: 2px;
-    border-left: 0px !important;
+  margin: 5px;
+  border-radius: 2px;
+  border-left: 0px !important;
 }
 
 .d-inline-block {
-    display: inline !important;
+  display: inline !important;
 }
 .slider.slider-horizontal {
-    width: 100% !important;
+  width: 100% !important;
 }
 .slider {
-    width: 100% !important;
+  width: 100% !important;
 }
 .slider-tick {
   display: none;
@@ -341,14 +354,14 @@ export default {
   background: mix(#E86C00, #ff0d73, 100%);
 }
 .slider-handle {
-    background: #EB3874;
+  background: #EB3874;
 }
 .slider.slider-horizontal .slider-tick-label-container .slider-tick-label {
   color: gray;
 }
 @media only screen and (max-width: 768px) {
-.slider.slider-horizontal .slider-tick-label-container .slider-tick-label {
- display: none;
-}
+  .slider.slider-horizontal .slider-tick-label-container .slider-tick-label {
+    display: none;
+  }
 }
 </style>
