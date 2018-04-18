@@ -155,7 +155,6 @@ export default {
     getGuessOfTheDay () { // It's a trap (GuessOfTheWeek)
       let self = this
       GuessHelper.getGuessOfTheWeek(this.topic).then((guessNumber) => {
-        console.log(guessNumber)
         if (guessNumber !== 0) {
           self.guessIndex = guessNumber
           self.guess.id = self.guessIndex

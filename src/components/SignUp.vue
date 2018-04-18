@@ -20,97 +20,100 @@
         </b-row>
 
         <label class='mini-margin gray' for="addressInput">Address:</label>
-        <b-row class="justify-content-md-center">
-          <b-col cols="12">
-            <b-form-input v-model="address"
-                          id="addressInput"
-                          type="text"
-                          disabled
-                          size='lg'
-                          :placeholder="address"></b-form-input>
-          </b-col>
-        </b-row>
-        <br>
-        <label for="usernameInput" class="gray">Username:</label>
-        <b-row class="justify-content-md-center">
-          <b-col cols="12">
-            <b-form-input v-model="username"
-                          id="usernameInput"
-                          type="text"
-                          size='lg'
-                          placeholder="A name that rocks"></b-form-input>
-          </b-col>
-        </b-row>
-        <br>
-        <label for="usernameInput" class="gray">Mail:</label>
-        <b-row class="justify-content-md-center">
-          <b-col cols="12">
-            <b-form-input v-model="usermail"
-                          id="usernameInput"
-                          type="email"
-                          size='lg'
-                          placeholder="thisisaexample@guesser.io"></b-form-input>
-          </b-col>
-          <small class="gray">You won't receive spam (we promise)</small>
-        </b-row>
+        <b-form @submit='submit()'>
+          <b-row class="justify-content-md-center">
+            <b-col cols="12">
+              <b-form-input v-model="address"
+                            id="addressInput"
+                            type="text"
+                            disabled
+                            size='lg'
+                            :placeholder="address"></b-form-input>
+            </b-col>
+          </b-row>
+          <br>
+          <label for="usernameInput" class="gray">Username:</label>
+          <b-row class="justify-content-md-center">
+            <b-col cols="12">
+              <b-form-input v-model="username"
+                            id="usernameInput"
+                            type="text"
+                            required
+                            size='lg'
+                            placeholder="A name that rocks"></b-form-input>
+            </b-col>
+          </b-row>
+          <br>
+          <label for="usernameInput" class="gray">Mail:</label>
+          <b-row class="justify-content-md-center">
+            <b-col cols="12">
+              <b-form-input v-model="usermail"
+                            id="usernameInput"
+                            type="email"
+                            required
+                            size='lg'
+                            placeholder="thisisaexample@guesser.io"></b-form-input>
+            </b-col>
+            <small class="gray">You won't receive spam (we promise)</small>
+          </b-row>
 
-        <b-row class="justify-content-md-center mini-margin">
-          <b-col cols="12">
-            <b-alert show variant="primary">
-              Make sure to save your MetaMask login information and account recovery details! We can’t help you regain access if you lose it.
-            </b-alert>
-          </b-col>
-        </b-row>
+          <b-row class="justify-content-md-center mini-margin">
+            <b-col cols="12">
+              <b-alert show variant="primary">
+                Make sure to save your MetaMask login information and account recovery details! We can’t help you regain access if you lose it.
+              </b-alert>
+            </b-col>
+          </b-row>
 
-        <b-row class="justify-content-md-center">
-          <b-col cols="12" md="auto">
-            <b-button type="submit"
-                      class='mini-margin'
-                      variant="primary"
-                      @click='submit()'
-                      size='lg'>Submit</b-button>
-          </b-col>
-        </b-row>
+          <b-row class="justify-content-md-center">
+            <b-col cols="12" md="auto">
+              <b-button type="submit"
+                        class='mini-margin'
+                        variant="primary"
+                        size='lg'>Submit</b-button>
+            </b-col>
+          </b-row>
+        </b-form>
 
       </div>
     </b-row>
     <!-- User disconnected -->
-      <div v-else-if="web3State == 'locked'">
+    <div v-else-if="web3State == 'locked'">
 
-<b-row style="margin-top:5%;">
-  <b-col offset-md="1" md="auto">
-      <h1>Your MetaMask is locked</h1>
-      <br>
-      <h4 style='color:gray'>Simply open MetaMask and follow the instructions to unlock it.</h4>
-  </b-col>
-  <b-col>
-        <b-img src="http://www.emoji.co.uk/files/mozilla-emojis/objects-mozilla/11971-lock.png" fluid alt="Responsive image" />
-  </b-col>
-    </b-row>
-      </div>
+      <b-row style="margin-top:5%;">
+        <b-col offset-md="1" md="auto">
+          <h1>Your MetaMask is locked</h1>
+          <br>
+          <h4 style='color:gray'>Simply open MetaMask and follow the instructions to unlock it.</h4>
+        </b-col>
+        <b-col>
+          <b-img src="http://www.emoji.co.uk/files/mozilla-emojis/objects-mozilla/11971-lock.png" fluid alt="Responsive image" />
+          </b-col>
+        </b-row>
+    </div>
 
     <!-- User disconnected -->
     <div v-else-if="web3State == 'disconnected'">
-    <b-row align-h="center" align-v="center">
-      <h1><i>"Where are you?"</i></h1>
-      <div>
-        <b-img src="https://i.imgur.com/j51uHm1.gif" fluid alt="Responsive image" />
-      </div>
-    </b-row>
-    <b-row align-h="center" align-v="center">
-      <b-alert show variant="primary">
-        <h4 class="alert-heading">You need to install Metamask</h4>
-        <p>
-          You’ll need a safe place to store all of your wins! The perfect place is in a secure wallet like MetaMask. This will also act as your login to the game (no extra password needed).
-        </p>
-        <hr>
-        <b-button :size="lg" variant="primary">
-          INSTALL METAMASK
-        </b-button>
-      </b-alert>
-    </b-row>
+      <b-row align-h="center" align-v="center">
+        <h1><i>"Where are you?"</i></h1>
+        <div>
+          <b-img src="https://i.imgur.com/j51uHm1.gif" fluid alt="Responsive image" />
+        </div>
+          </b-row>
+          <b-row align-h="center" align-v="center">
+            <b-alert show variant="primary">
+              <h4 class="alert-heading">You need to install Metamask</h4>
+              <p>
+              You’ll need a safe place to store all of your wins! The perfect place is in a secure wallet like MetaMask. This will also act as your login to the game (no extra password needed).
+              </p>
+              <hr>
+              <b-button :size="lg" variant="primary">
+                INSTALL METAMASK
+              </b-button>
+            </b-alert>
+          </b-row>
     </div>
-</div>
+  </div>
 </template>
 
 <script>

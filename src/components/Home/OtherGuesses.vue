@@ -40,8 +40,6 @@ export default {
       this.guesses = []
       for (var i = 0; i < this.guessesByNumber.length; i++) {
         let _index = this.guessesByNumber[i].c[0]
-        console.log('Event', _index)
-        console.log('Highlig', this.guessStar)
 
         if (_index !== 0 && _index !== this.guessStar) { // 0 is empy, Highlighted is already shown
           GuessHelper.getGuessFront(_index).then((guess) => {
@@ -89,7 +87,7 @@ export default {
 
       GuessHelper.getEventItemState(_index).then((eventItemState) => {
         self.guesses[_localIndex].eventState = eventItemState
-        console.log(self.guesses[_localIndex].id, eventItemState)
+        console.log('Event:', self.guesses[_localIndex].id, eventItemState)
       }).catch(err => {
         console.log(err)
       })
@@ -129,7 +127,6 @@ export default {
       GuessHelper.getGuessOfTheWeek(this.topic).then((guessNumber) => {
         if (guessNumber !== 0) {
           self.guessStar = guessNumber
-          console.log('Highligted', this.guessStar)
         }
       }).catch(err => {
         return err

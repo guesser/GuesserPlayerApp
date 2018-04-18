@@ -38,7 +38,7 @@ export default {
   methods: {
     printGuesses () {
       for (var i = 0; i < this.guessesByNumber.length; i++) {
-        console.log(this.guessesByNumber[i].c[0])
+        console.log('Id:', this.guessesByNumber[i].c[0])
         let _index = this.guessesByNumber[i].c[0]
         if (_index !== 0) { // Guess 0 is the empty one
           GuessHelper.getGuessFront(_index).then((guess) => {
@@ -84,7 +84,6 @@ export default {
     printGuessesOptions (_index, _localIndex) {
       let self = this
       GuessHelper.getGuessOptions(_index).then((guess) => {
-        console.log(guess)
         self.guesses[_localIndex].option1 = guess[0]
         self.guesses[_localIndex].option2 = guess[1]
         self.guesses[_localIndex].option1Validations = guess[4].c[0]
@@ -101,7 +100,7 @@ export default {
       for (var i = 0; i < 7; i++) {
         GuessHelper.getGuessesToValidate(0, this.$moment().subtract(i, 'days').unix()).then((_guesses) => {
           self.guessesByNumber = self.guessesByNumber.concat(_guesses)
-          console.log(_guesses)
+          // console.log(_guesses)
           finished++
           if (finished === 7) {
             self.printGuesses()

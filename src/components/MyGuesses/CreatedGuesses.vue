@@ -73,7 +73,6 @@ export default {
               'option2amounteth': 'loading...',
               'amountEth': 'Loading...'
             })
-            console.log()
             this.printEventsOptions(_index, this.totalEvents)
             this.getOptionsProfits(_index, this.totalEvents)
             this.printEventState(_index, this.totalEvents)
@@ -90,7 +89,7 @@ export default {
 
       GuessHelper.getEventItemState(_index).then((eventItemState) => {
         self.events[_localIndex].eventState = eventItemState
-        console.log(self.events[_localIndex].id, self.events[_localIndex].eventState)
+        console.log('Event:', self.events[_localIndex].id, self.events[_localIndex].eventState)
       }).catch(err => {
         console.log(err)
       })
