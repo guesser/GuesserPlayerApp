@@ -233,7 +233,7 @@ export default {
       let _durationTime = Math.ceil(self.form.durationTime)
       console.log('Duration:', _durationTime, 'hours')
 
-      var validationDate = self.$moment(finalDate).add(self.form.durationTime, 'hours')
+      var validationDate = self.$moment(finalDate).add(_durationTime, 'hours')
       console.log(finalDate.format('[Final:] MMMM D, YYYY [at] H[h]'))
       console.log(validationDate.format('[Validation:] MMMM D, YYYY [at] H[h]'))
       self.show('creation', 'success')

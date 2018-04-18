@@ -36,7 +36,7 @@
       </b-tabs>
     </b-card>
   
-    <div class="charts">
+    <div v-if="chartsShow" class="charts">
       <Charts/>
     </div>
   </div>
@@ -56,7 +56,8 @@ export default {
   name: 'MyGuesses',
   data () {
     return {
-      tabIndex: 0
+      tabIndex: 0,
+      chartsShow: false
     }
   },
   components: {
