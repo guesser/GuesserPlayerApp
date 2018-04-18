@@ -260,6 +260,47 @@ contract Guess is DateTime{
   }
 
   /**
+  * @dev Returns the top Guess of the actual day by topic
+  * @param _topic uint256 the genre of the guess we are looking for
+    * @return uint256 with top guess of the day
+  */
+  function getWeekGuess(bytes32 _topic) public view returns(uint256){
+    uint256 _year;
+    uint256 _month;
+    uint256 _day;
+    
+    bool found = false;
+    uint256 _choosen = 0;
+    uint256 _choosenVotes = 0;
+    bool _guessFinished;
+
+    for (uint256 d = 0 ; d < 6 ; d++) {
+    _year = DateTime.getYear(now + d * 86400) * 10000;
+    _month = DateTime.getMonth(now + d * 86400) * 100;
+    _day = DateTime.getDay(now + d * 86400);
+    uint256[] storage _guesses = guessesByDate[_year + _month + _day];
+
+      for (uint256 i = 0; i<_guesses.length; i++) {
+        _guessFinished = DateTime.dateDue(guesses[_guesses[i]].finalDate);
+        if(guesses[_guesses[i]].topic == _topic && _guessFinished == false) {
+          // Same topic and in the correct time
+          // It returns the last best guess
+          if (_choosenVotes < (guesses[_guesses[i]].option1Votes + guesses[_guesses[i]].option2Votes) || found==false) {
+            _choosen = _guesses[i];
+            _choosenVotes = guesses[_guesses[i]].option1Votes + guesses[_guesses[i]].option2Votes;
+            found = true;
+          }
+        }
+      }
+    }
+    if (found == true && DateTime.dateDue(guesses[_choosen].finalDate) == false) {
+      return _choosen;
+    } else {
+      return 0;
+    }
+  }
+
+  /**
   * @dev Returns the guesses of a topic by a date
   * @param _index uint256 the number of the index in the list of daily guesses. Goes from 10 to 10
   * @param _topic uint256 the genre of the guess we are looking for
@@ -274,14 +315,15 @@ contract Guess is DateTime{
 
     require(_guesses.length > _index*10);
 
-    uint256 _todayGuess = getTodayGuess(_topic);
+    // uint256 _todayGuess = getTodayGuess(_topic);
 
     // Check the range is inside the length
     uint8 _guessNumber = 0;
     uint256[10] memory _todayGuesses;
     uint256 i = _index * 10;
     while (_guessNumber<10 && i<_guesses.length) {
-      if (guesses[_guesses[i]].topic == _topic && _guesses[i] != _todayGuess) {
+      // if (guesses[_guesses[i]].topic == _topic && _guesses[i] != _todayGuess) {
+      if (guesses[_guesses[i]].topic == _topic) {
         _todayGuesses[_guessNumber] = _guesses[i];
         _guessNumber++;
       }

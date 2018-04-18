@@ -203,6 +203,20 @@ const GuessHelper = {
     })
   },
 
+  getGuessOfTheWeek: function (topic) {
+    let self = this
+
+    return new Promise((resolve, reject) => {
+      self.instance.getWeekGuess.call(
+        window.web3.utils.toHex(topic)
+      ).then(_guessIndex => {
+        resolve(_guessIndex.c[0])
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  },
+
   getGuessesByDate: function (index, topic, date) {
     let self = this
 
