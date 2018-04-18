@@ -219,43 +219,11 @@ contract DateTime {
 
   /* @dev Function that tells you if a date is due
    * @param _date uint256 the date you want to check with the current date.
-   * The minutes and seconds are not being checked.
    * @return bool if the date is due then will return true
    */
   function dateDue (uint256 _date) public view returns (bool) {
-    uint256 _currentYear = DateTime.getYear(now);
-    uint256 _currentMonth = DateTime.getMonth(now);
-    uint256 _currentDay = DateTime.getDay(now);
-    uint256 _currentHour = DateTime.getHour(now);
+    require(_date > 0);
 
-    uint256 _year = DateTime.getYear(_date);
-    uint256 _month = DateTime.getMonth(_date);
-    uint256 _day = DateTime.getDay(_date);
-    uint256 _hour = DateTime.getHour(_date);
-
-    // Comparing the dates
-    if (_currentYear == _year) { // Is it the same year?
-      if (_currentMonth == _month) { // Is it the same month?
-        if (_currentDay == _day) { // Is it the same day?
-          if (_currentHour < _hour) { // is the current hour higher?
-            return false;
-          } else {
-            return true;
-          }
-        } else if (_currentDay < _day) {
-          return false;
-        } else {
-          return true;
-        }
-      } else if(_currentMonth < _month) {
-        return false;
-      } else {
-        return true;
-      }
-    } else if(_currentYear < _year){
-      return false;
-    } else {
-      return true;
-    }
-  }
+    return (now > _date);
+ }
 }
