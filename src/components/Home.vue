@@ -25,7 +25,7 @@
       <TopicList/>
     </div>
     <div class='guesses'>
-      <h2 style="font-size:calc(1em + 2vw);">The <b>{{topic}}</b> event of the day!</h2>
+      <h2 style="font-size:calc(1em + 2vw);">The <b>{{topic}}</b> event of the week!</h2>
       <GuessOfTheDay :topic="topic"/>
       <br>
       <OtherGuesses :topic="topic"/>

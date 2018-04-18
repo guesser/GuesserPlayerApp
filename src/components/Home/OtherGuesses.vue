@@ -31,7 +31,8 @@ export default {
       contentLoaded: true,
       guesses: [],
       guessesByNumber: [],
-      totalGuesses: 0
+      totalGuesses: 0,
+      guessStar: 0
     }
   },
   methods: {
@@ -39,7 +40,10 @@ export default {
       this.guesses = []
       for (var i = 0; i < this.guessesByNumber.length; i++) {
         let _index = this.guessesByNumber[i].c[0]
-        if (_index !== 0) { // Guess 0 is the empty one
+        console.log('Event', _index)
+        console.log('Highlig', this.guessStar)
+
+        if (_index !== 0 && _index !== this.guessStar) { // 0 is empy, Highlighted is already shown
           GuessHelper.getGuessFront(_index).then((guess) => {
             if (this.$moment(guess[5]).subtract(this.$moment(guess[5]).minute(), 'minutes').unix() > this.$moment().unix()) {
               let _url = 'www.guesser.io/#/search?_id=' + _index
@@ -119,9 +123,24 @@ export default {
       })
     },
 
+    getGuessStar () {
+      let self = this
+
+      GuessHelper.getGuessOfTheWeek(this.topic).then((guessNumber) => {
+        if (guessNumber !== 0) {
+          self.guessStar = guessNumber
+          console.log('Highligted', this.guessStar)
+        }
+      }).catch(err => {
+        return err
+      })
+    },
+
     getGuessesByDate () {
       let self = this
       var finished = 0
+
+      self.getGuessStar()
       for (var i = 0; i < 7; i++) {
         GuessHelper.getGuessesByDate(0, this.topic, this.$moment().add(i, 'days').unix()).then((_guesses) => {
           self.guessesByNumber = self.guessesByNumber.concat(_guesses)

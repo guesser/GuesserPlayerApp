@@ -152,9 +152,9 @@ export default {
         console.log(err)
       })
     },
-    getGuessOfTheDay () {
+    getGuessOfTheDay () { // It's a trap (GuessOfTheWeek)
       let self = this
-      GuessHelper.getGuessOfTheDay(this.topic).then((guessNumber) => {
+      GuessHelper.getGuessOfTheWeek(this.topic).then((guessNumber) => {
         console.log(guessNumber)
         if (guessNumber !== 0) {
           self.guessIndex = guessNumber
