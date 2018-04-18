@@ -1,19 +1,12 @@
 <template>
   <div class='outside' style="">
     <!--Alert-->
-    <b-alert variant="success"
-             dismissible
-             :show="guessVotingAlert"
-             @dismissed="showVotingAlert=false">
-      Hang in there... Guess being voted.
-    </b-alert>
-    <b-alert variant="danger"
-             dismissible
-             :show="guessVotingFailedAlert"
-             @dismissed="showVotingFailedAlert=false">
-      It seems the voting failed...
-    </b-alert>
-
+    <notifications group="voteAlert"
+                   position="top center"
+                   classes="vue-notification voteAlert"
+                   :max="2"
+                   width="320px"
+                   :speed="800"/>
 
     <div v-if='contentLoaded'>
       <Loading/>

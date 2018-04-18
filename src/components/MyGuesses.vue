@@ -57,7 +57,7 @@ export default {
   data () {
     return {
       tabIndex: 0,
-      chartsShow: false
+      chartsShow: true
     }
   },
   components: {

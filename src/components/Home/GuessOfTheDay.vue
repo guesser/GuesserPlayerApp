@@ -28,25 +28,6 @@
         </b-row>
       </b-container>
     </div>
-
-    <!-- Modal Payment -->
-    <b-modal ref="paymentModal"
-             centered
-             title="Choose amount"
-             hide-footer
-             :header-bg-variant="topic">
-      <b-form-group id="titleGroup"
-                    label="Amount of other you want to sent:"
-                    label-for="amountInput">
-        <b-form-input id="amountInput"
-                      type="number"
-                      v-model="ethAmountToVote"
-                      required>
-        </b-form-input>
-      </b-form-group>
-
-      <b-button @click="voteGuess()" variant="primary" size="sm">Vote</b-button>
-    </b-modal>
   </div>
 </template>
 
@@ -90,23 +71,6 @@ export default {
     }
   },
   methods: {
-    showVoteAlert (group, type = '') {
-      var title = ''
-      var text = ''
-      if (type === 'success') {
-        title = 'Votation success!'
-        text = 'Your prediction is being processed'
-      } else {
-        title = 'Votation error!'
-        text = 'Your prediction process failed, try again'
-      }
-      this.$notify({
-        group,
-        title,
-        text,
-        type
-      })
-    },
     show (group) {
       this.$notify({
         group

@@ -1,14 +1,5 @@
 <template>
   <div>
-
-    <!--Alert-->
-    <notifications group="voteAlert"
-                   position="top center"
-                   classes="vue-notification voteAlert"
-                   :max="1"
-                   width="300px"
-                   :speed="500"/>
-
     <b-card :border-variant="eventItem.topic"
                    :header="eventItem.title"
                    :header-bg-variant="eventItem.topic"
@@ -263,9 +254,9 @@ export default {
       // let self = this
       this.$refs.paymentModal.hide()
       console.log(this.ethAmountToVote)
+      this.showVoteAlert('voteAlert', 'success')
       GuessHelper.voteGuess(this.eventItem.id, this.optionVoted, this.ethAmountToVote).then(() => {
         console.log('Transaction pending...')
-        this.showVoteAlert('voteAlert', 'success')
       }).catch(err => {
         console.log(err)
         this.showVoteAlert('voteAlert', 'error')
