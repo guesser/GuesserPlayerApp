@@ -1,91 +1,24 @@
 pragma solidity ^0.4.17;
 
-import "./library/DateTime.sol";
+import "./DateTime.sol";
+import "./interface/GuesserStorageInterface.sol";
 
 /**
  * @title Guess
  * @dev Guess contract to vote and create events in the Guesser platform.
  */
-contract Guess is DateTime{
-  // Events
-  event GuessCreated(uint256 index, string title, bytes32 topic);
-  event GuessVoted(uint256 index,
-                   uint8 option,
-                   string title,
-                   string optionName,
-                   uint256 value,
-                   address user);
-  event GuessValidated(uint256 guess, uint8 option, address sender);
-  event ProfitsReturned(uint256 guess);
-  event test_value(uint256 indexed value1);
+contract Guesser is DateTime{
+    event test_value(uint256 indexed value1);
 
-  // Data structures
-  struct GuessStruct {
-    string title;
-    string description;
-    bytes32 topic;
-    address creator;
-    /* The voters and the option the voted
-     * It will store an array which has:
-     * 0. The option voted as a first argument (1 or 2, or 3 if both options were voted by the address)
-     * 1. The amount voted in the first option
-     * 2. The amount voted in the second option
+    GuesserStorageInterface  guesserStorage;
+
+    /**
+     * @dev constructor. Sets the guesserStorage address for the
+     * Eternal Storage Pattern
      */
-    mapping (address => uint256[3]) votersOption;
-    address[] voters;
-
-    // About validatorsOption
-    // Put it outside
-    // address --> [guess, option]
-    mapping (address => uint8) validatorsOption;
-    address[] validators;
-    uint256 startingDate;
-    uint256 finalDate;
-    uint256 validationDate;
-    // Options to vote
-    string option1;
-    string option2;
-    // Number of votes an option has
-    uint256 option1Votes;
-    uint256 option2Votes;
-    // Number of validations an option has
-    uint256 option1Validation;
-    uint256 option2Validation;
-    // Has the guess returned the profits?
-    bool profitsReturned;
-  }
-  GuessStruct[] guesses; // Data structure to store all the guesses in the platform
-  mapping (uint256 => uint256[]) guessesByDate; // Storing the guesses by their date
-  // The dates are in this format: 0000:year, 00:month, 00:day
-  // Example: 19940831
-  mapping (address => uint256[]) guessesByAddress; // Storing the guesses by their voters
-  mapping (address => uint256[]) guessesCreatedByAddress; // Storing the guesses by their creators
-
-  // Constructor
-  function Guess () public {
-    address[] memory _voters; // TODO: Be sure this has to be memory and not internal
-    address[] memory _validators; // TODO: Be sure this has to be memory and not internal
-    GuessStruct memory _guess = GuessStruct({
-      title: '',
-      description: '',
-      topic: '',
-      creator: 0x00000000000000000000000000000000,
-      voters: _voters,
-      validators: _validators,
-      startingDate: now,
-      finalDate: 0,
-      validationDate: 0,
-      option1: '',
-      option2: '',
-      option1Votes: 0,
-      option2Votes: 0,
-      option1Validation: 0,
-      option2Validation: 0,
-      profitsReturned: false
-    });
-    guesses.push(_guess);
-  }
-
+    constructor (address _guesserStorageAddress) public {
+      guesserStorage = GuesserStorageInterface(_guesserStorageAddress);
+    }
   /**
   * @dev Function that creates a Guess.
   * @param _title string The title of the Guess.
@@ -104,34 +37,16 @@ contract Guess is DateTime{
     string _option1,
     string _option2
   ) public {
-    address[] memory _voters; // TODO: Be sure this has to be memory and not internal
-    address[] memory _validators; // TODO: Be sure this has to be memory and not internal
-
-    GuessStruct memory _guess = GuessStruct({
-      title: _title,
-      description: _description,
-      topic: _topic,
-      creator: msg.sender,
-      voters: _voters,
-      validators: _validators,
-      startingDate: now,
-      finalDate: _finalDate,
-      validationDate: _validationDate,
-      option1: _option1,
-      option2: _option2,
-      option1Votes: 0,
-      option2Votes: 0,
-      option1Validation: 0,
-      option2Validation: 0,
-      profitsReturned: false
-    });
-    uint256 _len = guesses.push(_guess) -1; // Adds the new struct and return its position
-    uint256 _year = DateTime.getYear(_finalDate) * 10000;
-    uint256 _month = DateTime.getMonth(_finalDate) * 100;
-    uint256 _day = DateTime.getDay(_finalDate);
-    guessesByDate[_year + _month + _day].push(_len);
-    guessesCreatedByAddress[msg.sender].push(_len);
-    GuessCreated(_len, _title, _topic);
+    // TODO: Make the require for the input variables
+    guesserStorage.setGuess(
+                            _title,
+                            _description,
+                            _topic,
+                            _finalDate,
+                            _validationDate,
+                            _option1,
+                            _option2
+                            );
   }
 
   /**
@@ -146,39 +61,41 @@ contract Guess is DateTime{
     * @return uint256 The date when the Guess finish.
     */
   function getGuess(uint256 _index) public view returns (string, string, bytes32, address, uint256, uint256, uint256) {
-    return (guesses[_index].title,
-            guesses[_index].description,
-            guesses[_index].topic,
-            guesses[_index].creator,
-            guesses[_index].startingDate,
-            guesses[_index].finalDate,
-            guesses[_index].validationDate
+    return (guesserStorage.getGuessTitle(_index),
+            guesserStorage.getGuessDescription(_index),
+            guesserStorage.getGuessTopic(_index),
+            guesserStorage.getGuessCreator(_index),
+            guesserStorage.getGuessStartingDate(_index),
+            guesserStorage.getGuessFinalDate(_index),
+            guesserStorage.getGuessValidationDate(_index),
            );
   }
 
   /**
   * @dev Function that returns the options to vote a Guess has,
   * its votes and validations.
-    * @param _index uint256 represents the index of the stored Guess in the
+  * @param _index uint256 represents the index of the stored Guess in the
   * global array.
-    * @return string The first option to vote on the Guess
+  * @return string The first option to vote on the Guess
   * @return string The second option to vote on the Guess
   * @return uint256 The votes of the first option in the Guess
   * @return uint256 The votes of the second option in the Guess
   * @return uint256 The number of validations for the first option
-    * @return uint256 The number of validations for the second option
-      */
+  * @return uint256 The number of validations for the second option
+  */
   function getGuessOptions (uint256 _index) public view returns (string, string, uint256, uint256,uint256, uint256) {
-    if (DateTime.dateDue(guesses[_index].validationDate) == true) {
-      uint256 validations = guesses[_index].option1Validation + guesses[_index].option2Validation;
-      uint256 votes = guesses[_index].option1Votes + guesses[_index].option2Votes;
+    if (DateTime.dateDue(guesserStorage.getGuessValidationDate(_index)) == true) {
+      uint256 validations = guesserStorage.getGuessOptionValidation(_index, 1) +
+        guesserStorage.getGuessOptionValidation(_index, 2);
+      uint256 votes = guesserStorage.getGuessOptionVotes(_index, 1) +
+        guesserStorage.getGuessOptionVotes(_index, 2);
 
       // Enough validations
       uint256 half = ((((votes * 10) / 2) - ((votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
       if (validations < half) {
         return (
-                guesses[_index].option1,
-                guesses[_index].option2,
+                guesserStorage.getGuessOption(_index, 1),
+                guesserStorage.getGuessOption(_index, 2),
                 0,
                 0,
                 0,
@@ -187,12 +104,12 @@ contract Guess is DateTime{
       }
     }
     return (
-      guesses[_index].option1,
-      guesses[_index].option2,
-      guesses[_index].option1Votes,
-      guesses[_index].option2Votes,
-      guesses[_index].option1Validation,
-      guesses[_index].option2Validation
+            guesserStorage.getGuessOption(_index, 1),
+            guesserStorage.getGuessOption(_index, 2),
+            guesserStorage.getGuessOptionVotes(_index, 1),
+            guesserStorage.getGuessOptionVotes(_index, 2),
+            guesserStorage.getGuessOptionValidation(_index, 1),
+            guesserStorage.getGuessOptionValidation(_index, 2)
     );
   }
 
@@ -202,8 +119,11 @@ contract Guess is DateTime{
   * @return uint256 the amount of eth in the second option
   */
   function getGuessOptionsProfits (uint256 _index) public view returns (uint256, uint256) {
-    uint256 validations = guesses[_index].option1Validation + guesses[_index].option2Validation;
-    uint256 votes = guesses[_index].option1Votes + guesses[_index].option2Votes;
+    uint256 validations = guesserStorage.getGuessOptionValidation(_index, 1) +
+      guesserStorage.getGuessOptionValidation(_index, 2);
+    uint256 votes = guesserStorage.getGuessOptionVotes(_index, 1) +
+      guesserStorage.getGuessOptionVotes(_index, 2);
+
     uint256 half = ((((votes * 10) / 2) - ((votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
     if (DateTime.dateDue(guesses[_index].validationDate) == true && validations < half) {
         return (
@@ -222,7 +142,7 @@ contract Guess is DateTime{
   * @return A uint256 with the actual length of the array of guesses
   */
   function getGuessesLength() public view returns (uint256){
-    return guesses.length;
+    guesserStorage.getGuessesLenght();
   }
 
   /**
@@ -234,26 +154,30 @@ contract Guess is DateTime{
     uint256 _year = DateTime.getYear(now) * 10000;
     uint256 _month = DateTime.getMonth(now) * 100;
     uint256 _day = DateTime.getDay(now);
-    uint256[] storage _guesses = guessesByDate[_year + _month + _day];
+    uint256 _guessesLength = guesserStorage.getGuessByDayLength(_year + _month + _day);
 
     bool found = false;
     uint256 _choosen = 0;
     uint256 _choosenVotes = 0;
     bool _guessFinished;
-    for (uint256 i = 0; i<_guesses.length; i++) {
-      _guessFinished = DateTime.dateDue(guesses[_guesses[i]].finalDate);
-      if(guesses[_guesses[i]].topic == _topic && _guessFinished == false) {
+    uint256 _guessIndex = 0;
+    for (uint256 i = 0; i < _guessesLength; i++) {
+      _guessIndex = guessesStorage.getGuessByDay(_year + _month + _day, i);
+      _guessFinished = DateTime.dateDue(guesserStorage.getGuessFinalDate(_guessIndex));
+      if(guesses[guessesStorage.getGuessTopic(_guessIndex) == _topic && _guessFinished == false) {
         // Same topic and in the correct time
         // It returns the last best guess
-        if (_choosenVotes < (guesses[_guesses[i]].option1Votes + guesses[_guesses[i]].option2Votes) || found==false) {
-          _choosen = i;
-          _choosenVotes = guesses[_guesses[i]].option1Votes + guesses[_guesses[i]].option2Votes;
+        uint256 _votes = guesserStorage.getGuessOptionVotes(_guessIndex, 1) +
+          guesserStorage.getGuessOptionVotes(_guessIndex, 2);
+        if (_choosenVotes < _votes || found==false) {
+          _choosen = _guessIndex;
+          _choosenVotes = _votes;
           found = true;
         }
       }
     }
-    if (found == true && DateTime.dateDue(guesses[_guesses[_choosen]].finalDate) == false) {
-      return _guesses[_choosen];
+      if (found == true && DateTime.dateDue(guesserStorage.getGuessFinalDate(_choosen)) == false) {
+      return _choosen;
     } else {
       return 0;
     }
@@ -527,22 +451,22 @@ contract Guess is DateTime{
   */
   function getGuessProfitsByOption (uint256 _guess, uint256 _option) public view returns (uint256) {
     // Does the guess exists?
-    require(_guess <= guesses.length-1);
+    require(_guess <= guesserStorage.getGuessLength() - 1);
     // Is the option valid?
     require(_option == 1 || _option == 2);
 
-    if (guesses[_guess].voters.length == 0) {
+    if (guesserStorage.getGuessVotersLength(_guess) == 0) {
       return 0;
     }
 
     uint256 _profits = 0;
     address _address;
-    for(uint256 _voterIndex = 0; _voterIndex < guesses[_guess].voters.length; _voterIndex++) {
+    for(uint256 _voterIndex = 0; _voterIndex < guesserStorage.getGuessVotersLength(_guess); _voterIndex++) {
       // Option has to be the correct or 3, which means the user voted both options
-      if(guesses[_guess].votersOption[guesses[_guess].voters[_voterIndex]][0] == _option ||
-         guesses[_guess].votersOption[guesses[_guess].voters[_voterIndex]][0] == 3) {
-        _address = guesses[_guess].voters[_voterIndex];
-        _profits += guesses[_guess].votersOption[_address][_option];
+      _address = guesserStorage.getGuessVoter(_guess, _voterIndex);
+      if(guesserStorage.getGuessVotersOption(_guess, _address, 0) == _option ||
+         guesserStorage.getGuessVotersOption(_guess, _address, 0) == 3) {
+        _profits += guesserStorage.getGuessVotersOption(_guess, _address, _option);
       }
     }
 
