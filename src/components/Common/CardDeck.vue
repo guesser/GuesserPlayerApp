@@ -6,129 +6,140 @@
                          v-for="j in counter2"
                          :key="j"
                          v-if="events[maxCol*n + j]"
-                         style="height: 100%;"
                          :border-variant="events[maxCol*n + j].topic"
                          header-tag="header"
                          :header-bg-variant="bgVariant(events[maxCol*n + j].topic)"
                          :header-border-variant="events[maxCol*n +j].topic"
                          header-text-variant="black"
+                         footer-bg-variant="white"
+                         footer-border-variant="white"
                          align="center">
           <div slot="header" @click="showPaymentModal(events[maxCol*n + j].id, maxCol*n + j)">
             {{events[maxCol*n + j].title}}
           </div>
-          <p class="card-text" @click="showPaymentModal(events[maxCol*n + j].id, maxCol*n + j)">
-          <span v-if="descriptionAllow">
-            {{events[maxCol*n + j].description}}<br><br>
-          </span>
-          Created at: <b>{{events[maxCol*n + j].startingDay}}</b>
-          <br>
-          Voting open until: <b>{{events[maxCol*n + j].finishingDay}}</b>
-          <br>
-          <span v-if="events[maxCol*n + j].eventState == 'voting'">
-            <small>Validation starts after: <b>{{events[maxCol*n + j].eventDuration}}</b></small>
-          </span>
-
-          <!--Waiting time bar-->
-          <span v-if="events[maxCol*n + j].eventState == 'waiting'">
-            <small>Waiting: <b>{{events[maxCol*n + j].eventDuration}}</b></small>
-            <b-row align-h="center">
-              <b-progress class="w-50" :max="waitingTime(maxCol*n + j)" striped>
-                <b-progress-bar :value="waitingDone(maxCol*n+j)" variant="pink">
-                </b-progress-bar>
-              </b-progress>
-            </b-row>
-          </span>
-          </p>
-
-          <span v-if="events[maxCol*n + j].eventState == 'passed'">
-            Passed event
-          </span>
-          </p>
-
-          <div v-if="events[maxCol*n + j].eventState != 'validating'">
-            <!--Number of people Progress Bar-->
-            <div v-if="peopleBar">
+          <!--======= BODY =======-->
+          <div id="Body1">
+              <p class="card-text" @click="showPaymentModal(events[maxCol*n + j].id, maxCol*n + j)">
+              <span v-if="descriptionAllow">
+                {{events[maxCol*n + j].description}}<br><br>
+              </span>
+              Created at: <b>{{events[maxCol*n + j].startingDay}}</b>
               <br>
-              <span>Votes for each outcome: </span>
-              <b-progress class="mt-1" :max="10*(events[maxCol*n + j].votes/10)" show-value striped>
-                <b-progress-bar :value="10*(events[maxCol*n + j].option1votes/10)" variant="pink">
-                  {{events[maxCol*n + j].option1}} - {{ events[maxCol*n + j].option1votes }}
-                </b-progress-bar>
-                <b-progress-bar :value="10*(events[maxCol*n + j].option2votes/10)" variant="magenta">
-                  {{events[maxCol*n + j].option2}} - {{ events[maxCol*n + j].option2votes }}
-                </b-progress-bar>
-              </b-progress>
-              <small>Total: {{events[maxCol*n + j].votes}} people</small>
-            </div>
-
-            <!--Amount of eth in each option-->
-            <div v-if="ethBar">
+              Voting open until: <b>{{events[maxCol*n + j].finishingDay}}</b>
               <br>
-              <span>Eth staked on each outcome: </span>
-              <b-progress class="mt-1" :max="10*(events[maxCol*n + j].amountEth/10)" show-value striped>
-                <b-progress-bar :value="10*(events[maxCol*n + j].option1AmountEth/10)" variant="pink">
-                  {{events[maxCol*n + j].option1}} - {{ events[maxCol*n + j].option1AmountEth }}
-                </b-progress-bar>
-                <b-progress-bar :value="10*(events[maxCol*n + j].option2AmountEth/10)" variant="magenta">
-                  {{events[maxCol*n + j].option2}} - {{ events[maxCol*n + j].option2AmountEth }}
-                </b-progress-bar>
-              </b-progress>
-              <small>Total: {{events[maxCol*n + j].amountEth}} ether</small>
-            </div>
-          </div>
-          <div v-else>
-            <div class="warnVal">
-              VALIDATION PROCESS
-            </div>
-          </div>
+              <span v-if="events[maxCol*n + j].eventState == 'voting'">
+                <small>Validation starts after: <b>{{events[maxCol*n + j].eventDuration}}</b></small>
+              </span>
 
-          <!-- Share button and ID -->
-          <b-row v-if="shareable" align-h="end" align-v="end" style="color: #ff0d78">
-            #{{events[maxCol*n + j].id}}
-            <b-btn id="idCopy" variant="link" size="sm"
-                                              @click="show('copyAlert');"
-                                              v-clipboard:copy="events[maxCol*n +j].url">
-              <img width="20px" src="../../assets/shareicon.png"/>
-            </b-btn>
+              <!--Waiting time bar-->
+              <span v-if="events[maxCol*n + j].eventState == 'waiting'">
+                <small>Waiting: <b>{{events[maxCol*n + j].eventDuration}}</b></small>
+                <b-row align-h="center">
+                  <b-progress class="w-50" :max="waitingTime(maxCol*n + j)" striped>
+                    <b-progress-bar :value="waitingDone(maxCol*n+j)" :variant="events[maxCol*n + j].topic.toLowerCase()">
+                    </b-progress-bar>
+                  </b-progress>
+                </b-row>
+              </span>
+              </p>
+
+          <b-row align-v="center">
+            <b-col>
+              <span v-if="events[maxCol*n + j].eventState == 'passed'">
+                Passed event
+              </span>
+              </p>
+
+              <div v-if="events[maxCol*n + j].eventState != 'validating'">
+                <!--Number of people Progress Bar-->
+                <div v-if="peopleBar">
+                  <br>
+                  <span>Votes for each outcome: </span>
+                  <b-progress class="mt-1" :max="10*(events[maxCol*n + j].votes/10)" show-value striped>
+                    <b-progress-bar :value="10*(events[maxCol*n + j].option1votes/10)" variant="pink">
+                      {{events[maxCol*n + j].option1}} - {{ events[maxCol*n + j].option1votes }}
+                    </b-progress-bar>
+                    <b-progress-bar :value="10*(events[maxCol*n + j].option2votes/10)" variant="magenta">
+                      {{events[maxCol*n + j].option2}} - {{ events[maxCol*n + j].option2votes }}
+                    </b-progress-bar>
+                  </b-progress>
+                  <small>Total: {{events[maxCol*n + j].votes}} people</small>
+                </div>
+
+                <!--Amount of eth in each option-->
+                <div v-if="ethBar">
+                  <br>
+                  <span>Eth staked on each outcome: </span>
+                  <b-progress class="mt-1" :max="10*(events[maxCol*n + j].amountEth/10)" show-value striped>
+                    <b-progress-bar :value="10*(events[maxCol*n + j].option1AmountEth/10)" variant="pink">
+                      {{events[maxCol*n + j].option1}} - {{ events[maxCol*n + j].option1AmountEth }}
+                    </b-progress-bar>
+                    <b-progress-bar :value="10*(events[maxCol*n + j].option2AmountEth/10)" variant="magenta">
+                      {{events[maxCol*n + j].option2}} - {{ events[maxCol*n + j].option2AmountEth }}
+                    </b-progress-bar>
+                  </b-progress>
+                  <small>Total: {{events[maxCol*n + j].amountEth}} ether</small>
+                </div>
+              </div>
+              <div v-else>
+                <div class="warnVal">
+                  VALIDATION PROCESS
+                </div>
+              </div>
+            </b-col>
           </b-row>
+          </div>
 
-          <!-- Buttons -->
-          <div v-if="buttonsAllow">
-            <div v-if="mode === 1 && events[maxCol*n + j].eventState != 'validating'">
-              <b-button style="margin: 2px 20px"
-                        @click="showPaymentModal(events[maxCol*n + j].id, maxCol*n +j)"
-                        variant="outline-pink" size="sm">
-                {{events[maxCol*n +j].option1}}
-              </b-button>
-              <b-button style="margin: 2px 20px"
-                        @click="showPaymentModal(events[maxCol*n + j].id, maxCol*n + j)"
-                        variant="outline-magenta" size="sm">
-                {{events[maxCol*n +j].option2}}
-              </b-button>
+          <!--======= FOOTER =======-->
+          <div slot="footer">
+            <!-- Share button and ID -->
+            <b-row v-if="shareable" align-h="end" align-v="end" style="color: #ff0d78">
+              #{{events[maxCol*n + j].id}}
+              <b-btn id="idCopy" variant="link" size="sm"
+                                                @click="show('copyAlert');"
+                                                v-clipboard:copy="events[maxCol*n +j].url">
+                <img width="20px" src="../../assets/shareicon.png"/>
+              </b-btn>
+            </b-row>
+
+            <!-- Buttons -->
+            <div v-if="buttonsAllow">
+              <div v-if="mode === 1 && events[maxCol*n + j].eventState != 'validating'">
+                <b-button style="margin: 2px 20px"
+                          @click="showPaymentModal(events[maxCol*n + j].id, maxCol*n +j)"
+                          variant="outline-pink" size="sm">
+                  {{events[maxCol*n +j].option1}}
+                </b-button>
+                <b-button style="margin: 2px 20px"
+                          @click="showPaymentModal(events[maxCol*n + j].id, maxCol*n + j)"
+                          variant="outline-magenta" size="sm">
+                  {{events[maxCol*n +j].option2}}
+                </b-button>
+              </div>
+              <div v-else>
+                <br>
+                <b-button style="margin: 2px 20px"
+                          @click="validateGuess(events[maxCol*n + j].id, 1)"
+                          variant="outline-pink" size="sm">
+                  {{events[maxCol*n + j].option1}}
+                </b-button>
+                <b-button style="margin: 2px 20px"
+                          @click="validateGuess(events[maxCol*n + j].id, 2)"
+                          variant="outline-magenta"
+                          size="sm">
+                  {{events[maxCol*n + j].option2}}
+                </b-button>
+              </div>
             </div>
             <div v-else>
-              <br>
-              <b-button style="margin: 2px 20px"
-                        @click="validateGuess(events[maxCol*n + j].id, 1)"
-                        variant="outline-pink" size="sm">
-                {{events[maxCol*n + j].option1}}
+              <b-button style="margin: 2px 20px" disabled
+                        variant="outline-secondary" size="sm">
+                {{events[maxCol*n +j].option1}}
               </b-button>
-              <b-button style="margin: 2px 20px"
-                        @click="validateGuess(events[maxCol*n + j].id, 2)"
-                        variant="outline-magenta"
-                        size="sm">
-                {{events[maxCol*n + j].option2}}
-              </b-button>
+              <b-button style="margin: 2px 20px" disabled
+                        variant="outline-secondary"
+                        size="sm">{{events[maxCol*n +j].option2}}</b-button>
             </div>
-          </div>
-          <div v-else>
-            <b-button style="margin: 2px 20px" disabled
-                      variant="outline-secondary" size="sm">
-              {{events[maxCol*n +j].option1}}
-            </b-button>
-            <b-button style="margin: 2px 20px" disabled
-                      variant="outline-secondary"
-                      size="sm">{{events[maxCol*n +j].option2}}</b-button>
           </div>
 
         </b-card>
@@ -179,30 +190,30 @@
         <small>Total: {{events[arrayIndex].amountEth}} ether</small>
         <br>
         <br>
-      <b-form @submit="voteGuess">
-        <b-form-group id="titleGroup"
-                      label="Amount of ether you want to send:"
-                      label-for="amountInput">
-          <b-form-input id="amountInput"
-                        type="number"
-                        step="0.0001"
-                        v-model="ethAmountToVote"
-                        required>
-          </b-form-input>
-        </b-form-group>
-        <b-button style="margin: 2px 20px"
-                  @click="optionVoted = 1"
-                  type="submit"
-                  variant="outline-pink" size="sm">
-          {{events[arrayIndex].option1}}
-        </b-button>
-        <b-button style="margin: 2px 20px"
-                  @click="optionVoted = 2"
-                  type="submit"
-                  variant="outline-magenta" size="sm">
-          {{events[arrayIndex].option2}}
-        </b-button>
-      </b-form>
+        <b-form @submit="voteGuess">
+          <b-form-group id="titleGroup"
+                        label="Amount of ether you want to send:"
+                        label-for="amountInput">
+            <b-form-input id="amountInput"
+                          type="number"
+                          step="0.0001"
+                          v-model="ethAmountToVote"
+                          required>
+            </b-form-input>
+          </b-form-group>
+          <b-button style="margin: 2px 20px"
+                    @click="optionVoted = 1"
+                    type="submit"
+                    variant="outline-pink" size="sm">
+            {{events[arrayIndex].option1}}
+          </b-button>
+          <b-button style="margin: 2px 20px"
+                    @click="optionVoted = 2"
+                    type="submit"
+                    variant="outline-magenta" size="sm">
+            {{events[arrayIndex].option2}}
+          </b-button>
+        </b-form>
         <br>
         <br>
       </b-modal>
