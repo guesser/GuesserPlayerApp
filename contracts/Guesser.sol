@@ -509,7 +509,7 @@ contract Guesser is DateTime{
 
 
 
-  /* @dev Function that returns the events voted by a person
+  /* @dev Function that returns the events voted by a person still open
    * @param _index uint256 the 'page' of the events you want. The first 10, the second 10th, the third...
    * @param _address address the person from whom you want the events
    * @return uint256[10] array of the events of the person
@@ -521,7 +521,7 @@ contract Guesser is DateTime{
     uint256[10] memory _firstEvents; // Array to return
     while (_index < guessesByAddress[_address].length && _eventNumber < 10) {
       uint256 _eventIndex = guessesByAddress[_address][_index];
-      if(DateTime.dateDue(guesses[_eventIndex].finalDate) == false) {
+      if(getEventItemState(_eventIndex) == 'voting') {
         _firstEvents[_eventNumber] = guessesByAddress[_address][_index];
         _eventNumber ++;
       }
@@ -544,12 +544,7 @@ contract Guesser is DateTime{
     while (_index < guessesByAddress[_address].length && _eventNumber < 10) {
       uint256 _eventIndex = guessesByAddress[_address][_index];
       // Does it has enough validations to count as a Past event?
-      uint256 _votes = guesses[_eventIndex].option1Votes + guesses[_eventIndex].option2Votes;
-      uint256 _validations = guesses[_eventIndex].option1Validation + guesses[_eventIndex].option2Validation;
-      uint256 _half = ((((_votes * 10) / 2) - ((_votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
-      if(DateTime.dateDue(guesses[_eventIndex].finalDate) == true &&
-         _validations < _half &&
-         _votes > 0) {
+      if(getEventItemState(_eventIndex) == 'validating') {
         _firstEvents[_eventNumber] = guessesByAddress[_address][_index];
         _eventNumber ++;
       }
@@ -572,11 +567,7 @@ contract Guesser is DateTime{
     while (_index < guessesByAddress[_address].length && _eventNumber < 10) {
       uint256 _eventIndex = guessesByAddress[_address][_index];
       // Does it has enough validations to count as a Past event?
-      uint256 _votes = guesses[_eventIndex].option1Votes + guesses[_eventIndex].option2Votes;
-      uint256 _validations = guesses[_eventIndex].option1Validation + guesses[_eventIndex].option2Validation;
-      uint256 _half = ((((_votes * 10) / 2) - ((_votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
-      if(DateTime.dateDue(guesses[_eventIndex].validationDate) == true &&
-         (_validations >= _half || _votes == 0)) {
+      if(getEventItemState(_eventIndex) == 'passed') {
         _firstEvents[_eventNumber] = guessesByAddress[_address][_index];
         _eventNumber ++;
       }
@@ -614,14 +605,21 @@ contract Guesser is DateTime{
     uint256 _votes = guesses[_index].option1Votes + guesses[_index].option2Votes;
     uint256 _validations = guesses[_index].option1Validation + guesses[_index].option2Validation;
     uint256 _half = ((((_votes * 10) / 2) - ((_votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
+    uint256 _totalvotes = guesses[_index].option1Votes + guesses[_index].option2Votes;
 
     if (DateTime.dateDue(guesses[_index].finalDate) == false)
       _state = "voting";
-    else if (DateTime.dateDue(guesses[_index].finalDate) && DateTime.dateDue(guesses[_index].validationDate) == false)
+    else if (DateTime.dateDue(guesses[_index].finalDate) &&
+             DateTime.dateDue(guesses[_index].validationDate) == false &&
+             _totalvotes != 0)
       _state = "waiting";
-    else if(DateTime.dateDue(guesses[_index].validationDate) == true && _validations < _half)
+    else if(DateTime.dateDue(guesses[_index].validationDate) == true &&
+            _validations < _half)
       _state = "validating";
-    else if(DateTime.dateDue(guesses[_index].validationDate) == true && _validations >= _half)
+    else if((DateTime.dateDue(guesses[_index].validationDate) == true &&
+            _validations >= _half) || (
+            DateTime.dateDue(guesses[_index].finalDate) &&
+            _totalvotes == 0))
       _state = "passed";
 
     return _state;

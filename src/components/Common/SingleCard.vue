@@ -22,7 +22,7 @@
         <small>Waiting: <b>{{eventItem.eventDuration}}</b></small>
         <b-row align-h="center">
           <b-progress class="w-50" :max="waitingTime()" striped>
-            <b-progress-bar :value="waitingDone()" variant="pink">
+            <b-progress-bar :value="waitingDone()" :variant="eventItem.topic.toLowerCase()">
             </b-progress-bar>
           </b-progress>
         </b-row>

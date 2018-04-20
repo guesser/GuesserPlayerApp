@@ -60,6 +60,7 @@
         <b-form-radio-group id="btnradios2"
                             buttons
                             button-variant="outline-primary"
+                            required
                             size="sm"
                             v-model="form.topic"
                             :options="topics"
@@ -72,6 +73,7 @@
                               style="width: 100%"
                               buttons
                               stacked
+                              required
                               button-variant="outline-primary"
                               v-model="form.topic"
                               :options="topics"
