@@ -4,12 +4,31 @@
       <Loading/>
     </div>
 
+    <div v-if="totalGuesses > 0">
     <CardDeck :events="guesses"
        :mode='2'
        :maxCol='1'
        :descriptionAllow='true'
        :shareable='false'
        :headerBg='true'/>
+    </div>
+
+    <!--If no Events to Validate-->
+    <div v-else>
+      <b-container class="" style="">
+        <b-row align-h="between">
+          <b-col align-self="center">
+            <h3>Looks there is no events to Validate right now</h3>
+            <br>
+            <h4>Wait some time and try luck later!</h4>
+            <!--<b-button href="#home" variant="primary" size="lg">Guess events</b-button>-->
+          </b-col>
+          <b-col>
+            <img src="static/beard-hold.png" style="width: 60%;" alt=":'("/>         
+          </b-col>
+        </b-row>
+      </b-container>
+    </div>
   </div>
 </template>
 
