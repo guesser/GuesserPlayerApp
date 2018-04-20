@@ -432,18 +432,19 @@ contract Guesser is DateTime{
   */
   function getGuessProfits (uint256 _guess) public view returns (uint256) {
     // Does the guess exists?
-    require(_guess <= guesses.length-1);
+    require(_guess <= guesserStorage.getGuessLength() - 1);
 
-    if (guesses[_guess].voters.length == 0) {
+    if (guesserStorage.getGuessVotersLength(_guess) == 0) {
       return 0;
     }
 
     uint256 _profits = 0;
-    for(uint256 _voterIndex = 0; _voterIndex < guesses[_guess].voters.length; _voterIndex++) {
+    for(uint256 _voterIndex = 0; _voterIndex < guesserStorage.getGuessVotersLength(_guess); _voterIndex++) {
       // Adding to profits the amount of eth in the first option
-      _profits += guesses[_guess].votersOption[guesses[_guess].voters[_voterIndex]][1];
+      address _voter = guesserStorage.getGuessVoter(_guess, _voterIndex);
+      _profits += guesserStorage.getGuessVotersOption(_guess, _voter, 1);
       // Adding to profits the amount of eth in the second option
-      _profits += guesses[_guess].votersOption[guesses[_guess].voters[_voterIndex]][2];
+      _profits += guesserStorage.getGuessVotersOption(_guess, _voter, 2);
     }
 
     return _profits;
