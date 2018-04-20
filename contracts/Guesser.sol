@@ -8,17 +8,27 @@ import "./interface/GuesserStorageInterface.sol";
  * @dev Guess contract to vote and create events in the Guesser platform.
  */
 contract Guesser is DateTime{
-    event test_value(uint256 indexed value1);
+  // Events
+  event GuessCreated(uint256 index, string title, bytes32 topic);
+  event GuessVoted(uint256 index,
+                   uint8 option,
+                   string title,
+                   string optionName,
+                   uint256 value,
+                   address user);
+  event GuessValidated(uint256 guess, uint8 option, address sender);
+  event ProfitsReturned(uint256 guess);
+  event test_value(uint256 indexed value1);
 
-    GuesserStorageInterface  guesserStorage;
+  GuesserStorageInterface  guesserStorage;
 
-    /**
-     * @dev constructor. Sets the guesserStorage address for the
-     * Eternal Storage Pattern
-     */
-    constructor (address _guesserStorageAddress) public {
-      guesserStorage = GuesserStorageInterface(_guesserStorageAddress);
-    }
+  /**
+   * @dev constructor. Sets the guesserStorage address for the
+   * Eternal Storage Pattern
+   */
+  constructor (address _guesserStorageAddress) public {
+    guesserStorage = GuesserStorageInterface(_guesserStorageAddress);
+  }
   /**
   * @dev Function that creates a Guess.
   * @param _title string The title of the Guess.
@@ -347,37 +357,38 @@ contract Guesser is DateTime{
     */
   function returnProfits (uint256 _guess) private {
     // Does the guess exists?
-    require(_guess <= guesses.length-1);
+    require(_guess <= guesserStorage.getGuessLength() - 1);
     // Is the date due?
-    require(DateTime.dateDue(guesses[_guess].finalDate) == true);
+    require(DateTime.dateDue(guesserStorage.getGuessFinalDate(_guess)) == true);
     // Has anybody voted in the guess?
-    require(guesses[_guess].voters.length > 0);
+    require(guesserStorage.getGuessVotersLength(_guess) > 0);
     // Has anybody validated the guess?
-    require(guesses[_guess].validators.length > 0); // TODO: Change to the minimun validation number
+    require(guesserStorage.getGuessValidatorsLength(_guess) > 0);
     // Have the profits already been returned
     require(guesses[_guess].profitsReturned == false);
+    require(guesserStorage.getGuessProfitsReturned(_guess) == false);
 
 
     uint8 _winner;
-    if (guesses[_guess].option1Validation > guesses[_guess].option2Validation) {
+    if (guesserStorage.getGuessOptionValidation(_guess, 1) > guesserStorage.getGuessOptionValidation(_guess, 2)) {
       _winner = 1; // The winner is the first one
     } else {
       _winner = 2; // The winner is the second one
     }
 
     // If there is only one voter (even in both sides)
-    if (guesses[_guess].voters.length == 1) {
-      address _onlyVoter = guesses[_guess].voters[0];
-      uint256 _profits = guesses[_guess].votersOption[_onlyVoter][1];
-      _profits += guesses[_guess].votersOption[_onlyVoter][2];
+    if (guesserStorage.getGuessVotersLength(_guess) == 1) {
+      address _onlyVoter = guesserStorage.getGuessVoter(_guess, 0);
+      uint256 _profits = guesserStorage.getGuessVotersOption(_guess, _onlyVoter, 1);
+      _profits += guesserStorage.getGuessVotersOption(_guess, _onlyVoter, 2);
 
-      guesses[_guess].voters[_voterIndex].transfer(_profits); // Error
+      guesserStorage.getGuessVoter[_voterIndex].transfer(_profits); //Error
       return;
     }
     // If there is only one side of the votes, they are instantly the winners
-    if ( guesses[_guess].option1Votes > 0 && guesses[_guess].option2Votes == 0 ||
-         guesses[_guess].option2Votes > 0 && guesses[_guess].option1Votes == 0) {
-      if (guesses[_guess].option1Votes > guesses[_guess].option2Votes) {
+    if ((guesserStorage.getGuessOptionVotes(_guess, 1) > 0 && guesserStorage.getGuessOptionVotes(_guess, 2) == 0) ||
+        (guesserStorage.getGuessOptionVotes(_guess, 2) > 0 && guesserStorage.getGuessOptionVotes(_guess, 1) == 0)) {
+      if (guesserStorage.getGuessOptionVotes(_guess, 1) > guesserStorage.getGuessOptionVotes(_guess, 2)) {
         _winner = 1; // The winner is the first one
       } else {
         _winner = 2; // The winner is the second one
@@ -388,7 +399,7 @@ contract Guesser is DateTime{
 
     uint256 _totalProfits = getGuessProfits(_guess);
     uint256 _totalWinnersProfits = getGuessProfitsByOption(_guess, _winner);
-    for(uint256 _voterIndex = 0; _voterIndex < guesses[_guess].voters.length; _voterIndex++) {
+    for(uint256 _voterIndex = 0; _voterIndex < guesserStorage.getGuessVotersLength(_guess); _voterIndex++) {
       // WARNING: Only will work with non contracts addresses
       uint256 index = 10;
       uint256 _precision = 0;
@@ -397,22 +408,23 @@ contract Guesser is DateTime{
         _precision++;
       }
 
-      address person = guesses[_guess].voters[_voterIndex];
+      address person = guesserStorage.getGuessVoter(_guess, _voterIndex);
 
       // Check if the user voted the winner option or both options (3)
-      if (guesses[_guess].votersOption[person][0] == _winner ||
-          guesses[_guess].votersOption[person][0] == 3) {
+      if (guesserStorage.getGuessVotersOption(_guess, person, _winner) == _winner ||
+          guesserStorage.getGuessVotersOption(_guess, person, _winner) == 3) {
         // Get the percentage of the person in the winner option
-        percentage=percent(guesses[_guess].votersOption[person][_winner], _totalWinnersProfits, _precision);
-
+        percentage = percent(
+                             guesserStorage.getGuessVotersOption(_guess, person, _winner),
+                             _totalWinnersProfits,
+                             _precision
+                             );
         uint256 _final = ((_totalProfits * 10) * percentage);
-        test_value(_final);
-        test_value(index);
-        guesses[_guess].voters[_voterIndex].transfer(_final / index); // Error
+        guesserStorage.getGuessVoter[_voterIndex].transfer(_final/index); //Error
       }
     }
 
-    guesses[_guess].profitsReturned = true;
+    guesserStorage.setGuessProfitsReturned(_guess, true);
 
     // Release the event
     ProfitsReturned(_guess);

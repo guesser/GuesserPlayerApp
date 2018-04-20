@@ -1,17 +1,6 @@
 pragma solidity ^0.4.22;
 
 contract GuesserStorage {
-  // Events
-  event GuessCreated(uint256 index, string title, bytes32 topic);
-  event GuessVoted(uint256 index,
-                   uint8 option,
-                   string title,
-                   string optionName,
-                   uint256 value,
-                   address user);
-  event GuessValidated(uint256 guess, uint8 option, address sender);
-  event ProfitsReturned(uint256 guess);
-
   // Data structures
   struct GuessStruct {
     string title;
@@ -146,6 +135,10 @@ contract GuesserStorage {
     GuessCreated(_len, _title, _topic);
   }
 
+  function setGuessProfitsReturned (uint256 _index, bool _state) isOwner external {
+    guesses[_index].profitsReturned = _state;
+  }
+
 
   /**
    * Getters *
@@ -205,8 +198,8 @@ contract GuesserStorage {
     * @dev Function that returns the final date of a guess
     * @return uint256 The final date of the guess
     */
-  function getGuessVoter (uint256 _index) isOwner external view returns (address) {
-    return guesses[_index].voters[_index];
+  function getGuessVoter (uint256 _index, uint256 _voterIndex) isOwner external view returns (address) {
+    return guesses[_index].voters[_voterIndex];
   }
 
   /**

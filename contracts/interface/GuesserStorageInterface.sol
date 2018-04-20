@@ -13,6 +13,7 @@ c{{'start': 15, 'end': 47, 'class': 'primary-slider'}}ontract GuesserStorageInte
     string _option1,
     string _option2
   ) isOwner external; 
+  function setGuessProfitsReturned (uint256 _index, bool _state) isOwner external;
   function getGuessTitle (uint256 _index) isOwner external view returns (string);
   function getGuessDescription (uint256 _index) isOwner external view returns (string);
   function getGuessTopic (uint256 _index) isOwner external view returns (bytes32);
@@ -23,7 +24,7 @@ c{{'start': 15, 'end': 47, 'class': 'primary-slider'}}ontract GuesserStorageInte
     uint8 _option
   ) isOwner external view returns (uint256);
   function getGuessVotersLength (uint256 _index) isOwner external view returns (uint256);
-  function getGuessVoter (uint256 _index) isOwner external view returns (address);
+  function getGuessVoter (uint256 _index, uint256 _voterIndex) isOwner external view returns (address);
   function getGuessStartingDate (uint256 _index) isOwner external view returns (uint256);
   function getGuessFinalDate (uint256 _index) isOwner external view returns (uint256);
   function getGuessValidationDate (uint256 _index) isOwner external view returns (uint256);
