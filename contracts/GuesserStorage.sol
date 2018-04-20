@@ -19,7 +19,7 @@ contract GuesserStorage {
     bytes32 topic;
     address creator;
     /* The voters and the option the voted
-     * It will store an array which has:
+     * It will store an array which hasguessesByAddress
      * 0. The option voted as a first argument (1 or 2, or 3 if both options were voted by the address)
      * 1. The amount voted in the first option
      * 2. The amount voted in the second option
@@ -321,6 +321,62 @@ contract GuesserStorage {
    */
   function getGuessProfitsByOption(uint256 _index, uint8 _option) isOwner external view returns (uint256) {
     return guessesByDate[day][_index];
+  }
+
+  /**
+   * @dev Function that returns the guess of a day sorted by a number
+   * @return uint256 The id of the asked guess of the day
+   */
+  function getGuessValidatorsOption(address _address) isOwner external view returns (uint8) {
+    return guesses[_index].validatorsOption[_address];
+  }
+
+  /**
+   * @dev Function that returns the guess of a day sorted by a number
+   * @return uint256 The id of the asked guess of the day
+   */
+  function getGuessValidatorsLength(uint256 _index) isOwner external view returns (uint256) {
+    return guesses[_index].validators.length;
+  }
+
+  /**
+   * @dev Function that returns the guess of a day sorted by a number
+   * @return uint256 The id of the asked guess of the day
+   */
+  function getGuessValidator(address _address, uint256 _index) isOwner external view returns (address) {
+    return guesses[_index].validators[_index];
+  }
+
+  /**
+   * @dev Function that returns the guess of a day sorted by a number
+   * @return uint256 The id of the asked guess of the day
+   */
+  function getGuessesByAddressLength(address _address) isOwner external view returns (uint256) {
+    return guessesByAddress[_address].length;
+  }
+
+  /**
+   * @dev Function that returns the guess of a day sorted by a number
+   * @return uint256 The id of the asked guess of the day
+   */
+  function getGuessesByAddress(address _address, uint256 _index) isOwner external view returns (uint256) {
+    return guessesByAddress[_address][_index];
+  }
+
+  /**
+   * @dev Function that returns the guess of a day sorted by a number
+   * @return uint256 The id of the asked guess of the day
+   */
+  function getGuessesCreatedByAddressLength(address _address) isOwner external view returns (uint256) {
+    return guessesCreatedByAddress[_address].length;
+  }
+
+  /**
+   * @dev Function that returns the guess of a day sorted by a number
+   * @return uint256 The id of the asked guess of the day
+   */
+  function getGuessesCreatedByAddress(address _address, uint256 _index) isOwner external view returns (uint256) {
+    return guessesCreatedByAddress[_address][_index];
   }
 
 }

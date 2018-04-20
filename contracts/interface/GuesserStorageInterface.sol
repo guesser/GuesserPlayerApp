@@ -1,4 +1,4 @@
-contract GuesserStorageInterface {
+c{{'start': 15, 'end': 47, 'class': 'primary-slider'}}ontract GuesserStorageInterface {
   /*
      Interface to GuesserStorage contract
    */
@@ -47,4 +47,11 @@ contract GuesserStorageInterface {
     uint256 _index,
     uint8 _option
   ) isOwner external view returns (uint256);
+  function getGuessValidatorsOption(address _address) isOwner external view returns (uint8);
+  function getGuessValidatorsLength(uint256 _index) isOwner external view returns (uint256);
+  function getGuessValidator(address _address, uint256 _index) isOwner external view returns (address);
+  function getGuessesByAddressLength(address _address) isOwner external view returns (uint256);
+  function getGuessesByAddress(address _address, uint256 _index) isOwner external view returns (uint256);
+  function getGuessesCreatedByAddressLength (uint256) isOwner external view returns (uin256);
+  function getGuessesCreatedByAddress (address, uint256) isOwner external view returns (uint256);
   }

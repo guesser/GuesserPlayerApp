@@ -202,26 +202,25 @@ contract Guesser is DateTime{
     _year = DateTime.getYear(now + d * 86400) * 10000;
     _month = DateTime.getMonth(now + d * 86400) * 100;
     _day = DateTime.getDay(now + d * 86400);
-    uint256[] storage _guesses = guessesByDate[_year + _month + _day];
+    uint256 _guessesLength = guesserStorage.getGuessByDayLenght(_year + _month, _day);
 
-      for (uint256 i = 0; i<_guesses.length; i++) {
-        _guessFinished = DateTime.dateDue(guesses[_guesses[i]].finalDate);
-        if(guesses[_guesses[i]].topic == _topic && _guessFinished == false) {
-          // Same topic and in the correct time
-          // It returns the last best guess
-          if (_choosenVotes < (guesses[_guesses[i]].option1Votes + guesses[_guesses[i]].option2Votes) || found==false) {
-            _choosen = _guesses[i];
-            _choosenVotes = guesses[_guesses[i]].option1Votes + guesses[_guesses[i]].option2Votes;
-            found = true;
-          }
+      for (uint256 i = 0; i < _guessesLength; i++) {
+        uint256 _guess = guesserStorage.getGuessByDay(_year + month + _day, i);
+        _guessFinished = DateTime.dateDue(guesserStorage.getGuessFinalDate(_guess));
+        if(guesserStorage.getGuessTopic(_guess) == _topic && _guessFinished == false && 
+           (_choosenVotes < (guesserStorage.getGuessOptionVotes(_guess, 1) + guesserStorage.getGuessOptionVotes(_guess, 2)) ||
+            found==false)) {
+          _choosen = _guess;
+          _choosenVotes = guesserStorage.getGuessOptionVotes(_guess, 1) +
+            guesserStorage.getGuessOptionVotes(_guess, 2);
+          found = true;
         }
       }
     }
-    if (found == true && DateTime.dateDue(guesses[_choosen].finalDate) == false) {
+    if (found == true && DateTime.dateDue(guesserStorage.getGuessFinalDate(_choosen)) == false)
       return _choosen;
-    } else {
+    else
       return 0;
-    }
   }
 
   /**
@@ -586,8 +585,8 @@ contract Guesser is DateTime{
     _index = _index * 10;
 
     uint256[10] memory _firstEvents; // Array to return
-    while (_index < guessesCreatedByAddress[_address].length) {
-      uint256 _eventIndex = guessesCreatedByAddress[_address][_index];
+    while (_index < guesserStorage.getGuessesCreatedByAddressLength(_address)) {
+      uint256 _eventIndex = guesserStora.getGuessesCreatedByAddress(_address, _index);
       _firstEvents[_index] = _eventIndex;
       _index++;
     }
