@@ -272,30 +272,26 @@ contract Guesser is DateTime{
    */
   function voteGuess(uint256 _guess, uint8 _option) public payable {
     // Does the guess exists?
-    require(_guess < guesses.length);
-    // Has the voter already voted?
-    // require(guesses[_guess].votersOption[msg.sender][0] == uint8(0x0));
-    // TODO: Do we have a minimum bet?
-    //require(msg.value > 0);
+    require (_guess < guesserStorage.getGuessLength())
     // Is the option valid?
     require(_option == 1 || _option == 2);
     // Is the date due?
-    require(DateTime.dateDue(guesses[_guess].finalDate) == false);
+    require(DateTime.dateDue(guesserStorage.getGuessFinalDate(_guess)) == false);
 
-    if (guesses[_guess].votersOption[msg.sender][0] == uint8(0x0)) {
-      guesses[_guess].votersOption[msg.sender][0] = _option;
-      guesses[_guess].voters.push(msg.sender); // New voter
+    if (guesserStorage.getGuessVotersOption(_guess, msg.sender, 0) == uint8(0x0)) {
+      guesserStorage.setGuessVoterOption(_guess, msg.sender, 0, _option);
+      guesserStorage.pushVoter(_guess, msg.sender); // New Voter
     } else {
-      guesses[_guess].votersOption[msg.sender][0] = 3;
+      guesserStorage.setGuessVoterOption(_guess, msg.sender, 0, 3);
     }
     // Option profits by address
-    guesses[_guess].votersOption[msg.sender][_option] += msg.value;
+    guesserStorage.setGuessVoterOption(_guess, msg.sender, _option, msg.value);
 
 
-    guessesByAddress[msg.sender].push(_guess);
+    guesserStorage.pushGuessesByAddress(msg.sender, _guess);
 
     if (_option == 1) {
-      guesses[_guess].option1Votes++;
+      guesserStorage.increaseVote(_guess, 1, 1);
       GuessVoted(_guess,
                  _option,
                  guesses[_guess].title,
@@ -303,7 +299,7 @@ contract Guesser is DateTime{
                  msg.value,
                  msg.sender);
     } else {
-      guesses[_guess].option2Votes++;
+      guesserStorage.increaseVote(_guess, 2, 1);
       GuessVoted(_guess,
                  _option,
                  guesses[_guess].title,

@@ -15,7 +15,13 @@ c{{'start': 15, 'end': 47, 'class': 'primary-slider'}}ontract GuesserStorageInte
     string _option1,
     string _option2
   ) isOwner external; 
+
+  function increaseVote (uint256 _index, uint8 _option, uint256 _amount) isOwner external;
+  function increaseValidation (uint256 _index, uint8 _option, uint256 _amount) isOwner external;
   function setGuessProfitsReturned (uint256 _index, bool _state) isOwner external;
+  function setGuessVoterOption(uint256 _index, address _address, uint8 _option, uint256 _value) isOwner external;
+
+  function pushVoter(uint256 _index, address _address) isOwner external;
   function setGuessValidatorOption(uint256 _index, address _address, uint8 _option) isOwner external;
   function pushValidators(uint256 _index, address _address) isOwner external;
 

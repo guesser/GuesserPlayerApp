@@ -134,6 +134,18 @@ contract GuesserStorage {
     guessesCreatedByAddress[msg.sender].push(_len);
     GuessCreated(_len, _title, _topic);
   }
+  /**
+   * @dev Function that returns the final date of a guess
+   * @return uint256 The final date of the guess
+   */
+  function increaseVote (uint256 _index, uint8 _option, uint256 _amount) isOwner external {
+    uint8 first = 1;
+    uint8 second = 2;
+    if (_option == 1)
+      guesses[_guess].option1Votes += _amount;
+    else
+      guesses[_guess].option2Votes += _amount;
+  }
 
   /**
    * @dev Function that returns the final date of a guess
@@ -160,6 +172,22 @@ contract GuesserStorage {
    * @dev Function that returns the final date of a guess
    * @return uint256 The final date of the guess
    */
+  function setGuessVoterOption(uint256 _index, address _address, uint8 _option, uint256 _value) isOwner external {
+    guesses[_index].votersOption[_address][_option] = _value;
+  }
+
+  /**
+   * @dev Function that returns the final date of a guess
+   * @return uint256 The final date of the guess
+   */
+  function pushVoter(uint256 _index, address _address) isOwner external {
+    guesses[_index].voters.push(_address);
+  }
+
+  /**
+   * @dev Function that returns the final date of a guess
+   * @return uint256 The final date of the guess
+   */
   function setGuessValidatorOption(uint256 _index, address _address, uint8 _option) isOwner external {
     guesses[_index].validatorsOption[_address] = _option;
   }
@@ -170,6 +198,14 @@ contract GuesserStorage {
    */
   function pushValidators(uint256 _index, address _address) isOwner external {
     guesses[_index].validators.push(_address);
+  }
+
+  /**
+   * @dev Function that returns the final date of a guess
+   * @return uint256 The final date of the guess
+   */
+  function pushGuessesByAddress(address _address, uint256 _index) isOwner external {
+    guessesByAddress[_address].push(_index);
   }
 
   /**
