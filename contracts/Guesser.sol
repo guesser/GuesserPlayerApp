@@ -245,19 +245,19 @@ contract Guesser is DateTime{
     uint32 _month = DateTime.getMonth(_date) * 100;
     uint32 _day = DateTime.getDay(_date);
     uint256[] memory _guesses = guessesByDate[_year + _month + _day];
+    uint256 _guessesLength = guesserStorage.getGuessByDayLength(_year + _month + _day);
 
-    require(_guesses.length > _index*10);
-
-    // uint256 _todayGuess = getTodayGuess(_topic);
+    require(_guessesLength > _index*10);
 
     // Check the range is inside the length
     uint8 _guessNumber = 0;
     uint256[10] memory _todayGuesses;
     uint256 i = _index * 10;
-    while (_guessNumber<10 && i<_guesses.length) {
-      // if (guesses[_guesses[i]].topic == _topic && _guesses[i] != _todayGuess) {
-      if (guesses[_guesses[i]].topic == _topic) {
+    while (_guessNumber<10 && i<_guessesLength) {
+      uint256 _guess = guesserStorage.getGuessByDay(_year + _month + _day, i);
+      if (guesserStorage.getGuessTopic(_guess) == _topic) {
         _todayGuesses[_guessNumber] = _guesses[i];
+        _todayGuesses[_guessNumber] = _guess;
         _guessNumber++;
       }
       i++;
