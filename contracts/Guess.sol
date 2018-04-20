@@ -319,18 +319,58 @@ contract Guess is DateTime{
 
     // Check the range is inside the length
     uint8 _guessNumber = 0;
+    uint8 _guessesValid = 0;
     uint256[10] memory _todayGuesses;
-    uint256 i = _index * 10;
+    uint256 i = 0;
     while (_guessNumber<10 && i<_guesses.length) {
       // if (guesses[_guesses[i]].topic == _topic && _guesses[i] != _todayGuess) {
       if (guesses[_guesses[i]].topic == _topic) {
+        _guessesValid++;
+        if(_guessesValid > _index*10) {
         _todayGuesses[_guessNumber] = _guesses[i];
         _guessNumber++;
+        }
       }
       i++;
     }
 
     return _todayGuesses;
+  }
+
+  /**
+  * @dev Returns the guesses of a topic of the next 7 days
+  * @param _index uint256 the number of the index in the list of daily guesses. Goes from 10 to 10
+  * @param _topic uint256 the genre of the guess we are looking for
+  * @param _date uint256 the date of the guesses we want
+  * @return A uint256[10] the top guesses of the next 7 days
+  */
+  function getGuessesByWeek(uint256 _index, bytes32 _topic, uint _date) public view returns(uint256[10]){
+    uint256 _year;
+    uint256 _month;
+    uint256 _day;
+    
+    uint256[10] memory _weekGuesses;
+    uint256 _guessesValid = 0;
+    uint256 _guessesNumber = 0;
+
+    for (uint256 d = 0 ; d < 6 ; d++) {
+      _year = DateTime.getYear(_date + d * 86400) * 10000;
+      _month = DateTime.getMonth(_date + d * 86400) * 100;
+      _day = DateTime.getDay(_date + d * 86400);
+      uint256[] storage _guesses = guessesByDate[_year + _month + _day];
+
+      for(uint256 i=0; i < _guesses.length && _guessesNumber < 10; i++) {
+        if (guesses[_guesses[i]].topic == _topic) {
+            _guessesValid++;
+          if(_guessesValid > _index*10) {
+              _weekGuesses[_guessesNumber] = _guesses[i];
+              _guessesNumber++;
+          }
+        }
+      }
+    }
+
+    return _weekGuesses;
   }
 
   /* dev Voting a guess

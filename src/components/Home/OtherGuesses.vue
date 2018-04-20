@@ -4,13 +4,56 @@
       <Loading/>
     </div>
 
+    <b-row align-h="between" style="margin-bottom: 10px;">
+      <b-col cols="8">
+        <div v-if="totalGuesses != 0">
+          <h2 style="font-size:calc(1em + 1vw);">Events you may like:</h2>
+        </div>
+      </b-col>
+      <b-col cols="4" align-self="center">
+        <div v-if="(totalGuesses != 0 && loadIndex == 0) || loadIndex != 0">
+        <b-row align-v="center" align-h="center">
+        <b-button-toolbar key-nav>
+          <b-button @click="loadIndex--" variant="primary" class="nav-button">&laquo</b-button>
+          <b-button @click="loadIndex++" variant="primary" class="nav-button">&raquo</b-button>
+        </b-button-toolbar>
+        </b-row>
+        </div>
+      </b-col>
+    </b-row>
+
     <div v-if="totalGuesses != 0">
-      <h2 style="font-size:calc(1em + 1vw);">Events you may like:</h2>
       <CardDeck :events="guesses"
-                :peopleBar="false"
-                :ethBar="false"/>
+         :peopleBar="false"
+         :ethBar="false"/>
+    </div>
+
+    <!--If no events-->
+    <div v-else>
+      <div v-if="loadIndex != 0 && contentLoaded == false">
+      <b-container class="" style="">
+        <b-row align-h="between">
+          <b-col>
+          <b-container style="display: flex; justify-content: center; padding: 5%;">
+            <b-col align-self="center">
+              <h3 style="font-size:calc(1em + 1vw);">Looks like today there are no more events for this topic!</h3>
+              <h3 style="font-size:calc(1em + 1vw);">Feel like creating one?</h3>
+            </b-col>
+          </b-container>
+          </b-col>
+          <b-col lg="5">
+              <img src="static/beard-hold.png" style="width: 70%;" alt=":'("/>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-container style="padding: 6%; display: flex; justify-content: left;">
+            <b-button href="#create" variant="primary" size="lg">Create</b-button>
+          </b-container>
+        </b-row>
+      </b-container>
     </div>
     </div>
+
   </div>
 </template>
 
@@ -32,6 +75,7 @@ export default {
       guesses: [],
       guessesByNumber: [],
       totalGuesses: 0,
+      loadIndex: 0,
       guessStar: 0
     }
   },
@@ -124,44 +168,35 @@ export default {
     getGuessStar () {
       let self = this
 
-      GuessHelper.getGuessOfTheWeek(this.topic).then((guessNumber) => {
-        if (guessNumber !== 0) {
-          self.guessStar = guessNumber
+      GuessHelper.getGuessOfTheWeek(this.topic).then((_guessId) => {
+        if (_guessId !== 0) {
+          self.guessStar = _guessId
         }
       }).catch(err => {
-        return err
+        console.log(err)
       })
     },
 
-    getGuessesByDate () {
+    getGuessesByWeek () {
       let self = this
-      var finished = 0
 
       self.getGuessStar()
-      for (var i = 0; i < 7; i++) {
-        GuessHelper.getGuessesByDate(0, this.topic, this.$moment().add(i, 'days').unix()).then((_guesses) => {
-          self.guessesByNumber = self.guessesByNumber.concat(_guesses)
-          finished++
-          if (finished === 7) {
-            self.printGuesses()
-            self.contentLoaded = false
-          }
-        }).catch(err => {
-          finished++
-          if (finished === 7) {
-            self.printGuesses()
-            self.contentLoaded = false
-          }
-          // console.log(err)
-          return err
-        })
-      }
+      GuessHelper.getGuessesByWeek(this.loadIndex, this.topic, this.$moment().unix()).then((_guesses) => {
+        self.guessesByNumber = _guesses
+        console.log(self.guessesByNumber[0].c[0])
+        self.printGuesses()
+        self.contentLoaded = false
+      }).catch(err => {
+        console.log(err)
+        self.contentLoaded = false
+        return err
+      })
     }
   },
 
   created: function () {
     GuessHelper.init().then(() => {
-      this.getGuessesByDate()
+      this.getGuessesByWeek()
       this.contentLoaded = true
     }).catch(err => {
       console.log(err)
@@ -173,14 +208,20 @@ export default {
     topic: function () {
       this.contentLoaded = true
       this.totalGuesses = 0
+      this.loadIndex = 0
       this.guessesByNumber = []
-      this.getGuessesByDate()
       this.guesses = []
+      this.getGuessesByWeek()
+    },
+    loadIndex: function () {
+      this.totalGuesses = 0
+      this.guessesByNumber = []
+      this.guesses = []
+      this.getGuessesByWeek()
     }
   }
 }
 </script>
-
 <style>
 .absolute-center {
   margin: auto;
