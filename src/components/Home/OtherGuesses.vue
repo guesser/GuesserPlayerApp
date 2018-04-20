@@ -6,7 +6,7 @@
 
     <b-row align-h="between" style="margin-bottom: 10px;">
       <b-col cols="8">
-        <div v-if="totalGuesses != 0">
+        <div v-if="totalGuesses != 0 || loadIndex != 0">
           <h2 style="font-size:calc(1em + 1vw);">Events you may like:</h2>
         </div>
       </b-col>

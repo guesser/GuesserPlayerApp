@@ -1,5 +1,18 @@
 <template>
   <div>
+    <b-row align-h="between" style="margin: -10px 0 10px 0;">
+      <b-col align-self="center">
+        <div v-if="(totalGuesses != 0 && loadIndex == 0) || loadIndex != 0">
+        <b-row align-v="center" align-h="center">
+        <b-button-toolbar key-nav>
+          <b-button @click="loadIndex--" variant="primary" class="nav-button">&laquo</b-button>
+          <b-button @click="loadIndex++" variant="primary" class="nav-button">&raquo</b-button>
+        </b-button-toolbar>
+        </b-row>
+        </div>
+      </b-col>
+    </b-row>
+
     <div v-if="totalEvents > 0">
       <CardDeck :events="events"
          :peopleBar="true"
@@ -41,7 +54,8 @@ export default {
       counter2: [0, 1],
       currentEvents: [],
       events: [],
-      totalEvents: 0
+      totalEvents: 0,
+      loadIndex: 0
     }
   },
   methods: {
@@ -118,7 +132,7 @@ export default {
     },
 
     getCurrentGuessesByAddress () {
-      GuessHelper.getCurrentGuessesByAddress(0).then((_events) => {
+      GuessHelper.getCurrentGuessesByAddress(this.loadIndex).then((_events) => {
         this.currentEvents = _events
         this.printEvents()
       }).catch((err) => {
@@ -132,6 +146,14 @@ export default {
     }).catch(err => {
       console.log(err)
     })
+  },
+  watch: {
+    loadIndex: function () {
+      this.totalEvents = 0
+      this.currentEvents = []
+      this.events = []
+      this.getCurrentGuessesByAddress()
+    }
   }
 }
 </script>
