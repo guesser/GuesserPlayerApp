@@ -319,33 +319,32 @@ contract Guesser is DateTime{
   */
   function validateGuess(uint256 _guess, uint8 _option) public {
     // Does the guess exists?
-    require(_guess < guesses.length);
+    require(_guess < guesserStorage.getGuessLength());
     // Has the validator already choose?
-    require(guesses[_guess].validatorsOption[msg.sender] == uint8(0x0));
+    require(guesserStorage.getGuessOptionValidation(_guess, msg.sender) == uint8(0x0));
     // Is the option valid?
     require(_option == 1 || _option == 2);
     // Is the date due?
-    require(DateTime.dateDue(guesses[_guess].validationDate) == true);
+    require(DateTime.dateDue(guesserStorage.getGuessValidationDate(_guess)) == true);
     // Has the validator voted the guess?
-    require(guesses[_guess].votersOption[msg.sender][0] == uint256(0x0));
+    require(guesserStorage.getGuessVotersOption(_guess, msg.sender, 0) == uint256(0x0));
 
-    uint256 validations = guesses[_guess].option1Validation + guesses[_guess].option2Validation;
-    uint256 votes = guesses[_guess].option1Votes + guesses[_guess].option2Votes;
+    uint256 validations = guesserStorage.getGuessOptionValidation(_guess, 1) + guesserStorage.getGuessOptionValidation(_guess, 2);
+    uint256 votes = guesserStorage.getGuessOptionVotes(_guess, 1) + guesserStorage.getGuessOptionVotes(_guess, 2);
 
     // Enough validations
     uint256 half = ((((votes * 10) / 2) - ((votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
     require(validations < half);
 
-    guesses[_guess].validatorsOption[msg.sender] = _option;
-    guesses[_guess].validators.push(msg.sender);
+    guesserStorage.setGuessValidatorOption(_guess, msg.sender, _option);
+    guesserStorage.pushValidators(_guess, msg,sender);
     if (_option == 1) {
-      guesses[_guess].option1Validation++;
+      guesserStorage.increaseValidation(_guess, 1, 1);
     } else {
-      guesses[_guess].option2Validation++;
+      guesserStorage.increaseValidation(_guess, 2, 1);
     }
     GuessValidated(_guess, _option, msg.sender);
-
-    validations = guesses[_guess].option1Validation + guesses[_guess].option2Validation;
+    validations += 1;
     if(validations == half) {
       returnProfits(_guess);
     }
@@ -357,7 +356,7 @@ contract Guesser is DateTime{
     */
   function returnProfits (uint256 _guess) private {
     // Does the guess exists?
-    require(_guess <= guesserStorage.getGuessLength() - 1);
+    require(_guess < guesserStorage.getGuessLength());
     // Is the date due?
     require(DateTime.dateDue(guesserStorage.getGuessFinalDate(_guess)) == true);
     // Has anybody voted in the guess?

@@ -3,6 +3,8 @@ c{{'start': 15, 'end': 47, 'class': 'primary-slider'}}ontract GuesserStorageInte
      Interface to GuesserStorage contract
    */
   modifier isOwner();
+
+  // Setters
   function setOwner(address _address) isOwner public;
   function setGuess(
     string _title,
@@ -14,6 +16,10 @@ c{{'start': 15, 'end': 47, 'class': 'primary-slider'}}ontract GuesserStorageInte
     string _option2
   ) isOwner external; 
   function setGuessProfitsReturned (uint256 _index, bool _state) isOwner external;
+  function setGuessValidatorOption(uint256 _index, address _address, uint8 _option) isOwner external;
+  function pushValidators(uint256 _index, address _address) isOwner external;
+
+  // Getters
   function getGuessTitle (uint256 _index) isOwner external view returns (string);
   function getGuessDescription (uint256 _index) isOwner external view returns (string);
   function getGuessTopic (uint256 _index) isOwner external view returns (bytes32);

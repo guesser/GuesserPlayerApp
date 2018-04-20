@@ -135,10 +135,42 @@ contract GuesserStorage {
     GuessCreated(_len, _title, _topic);
   }
 
+  /**
+   * @dev Function that returns the final date of a guess
+   * @return uint256 The final date of the guess
+   */
+  function increaseValidation (uint256 _index, uint8 _option, uint256 _amount) isOwner external {
+    uint8 first = 1;
+    uint8 second = 2;
+    if (_option == 1)
+      guesses[_guess].option1Validation += _amount;
+    else
+      guesses[_guess].option2Validation += _amount;
+  }
+
+  /**
+   * @dev Function that returns the final date of a guess
+   * @return uint256 The final date of the guess
+   */
   function setGuessProfitsReturned (uint256 _index, bool _state) isOwner external {
     guesses[_index].profitsReturned = _state;
   }
 
+  /**
+   * @dev Function that returns the final date of a guess
+   * @return uint256 The final date of the guess
+   */
+  function setGuessValidatorOption(uint256 _index, address _address, uint8 _option) isOwner external {
+    guesses[_index].validatorsOption[_address] = _option;
+  }
+
+  /**
+   * @dev Function that returns the final date of a guess
+   * @return uint256 The final date of the guess
+   */
+  function pushValidators(uint256 _index, address _address) isOwner external {
+    guesses[_index].validators.push(_address);
+  }
 
   /**
    * Getters *
