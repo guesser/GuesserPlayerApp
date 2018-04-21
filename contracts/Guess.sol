@@ -602,10 +602,10 @@ contract Guess is DateTime{
     uint256 _guessesValid = 0;
     uint256 _guessNumber = 0;
 
-    for (uint256 d = 7 ; d >= 0 ; d--) {
-      _year = DateTime.getYear(_date - d * 86400) * 10000;
-      _month = DateTime.getMonth(_date - d * 86400) * 100;
-      _day = DateTime.getDay(_date - d * 86400);
+    for (uint256 d = 8 ; d > 0 ; d--) {
+      _year = DateTime.getYear(_date - (d - 1) * 86400) * 10000;
+      _month = DateTime.getMonth(_date - (d - 1) * 86400) * 100;
+      _day = DateTime.getDay(_date - (d - 1) * 86400);
       uint256[] storage _guesses = guessesByDate[_year + _month + _day];
 
       for(uint256 i=0; i < _guesses.length && _guessNumber < 10; i++) {
@@ -731,7 +731,7 @@ contract Guess is DateTime{
              _totalvotes != 0)
       _state = "waiting";
     else if(DateTime.dateDue(guesses[_index].validationDate) == true &&
-            _validations < _half)
+            _validations < _half && _totalvotes != 0)
       _state = "validating";
     else if((DateTime.dateDue(guesses[_index].validationDate) == true &&
             _validations >= _half) || (
