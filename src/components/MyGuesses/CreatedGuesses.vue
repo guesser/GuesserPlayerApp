@@ -160,7 +160,7 @@ export default {
       this.totalEvents = 0
       this.currentEvents = []
       this.events = []
-      this.getCurrentGuessesByAddress()
+      this.getCreatedGuessesByAddress()
     }
   }
 }
