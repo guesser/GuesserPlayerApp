@@ -1,6 +1,8 @@
-pragma solidity ^0.4.22;
+pragma solidity ^0.4.23;
 
-contract GuesserStorage {
+import "./DateTime.sol";
+
+contract GuesserStorage is DateTime{
   // Data structures
   struct GuessStruct {
     string title;
@@ -13,7 +15,7 @@ contract GuesserStorage {
      * 1. The amount voted in the first option
      * 2. The amount voted in the second option
      */
-    mapping (address => uint256[3]) votersOption;
+    mapping (address => uint128[3]) votersOption;
     address[] voters;
 
     // About validatorsOption
@@ -21,20 +23,20 @@ contract GuesserStorage {
     // address --> [guess, option]
     mapping (address => uint8) validatorsOption;
     address[] validators;
-    uint256 startingDate;
-    uint256 finalDate;
-    uint256 validationDate;
+    uint32 startingDate;
+    uint32 finalDate;
+    uint32 validationDate;
     string option1; // Options to vote
     string option2;
-    uint256 option1Votes; // Number of votes an option has
-    uint256 option2Votes;
-    uint256 option1Validation; // Number of validations an option has
-    uint256 option2Validation;
+    uint128 option1Votes; // Number of votes an option has
+    uint128 option2Votes;
+    uint64 option1Validation; // Number of validations an option has
+    uint64 option2Validation;
     bool profitsReturned; // Has the guess returned the profits?
   }
 
   GuessStruct[] guesses; // Data structure to store all the guesses in the platform
-  mapping (uint256 => uint256[]) guessesByDate; // Storing the guesses by their date
+  mapping (uint32 => uint256[]) guessesByDate; // Storing the guesses by their date
   // The dates are in this format: 0000:year, 00:month, 00:day
   // Example: 19940831
   mapping (address => uint256[]) guessesByAddress; // Storing the guesses by their voters
@@ -60,7 +62,7 @@ contract GuesserStorage {
           creator: 0x00000000000000000000000000000000,
           voters: _voters,
           validators: _validators,
-          startingDate: now,
+          startingDate: uint32(now),
           finalDate: 0,
           validationDate: 0,
           option1: '',
@@ -90,9 +92,10 @@ contract GuesserStorage {
   /**
   * @dev Function that creates a Guess.
   * @param _title string The title of the Guess.
-    * @param _description string The description of the Guess
+  * @param _description string The description of the Guess
   * @param _topic bytes32 The topic of the Guess
   * @param _finalDate uint256 The final date of the Guess
+  * @param _validationDate uint256 The final date of the Guess
   * @param _option1 string The first option to vote on the Guess
   * @param _option2 string The first option to vote on the Guess
   */
@@ -100,8 +103,8 @@ contract GuesserStorage {
     string _title,
     string _description,
     bytes32 _topic,
-    uint256 _finalDate,
-    uint256 _validationDate,
+    uint32 _finalDate,
+    uint32 _validationDate,
     string _option1,
     string _option2
   ) isOwner external {
@@ -113,9 +116,9 @@ contract GuesserStorage {
       description: _description,
       topic: _topic,
       creator: msg.sender,
-      voters: _voters,
+          voters: _voters,
       validators: _validators,
-      startingDate: now,
+      startingDate: uint32(now),
       finalDate: _finalDate,
       validationDate: _validationDate,
       option1: _option1,
@@ -127,42 +130,46 @@ contract GuesserStorage {
       profitsReturned: false
     });
     uint256 _len = guesses.push(_guess) -1; // Adds the new struct and return its position
-    uint256 _year = DateTime.getYear(_finalDate) * 10000;
-    uint256 _month = DateTime.getMonth(_finalDate) * 100;
-    uint256 _day = DateTime.getDay(_finalDate);
+    uint32 _year = DateTime.getYear(_finalDate) * 10000;
+    uint32 _month = DateTime.getMonth(_finalDate) * 100;
+    uint32 _day = DateTime.getDay(_finalDate);
     guessesByDate[_year + _month + _day].push(_len);
     guessesCreatedByAddress[msg.sender].push(_len);
-    GuessCreated(_len, _title, _topic);
   }
   /**
    * @dev Function that returns the final date of a guess
-   * @return uint256 The final date of the guess
+   * @param _index uint256 The description of the Guess
+   * @param _option uint8 The description of the Guess
+   * @param _amount uint256 The description of the Guess
    */
-  function increaseVote (uint256 _index, uint8 _option, uint256 _amount) isOwner external {
+  function increaseVote (uint256 _index, uint8 _option, uint128 _amount) isOwner external {
     uint8 first = 1;
     uint8 second = 2;
     if (_option == 1)
-      guesses[_guess].option1Votes += _amount;
+      guesses[_index].option1Votes += _amount;
     else
-      guesses[_guess].option2Votes += _amount;
+      guesses[_index].option2Votes += _amount;
   }
 
   /**
    * @dev Function that returns the final date of a guess
-   * @return uint256 The final date of the guess
+   * @param _index uint256 The description of the Guess
+   * @param _option uint8 The description of the Guess
+   * @param _amount uint256 The description of the Guess
    */
-  function increaseValidation (uint256 _index, uint8 _option, uint256 _amount) isOwner external {
+  function increaseValidation (uint256 _index, uint8 _option, uint64 _amount) isOwner external {
     uint8 first = 1;
     uint8 second = 2;
     if (_option == 1)
-      guesses[_guess].option1Validation += _amount;
+      guesses[_index].option1Validation += _amount;
     else
-      guesses[_guess].option2Validation += _amount;
+      guesses[_index].option2Validation += _amount;
   }
 
   /**
    * @dev Function that returns the final date of a guess
-   * @return uint256 The final date of the guess
+   * @param _index uint256 The description of the Guess
+   * @param _state bool The description of the Guess
    */
   function setGuessProfitsReturned (uint256 _index, bool _state) isOwner external {
     guesses[_index].profitsReturned = _state;
@@ -170,15 +177,19 @@ contract GuesserStorage {
 
   /**
    * @dev Function that returns the final date of a guess
-   * @return uint256 The final date of the guess
+   * @param _index uint256 The description of the Guess
+   * @param _address address The description of the Guess
+   * @param _option uint8 The description of the Guess
+   * @param _value uint256 The description of the Guess
    */
-  function setGuessVoterOption(uint256 _index, address _address, uint8 _option, uint256 _value) isOwner external {
+  function setGuessVoterOption(uint256 _index, address _address, uint8 _option, uint128 _value) isOwner external {
     guesses[_index].votersOption[_address][_option] = _value;
   }
 
   /**
    * @dev Function that returns the final date of a guess
-   * @return uint256 The final date of the guess
+   * @param _index uint256 The description of the Guess
+   * @param _address address The description of the Guess
    */
   function pushVoter(uint256 _index, address _address) isOwner external {
     guesses[_index].voters.push(_address);
@@ -186,7 +197,9 @@ contract GuesserStorage {
 
   /**
    * @dev Function that returns the final date of a guess
-   * @return uint256 The final date of the guess
+   * @param _index uint256 The description of the Guess
+   * @param _address address The description of the Guess
+   * @param _option uint8 The description of the Guess
    */
   function setGuessValidatorOption(uint256 _index, address _address, uint8 _option) isOwner external {
     guesses[_index].validatorsOption[_address] = _option;
@@ -194,7 +207,8 @@ contract GuesserStorage {
 
   /**
    * @dev Function that returns the final date of a guess
-   * @return uint256 The final date of the guess
+   * @param _index uint256 The description of the Guess
+   * @param _address address The description of the Guess
    */
   function pushValidators(uint256 _index, address _address) isOwner external {
     guesses[_index].validators.push(_address);
@@ -202,7 +216,8 @@ contract GuesserStorage {
 
   /**
    * @dev Function that returns the final date of a guess
-   * @return uint256 The final date of the guess
+   * @param _address address The description of the Guess
+   * @param _index uint256 The description of the Guess
    */
   function pushGuessesByAddress(address _address, uint256 _index) isOwner external {
     guessesByAddress[_address].push(_index);
@@ -214,7 +229,8 @@ contract GuesserStorage {
 
   /**
    * @dev Function that returns the final date of a guess
-   * @return uint256 The final date of the guess
+   * @param _index uint256 The description of the Guess
+   * @return string The final date of the guess
    */
   function getGuessTitle (uint256 _index) isOwner external view returns (string) {
     return guesses[_index].title;
@@ -222,7 +238,8 @@ contract GuesserStorage {
 
   /**
    * @dev Function that returns the final date of a guess
-   * @return uint256 The final date of the guess
+   * @param _index uint256 The description of the Guess
+   * @return string The final date of the guess
    */
   function getGuessDescription (uint256 _index) isOwner external view returns (string) {
     return guesses[_index].description;
@@ -230,7 +247,8 @@ contract GuesserStorage {
 
   /**
    * @dev Function that returns the final date of a guess
-   * @return uint256 The final date of the guess
+   * @param _index uint256 The description of the Guess
+   * @return bytes32 The final date of the guess
    */
   function getGuessTopic (uint256 _index) isOwner external view returns (bytes32) {
     return guesses[_index].topic;
@@ -238,7 +256,8 @@ contract GuesserStorage {
 
   /**
    * @dev Function that returns the final date of a guess
-   * @return uint256 The final date of the guess
+   * @param _index uint256 The description of the Guess
+   * @return address The final date of the guess
    */
   function getGuessCreator (uint256 _index) isOwner external view returns (address) {
     return guesses[_index].creator;
@@ -246,9 +265,10 @@ contract GuesserStorage {
 
   /**
    * @dev Function that returns the final date of a guess
-   * @return uint256 The final date of the guess
+   * @param _index uint256 The description of the Guess
+   * @return uint128 The final date of the guess
    */
-  function getGuessVotersOption (uint256 _index, address _address, uint8 _option) isOwner external view returns (uint256) {
+  function getGuessVotersOption (uint256 _index, address _address, uint8 _option) isOwner external view returns (uint128) {
     require (_option == 0 || _option == 1 || _option == 2);
 
     return guesses[_index].votersOption[_address][_option];
@@ -256,6 +276,7 @@ contract GuesserStorage {
 
   /**
    * @dev Function that returns the final date of a guess
+   * @param _index uint256 The description of the Guess
    * @return uint256 The final date of the guess
    */
   function getGuessVotersLength (uint256 _index) isOwner external view returns (uint256) {
@@ -264,7 +285,9 @@ contract GuesserStorage {
 
   /**
     * @dev Function that returns the final date of a guess
-    * @return uint256 The final date of the guess
+    * @param _index uint256 The description of the Guess
+    * @param _index uint256 The description of the Guess
+    * @return address The final date of the guess
     */
   function getGuessVoter (uint256 _index, uint256 _voterIndex) isOwner external view returns (address) {
     return guesses[_index].voters[_voterIndex];
@@ -272,31 +295,34 @@ contract GuesserStorage {
 
   /**
     * @dev Function that returns the final date of a guess
+    * @param _index uint256 The description of the Guess
     * @return uint256 The final date of the guess
     */
-  function getGuessStartingDate (uint256 _index) isOwner external view returns (uint256) {
+  function getGuessStartingDate (uint256 _index) isOwner external view returns (uint32) {
     return guesses[_index].startingDate;
   }
   /**
    * @dev Function that returns the final date of a guess
+   * @param _index uint256 The description of the Guess
    * @return uint256 The final date of the guess
    */
-  function getGuessFinalDate (uint256 _index) isOwner external view returns (uint256) {
+  function getGuessFinalDate (uint256 _index) isOwner external view returns (uint32) {
     return guesses[_index].finalDate;
   }
 
   /**
    * @dev Function that returns the final date of a guess
+   * @param _index uint256 The description of the Guess
    * @return uint256 The final date of the guess
    */
-  function getGuessValidationDate (uint256 _index) isOwner external view returns (uint256) {
+  function getGuessValidationDate (uint256 _index) isOwner external view returns (uint32) {
     return guesses[_index].validationDate;
   }
 
   /**
    * @dev Function that returns the option asked for
-   * @param uint256 The guess your are asking about
-   * @param uint8 the option you want
+   * @param _index uint256 The guess your are asking about
+   * @param _option uint8 the option you want
    * @return string the option you are asking for
    */
   function getGuessOption (uint256 _index, uint8 _option) isOwner external view returns (string) {
@@ -312,11 +338,11 @@ contract GuesserStorage {
 
   /**
    * @dev Function that returns the option asked for
-   * @param uint256 The guess your are asking about
-   * @param uint8 the option you want
-   * @return string the option you are asking for
+   * @param _index uint256 The guess your are asking about
+   * @param _option uint8 the option you want
+   * @return uint256 the option you are asking for
    */
-  function getGuessOptionVotes (uint256 _index, uint8 _option) isOwner external view returns (uint256) {
+  function getGuessOptionVotes (uint256 _index, uint8 _option) isOwner external view returns (uint128) {
     uint8 first = 1;
     uint8 second = 2;
     require(_option == first || _option == second);
@@ -329,11 +355,20 @@ contract GuesserStorage {
 
   /**
    * @dev Function that returns the option asked for
-   * @param uint256 The guess your are asking about
-   * @param uint8 the option you want
-   * @return string the option you are asking for
+   * @param _index uint256 The guess your are asking about
+   * @return uint256 the option you are asking for
    */
-  function getGuessOptionValidation (uint256 _index, uint8 _option) isOwner external view returns (uint256) {
+  function getGuessOptionVotesTotal (uint256 _index) isOwner external view returns (uint128) {
+    return guesses[_index].option1Votes + guesses[_index].option2Votes;
+  }
+
+  /**
+   * @dev Function that returns the option asked for
+   * @param _index uint256 The guess your are asking about
+   * @param _option uint8 the option you want
+   * @return uint256 the option you are asking for
+   */
+  function getGuessOptionValidation (uint256 _index, uint8 _option) isOwner external view returns (uint64) {
     uint8 first = 1;
     uint8 second = 2;
     require(_option == first || _option == second);
@@ -345,8 +380,18 @@ contract GuesserStorage {
   }
 
   /**
+    * @dev Function that returns the option asked for
+    * @param _index uint256 The guess your are asking about
+    * @return uint256 the option you are asking for
+    */
+  function getGuessOptionValidationTotal (uint256 _index) isOwner external view returns (uint128) {
+    return guesses[_index].option1Validation + guesses[_index].option2Validation;
+  }
+
+  /**
    * @dev Function that returns the final date of a guess
-   * @return uint256 The final date of the guess
+   * @param _index uint256 The guess your are asking about
+   * @return bool The final date of the guess
    */
   function getGuessProfitsReturned (uint256 _index) isOwner external view returns (bool) {
     return guesses[_index].profitsReturned;
@@ -362,38 +407,36 @@ contract GuesserStorage {
 
   /**
    * @dev Function that returns the guess of a day sorted by a number
+   * @param _day uint256 The guess your are asking about
    * @return uint256 The id of the asked guess of the day
    */
-  function getGuessByDayLength (uint256 day) isOwner external view returns (uint256) {
-    return guessesByDate[day].length;
+  function getGuessByDayLength (uint32 _day) isOwner external view returns (uint256) {
+    return guessesByDate[_day].length;
   }
 
   /**
    * @dev Function that returns the guess of a day sorted by a number
+   * @param _day uint256 The guess your are asking about
+   * @param _index uint256 The guess your are asking about
    * @return uint256 The id of the asked guess of the day
    */
-  function getGuessByDay(uint256 day, uint256 _index) isOwner external view returns (uint256) {
-    return guessesByDate[day][_index];
+  function getGuessByDay(uint32 _day, uint256 _index) isOwner external view returns (uint256) {
+    return guessesByDate[_day][_index];
   }
 
   /**
    * @dev Function that returns the guess of a day sorted by a number
-   * @return uint256 The id of the asked guess of the day
+   * @param _index uint256 The guess your are asking about
+   * @param _address address The guess your are asking about
+   * @return uint8 The id of the asked guess of the day
    */
-  function getGuessProfitsByOption(uint256 _index, uint8 _option) isOwner external view returns (uint256) {
-    return guessesByDate[day][_index];
-  }
-
-  /**
-   * @dev Function that returns the guess of a day sorted by a number
-   * @return uint256 The id of the asked guess of the day
-   */
-  function getGuessValidatorsOption(address _address) isOwner external view returns (uint8) {
+  function getGuessValidatorsOption(uint256 _index, address _address) isOwner external view returns (uint8) {
     return guesses[_index].validatorsOption[_address];
   }
 
   /**
    * @dev Function that returns the guess of a day sorted by a number
+   * @param _index uint256 The guess your are asking about
    * @return uint256 The id of the asked guess of the day
    */
   function getGuessValidatorsLength(uint256 _index) isOwner external view returns (uint256) {
@@ -402,7 +445,9 @@ contract GuesserStorage {
 
   /**
    * @dev Function that returns the guess of a day sorted by a number
-   * @return uint256 The id of the asked guess of the day
+   * @param _address address The guess your are asking about
+   * @param _index uint256 The guess your are asking about
+   * @return address  The id of the asked guess of the day
    */
   function getGuessValidator(address _address, uint256 _index) isOwner external view returns (address) {
     return guesses[_index].validators[_index];
@@ -410,6 +455,7 @@ contract GuesserStorage {
 
   /**
    * @dev Function that returns the guess of a day sorted by a number
+   * @param _address address The guess your are asking about
    * @return uint256 The id of the asked guess of the day
    */
   function getGuessesByAddressLength(address _address) isOwner external view returns (uint256) {
@@ -418,6 +464,8 @@ contract GuesserStorage {
 
   /**
    * @dev Function that returns the guess of a day sorted by a number
+   * @param _address address The guess your are asking about
+   * @param _index uint256 The guess your are asking about
    * @return uint256 The id of the asked guess of the day
    */
   function getGuessesByAddress(address _address, uint256 _index) isOwner external view returns (uint256) {
@@ -426,6 +474,7 @@ contract GuesserStorage {
 
   /**
    * @dev Function that returns the guess of a day sorted by a number
+   * @param _address address The guess your are asking about
    * @return uint256 The id of the asked guess of the day
    */
   function getGuessesCreatedByAddressLength(address _address) isOwner external view returns (uint256) {
@@ -434,6 +483,8 @@ contract GuesserStorage {
 
   /**
    * @dev Function that returns the guess of a day sorted by a number
+   * @param _address address The guess your are asking about
+   * @param _index  uin256 The guess your are asking about
    * @return uint256 The id of the asked guess of the day
    */
   function getGuessesCreatedByAddress(address _address, uint256 _index) isOwner external view returns (uint256) {

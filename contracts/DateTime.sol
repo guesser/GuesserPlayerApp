@@ -27,6 +27,10 @@ contract DateTime {
 
   uint16 constant ORIGIN_YEAR = 1970;
 
+  /* @dev Function that tells you if a year is leap
+   * @param year uint16 the date you want to check with the current date.
+   * @return bool if the date is due then will return true
+   */
   function isLeapYear(uint16 year) public pure returns (bool) {
     if (year % 4 != 0) {
       return false;
@@ -40,7 +44,7 @@ contract DateTime {
     return true;
   }
 
-  function leapYearsBefore(uint year) public pure returns (uint) {
+  function leapYearsBefore(uint256 year) public pure returns (uint) {
     year -= 1;
     return year / 4 - year / 100 + year / 400;
   }
@@ -105,7 +109,7 @@ contract DateTime {
     dt.weekday = getWeekday(timestamp);
   }
 
-  function getYear(uint timestamp) public pure returns (uint16) {
+  function getYear(uint256 timestamp) public pure returns (uint16) {
     uint secondsAccountedFor = 0;
     uint16 year;
     uint numLeapYears;
@@ -129,19 +133,19 @@ contract DateTime {
     return year;
   }
 
-  function getMonth(uint timestamp) public pure returns (uint8) {
+  function getMonth(uint256 timestamp) public pure returns (uint8) {
     return parseTimestamp(timestamp).month;
   }
 
-  function getDay(uint timestamp) public pure returns (uint8) {
+  function getDay(uint256 timestamp) public pure returns (uint8) {
     return parseTimestamp(timestamp).day;
   }
 
-  function getHour(uint timestamp) public pure returns (uint8) {
+  function getHour(uint256 timestamp) public pure returns (uint8) {
     return uint8((timestamp / 60 / 60) % 24);
   }
 
-  function getMinute(uint timestamp) public pure returns (uint8) {
+  function getMinute(uint256 timestamp) public pure returns (uint8) {
     return uint8((timestamp / 60) % 60);
   }
 

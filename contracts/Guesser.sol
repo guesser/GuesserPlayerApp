@@ -1,4 +1,4 @@
-pragma solidity ^0.4.17;
+pragma solidity ^0.4.22;
 
 import "./DateTime.sol";
 import "./interface/GuesserStorageInterface.sol";
@@ -7,7 +7,7 @@ import "./interface/GuesserStorageInterface.sol";
  * @title Guess
  * @dev Guess contract to vote and create events in the Guesser platform.
  */
-contract Guesser is DateTime{
+contract Guesser is DateTime {
   // Events
   event GuessCreated(uint256 index, string title, bytes32 topic);
   event GuessVoted(uint256 index,
@@ -42,8 +42,8 @@ contract Guesser is DateTime{
     string _title,
     string _description,
     bytes32 _topic,
-    uint256 _finalDate,
-    uint256 _validationDate,
+    uint32 _finalDate,
+    uint32 _validationDate,
     string _option1,
     string _option2
   ) public {
@@ -57,6 +57,8 @@ contract Guesser is DateTime{
                             _option1,
                             _option2
                             );
+    uint256 _len = guesserStorage.getGuessLength();
+    emit GuessCreated(_len, _title, _topic);
   }
 
   /**
@@ -70,15 +72,15 @@ contract Guesser is DateTime{
     * @return uint256 The date when the Guess started.
     * @return uint256 The date when the Guess finish.
     */
-  function getGuess(uint256 _index) public view returns (string, string, bytes32, address, uint256, uint256, uint256) {
+  function getGuess(uint256 _index) public view returns (string, string, bytes32, address, uint32, uint32, uint32) {
     return (guesserStorage.getGuessTitle(_index),
             guesserStorage.getGuessDescription(_index),
             guesserStorage.getGuessTopic(_index),
             guesserStorage.getGuessCreator(_index),
             guesserStorage.getGuessStartingDate(_index),
             guesserStorage.getGuessFinalDate(_index),
-            guesserStorage.getGuessValidationDate(_index),
-           );
+            guesserStorage.getGuessValidationDate(_index)
+            );
   }
 
   /**
@@ -94,33 +96,29 @@ contract Guesser is DateTime{
   * @return uint256 The number of validations for the second option
   */
   function getGuessOptions (uint256 _index) public view returns (string, string, uint256, uint256,uint256, uint256) {
-    if (DateTime.dateDue(guesserStorage.getGuessValidationDate(_index)) == true) {
-      uint256 validations = guesserStorage.getGuessOptionValidation(_index, 1) +
-        guesserStorage.getGuessOptionValidation(_index, 2);
-      uint256 votes = guesserStorage.getGuessOptionVotes(_index, 1) +
-        guesserStorage.getGuessOptionVotes(_index, 2);
+    uint256 _votes1 = guesserStorage.getGuessOptionVotes(_index, 1);
+    uint256 _votes2 = guesserStorage.getGuessOptionVotes(_index, 2);
+    uint128 _validation1 = uint128(guesserStorage.getGuessOptionValidation(_index, 1));
+    uint128 _validation2 = uint128(guesserStorage.getGuessOptionValidation(_index, 2));
 
+    if (DateTime.dateDue(guesserStorage.getGuessValidationDate(_index)) == true) {
       // Enough validations
-      uint256 half = ((((votes * 10) / 2) - ((votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
-      if (validations < half) {
-        return (
-                guesserStorage.getGuessOption(_index, 1),
-                guesserStorage.getGuessOption(_index, 2),
-                0,
-                0,
-                0,
-                0
-                );
+      uint256 half = (((((_votes1 + _votes2) * 10) / 2) - (((_votes1 + _votes2) * 10) / 2) % 10) / 10) + 1; // Divide by 2
+      if (_validation1 + _validation2 < half) {
+        _votes1 = 0;
+        _votes2 = 0;
+        _validation1 = 0;
+        _validation2 = 0;
       }
     }
     return (
             guesserStorage.getGuessOption(_index, 1),
             guesserStorage.getGuessOption(_index, 2),
-            guesserStorage.getGuessOptionVotes(_index, 1),
-            guesserStorage.getGuessOptionVotes(_index, 2),
-            guesserStorage.getGuessOptionValidation(_index, 1),
-            guesserStorage.getGuessOptionValidation(_index, 2)
-    );
+            _votes1,
+            _votes2,
+            _validation1,
+            _validation2
+            );
   }
 
   /* @dev Function that returns the eth in each option of a guess
@@ -135,7 +133,7 @@ contract Guesser is DateTime{
       guesserStorage.getGuessOptionVotes(_index, 2);
 
     uint256 half = ((((votes * 10) / 2) - ((votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
-    if (DateTime.dateDue(guesses[_index].validationDate) == true && validations < half) {
+    if (DateTime.dateDue(guesserStorage.getGuessValidationDate(_index)) == true && validations < half) {
         return (
                 0,
                 0
@@ -152,7 +150,7 @@ contract Guesser is DateTime{
   * @return A uint256 with the actual length of the array of guesses
   */
   function getGuessesLength() public view returns (uint256){
-    guesserStorage.getGuessesLenght();
+    return guesserStorage.getGuessLength();
   }
 
   /**
@@ -161,9 +159,9 @@ contract Guesser is DateTime{
     * @return uint256 with top guess of the day
   */
   function getTodayGuess(bytes32 _topic) public view returns(uint256){
-    uint256 _year = DateTime.getYear(now) * 10000;
-    uint256 _month = DateTime.getMonth(now) * 100;
-    uint256 _day = DateTime.getDay(now);
+    uint32 _year = DateTime.getYear(now) * 10000;
+    uint32 _month = DateTime.getMonth(now) * 100;
+    uint32 _day = DateTime.getDay(now);
     uint256 _guessesLength = guesserStorage.getGuessByDayLength(_year + _month + _day);
 
     bool found = false;
@@ -172,9 +170,9 @@ contract Guesser is DateTime{
     bool _guessFinished;
     uint256 _guessIndex = 0;
     for (uint256 i = 0; i < _guessesLength; i++) {
-      _guessIndex = guessesStorage.getGuessByDay(_year + _month + _day, i);
+      _guessIndex = guesserStorage.getGuessByDay(_year + _month + _day, i);
       _guessFinished = DateTime.dateDue(guesserStorage.getGuessFinalDate(_guessIndex));
-      if(guesses[guessesStorage.getGuessTopic(_guessIndex) == _topic && _guessFinished == false) {
+      if(guesserStorage.getGuessTopic(_guessIndex) == _topic && _guessFinished == false) {
         // Same topic and in the correct time
         // It returns the last best guess
         uint256 _votes = guesserStorage.getGuessOptionVotes(_guessIndex, 1) +
@@ -199,23 +197,23 @@ contract Guesser is DateTime{
     * @return uint256 with top guess of the day
   */
   function getWeekGuess(bytes32 _topic) public view returns(uint256){
-    uint256 _year;
-    uint256 _month;
-    uint256 _day;
+    uint32 _year;
+    uint32 _month;
+    uint32 _day;
     
     bool found = false;
     uint256 _choosen = 0;
-    uint256 _choosenVotes = 0;
+    uint128 _choosenVotes = 0;
     bool _guessFinished;
 
     for (uint256 d = 0 ; d < 6 ; d++) {
     _year = DateTime.getYear(now + d * 86400) * 10000;
     _month = DateTime.getMonth(now + d * 86400) * 100;
     _day = DateTime.getDay(now + d * 86400);
-    uint256 _guessesLength = guesserStorage.getGuessByDayLenght(_year + _month, _day);
+    uint256 _guessesLength = guesserStorage.getGuessByDayLength(_year + _month + _day);
 
       for (uint256 i = 0; i < _guessesLength; i++) {
-        uint256 _guess = guesserStorage.getGuessByDay(_year + month + _day, i);
+        uint256 _guess = guesserStorage.getGuessByDay(_year + _month + _day, i);
         _guessFinished = DateTime.dateDue(guesserStorage.getGuessFinalDate(_guess));
         if(guesserStorage.getGuessTopic(_guess) == _topic && _guessFinished == false && 
            (_choosenVotes < (guesserStorage.getGuessOptionVotes(_guess, 1) + guesserStorage.getGuessOptionVotes(_guess, 2)) ||
@@ -241,10 +239,9 @@ contract Guesser is DateTime{
   * @return A uint256[10] the top guesses of the day
   */
   function getGuessesByDate(uint256 _index, bytes32 _topic, uint256 _date) public view returns(uint256[10]){
-    uint256 _year = DateTime.getYear(_date) * 10000;
+    uint32 _year = DateTime.getYear(_date) * 10000;
     uint32 _month = DateTime.getMonth(_date) * 100;
     uint32 _day = DateTime.getDay(_date);
-    uint256[] memory _guesses = guessesByDate[_year + _month + _day];
     uint256 _guessesLength = guesserStorage.getGuessByDayLength(_year + _month + _day);
 
     require(_guessesLength > _index*10);
@@ -256,7 +253,6 @@ contract Guesser is DateTime{
     while (_guessNumber<10 && i<_guessesLength) {
       uint256 _guess = guesserStorage.getGuessByDay(_year + _month + _day, i);
       if (guesserStorage.getGuessTopic(_guess) == _topic) {
-        _todayGuesses[_guessNumber] = _guesses[i];
         _todayGuesses[_guessNumber] = _guess;
         _guessNumber++;
       }
@@ -272,7 +268,7 @@ contract Guesser is DateTime{
    */
   function voteGuess(uint256 _guess, uint8 _option) public payable {
     // Does the guess exists?
-    require (_guess < guesserStorage.getGuessLength())
+    require (_guess < guesserStorage.getGuessLength());
     // Is the option valid?
     require(_option == 1 || _option == 2);
     // Is the date due?
@@ -285,25 +281,25 @@ contract Guesser is DateTime{
       guesserStorage.setGuessVoterOption(_guess, msg.sender, 0, 3);
     }
     // Option profits by address
-    guesserStorage.setGuessVoterOption(_guess, msg.sender, _option, msg.value);
+    guesserStorage.setGuessVoterOption(_guess, msg.sender, _option, uint128(msg.value));
 
 
     guesserStorage.pushGuessesByAddress(msg.sender, _guess);
 
     if (_option == 1) {
       guesserStorage.increaseVote(_guess, 1, 1);
-      GuessVoted(_guess,
+      emit GuessVoted(_guess,
                  _option,
-                 guesses[_guess].title,
-                 guesses[_guess].option1,
+                 guesserStorage.getGuessTitle(_guess),
+                 guesserStorage.getGuessOption(_guess, 1),
                  msg.value,
                  msg.sender);
     } else {
       guesserStorage.increaseVote(_guess, 2, 1);
-      GuessVoted(_guess,
+      emit GuessVoted(_guess,
                  _option,
-                 guesses[_guess].title,
-                 guesses[_guess].option2,
+                 guesserStorage.getGuessTitle(_guess),
+                 guesserStorage.getGuessOption(_guess, 2),
                  msg.value,
                  msg.sender);
     }
@@ -317,7 +313,7 @@ contract Guesser is DateTime{
     // Does the guess exists?
     require(_guess < guesserStorage.getGuessLength());
     // Has the validator already choose?
-    require(guesserStorage.getGuessOptionValidation(_guess, msg.sender) == uint8(0x0));
+    require(guesserStorage.getGuessValidatorsOption(_guess, msg.sender) == uint8(0x0));
     // Is the option valid?
     require(_option == 1 || _option == 2);
     // Is the date due?
@@ -333,13 +329,13 @@ contract Guesser is DateTime{
     require(validations < half);
 
     guesserStorage.setGuessValidatorOption(_guess, msg.sender, _option);
-    guesserStorage.pushValidators(_guess, msg,sender);
+    guesserStorage.pushValidators(_guess, msg.sender);
     if (_option == 1) {
       guesserStorage.increaseValidation(_guess, 1, 1);
     } else {
       guesserStorage.increaseValidation(_guess, 2, 1);
     }
-    GuessValidated(_guess, _option, msg.sender);
+    emit GuessValidated(_guess, _option, msg.sender);
     validations += 1;
     if(validations == half) {
       returnProfits(_guess);
@@ -360,7 +356,6 @@ contract Guesser is DateTime{
     // Has anybody validated the guess?
     require(guesserStorage.getGuessValidatorsLength(_guess) > 0);
     // Have the profits already been returned
-    require(guesses[_guess].profitsReturned == false);
     require(guesserStorage.getGuessProfitsReturned(_guess) == false);
 
 
@@ -377,7 +372,7 @@ contract Guesser is DateTime{
       uint256 _profits = guesserStorage.getGuessVotersOption(_guess, _onlyVoter, 1);
       _profits += guesserStorage.getGuessVotersOption(_guess, _onlyVoter, 2);
 
-      guesserStorage.getGuessVoter[_voterIndex].transfer(_profits); //Error
+      guesserStorage.getGuessVoter(_guess, _voterIndex).transfer(_profits); //Error
       return;
     }
     // If there is only one side of the votes, they are instantly the winners
@@ -415,14 +410,14 @@ contract Guesser is DateTime{
                              _precision
                              );
         uint256 _final = ((_totalProfits * 10) * percentage);
-        guesserStorage.getGuessVoter[_voterIndex].transfer(_final/index); //Error
+        guesserStorage.getGuessVoter(_guess, _voterIndex).transfer(_final/index); //Error
       }
     }
 
     guesserStorage.setGuessProfitsReturned(_guess, true);
 
     // Release the event
-    ProfitsReturned(_guess);
+    emit ProfitsReturned(_guess);
   }
 
   /* @dev Function that tells you the profits a Guess has
@@ -456,7 +451,7 @@ contract Guesser is DateTime{
     * @param _option uint256 the option you want to check
   * @return bool the profits the guess asked has
   */
-  function getGuessProfitsByOption (uint256 _guess, uint256 _option) public view returns (uint256) {
+  function getGuessProfitsByOption (uint256 _guess, uint8 _option) public view returns (uint256) {
     // Does the guess exists?
     require(_guess <= guesserStorage.getGuessLength() - 1);
     // Is the option valid?
@@ -486,10 +481,9 @@ contract Guesser is DateTime{
   */
   function getGuessesToValidate (uint256 _index, uint256 _date) public view returns (uint256[10]) {
     // TODO: Control the date limits
-    uint256 _year = DateTime.getYear(_date) * 10000;
+    uint32 _year = DateTime.getYear(_date) * 10000;
     uint32 _month = DateTime.getMonth(_date) * 100;
     uint32 _day = DateTime.getDay(_date);
-    uint256[] memory _guesses = guessesByDate[_year + _month + _day];
     uint256 _guessesLength = guesserStorage.getGuessByDayLength(_year + _month + _day);
 
     require(_guessesLength > _index*10);
@@ -500,11 +494,11 @@ contract Guesser is DateTime{
     uint256 i = _index * 10;
     while (_guessNumber < 10 && i < _guessesLength) {
       // Proper date
-      uint256 _guess = guesserStorage.getGuessByDay(_year + _month + _day);
+      uint256 _guess = guesserStorage.getGuessByDay(_year + _month + _day, i);
       if (DateTime.dateDue(guesserStorage.getGuessFinalDate(_guess)) == true) {
-        uint256 _votes = guesserStorage.getGuessOptionVotes(_guess, 1) +
+        uint128 _votes = guesserStorage.getGuessOptionVotes(_guess, 1) +
           guesserStorage.getGuessOptionVotes(_guess, 2);
-        uint256 _validations = guesserStorage.getGuessOptionValidation(_guess, 1) +
+        uint64 _validations = guesserStorage.getGuessOptionValidation(_guess, 1) +
           guesserStorage.getGuessOptionValidation(_guess, 2);
         uint256 _half = ((((_votes * 10) / 2) - ((_votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
 
@@ -533,7 +527,7 @@ contract Guesser is DateTime{
     while (_index < guesserStorage.getGuessesByAddressLength(_address) && _eventNumber < 10) {
       uint256 _eventIndex = guesserStorage.getGuessesByAddress(_address, _index);
       if(getEventItemState(_eventIndex) == 'voting') {
-        _firstEvents[_eventNumber] = guesserStorage.getGuessedByAddress(_address, _index);
+        _firstEvents[_eventNumber] = guesserStorage.getGuessesByAddress(_address, _index);
         _eventNumber ++;
       }
       _index++;
@@ -597,8 +591,8 @@ contract Guesser is DateTime{
     _index = _index * 10;
 
     uint256[10] memory _firstEvents; // Array to return
-    while (_index < guesserStorage.getGuessesCreatedByAddressLength(_address)) {
-      uint256 _eventIndex = guesserStora.getGuessesCreatedByAddress(_address, _index);
+    while (_index < guesserStorage.getGuessesCreatedByAddressLength(_index)) {
+      uint256 _eventIndex = guesserStorage.getGuessesCreatedByAddress(_address, _index);
       _firstEvents[_index] = _eventIndex;
       _index++;
     }
@@ -625,9 +619,9 @@ contract Guesser is DateTime{
              DateTime.dateDue(guesserStorage.getGuessValidationDate(_index)) == false &&
              _votes != 0)
       _state = "waiting";
-    else if(DateTime.dateDue(guesserStorage.getGuessValidationDate(_index) == true &&
+    else if(DateTime.dateDue(guesserStorage.getGuessValidationDate(_index)) == true &&
             _validations < _half)
-      _state = "validating";
+            _state = "validating";
             else if((DateTime.dateDue(guesserStorage.getGuessValidationDate(_index)) == true &&
             _validations >= _half) ||
                     (DateTime.dateDue(guesserStorage.getGuessFinalDate(_index)) && _votes == 0))
