@@ -613,24 +613,24 @@ contract Guesser is DateTime{
    */
   function getEventItemState (uint256 _index) public view returns (bytes32) {
     bytes32 _state;
-    uint256 _votes = guesses[_index].option1Votes + guesses[_index].option2Votes;
-    uint256 _validations = guesses[_index].option1Validation + guesses[_index].option2Validation;
+    uint256 _votes = guesserStorage.getGuessOptionVotes(_index, 1) +
+      guesserStorage.getGuessOptionVotes(_index, 2);
+    uint256 _validations = guesserStorage.getGuessOptionValidation(_index, 1) +
+      guesserStorage.getGuessOptionValidation(_index, 2);
     uint256 _half = ((((_votes * 10) / 2) - ((_votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
-    uint256 _totalvotes = guesses[_index].option1Votes + guesses[_index].option2Votes;
 
-    if (DateTime.dateDue(guesses[_index].finalDate) == false)
+    if (DateTime.dateDue(guesserStorage.getGuessFinalDate(_index)) == false)
       _state = "voting";
-    else if (DateTime.dateDue(guesses[_index].finalDate) &&
-             DateTime.dateDue(guesses[_index].validationDate) == false &&
-             _totalvotes != 0)
+    else if (DateTime.dateDue(guesserStorage.getGuessFinalDate(_index)) &&
+             DateTime.dateDue(guesserStorage.getGuessValidationDate(_index)) == false &&
+             _votes != 0)
       _state = "waiting";
-    else if(DateTime.dateDue(guesses[_index].validationDate) == true &&
+    else if(DateTime.dateDue(guesserStorage.getGuessValidationDate(_index) == true &&
             _validations < _half)
       _state = "validating";
-    else if((DateTime.dateDue(guesses[_index].validationDate) == true &&
-            _validations >= _half) || (
-            DateTime.dateDue(guesses[_index].finalDate) &&
-            _totalvotes == 0))
+            else if((DateTime.dateDue(guesserStorage.getGuessValidationDate(_index)) == true &&
+            _validations >= _half) ||
+                    (DateTime.dateDue(guesserStorage.getGuessFinalDate(_index)) && _votes == 0))
       _state = "passed";
 
     return _state;
