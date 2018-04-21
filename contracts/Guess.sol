@@ -637,7 +637,7 @@ contract Guess is DateTime{
     uint256[10] memory _firstEvents; // Array to return
     while (_index < guessesByAddress[_address].length && _eventNumber < 10) {
       uint256 _eventIndex = guessesByAddress[_address][_index];
-      if(getEventItemState(_eventIndex) == 'voting') {
+      if(getEventItemState(_eventIndex) === 'voting') {
         _firstEvents[_eventNumber] = guessesByAddress[_address][_index];
         _eventNumber ++;
       }
@@ -660,7 +660,7 @@ contract Guess is DateTime{
     while (_index < guessesByAddress[_address].length && _eventNumber < 10) {
       uint256 _eventIndex = guessesByAddress[_address][_index];
       // Does it has enough validations to count as a Past event?
-      if(getEventItemState(_eventIndex) == 'validating') {
+      if(getEventItemState(_eventIndex) === ('validating' || 'waiting')) {
         _firstEvents[_eventNumber] = guessesByAddress[_address][_index];
         _eventNumber ++;
       }
@@ -683,7 +683,7 @@ contract Guess is DateTime{
     while (_index < guessesByAddress[_address].length && _eventNumber < 10) {
       uint256 _eventIndex = guessesByAddress[_address][_index];
       // Does it has enough validations to count as a Past event?
-      if(getEventItemState(_eventIndex) == 'passed') {
+      if(getEventItemState(_eventIndex) === 'passed') {
         _firstEvents[_eventNumber] = guessesByAddress[_address][_index];
         _eventNumber ++;
       }
@@ -701,10 +701,12 @@ contract Guess is DateTime{
   function getCreatedGuessesByAddress (uint256 _index, address _address) public view returns (uint256[10]) {
     _index = _index * 10;
 
+    uint8 _eventNumber = 0;
     uint256[10] memory _firstEvents; // Array to return
-    while (_index < guessesCreatedByAddress[_address].length) {
+    while (_index < guessesCreatedByAddress[_address].length && _eventNumber < 10) {
       uint256 _eventIndex = guessesCreatedByAddress[_address][_index];
-      _firstEvents[_index] = _eventIndex;
+      _firstEvents[_eventNumber] = _eventIndex;
+      _eventNumber++;
       _index++;
     }
 
