@@ -490,22 +490,26 @@ contract Guesser is DateTime{
     uint32 _month = DateTime.getMonth(_date) * 100;
     uint32 _day = DateTime.getDay(_date);
     uint256[] memory _guesses = guessesByDate[_year + _month + _day];
+    uint256 _guessesLength = guesserStorage.getGuessByDayLength(_year + _month + _day);
 
-    require(_guesses.length > _index*10);
+    require(_guessesLength > _index*10);
 
     // Check the range is inside the length
     uint8 _guessNumber = 0;
     uint256[10] memory _todayGuesses;
     uint256 i = _index * 10;
-    while (_guessNumber<10 && i<_guesses.length) {
+    while (_guessNumber < 10 && i < _guessesLength) {
       // Proper date
-      if (DateTime.dateDue(guesses[_guesses[i]].validationDate) == true) {
-        uint256 _votes = guesses[_guesses[i]].option1Votes + guesses[_guesses[i]].option2Votes;
-        uint256 _validations = guesses[_guesses[i]].option1Validation + guesses[_guesses[i]].option2Validation;
+      uint256 _guess = guesserStorage.getGuessByDay(_year + _month + _day);
+      if (DateTime.dateDue(guesserStorage.getGuessFinalDate(_guess)) == true) {
+        uint256 _votes = guesserStorage.getGuessOptionVotes(_guess, 1) +
+          guesserStorage.getGuessOptionVotes(_guess, 2);
+        uint256 _validations = guesserStorage.getGuessOptionValidation(_guess, 1) +
+          guesserStorage.getGuessOptionValidation(_guess, 2);
         uint256 _half = ((((_votes * 10) / 2) - ((_votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
 
         if (_validations < _half && _votes > 0) { // Does it has enough validations and enough votes?
-          _todayGuesses[_guessNumber] = _guesses[i];
+          _todayGuesses[_guessNumber] = _guess;
           _guessNumber++;
         }
       }
