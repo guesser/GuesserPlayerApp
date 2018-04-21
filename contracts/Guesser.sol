@@ -575,11 +575,11 @@ contract Guesser is DateTime{
 
     uint8 _eventNumber = 0;
     uint256[10] memory _firstEvents; // Array to return
-    while (_index < guessesByAddress[_address].length && _eventNumber < 10) {
-      uint256 _eventIndex = guessesByAddress[_address][_index];
+    while (_index < guesserStorage.getGuessesByAddressLength(_address) && _eventNumber < 10) {
+      uint256 _eventIndex = guesserStorage.getGuessesByAddress(_address, _index);
       // Does it has enough validations to count as a Past event?
       if(getEventItemState(_eventIndex) == 'passed') {
-        _firstEvents[_eventNumber] = guessesByAddress[_address][_index];
+        _firstEvents[_eventNumber] = _eventIndex;
         _eventNumber ++;
       }
       _index++;
