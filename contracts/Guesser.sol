@@ -530,10 +530,10 @@ contract Guesser is DateTime{
 
     uint8 _eventNumber = 0;
     uint256[10] memory _firstEvents; // Array to return
-    while (_index < guessesByAddress[_address].length && _eventNumber < 10) {
-      uint256 _eventIndex = guessesByAddress[_address][_index];
+    while (_index < guesserStorage.getGuessesByAddressLength(_address) && _eventNumber < 10) {
+      uint256 _eventIndex = guesserStorage.getGuessesByAddress(_address, _index);
       if(getEventItemState(_eventIndex) == 'voting') {
-        _firstEvents[_eventNumber] = guessesByAddress[_address][_index];
+        _firstEvents[_eventNumber] = guesserStorage.getGuessedByAddress(_address, _index);
         _eventNumber ++;
       }
       _index++;
