@@ -594,33 +594,32 @@ contract Guess is DateTime{
   * @return uint256[10] a list with the guesses to validate
   */
   function getGuessesToValidate (uint256 _index, uint256 _date) public view returns (uint256[10]) {
-    // TODO: Control the date limits
-    uint256 _year = DateTime.getYear(_date) * 10000;
-    uint32 _month = DateTime.getMonth(_date) * 100;
-    uint32 _day = DateTime.getDay(_date);
-    uint256[] memory _guesses = guessesByDate[_year + _month + _day];
+    uint256 _year;
+    uint256 _month;
+    uint256 _day;
+    
+    uint256[10] memory _validationGuesses;
+    uint256 _guessesValid = 0;
+    uint256 _guessNumber = 0;
 
-    require(_guesses.length > _index*10);
+    for (uint256 d = 7 ; d > 0 ; d++) {
+      _year = DateTime.getYear(_date - d * 86400) * 10000;
+      _month = DateTime.getMonth(_date - d * 86400) * 100;
+      _day = DateTime.getDay(_date - d * 86400);
+      uint256[] storage _guesses = guessesByDate[_year + _month + _day];
 
-    // Check the range is inside the length
-    uint8 _guessNumber = 0;
-    uint256[10] memory _todayGuesses;
-    uint256 i = _index * 10;
-    while (_guessNumber<10 && i<_guesses.length) {
-      // Proper date
-      if (DateTime.dateDue(guesses[_guesses[i]].validationDate) == true) {
-        uint256 _votes = guesses[_guesses[i]].option1Votes + guesses[_guesses[i]].option2Votes;
-        uint256 _validations = guesses[_guesses[i]].option1Validation + guesses[_guesses[i]].option2Validation;
-        uint256 _half = ((((_votes * 10) / 2) - ((_votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
-
-        if (_validations < _half && _votes > 0) { // Does it has enough validations and enough votes?
-          _todayGuesses[_guessNumber] = _guesses[i];
-          _guessNumber++;
+      for(uint256 i=0; i < _guesses.length && _guessNumber < 10; i++) {
+        if(getEventItemState(_guesses[i]) == 'validating') {
+          _guessesValid++;
+          if(_guessesValid > _index*10) {
+          _validationGuesses[_guessNumber] = _guesses[i];
+          _guessNumber ++;
+          }
         }
       }
-      i++;
     }
-    return _todayGuesses;
+
+    return _validationGuesses;
   }
 
 
@@ -637,7 +636,7 @@ contract Guess is DateTime{
     uint256[10] memory _firstEvents; // Array to return
     while (_index < guessesByAddress[_address].length && _eventNumber < 10) {
       uint256 _eventIndex = guessesByAddress[_address][_index];
-      if(getEventItemState(_eventIndex) === 'voting') {
+      if(getEventItemState(_eventIndex) == 'voting') {
         _firstEvents[_eventNumber] = guessesByAddress[_address][_index];
         _eventNumber ++;
       }
@@ -660,7 +659,7 @@ contract Guess is DateTime{
     while (_index < guessesByAddress[_address].length && _eventNumber < 10) {
       uint256 _eventIndex = guessesByAddress[_address][_index];
       // Does it has enough validations to count as a Past event?
-      if(getEventItemState(_eventIndex) === ('validating' || 'waiting')) {
+      if(getEventItemState(_eventIndex) == 'validating' || getEventItemState(_eventIndex) == 'waiting') {
         _firstEvents[_eventNumber] = guessesByAddress[_address][_index];
         _eventNumber ++;
       }
@@ -683,7 +682,7 @@ contract Guess is DateTime{
     while (_index < guessesByAddress[_address].length && _eventNumber < 10) {
       uint256 _eventIndex = guessesByAddress[_address][_index];
       // Does it has enough validations to count as a Past event?
-      if(getEventItemState(_eventIndex) === 'passed') {
+      if(getEventItemState(_eventIndex) == 'passed') {
         _firstEvents[_eventNumber] = guessesByAddress[_address][_index];
         _eventNumber ++;
       }
