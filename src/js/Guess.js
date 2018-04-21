@@ -233,12 +233,27 @@ const GuessHelper = {
     })
   },
 
+  getGuessesByWeek: function (index, topic, date) {
+    let self = this
+
+    return new Promise((resolve, reject) => {
+      self.instance.getGuessesByWeek.call(
+        index,
+        window.web3.utils.toHex(topic),
+        date
+      ).then(_guessesIndex => {
+        resolve(_guessesIndex)
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  },
+
   getGuessesNumber: function () {
     let self = this
 
     return new Promise((resolve, reject) => {
       self.instance.getGuessesLength.call(
-        {from: self.address}
       ).then(number => {
         resolve(number)
       }).catch(err => {

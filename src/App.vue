@@ -239,4 +239,8 @@ main{
   background-color: #0DAAFF !important;
   border: 2px solid #6C87E8 !important;
 }
+.nav-button{
+  padding: 0 20px;
+  margin: 5px;
+}
 </style>

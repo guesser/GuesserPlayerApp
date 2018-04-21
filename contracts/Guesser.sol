@@ -1,7 +1,7 @@
 pragma solidity ^0.4.22;
 
 import "./DateTime.sol";
-import "./interface/GuesserStorageInterface.sol";
+import "./GuesserStorage.sol";
 
 /**
  * @title Guess
@@ -20,14 +20,14 @@ contract Guesser is DateTime {
   event ProfitsReturned(uint256 guess);
   event test_value(uint256 indexed value1);
 
-  GuesserStorageInterface  guesserStorage;
+  GuesserStorage guesserStorage;
 
   /**
    * @dev constructor. Sets the guesserStorage address for the
    * Eternal Storage Pattern
    */
   constructor (address _guesserStorageAddress) public {
-    guesserStorage = GuesserStorageInterface(_guesserStorageAddress);
+    guesserStorage = GuesserStorage(_guesserStorageAddress);
   }
   /**
   * @dev Function that creates a Guess.
@@ -50,14 +50,17 @@ contract Guesser is DateTime {
     // TODO: Make the require for the input variables
     guesserStorage.setGuess(
                             _title,
-                            _description,
-                            _topic,
                             _finalDate,
-                            _validationDate,
-                            _option1,
-                            _option2
+                            _validationDate
                             );
     uint256 _len = guesserStorage.getGuessLength();
+    guesserStorage.setGuessSecondOptions(
+                                         _len,
+                                         _description,
+                                         _topic,
+                                         _option1,
+                                         _option2
+                                         );
     emit GuessCreated(_len, _title, _topic);
   }
 
@@ -248,18 +251,60 @@ contract Guesser is DateTime {
 
     // Check the range is inside the length
     uint8 _guessNumber = 0;
+    uint8 _guessesValid = 0;
     uint256[10] memory _todayGuesses;
-    uint256 i = _index * 10;
+    uint256 i = 0;
     while (_guessNumber<10 && i<_guessesLength) {
+      // if (guesses[_guesses[i]].topic == _topic && _guesses[i] != _todayGuess) {
       uint256 _guess = guesserStorage.getGuessByDay(_year + _month + _day, i);
       if (guesserStorage.getGuessTopic(_guess) == _topic) {
+        _guessesValid++;
+        if(_guessesValid > _index*10) {
         _todayGuesses[_guessNumber] = _guess;
         _guessNumber++;
+        }
       }
       i++;
     }
 
     return _todayGuesses;
+  }
+
+  /**
+  * @dev Returns the guesses of a topic of the next 7 days
+  * @param _index uint256 the number of the index in the list of daily guesses. Goes from 10 to 10
+  * @param _topic uint256 the genre of the guess we are looking for
+  * @param _date uint256 the date of the guesses we want
+  * @return A uint256[10] the top guesses of the next 7 days
+  */
+  function getGuessesByWeek(uint256 _index, bytes32 _topic, uint32 _date) public view returns(uint256[10]){
+    uint32 _year;
+    uint32 _month;
+    uint32 _day;
+
+    uint256[10] memory _weekGuesses;
+    uint256 _guessesValid = 0;
+    uint256 _guessesNumber = 0;
+
+    for (uint32 d = 0 ; d < 6 ; d++) {
+      _year = DateTime.getYear(_date + d * 86400) * 10000;
+      _month = DateTime.getMonth(_date + d * 86400) * 100;
+      _day = DateTime.getDay(_date + d * 86400);
+      uint256 _guessesLength = guesserStorage.getGuessByDayLength(_year + _month + _day);
+
+      for(uint256 i=0; i < _guessesLength && _guessesNumber < 10; i++) {
+        uint256 _guess = guesserStorage.getGuessByDay(_year + _month + _day, i);
+        if (guesserStorage.getGuessTopic(_guess) == _topic) {
+            _guessesValid++;
+          if(_guessesValid > _index*10) {
+              _weekGuesses[_guessesNumber] = _guess;
+              _guessesNumber++;
+          }
+        }
+      }
+    }
+
+    return _weekGuesses;
   }
 
   /* dev Voting a guess
@@ -591,7 +636,7 @@ contract Guesser is DateTime {
     _index = _index * 10;
 
     uint256[10] memory _firstEvents; // Array to return
-    while (_index < guesserStorage.getGuessesCreatedByAddressLength(_index)) {
+    while (_index < guesserStorage.getGuessesCreatedByAddressLength(_address)) {
       uint256 _eventIndex = guesserStorage.getGuessesCreatedByAddress(_address, _index);
       _firstEvents[_index] = _eventIndex;
       _index++;
