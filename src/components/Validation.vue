@@ -7,7 +7,7 @@
         </div>
       </b-col>
       <b-col cols="4" align-self="center">
-        <div v-if="(totalGuesses != 0 && loadIndex == 0) || loadIndex != 0">
+        <div v-if="(loadIndex == 0) || loadIndex != 0">
         <b-row align-v="center" align-h="center">
         <b-button-toolbar key-nav>
           <b-button @click="loadIndex--" variant="primary" class="nav-button">&laquo</b-button>
@@ -25,7 +25,7 @@
     <div v-if="totalGuesses > 0">
       <CardDeck :events="guesses"
          :mode='2'
-         :maxCol='1'
+         :maxCol='2'
          :descriptionAllow='true'
          :shareable='false'
          :headerBg='true'/>

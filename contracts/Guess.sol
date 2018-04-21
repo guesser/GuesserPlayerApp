@@ -602,7 +602,7 @@ contract Guess is DateTime{
     uint256 _guessesValid = 0;
     uint256 _guessNumber = 0;
 
-    for (uint256 d = 7 ; d > 0 ; d++) {
+    for (uint256 d = 7 ; d >= 0 ; d--) {
       _year = DateTime.getYear(_date - d * 86400) * 10000;
       _month = DateTime.getMonth(_date - d * 86400) * 100;
       _day = DateTime.getDay(_date - d * 86400);
