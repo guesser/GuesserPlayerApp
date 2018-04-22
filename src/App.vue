@@ -36,12 +36,11 @@
     </template>
     </notifications>
 
+    <div style="min-height: 83vh">
     <router-view></router-view>
+    </div>
+    <Footer/>
     </main>
-
-    <footer>
-    </footer>
-
   </div>
 </template>
 
@@ -50,11 +49,13 @@ import GuessHelper from '@/js/Guess'
 
 // Vue components
 import TopBar from './components/Header.vue'
+import Footer from './components/Footer.vue'
 
 export default {
   name: 'app',
   components: {
-    TopBar
+    TopBar,
+    Footer
   },
   data () {
     return {
@@ -185,7 +186,6 @@ body{
 main{
   height:100vh;
   min-height: 100vh;
-  bottom:0;
 }
 
 @include media-breakpoint-down(sm) {
