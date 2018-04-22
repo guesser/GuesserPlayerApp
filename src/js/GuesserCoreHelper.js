@@ -6,8 +6,6 @@ const GuesserCoreHelper = {
 
   instance: null,
 
-  address: null,
-
   init: function () {
     let self = this
 
@@ -20,5 +18,30 @@ const GuesserCoreHelper = {
       })
     })
   },
+
+  getEventItemState: function (index) {
+    let self = this
+
+    return new Promise((resolve, reject) => {
+      self.instance.getEventItemState.call(index).then((eventItemState) => {
+        resolve(window.web3.utils.hexToUtf8(eventItemState)) // topic
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  },
+
+  getGuessesNumber: function () {
+    let self = this
+
+    return new Promise((resolve, reject) => {
+      self.instance.getGuessesLength.call(
+      ).then(number => {
+        resolve(number)
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  }
 }
 export default GuesserCoreHelper

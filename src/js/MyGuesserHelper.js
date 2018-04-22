@@ -6,8 +6,6 @@ const MyGuessesHelper = {
 
   instance: null,
 
-  address: null,
-
   init: function () {
     let self = this
 
@@ -20,5 +18,66 @@ const MyGuessesHelper = {
       })
     })
   },
+
+  getCurrentGuessesByAddress: function (index) {
+    let self = this
+
+    return new Promise((resolve, reject) => {
+      console.log(self.address[0])
+      self.instance.getCurrentGuessesByAddress.call(
+        index,
+        self.address[0]
+      ).then(addressEvents => {
+        resolve(addressEvents)
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  },
+
+  getValidatingGuessesByAddress: function (index) {
+    let self = this
+
+    return new Promise((resolve, reject) => {
+      self.instance.getValidatingGuessesByAddress.call(
+        index,
+        self.address[0]
+      ).then(addressEvents => {
+        resolve(addressEvents)
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  },
+
+  getPastGuessesByAddress: function (index) {
+    let self = this
+
+    return new Promise((resolve, reject) => {
+      self.instance.getPastGuessesByAddress.call(
+        index,
+        self.address[0]
+      ).then(addressEvents => {
+        resolve(addressEvents)
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  },
+
+  getCreatedGuessesByAddress: function (index) {
+    let self = this
+
+    return new Promise((resolve, reject) => {
+      self.instance.getCreatedGuessesByAddress.call(
+        index,
+        self.address[0]
+      ).then(addressEvents => {
+        resolve(addressEvents)
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  }
 }
 export default MyGuessesHelper
