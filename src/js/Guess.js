@@ -144,7 +144,7 @@ const GuessHelper = {
   },
 
   getCurrentGuessesByAddress: function (index) {
-    return MyGuesses.init().then(() => {
+    return MyGuesses.init(this.address).then(() => {
       return MyGuesses.getCurrentGuessesByAddress(index).catch((err) => {
         return err
       })
@@ -152,7 +152,7 @@ const GuessHelper = {
   },
 
   getValidatingGuessesByAddress: function (index) {
-    return MyGuesses.init().then(() => {
+    return MyGuesses.init(this.address).then(() => {
       return MyGuesses.getValidatingGuessesByAddress(index).catch((err) => {
         return err
       })
@@ -160,7 +160,7 @@ const GuessHelper = {
   },
 
   getPastGuessesByAddress: function (index) {
-    return MyGuesses.init().then(() => {
+    return MyGuesses.init(this.address).then(() => {
       return MyGuesses.getPastGuessesByAddress(index).catch((err) => {
         return err
       })
@@ -168,7 +168,7 @@ const GuessHelper = {
   },
 
   getCreatedGuessesByAddress: function (index) {
-    return MyGuesses.init().then(() => {
+    return MyGuesses.init(this.address).then(() => {
       return MyGuesses.getCreatedGuessesByAddress(index).catch((err) => {
         return err
       })

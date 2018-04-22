@@ -4,9 +4,12 @@ import MyGuesses from '@contracts/MyGuesses.json'
 const MyGuessesHelper = {
   contract: null,
 
+  address: null,
+
   instance: null,
 
-  init: function () {
+  init: function (address) {
+    this.address = address
     let self = this
 
     return new Promise(function (resolve, reject) {
