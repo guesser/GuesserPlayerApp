@@ -13,9 +13,18 @@ const GuesserInputHelper = {
     let self = this
 
     return new Promise(function (resolve, reject) {
+      self.contract.setProvider(window.web3.currentProvider)
+
       self.contract = contract(GuesserInput)
       self.contract.deployed().then(instance => {
         self.instance = instance
+
+        // Events
+        self.GuessCreated = self.instance.GuessCreated()
+        self.GuessVoted = self.instance.GuessVoted()
+        self.GuessValidated = self.instance.GuessValidated()
+        self.ProfitsReturned = self.instance.ProfitsReturned()
+        self.TestValue = self.instance.test_value()
       }).catch((err) => {
         reject(err)
       })

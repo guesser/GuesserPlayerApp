@@ -24,7 +24,6 @@ const GuessHelper = {
     let self = this
 
     return new Promise(function (resolve, reject) {
-      self.contract = contract(Guess)
       self.contract.setProvider(window.web3.currentProvider)
 
       self.contract.deployed().then(instance => {
