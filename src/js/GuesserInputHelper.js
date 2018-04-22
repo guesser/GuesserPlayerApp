@@ -8,6 +8,14 @@ const GuesserInputHelper = {
 
   address: null,
 
+  GuessCreated: null,
+
+  GuessVoted: null,
+
+  GuessValidated: null,
+
+  ProfitsReturned: null,
+
   init: function (address) {
     this.address = address
     let self = this
@@ -28,6 +36,56 @@ const GuesserInputHelper = {
       }).catch((err) => {
         reject(err)
       })
+    })
+  },
+
+CreatedGuessEvent: function () {
+    this.GuessCreated.watch(function (error, result) {
+      if (!error) {
+        console.log('No error on creating guess event catcher! See: ', result)
+      } else {
+        console.log(error)
+      }
+    })
+  },
+
+  VotedGuessEvent: function () {
+    this.GuessVoted.watch(function (error, result) {
+      if (!error) {
+        console.log('No error on voting guess event catcher! See: ', result)
+      } else {
+        console.log(error)
+      }
+    })
+  },
+
+  ValidatedGuessEvent: function () {
+    this.GuessValidated.watch(function (error, result) {
+      if (!error) {
+        console.log('No error on validating guess event catcher! See: ', result)
+      } else {
+        console.log(error)
+      }
+    })
+  },
+
+  ReturnedProfitsEvent: function () {
+    this.ProfitsReturned.watch(function (error, result) {
+      if (!error) {
+        console.log('No error on returning profit event catcher! See: ', result)
+      } else {
+        console.log(error)
+      }
+    })
+  },
+
+  TestValue: function () {
+    this.TestValue.watch(function (error, result) {
+      if (!error) {
+        console.log('Test Value: ', result)
+      } else {
+        console.log(error)
+      }
     })
   },
 
