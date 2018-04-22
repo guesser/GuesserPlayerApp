@@ -250,36 +250,35 @@ contract GuesserGame is GuesserCore {
   * @param _index uint256 Index of the list, If you want the 10 last or the second 10 last Guesses
   * @return uint256[10] a list with the guesses to validate
   */
-  function getGuessesToValidate (uint256 _index, uint256 _date) public view returns (uint256[10]) {
+  function getGuessesToValidate (uint256 _index, uint32 _date) public view returns (uint256[10]) {
     // TODO: Control the date limits
-    uint32 _year = DateTime.getYear(_date) * 10000;
-    uint32 _month = DateTime.getMonth(_date) * 100;
-    uint32 _day = DateTime.getDay(_date);
-    uint256 _guessesLength = guesserStorage.getGuessByDayLength(_year + _month + _day);
-
-    require(_guessesLength > _index*10);
+    uint32 _year; 
+    uint32 _month;
+    uint32 _day;
 
     // Check the range is inside the length
+    uint256[10] memory _validationGuesses;
     uint8 _guessNumber = 0;
-    uint256[10] memory _todayGuesses;
-    uint256 i = _index * 10;
-    while (_guessNumber < 10 && i < _guessesLength) {
-      // Proper date
-      uint256 _guess = guesserStorage.getGuessByDay(_year + _month + _day, i);
-      if (DateTime.dateDue(guesserStorage.getGuessFinalDate(_guess)) == true) {
-        uint128 _votes = guesserStorage.getGuessOptionVotes(_guess, 1) +
-          guesserStorage.getGuessOptionVotes(_guess, 2);
-        uint64 _validations = guesserStorage.getGuessOptionValidation(_guess, 1) +
-          guesserStorage.getGuessOptionValidation(_guess, 2);
-        uint256 _half = ((((_votes * 10) / 2) - ((_votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
+    uint64 _guessesValid = 0;
 
-        if (_validations < _half && _votes > 0) { // Does it has enough validations and enough votes?
-          _todayGuesses[_guessNumber] = _guess;
-          _guessNumber++;
+    for (uint8 d = 8 ; d > 0 ; d--) {
+      _year = DateTime.getYear(_date - (d - 1) * 86400) * 100000;
+      _month = DateTime.getMonth(_date - (d - 1) * 86400) * 100000;
+      _day = DateTime.getDay(_date - (d - 1) * 86400) * 100000;
+      uint256 _guessesLength = guesserStorage.getGuessByDayLength(_year + _month + _day);
+
+      for(uint64 i=0; i < _guessesLength && _guessNumber < 10; i++) {
+        uint256 _guess = guesserStorage.getGuessByDay(_year + _month + _day, i);
+        if (getEventItemState(_guess) == 'validating') {
+          _guessesValid++;
+          if(_guessesValid > _index*10) {
+            _validationGuesses[_guessNumber] = _guess;
+            _guessNumber++;
+          }
         }
       }
-      i++;
     }
-    return _todayGuesses;
+
+    return _validationGuesses;
   }
 }
