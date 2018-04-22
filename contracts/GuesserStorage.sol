@@ -99,7 +99,7 @@ contract GuesserStorage is DateTime{
     string _title,
     uint32 _finalDate,
     uint32 _validationDate
-                    ) isOwner external returns (uint256){
+                    ) isOwner external returns (uint256) {
     address[] memory _voters;
     address[] memory _validators;
 
@@ -127,6 +127,8 @@ contract GuesserStorage is DateTime{
     uint32 _day = DateTime.getDay(_finalDate);
     guessesByDate[_year + _month + _day].push(_len);
     guessesCreatedByAddress[msg.sender].push(_len);
+
+    return _len;
   }
 
   /**

@@ -40,12 +40,11 @@ contract GuesserInputs is GuesserCore {
     string _option2
   ) public {
     // TODO: Make the require for the input variables
-    guesserStorage.setGuess(
+    uint256 _len = guesserStorage.setGuess(
                             _title,
                             _finalDate,
                             _validationDate
                             );
-    uint256 _len = guesserStorage.getGuessLength();
     guesserStorage.setGuessSecondOptions(
                                          _len,
                                          _description,
@@ -131,15 +130,16 @@ contract GuesserInputs is GuesserCore {
     }
     emit GuessValidated(_guess, _option, msg.sender);
     validations += 1;
-    if(validations == half) {
-      returnProfits(_guess);
-    }
+    // if (validations == half) {
+      // returnProfits(_guess);
+    // }
   }
 
   /**
   * @dev Function that returns the profit to the voters
   * @param _guess uint256 the event to ask for the profits of
     */
+  /*
   function returnProfits (uint256 _guess) private {
     // Does the guess exists?
     require(_guess < guesserStorage.getGuessLength());
@@ -212,5 +212,5 @@ contract GuesserInputs is GuesserCore {
 
     // Release the event
     emit ProfitsReturned(_guess);
-  }
+  }*/
 }

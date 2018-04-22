@@ -1,5 +1,8 @@
 import contract from 'truffle-contract'
-import Guess from '@contracts/Guess.json'
+import GuessCore from '@contracts/GuesserCore.json'
+import GuessGame from '@contracts/GuesserGame.json'
+import GuessInputs from '@contracts/GuesserInputs.json'
+import MyGuesses from '@contracts/MyGuesses.json'
 
 const GuessHelper = {
 
