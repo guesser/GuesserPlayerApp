@@ -285,6 +285,7 @@ export default {
 
     GuessHelper.init().then(() => {
       // Redo this, this is not asyncronous
+      console.log(this.eventItem.creator)
       self.getUsername(this.eventItem.creator).then((username) => {
         this.creatorUserName = username
       }).catch((err) => {

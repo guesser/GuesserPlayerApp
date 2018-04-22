@@ -98,7 +98,8 @@ contract GuesserStorage is DateTime{
   function setGuess(
     string _title,
     uint32 _finalDate,
-    uint32 _validationDate
+    uint32 _validationDate,
+    address _creator
                     ) isOwner external returns (uint256) {
     address[] memory _voters;
     address[] memory _validators;
@@ -107,7 +108,7 @@ contract GuesserStorage is DateTime{
       title: _title,
       description: "",
       topic: "",
-      creator: msg.sender,
+      creator: _creator,
           voters: _voters,
       validators: _validators,
       startingDate: uint32(now),
@@ -126,7 +127,7 @@ contract GuesserStorage is DateTime{
     uint32 _month = DateTime.getMonth(_finalDate) * 100;
     uint32 _day = DateTime.getDay(_finalDate);
     guessesByDate[_year + _month + _day].push(_len);
-    guessesCreatedByAddress[msg.sender].push(_len);
+    guessesCreatedByAddress[_creator].push(_len);
 
     return _len;
   }

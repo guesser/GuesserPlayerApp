@@ -43,7 +43,8 @@ contract GuesserInputs is GuesserCore {
     uint256 _len = guesserStorage.setGuess(
                             _title,
                             _finalDate,
-                            _validationDate
+                            _validationDate,
+                            msg.sender
                             );
     guesserStorage.setGuessSecondOptions(
                                          _len,
