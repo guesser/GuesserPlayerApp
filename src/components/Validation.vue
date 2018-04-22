@@ -1,15 +1,55 @@
 <template>
   <div class="wrapper">
+    <b-row align-h="between" style="margin-bottom: 10px;">
+      <b-col cols="8">
+        <div v-if="totalGuesses != 0 || loadIndex != 0">
+          <h2 style="font-size:calc(1em + 1vw);">Events to Validate:</h2>
+        </div>
+      </b-col>
+      <b-col cols="4" align-self="center">
+        <div v-if="(loadIndex == 0) || loadIndex != 0">
+        <b-row align-v="center" align-h="center">
+        <b-button-toolbar key-nav>
+          <b-button @click="loadIndex--" variant="primary" class="nav-button">&laquo</b-button>
+          <b-button @click="loadIndex++" variant="primary" class="nav-button">&raquo</b-button>
+        </b-button-toolbar>
+        </b-row>
+        </div>
+      </b-col>
+    </b-row>
+
     <div v-if='!contentLoaded'>
       <Loading/>
     </div>
 
-    <CardDeck :events="guesses"
-       :mode='2'
-       :maxCol='1'
-       :descriptionAllow='true'
-       :shareable='false'
-       :headerBg='true'/>
+    <div v-if="totalGuesses > 0">
+      <CardDeck :events="guesses"
+         :mode='2'
+         :maxCol='2'
+         :descriptionAllow='true'
+         :shareable='false'
+         :headerBg='true'/>
+    </div>
+
+    <!--If no events-->
+    <div v-else>
+      <b-container class="" style="">
+        <b-row align-h="between">
+          <b-col>
+            <b-container style="display: flex; justify-content: center; padding: 5%;">
+              <b-col align-self="center">
+                <h3 style="font-size:calc(1em + 1vw);">Looks there is no events to Validate right now</h3>
+                <h3 style="font-size:calc(1em + 1vw);">Wait some time and try luck later!</h3>
+              </b-col>
+            </b-container>
+          </b-col>
+          <b-col lg="5" align-h="end">
+            <img src="static/beard-hold.png" style="width: 70%;" alt=":'("/>
+          </b-col>
+        </b-row>
+      </b-container>
+    </div>
+
   </div>
 </template>
 
@@ -32,7 +72,8 @@ export default {
       totalGuesses: 0,
       guessIndex: null,
       guesses: [],
-      contentLoaded: false
+      contentLoaded: false,
+      loadIndex: 0
     }
   },
   methods: {
@@ -43,8 +84,9 @@ export default {
         if (_index !== 0) { // Guess 0 is the empty one
           GuessHelper.getGuessFront(_index).then((guess) => {
             let guessTime = this.$moment(guess[5]).subtract(this.$moment(guess[5]).minute(), 'minutes')
+            let _eventDuration = this.$moment(guess[6]).unix() - this.$moment(guess[5]).unix()
             if (guessTime.unix() < this.$moment().unix() &&
-                guess[3] !== GuessHelper.address[0]) {
+              guess[3] !== GuessHelper.address[0]) {
               this.guesses.push({
                 'id': _index,
                 'title': guess[0],
@@ -53,6 +95,8 @@ export default {
                 'votes': 0,
                 'startingDay': this.$moment(guess[4]).format('MMMM D, YYYY [at] H[h]'),
                 'finishingDay': this.$moment(guess[5]).format('MMMM D, YYYY [at] H[h]'),
+                'finishingDayUnformated': this.$moment(guess[5]),
+                'eventDuration': this.$moment.duration(_eventDuration, 'seconds').humanize(),
                 'eventState': '',
                 'option1': 'Loading...',
                 'option2': 'Loading...',
@@ -96,39 +140,17 @@ export default {
       let self = this
 
       this.guesses = [] // Clean the array of showed Guesses
-      var finished = 0
-      for (var i = 0; i < 7; i++) {
-        GuessHelper.getGuessesToValidate(0, this.$moment().subtract(i, 'days').unix()).then((_guesses) => {
-          self.guessesByNumber = self.guessesByNumber.concat(_guesses)
-          // console.log(_guesses)
-          finished++
-          if (finished === 7) {
-            self.printGuesses()
-            self.contentLoaded = true
-          }
-        }).catch(err => {
-          finished++
-          if (finished === 7) {
-            self.printGuesses()
-            self.contentLoaded = true
-          }
-          return err
-        })
-      }
-    }
-    /*
-    validateGuess (_index, _option) { // Option has to be 1 or 2
-      // let self = this
-      console.log(_index)
-      GuessHelper.validateGuess(_index, _option).then(() => {
-        console.log('Transaction pending...')
-        // TODO: Show alert of voting
-        // self.guessCreatedAlert = true
+      GuessHelper.getGuessesToValidate(this.loadIndex, this.$moment().unix()).then((_guesses) => {
+        self.guessesByNumber = _guesses
+        // console.log(_guesses)
+        self.printGuesses()
+        self.contentLoaded = true
       }).catch(err => {
         console.log(err)
+        self.contentLoaded = true
+        return err
       })
     }
-    */
   },
   created: function () {
     let self = this
@@ -140,13 +162,21 @@ export default {
 
     NetworkHelper.init().then(() => {
       if (NetworkHelper.state === 'disconnected' ||
-          NetworkHelper.state === 'locked') {
+        NetworkHelper.state === 'locked') {
         self.$router.push('signup')
       }
     })
   },
   beforeCreated: function () {
     this.contentLoaded = false
+  },
+  watch: {
+    loadIndex: function () {
+      this.totalGuesses = 0
+      this.guessesByNumber = []
+      this.guesses = []
+      this.getGuessesToValidate()
+    }
   }
 }
 </script>

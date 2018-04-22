@@ -1,5 +1,18 @@
 <template>
   <div>
+    <b-row align-h="between" style="margin: -10px 0 10px 0;">
+      <b-col align-self="center">
+        <div v-if="(totalEvents != 0 && loadIndex == 0) || loadIndex != 0">
+          <b-row align-v="center" align-h="center">
+            <b-button-toolbar key-nav>
+              <b-button @click="loadIndex--" variant="primary" class="nav-button">&laquo</b-button>
+              <b-button @click="loadIndex++" variant="primary" class="nav-button">&raquo</b-button>
+            </b-button-toolbar>
+          </b-row>
+        </div>
+      </b-col>
+    </b-row>
+
     <div v-if="totalEvents > 0">
       <CardDeck :events="events"
          :peopleBar='true'
@@ -10,7 +23,12 @@
       <b-container class="" style="">
         <b-row align-h="between">
           <b-col align-self="center">
-            <h3>Looks like any of your guessed events is being validated!</h3>
+            <span v-if="loadIndex == 0">
+              <h3>Looks like any of your guessed events is being validated!</h3>
+            </span>
+            <span v-else>
+              <h3>Looks like any more of your guessed events is being validated!</h3>
+            </span>
             <br>
             <b-button href="#home" variant="primary" size="lg">Guess events</b-button>
           </b-col>
@@ -41,7 +59,8 @@ export default {
       counter2: [0, 1],
       currentEvents: [],
       events: [],
-      totalEvents: 0
+      totalEvents: 0,
+      loadIndex: 0
     }
   },
   methods: {
@@ -119,7 +138,7 @@ export default {
     },
 
     getValidatingGuessesByAddress () {
-      GuessHelper.getValidatingGuessesByAddress(0).then((_events) => {
+      GuessHelper.getValidatingGuessesByAddress(this.loadIndex).then((_events) => {
         this.currentEvents = _events
         this.printEvents()
       }).catch((err) => {
@@ -134,6 +153,14 @@ export default {
     }).catch(err => {
       console.log(err)
     })
+  },
+  watch: {
+    loadIndex: function () {
+      this.totalEvents = 0
+      this.currentEvents = []
+      this.events = []
+      this.getValidatingGuessesByAddress()
+    }
   }
 }
 </script>

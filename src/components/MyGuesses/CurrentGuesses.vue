@@ -2,7 +2,7 @@
   <div>
     <b-row align-h="between" style="margin: -10px 0 10px 0;">
       <b-col align-self="center">
-        <div v-if="(totalGuesses != 0 && loadIndex == 0) || loadIndex != 0">
+        <div v-if="(totalEvents != 0 && loadIndex == 0) || loadIndex != 0">
         <b-row align-v="center" align-h="center">
         <b-button-toolbar key-nav>
           <b-button @click="loadIndex--" variant="primary" class="nav-button">&laquo</b-button>
@@ -23,7 +23,12 @@
       <b-container class="" style="">
         <b-row align-h="between">
           <b-col align-self="center">
+            <span v-if="loadIndex == 0">
             <h3>Looks like you haven't participated in any current event yet!</h3>
+            </span>
+            <span v-else>
+              <h3>Looks like you haven't participated in more current events yet!</h3>
+            </span>
             <h5>Feel like taking a guess?</h5>
           </b-col>
           <b-col>
@@ -102,6 +107,7 @@ export default {
 
       GuessHelper.getEventItemState(_index).then((eventItemState) => {
         self.events[_localIndex].eventState = eventItemState
+        // console.log('Event:', self.events[_localIndex].id, eventItemState)
       }).catch(err => {
         console.log(err)
       })
@@ -157,7 +163,5 @@ export default {
   }
 }
 </script>
-
 <style>
-
 </style>
