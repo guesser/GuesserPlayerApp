@@ -45,7 +45,7 @@ contract MyGuesses is GuesserCore {
     while (_index < guesserStorage.getGuessesByAddressLength(_address) && _eventNumber < 10) {
       uint256 _eventIndex = guesserStorage.getGuessesByAddress(_address, _index);
       // Does it has enough validations to count as a Past event?
-      if(getEventItemState(_eventIndex) == 'validating') {
+      if(getEventItemState(_eventIndex) == 'validating' || getEventItemState(_eventIndex) == 'waiting') {
         _firstEvents[_eventNumber] = _eventIndex;
         _eventNumber ++;
       }

@@ -38,7 +38,7 @@ contract GuesserCore is DateTime {
              _votes != 0)
       _state = "waiting";
     else if(DateTime.dateDue(guesserStorage.getGuessValidationDate(_index)) == true &&
-            _validations < _half)
+            _validations < _half && _votes != 0)
             _state = "validating";
             else if((DateTime.dateDue(guesserStorage.getGuessValidationDate(_index)) == true &&
             _validations >= _half) ||
