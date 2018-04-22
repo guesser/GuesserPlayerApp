@@ -117,9 +117,22 @@ const GuessHelper = {
   },
 
   voteGuess: function (_guessIndex, _option, ethAmount) { // Option has to be between 1 and 2
+    return GuessInputs.init(this.address).then(() => {
+      return GuessInputs.voteGuess(
+        _guessIndex,
+        _option,
+        ethAmount
+      )
+    })
   },
 
   validateGuess: function (_guessIndex, _option) {
+    return GuessInputs.init(this.address).then(() => {
+      return GuessInputs.validateGuess(
+        _guessIndex,
+        _option
+      )
+    })
   },
 
   getGuessesToValidate: function (index, date) {
@@ -164,7 +177,7 @@ const GuessHelper = {
 
   getEventItemState: function (index) {
     return GuessCore.init().then(() => {
-      return GuessGame.getEventItemState(index).catch((err) => {
+      return GuessCore.getEventItemState(index).catch((err) => {
         return err
       })
     })

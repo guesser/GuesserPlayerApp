@@ -99,7 +99,6 @@ const GuesserInputHelper = {
     _option1,
     _option2) {
     let self = this
-    console.log('Title: ', _title)
 
     return new Promise((resolve, reject) => {
       self.instance.setGuess(
