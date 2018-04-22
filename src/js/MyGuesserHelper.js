@@ -10,11 +10,12 @@ const MyGuessesHelper = {
     let self = this
 
     return new Promise(function (resolve, reject) {
+      self.contract = contract(MyGuesses)
       self.contract.setProvider(window.web3.currentProvider)
 
-      self.contract = contract(MyGuesses)
       self.contract.deployed().then(instance => {
         self.instance = instance
+        resolve()
       }).catch((err) => {
         reject(err)
       })

@@ -10,11 +10,12 @@ const GuesserGameHelper = {
     let self = this
 
     return new Promise(function (resolve, reject) {
-      self.contract.setProvider(window.web3.currentProvider)
-
       self.contract = contract(GuesserGame)
+
+      self.contract.setProvider(window.web3.currentProvider)
       self.contract.deployed().then(instance => {
         self.instance = instance
+        resolve()
       }).catch((err) => {
         reject(err)
       })
@@ -49,7 +50,6 @@ const GuesserGameHelper = {
     return new Promise((resolve, reject) => {
       self.instance.getGuessOptions.call(
         index,
-        {from: self.address[0]}
       ).then(guess => {
         resolve([
           guess[0], // option1
@@ -71,7 +71,6 @@ const GuesserGameHelper = {
     return new Promise((resolve, reject) => {
       self.instance.getGuessOptionsProfits.call(
         index,
-        {from: self.address[0]}
       ).then(guess => {
         resolve([
           window.web3.utils.fromWei(guess[0].c[0].toString(), 'Kwei'), // amount of eth in the 1 option

@@ -1,5 +1,5 @@
 import contract from 'truffle-contract'
-import GuesserInput from '@contracts/GuesserInput.json'
+import GuesserInput from '@contracts/GuesserInputs.json'
 
 const GuesserInputHelper = {
   contract: null,
@@ -21,9 +21,9 @@ const GuesserInputHelper = {
     let self = this
 
     return new Promise(function (resolve, reject) {
-      self.contract.setProvider(window.web3.currentProvider)
-
       self.contract = contract(GuesserInput)
+
+      self.contract.setProvider(window.web3.currentProvider)
       self.contract.deployed().then(instance => {
         self.instance = instance
 
@@ -33,13 +33,14 @@ const GuesserInputHelper = {
         self.GuessValidated = self.instance.GuessValidated()
         self.ProfitsReturned = self.instance.ProfitsReturned()
         self.TestValue = self.instance.test_value()
+        resolve()
       }).catch((err) => {
         reject(err)
       })
     })
   },
 
-CreatedGuessEvent: function () {
+  CreatedGuessEvent: function () {
     this.GuessCreated.watch(function (error, result) {
       if (!error) {
         console.log('No error on creating guess event catcher! See: ', result)
@@ -98,6 +99,7 @@ CreatedGuessEvent: function () {
     _option1,
     _option2) {
     let self = this
+    console.log('Title: ', _title)
 
     return new Promise((resolve, reject) => {
       self.instance.setGuess(
@@ -126,9 +128,10 @@ CreatedGuessEvent: function () {
       self.instance.voteGuess(
         _guessIndex,
         _option,
-        {from: self.address[0],
-         value: window.web3.utils.toWei(ethAmount.toString(), 'ether'),
-         gas: 6385875} // TODO: Gas forced
+        {
+          from: self.address[0],
+          value: window.web3.utils.toWei(ethAmount.toString(), 'ether'),
+          gas: 6385875} // TODO: Gas forced
       ).then(() => {
         resolve()
       }).catch(err => {
