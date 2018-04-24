@@ -115,11 +115,11 @@ contract GuesserInputs is GuesserCore {
     // Has the validator voted the guess?
     require(guesserStorage.getGuessVotersOption(_guess, msg.sender, 0) == uint256(0x0));
 
-    uint256 validations = guesserStorage.getGuessOptionValidation(_guess, 1) + guesserStorage.getGuessOptionValidation(_guess, 2);
-    uint256 votes = guesserStorage.getGuessOptionVotes(_guess, 1) + guesserStorage.getGuessOptionVotes(_guess, 2);
+    uint128 validations = guesserStorage.getGuessOptionValidation(_guess, 1) + guesserStorage.getGuessOptionValidation(_guess, 2);
+    uint128 votes = guesserStorage.getGuessOptionVotes(_guess, 1) + guesserStorage.getGuessOptionVotes(_guess, 2);
 
     // Enough validations
-    uint256 half = ((((votes * 10) / 2) - ((votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
+    uint128 half = ((((votes * 10) / 2) - ((votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
     require(validations < half);
 
     guesserStorage.setGuessValidatorOption(_guess, msg.sender, _option);
@@ -129,19 +129,18 @@ contract GuesserInputs is GuesserCore {
     } else {
       guesserStorage.increaseValidation(_guess, 2, 1);
     }
-    emit GuessValidated(_guess, _option, msg.sender);
     validations += 1;
-    // if (validations == half) {
-      // returnProfits(_guess);
-    // }
+    if (validations == half) {
+      returnProfits(_guess);
+    }
+    emit GuessValidated(_guess, _option, msg.sender);
   }
 
   /**
   * @dev Function that returns the profit to the voters
   * @param _guess uint256 the event to ask for the profits of
     */
-  /*
-  function returnProfits (uint256 _guess) private {
+  function returnProfits (uint256 _guess) internal {
     // Does the guess exists?
     require(_guess < guesserStorage.getGuessLength());
     // Is the date due?
@@ -167,9 +166,9 @@ contract GuesserInputs is GuesserCore {
       uint256 _profits = guesserStorage.getGuessVotersOption(_guess, _onlyVoter, 1);
       _profits += guesserStorage.getGuessVotersOption(_guess, _onlyVoter, 2);
 
-      guesserStorage.getGuessVoter(_guess, _voterIndex).transfer(_profits); //Error
-      return;
-    }
+      _onlyVoter.transfer(_profits); //Error
+      emit ProfitsReturned(_guess);
+    } else {
     // If there is only one side of the votes, they are instantly the winners
     if ((guesserStorage.getGuessOptionVotes(_guess, 1) > 0 && guesserStorage.getGuessOptionVotes(_guess, 2) == 0) ||
         (guesserStorage.getGuessOptionVotes(_guess, 2) > 0 && guesserStorage.getGuessOptionVotes(_guess, 1) == 0)) {
@@ -179,6 +178,7 @@ contract GuesserInputs is GuesserCore {
         _winner = 2; // The winner is the second one
       }
     }
+
 
     uint256 percentage; // The percentage of the win a person has
 
@@ -194,10 +194,10 @@ contract GuesserInputs is GuesserCore {
       }
 
       address person = guesserStorage.getGuessVoter(_guess, _voterIndex);
-
-      // Check if the user voted the winner option or both options (3)
-      if (guesserStorage.getGuessVotersOption(_guess, person, _winner) == _winner ||
-          guesserStorage.getGuessVotersOption(_guess, person, _winner) == 3) {
+      uint128 _personOption = guesserStorage.getGuessVotersOption(_guess, person, 0);
+      if (_personOption == _winner || _personOption == 3) {
+      /* Check if the user voted the winner option or both options (3) */
+        /**
         // Get the percentage of the person in the winner option
         percentage = percent(
                              guesserStorage.getGuessVotersOption(_guess, person, _winner),
@@ -206,12 +206,15 @@ contract GuesserInputs is GuesserCore {
                              );
         uint256 _final = ((_totalProfits * 10) * percentage);
         guesserStorage.getGuessVoter(_guess, _voterIndex).transfer(_final/index); //Error
+      */
       }
+
     }
 
     guesserStorage.setGuessProfitsReturned(_guess, true);
 
     // Release the event
     emit ProfitsReturned(_guess);
-  }*/
+  }
+  }
 }
