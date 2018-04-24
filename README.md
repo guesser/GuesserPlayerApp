@@ -29,13 +29,15 @@ To create an event, you simply click on "Create" at the top right corner of the 
 
 - Description
 
+- Topic
+
 - Outcome A
 
 - Outcome B
 
-- Ending date & time
+- Event duration
 
-- Topic
+- Ending date & time
 
 For every player that plays at your event, you will keep a fee of the transaction that happens. This way you have an incentive to create quality events and attract players to your them.
 
