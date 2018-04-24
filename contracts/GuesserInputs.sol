@@ -25,7 +25,8 @@ contract GuesserInputs is GuesserCore {
   * @dev Function that creates a Guess.
   * @param _title string The title of the Guess.
     * @param _description string The description of the Guess
-  * @param _topic bytes32 The topic of the Guess
+  * @param _topic bytes32 The topicguesserStorage.getGuessVoter(_guess, _voterIndex),
+ of the Guess
   * @param _finalDate uint256 The final date of the Guess
   * @param _option1 string The first option to vote on the Guess
   * @param _option2 string The first option to vote on the Guess
@@ -153,68 +154,72 @@ contract GuesserInputs is GuesserCore {
     require(guesserStorage.getGuessProfitsReturned(_guess) == false);
 
 
-    uint8 _winner;
-    if (guesserStorage.getGuessOptionValidation(_guess, 1) > guesserStorage.getGuessOptionValidation(_guess, 2)) {
-      _winner = 1; // The winner is the first one
-    } else {
-      _winner = 2; // The winner is the second one
-    }
+    uint8 _winner = getGuessWinner(_guess);
 
     // If there is only one voter (even in both sides)
     if (guesserStorage.getGuessVotersLength(_guess) == 1) {
-      address _onlyVoter = guesserStorage.getGuessVoter(_guess, 0);
-      uint256 _profits = guesserStorage.getGuessVotersOption(_guess, _onlyVoter, 1);
-      _profits += guesserStorage.getGuessVotersOption(_guess, _onlyVoter, 2);
-
-      _onlyVoter.transfer(_profits); //Error
-      emit ProfitsReturned(_guess);
+      // returnProfitsOnlyOneVoter(_guess);
     } else {
-    // If there is only one side of the votes, they are instantly the winners
-    if ((guesserStorage.getGuessOptionVotes(_guess, 1) > 0 && guesserStorage.getGuessOptionVotes(_guess, 2) == 0) ||
-        (guesserStorage.getGuessOptionVotes(_guess, 2) > 0 && guesserStorage.getGuessOptionVotes(_guess, 1) == 0)) {
-      if (guesserStorage.getGuessOptionVotes(_guess, 1) > guesserStorage.getGuessOptionVotes(_guess, 2)) {
-        _winner = 1; // The winner is the first one
-      } else {
-        _winner = 2; // The winner is the second one
-      }
-    }
-
-
-    uint256 percentage; // The percentage of the win a person has
-
-    uint256 _totalProfits = getGuessProfits(_guess);
-    uint256 _totalWinnersProfits = getGuessProfitsByOption(_guess, _winner);
-    for(uint256 _voterIndex = 0; _voterIndex < guesserStorage.getGuessVotersLength(_guess); _voterIndex++) {
-      // WARNING: Only will work with non contracts addresses
-      uint256 index = 10;
-      uint256 _precision = 0;
-      while (_totalProfits*100 > index) {
-        index = index * 10;
-        _precision++;
+      // If there is only one side of the votes, they are instantly the winners
+      if ((guesserStorage.getGuessOptionVotes(_guess, 1) > 0 && guesserStorage.getGuessOptionVotes(_guess, 2) == 0) ||
+          (guesserStorage.getGuessOptionVotes(_guess, 2) > 0 && guesserStorage.getGuessOptionVotes(_guess, 1) == 0)) {
+        if (guesserStorage.getGuessOptionVotes(_guess, 1) > guesserStorage.getGuessOptionVotes(_guess, 2)) {
+          _winner = 1; // The winner is the first one
+        } else {
+          _winner = 2; // The winner is the second one
+        }
       }
 
-      address person = guesserStorage.getGuessVoter(_guess, _voterIndex);
-      uint128 _personOption = guesserStorage.getGuessVotersOption(_guess, person, 0);
-      if (_personOption == _winner || _personOption == 3) {
-      /* Check if the user voted the winner option or both options (3) */
-        /**
-        // Get the percentage of the person in the winner option
-        percentage = percent(
-                             guesserStorage.getGuessVotersOption(_guess, person, _winner),
-                             _totalWinnersProfits,
-                             _precision
-                             );
-        uint256 _final = ((_totalProfits * 10) * percentage);
-        guesserStorage.getGuessVoter(_guess, _voterIndex).transfer(_final/index); //Error
+      uint256 percentage; // The percentage of the win a person has
+
+      uint256 _totalProfits = getGuessProfits(_guess);
+      uint256 _totalWinnersProfits = getGuessProfitsByOption(_guess, _winner);
+      for(uint256 _voterIndex = 0; _voterIndex < guesserStorage.getGuessVotersLength(_guess); _voterIndex++) {
+        // WARNING: Only will work with non contracts addresses
+        uint256 index = 10;
+        uint256 _precision = 0;
+        while (_totalProfits*100 > index) {
+          index = index * 10;
+          _precision++;
+        }
+
+        address person = guesserStorage.getGuessVoter(_guess, _voterIndex);
+        uint128 _personOption = guesserStorage.getGuessVotersOption(
+                                                                    _guess,
+                                                                    person,
+                                                                    0);
+        /*
+        if (_personOption == uint128(_winner) || _personOption == uint128(3)) {
+          // Check if the user voted the winner option or both options (3)
+          // Get the percentage of the person in the winner option
+          /*
+          percentage = percent(
+                               guesserStorage.getGuessVotersOption(_guess, person, _winner),
+                               _totalWinnersProfits,
+                               _precision
+                               );
+          uint256 _final = ((_totalProfits * 10) * percentage);
+          guesserStorage.getGuessVoter(_guess, _voterIndex).transfer(_final/index); //Error
+        }
       */
+
       }
 
+      guesserStorage.setGuessProfitsReturned(_guess, true);
+
+      // Release the event
+      emit ProfitsReturned(_guess);
     }
-
-    guesserStorage.setGuessProfitsReturned(_guess, true);
-
-    // Release the event
-    emit ProfitsReturned(_guess);
   }
+
+  function returnProfitsOnlyOneVoter (uint256 _guess) private {
+    require(guesserStorage.getGuessVotersLength(_guess) == 1);
+
+    address _onlyVoter = guesserStorage.getGuessVoter(_guess, 0);
+    uint256 _profits = guesserStorage.getGuessVotersOption(_guess, _onlyVoter, 1);
+    _profits += guesserStorage.getGuessVotersOption(_guess, _onlyVoter, 2);
+
+    _onlyVoter.transfer(_profits); //Error
+    emit ProfitsReturned(_guess);
   }
 }

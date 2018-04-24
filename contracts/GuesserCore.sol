@@ -119,4 +119,12 @@ contract GuesserCore is DateTime {
 
     return _profits;
   }
+
+  function getGuessWinner (uint256 _guess) public view returns (uint8) {
+    if (guesserStorage.getGuessOptionValidation(_guess, 1) > guesserStorage.getGuessOptionValidation(_guess, 2)) {
+      return 1; // The winner is the first one
+    } else {
+      return 2; // The winner is the second one
+    }
+  }
 }
