@@ -15,17 +15,17 @@
           </b-nav-item>
 
           <!--Search button-->
-          <b-nav-item>
-            <form class="navbar-form" role="search">
-              <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search by ID" name="srch-term" id="srch-term" v-model="form._id">
-                <div class="input-group-btn">
-                  <button class="btn btn-default" @click="changeToSearched" type="submit"><i class="material-icons" >search</i></button>
-                </div>
-              </div>
-            </form>
-          </b-nav-item>
-
+          <!--<b-nav-item>-->
+          <!--<form class="navbar-form" role="search">-->
+          <!--<div class="input-group">-->
+          <!--<input type="text" class="form-control" placeholder="Search by ID" name="srch-term" id="srch-term" v-model="form._id">-->
+          <!--<div class="input-group-btn">-->
+          <!--<button class="btn btn-default" @click="changeToSearched" type="submit"><i class="material-icons" >search</i></button>-->
+          <!--</div>-->
+          <!--</div>-->
+          <!--</form>-->
+          <!--</b-nav-item>-->
+          <SearchInput/>
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto">
           <b-nav-item href="#home">Play</b-nav-item>
@@ -47,11 +47,15 @@
 </template>
 
 <script>
-import GuessHelper from '@/js/Guess'
-import ServerHelper from '@/js/ServerHelper'
+import GuessHelper from '@/js/Guess.js'
+import ServerHelper from '@/js/ServerHelper.js'
+import SearchInput from './Common/SearchInput.vue'
 
 export default {
   name: 'TopBar',
+  components: {
+    SearchInput
+  },
   data: function () {
     return {
       userExists: false,
@@ -63,12 +67,12 @@ export default {
     }
   },
   methods: {
-    changeToSearched () {
+    changetosearched () {
       this.$router.push({
         // path: `/search/${this.form._id}`
         path: 'search', query: { _id: `${this.form._id}` }
       })
-      console.log('Identifier: ', this.form._id)
+      console.log('identifier: ', this.form._id)
     },
     checkIfUserExists () {
       ServerHelper.getUser(GuessHelper.address[0]).then((data) => {
