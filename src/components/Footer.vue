@@ -7,10 +7,10 @@
     <div class="footer-div">
       <hr>
       <div class="text-center center-block">
-        <a href=""><i id="social-gh" class="fab fa-github fa-social"></i></a>
-        <a href=""><i id="social-med" class="fab fa-medium-m fa-social"></i></a>
-        <a href=""><i id="social-tw" class="fab fa-twitter fa-social"></i></a>
-        <a href="telegram"><i id="social-tel" class="fab fa-telegram-plane fa-social"></i></a>
+        <a href="https://github.com/carlosgj94/Guesser" target="blank"><i id="social-gh" class="fab fa-github fa-social"></i></a>
+        <a href="https://medium.com/@joselfgaray" target="blank"><i id="social-med" class="fab fa-medium-m fa-social"></i></a>
+        <a href="https://twitter.com/GuesserIO" target="blank"><i id="social-tw" class="fab fa-twitter fa-social"></i></a>
+        <a href="http://lmgtfy.com/?s=d&q=Telegram+of+the+coolest+DApp+in+history" target="blank"><i id="social-tel" class="fab fa-telegram-plane fa-social"></i></a>
       </div>
       <hr>
     </div>
@@ -19,27 +19,27 @@
         <b-col>
           <b-row align-h="center">
             <span class="footer-text">
-              <a href="">About</a><br>
-              <a href="">RoadMap</a><br>
-              <a href="">FAQs</a><br>
+              <a href="" target="blank">About</a><br>
+              <a href="" target="blank">RoadMap</a><br>
+              <a href="" target="blank">FAQs</a><br>
             </span>
           </b-row>
         </b-col>
         <b-col>
           <b-row align-h="center">
             <span class="footer-text">
-              <a href="">Help&Support</a><br>
-              <a href="">Technical</a><br>
-              <a href="">BeardPaper</a><br>
+              <a href="https://github.com/carlosgj94/Guesser" target="blank">Help & Support</a><br>
+              <a href="" target="blank">Technical</a><br>
+              <a href="" target="blank">Beardy Paper</a><br>
             </span>
           </b-row>
         </b-col>
         <b-col>
           <b-row align-h="center">
             <span class="footer-text">
-              <a href="" class="social-med">Press</a><br>
-              <a href="" class="social-tw">Twitter</a><br>
-              <a href="" class="social-tel">Telegram</a><br>
+              <a href="https://medium.com/@joselfgaray" target="blank" class="social-med">Press</a><br>
+              <a href="https://twitter.com/GuesserIO" target="blank" class="social-tw">Twitter</a><br>
+              <a href="http://lmgtfy.com/?s=d&q=Telegram+of+the+coolest+DApp+in+history" target="blank" class="social-tel">Telegram</a><br>
             </span>
           </b-row>
         </b-col>
@@ -57,7 +57,7 @@
 }
 .fa-social {
   padding: 10px 5%;
-  font-size: 2.6em;
+  font-size: 2em;
   -webkit-transition-duration: 0.5s;
   -moz-transition-duration: 0.5s;
   -o-transition-duration: 0.5s;
