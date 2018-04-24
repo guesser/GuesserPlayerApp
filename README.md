@@ -5,7 +5,7 @@
 
 Guesser is a prediction game where players put their eth on one of two outcomes of a given event, and the winning side gets back all the money played in the event. Events are created by players, who get a fee for their contribution, and are initially organized into 10 topics: Crypto, Celebrities, Entertainment, Gaming, Humour, News, Politics, Sports, Technology and Random. 
 
-[guesser.io](https://guesser.io/)
+[guesser.io](http://guesser.io/)
 
 ## How to guess
 If you think you know the outcome of a certain event, you can predict it by choosing one of the two outcomes and deciding how much eth you want to stake with Metamask. If the event finishes and you were right, the Guesser smart contract will give you the % of the total eth played (proportional to the % of your outcome’s pool) that you get back.
