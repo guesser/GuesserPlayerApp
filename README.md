@@ -8,7 +8,7 @@ Guesser is a prediction game where players put their eth on one of two outcomes 
 [guesser.io](http://guesser.io/)
 
 ## How to guess
-If you think you know the outcome of a certain event, you can predict it by choosing one of the two outcomes and deciding how much eth you want to stake with Metamask. If the event finishes and you were right, the Guesser smart contract will give you the % of the total eth played (proportional to the % of your outcome’s pool) that you get back.
+If you think you know the outcome of a certain event, you can predict it by choosing one of the two outcomes and deciding how much eth you want to stake with Metamask. If the event finishes and you were right, the Guesser smart contract will give you the % of the total ether played (proportional to the % of your outcome’s pool) that you get back.
 
 ### Example:
 
@@ -39,7 +39,7 @@ To create an event, you simply click on "Create" at the top right corner of the 
 
 - Ending date & time
 
-For every player that plays at your event, you will keep a fee of the transaction that happens. This way you have an incentive to create quality events and attract players to your them.
+For every player that plays at your event, you will keep a fee of the transaction that happens. This way you have an incentive to create quality events and attract players to them.
 
 ## Validation
 In order to check the true outcome and provide an accurate result for an event in a decentralized way, validators are needed. Validators vote on what the true outcome was by staking their eth, and get rewarded through fees if they provide a majority answer. Validators lose their eth if their answer does not match the majority vote.
