@@ -37,8 +37,6 @@ export default {
 
 $search: #ff0d73;
 
-$search: #ff0d73;
-
 *, *:before, *:after {
   box-sizing: border-box;
   margin: 0;
@@ -71,12 +69,12 @@ $borderW: 0.2rem;
   &__border {
     position: absolute;
     top: 50%;
-    left: 50%;
+    left: 0%;
     width: $h;
     height: 100%;
     border: $borderW solid $search;
     border-radius: 10rem;
-    transform: translate(-50%, -50%);
+    transform: translate(0%, -50%);
     transition: width $step2 $delayClose2;
 
     #trigger:checked ~ & {
@@ -136,7 +134,7 @@ $borderW: 0.2rem;
     z-index: 2;
     position: absolute;
     top: 0;
-    left: $w*0.41;
+    left: 0;
     width: $w*0.2125;
     height: $w*0.4;
     cursor: pointer;
