@@ -20,15 +20,15 @@
           <b-row align-h="center">
             <span class="footer-text">
               <a href="" target="blank">About</a><br>
-              <a href="" target="blank">RoadMap</a><br>
+              <!--<a href="" target="blank">RoadMap</a><br>-->
               <a href="" target="blank">FAQs</a><br>
+              <a href="https://github.com/carlosgj94/Guesser" target="blank">Help & Support</a><br>
             </span>
           </b-row>
         </b-col>
         <b-col>
           <b-row align-h="center">
             <span class="footer-text">
-              <a href="https://github.com/carlosgj94/Guesser" target="blank">Help & Support</a><br>
               <a href="" target="blank">Technical</a><br>
               <a href="" target="blank">Beardy Paper</a><br>
             </span>

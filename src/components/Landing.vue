@@ -69,59 +69,11 @@
         <b-row class="maket" align-h="center">
           <b-container class="show" style="min-width: 80%; padding: 2rem 0.1rem">
             <b-row align-h="between" style="">
-              <b-col lg="6" style="padding: 0 1% 0 1%;">
-                <b-container style="display: flex; justify-content: center; padding: 5%;">
-
-                  <!--Example Card-->
-                  <b-card :border-variant="guess.topic"
-                             style="width: 100%; height: 100%;"
-                             :header="guess.title"
-                             :header-bg-variant="guess.topic"
-                             header-text-variant="white"
-                             class="text-center">
-                    <p class="card-text">
-                    {{guess.description}}
-                    </p>   
-                    <p class="card-text">
-                    Created at: <b>{{guess.startingDay}}</b>
-                    <br>
-                    Open until: <b>{{guess.finishingDay}}</b>
-                    </p>
-                    <br>
-                    <span>Votes for each outcome: </span>
-                    <b-progress class="mt-1" :max="10*(guess.votes/10)" style="font-size: 0.5em" show-value striped>
-                      <b-progress-bar :value="10*(guess.option1votes/10)" variant="pink">
-                        {{guess.option1}} - {{ guess.option1votes }}
-                      </b-progress-bar>
-                      <b-progress-bar :value="10*(guess.option2votes/10)" variant="magenta">
-                        {{guess.option2}} - {{ guess.option2votes }}
-                      </b-progress-bar>
-                    </b-progress>
-                    <small>Total: {{guess.votes}} people</small>
-                    <br>
-                    <span>Eth staked on each outcome: </span>
-                    <b-progress class="mt-1" :max="10*(guess.amountEth/10)" style="font-size: 0.5rem" show-value striped>
-                      <b-progress-bar :value="10*(guess.option1AmountEth/10)" variant="pink">
-                        {{guess.option1}} - {{ guess.option1AmountEth }}
-                      </b-progress-bar>
-                      <b-progress-bar :value="10*(guess.option2AmountEth/10)" variant="magenta">
-                        {{guess.option2}} - {{ guess.option2AmountEth }}
-                      </b-progress-bar>
-                    </b-progress>
-                    <small>Total: {{guess.amountEth}} ether</small>
-                    <b-row align-h="end" align-v="end" style="color: #ff0d78">
-                      <span>#{{guess.id}}</span>
-                      <b-btn id="idCopy" variant="link" href="http://lmgtfy.com/?s=d&q=Where+are+the+lambos%3F" target="_blank" size="sm">
-                        <img width="20px" src="../assets/shareicon.png"/>
-                      </b-btn>
-                    </b-row>
-                    <b-button style="margin: 2px 20px" @click="showPaymentModal(1)" variant="outline-pink" size="sm">{{guess.option1}}</b-button>
-                    <b-button style="margin: 2px 20px" @click="showPaymentModal(2)" variant="outline-magenta" size="sm">{{guess.option2}}</b-button>
-                  </b-card>
-
-                </b-container>
+              <b-col lg="6" style="padding: 5% 5%; margin-bottom: 10px">
+                <!--Example Card-->
+                <SingleCard :eventItem="guess" :buttonsAllow="false"/>
               </b-col>
-              <b-col lg="6" align-self="center" style="text-align: right;">
+              <b-col lg="6" align-self="center" style="text-align: right; padding: 0 30px">
                 <b-row class="justify-content-md-center">
                   <b-col lg="10" style="">
                     <h1 style="font-size:calc(1em + 2vw);"><b>Create</b> an Event!</h1>
@@ -191,9 +143,13 @@
 </template>
 
 <script>
+import SingleCard from './Common/SingleCard.vue'
 
 export default {
   name: 'Landing',
+  components: {
+    SingleCard
+  },
   data () {
     return {
       options: {
@@ -204,22 +160,31 @@ export default {
       topics: ['Crypto', 'Celebrities', 'Entertainment', 'Gaming', 'Humor', 'News', 'Politics', 'Sports', 'Technology', 'Random'],
       guess: {
         id: '314',
-        title: 'Will SpaceX recover the fairing?',
+        title: 'Will SpaceX launch the BFR?',
         description: 'They want, but can they do it?',
         topic: 'Humor',
         creator: '0x00000000000000000000000000000000',
         votes: 666,
-        startingDay: 'Mar, 3 2018 at 16h',
-        finishingDay: 'Mar, 20 2018 at 12h',
+        startingDay: this.$moment().subtract(1, 'day').format('MMMM D, YYYY [at] H[h]'),
+        finishingDay: this.$moment().add(4, 'day').add(4, 'hours').format('MMMM D, YYYY [at] H[h]'),
+        eventDuration: '3 days',
+        eventState: 'voting',
         option1: 'Fuck yeah',
         option2: 'We\'ll die before',
-        option1votes: '266',
-        option2votes: '400',
-        option1AmountEth: '42040',
-        option2AmountEth: '27009',
-        amountEth: 69049
+        option1votes: 0,
+        option2votes: 0,
+        option1AmountEth: 0,
+        option2AmountEth: 0,
+        amountEth: 0
       }
     }
+  },
+  created: function () {
+    this.guess.option1votes = Math.floor((Math.random() * 350) + 100)
+    this.guess.option2votes = this.guess.votes - this.guess.option1votes
+    this.guess.option1AmountEth = Math.floor((Math.random() * 1000) + 400)
+    this.guess.option2AmountEth = Math.floor((Math.random() * 1000) + 400)
+    this.guess.amountEth = this.guess.option1AmountEth + this.guess.option2AmountEth
   }
 }
 </script>
@@ -232,6 +197,7 @@ export default {
 .show {
   padding: 5% 3% 5% 2%;
   background-color: white;
+  border-radius: 5px;
 }
 .tipe2 {
   background-color: pink;
