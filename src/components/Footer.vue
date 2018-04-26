@@ -7,39 +7,43 @@
     <div class="footer-div">
       <hr>
       <div class="text-center center-block">
-        <a href="https://github.com/carlosgj94/Guesser" target="blank"><i id="social-gh" class="fab fa-github fa-social"></i></a>
-        <a href="https://medium.com/@joselfgaray" target="blank"><i id="social-med" class="fab fa-medium-m fa-social"></i></a>
-        <a href="https://twitter.com/GuesserIO" target="blank"><i id="social-tw" class="fab fa-twitter fa-social"></i></a>
-        <a href="http://lmgtfy.com/?s=d&q=Telegram+of+the+coolest+DApp+in+history" target="blank"><i id="social-tel" class="fab fa-telegram-plane fa-social"></i></a>
+        <a href="https://github.com/carlosgj94/Guesser" target="_blank"><i id="social-gh" class="fab fa-github fa-social"></i></a>
+        <a href="https://www.reddit.com/r/guesser" target="_blank"><i id="social-rdt" class="fab fa-reddit fa-social"></i></a>
+        <a href="https://medium.com/@joselfgaray" target="_blank"><i id="social-med" class="fab fa-medium-m fa-social"></i></a>
+        <a href="https://twitter.com/GuesserIO" target="_blank"><i id="social-tw" class="fab fa-twitter fa-social"></i></a>
+        <a href="http://t.me/guesser" target="_blank"><i id="social-tel" class="fab fa-telegram-plane fa-social"></i></a>
       </div>
       <hr>
     </div>
-    <div clas="footer-wrapper">
+    <div class="footer-wrapper">
       <b-row class="center-block footer-wrapper">
         <b-col>
           <b-row align-h="center">
             <span class="footer-text">
-              <a href="" target="blank">About</a><br>
-              <!--<a href="" target="blank">RoadMap</a><br>-->
-              <a href="" target="blank">FAQs</a><br>
-              <a href="https://github.com/carlosgj94/Guesser" target="blank">Help & Support</a><br>
+              <a href="#about" target="_blank">About</a><br>
+              <!--<a href="" target="blank">roadmap</a><br>-->
+              <a href="#faqs" target="_blank">FAQs</a><br>
+              <a href="#help" target="_blank">Help & Support</a><br>
+              <a href="" target="_blank">Technical</a><br>
             </span>
           </b-row>
         </b-col>
         <b-col>
           <b-row align-h="center">
             <span class="footer-text">
-              <a href="" target="blank">Technical</a><br>
-              <a href="" target="blank">Beardy Paper</a><br>
+              <a href="" target="_blank">Beardy Paper</a><br>
+              <a href="#termsofuse" target="_blank">Terms of Use</a><br>
+              <a href="#privacypolicy" target="_blank">Privacy Policy</a><br>
             </span>
           </b-row>
         </b-col>
         <b-col>
           <b-row align-h="center">
             <span class="footer-text">
-              <a href="https://medium.com/@joselfgaray" target="blank" class="social-med">Press</a><br>
-              <a href="https://twitter.com/GuesserIO" target="blank" class="social-tw">Twitter</a><br>
-              <a href="http://lmgtfy.com/?s=d&q=Telegram+of+the+coolest+DApp+in+history" target="blank" class="social-tel">Telegram</a><br>
+              <a href="https://medium.com/@joselfgaray" target="_blank" class="social-med">Press</a><br>
+              <a href="https://www.reddit.com/r/guesser" target="_blank" class="social-rdt">Reddit</a><br>
+              <a href="https://twitter.com/GuesserIO" target="_blank" class="social-tw">Twitter</a><br>
+              <a href="http://t.me/guesser" target="_blank" class="social-tel">Telegram</a><br>
             </span>
           </b-row>
         </b-col>
@@ -100,5 +104,11 @@ Multicoloured Hover Variations
 }
 #social-tel:hover {
   color: #32a9df;
+}
+.social-rdt {
+  color: #ff3f18;
+}
+#social-rdt:hover {
+  color: #ff3f18;
 }
 </style>

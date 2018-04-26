@@ -8,6 +8,13 @@ import Search from '@/components/Search'
 import SignUp from '@/components/SignUp'
 import MyGuesses from '@/components/MyGuesses'
 
+/* Documentation */
+import About from '@/components/Footer/About'
+import FAQs from '@/components/Footer/FAQs'
+import TermsOfUse from '@/components/Footer/TermsOfUse'
+import PrivacyPolicy from '@/components/Footer/PrivacyPolicy'
+import HelpSupport from '@/components/Footer/HelpSupport'
+
 Vue.use(Router)
 
 export default new Router({
@@ -21,6 +28,31 @@ export default new Router({
       path: '/home',
       name: 'home',
       component: Home
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: About
+    },
+    {
+      path: '/faqs',
+      name: 'faqs',
+      component: FAQs
+    },
+    {
+      path: '/termsofuse',
+      name: 'termsofuse',
+      component: TermsOfUse
+    },
+    {
+      path: '/privacypolicy',
+      name: 'privacypolicy',
+      component: PrivacyPolicy
+    },
+    {
+      path: '/help',
+      name: 'help',
+      component: HelpSupport
     },
     {
       path: '/home/:topic',
