@@ -6,7 +6,7 @@
         <label class="search__label-init" for="trigger"></label>
         <label class="search__label-active" for="trigger"></label>
         <div class="search__border"></div>
-        <input type="text" class="search__input" id="srch-term" v-model="form._id"/>
+        <input type="text" class="search__input" id="srch-term" placeholder="ID" v-model="form._id" style="padding-top: 8px"/>
         <div class="search__close"></div>
       </div>
     </form>
@@ -51,9 +51,9 @@ body {
 }
 $cub: cubic-bezier(.73,.14,.4,1.58);
 $step1: 0.2s;
-$step2: 0.4s;
+$step2: 0.3s;
 $delayClose1: 0.2s;
-$delayClose2: 0.4s;
+$delayClose2: 0.3s;
 $totalAnim: $step1 + $step2;
 $w: 18rem;
 $h: 2rem;

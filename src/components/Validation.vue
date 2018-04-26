@@ -190,5 +190,6 @@ export default {
 .wrapper {
   margin: 0 15% 0 15%;
   padding: 0;
+  padding-top: 20px;
 }
 </style>

@@ -2,7 +2,6 @@
   <div>
     <TopBar/>
     <main>
-    <br>
     <!--Alerts-->
     <notifications group="eventAlert"
                    position="bottom right"

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="padding-top: 20px;">
     <!--Alert-->
     <notifications group="voteAlert"
                    position="top center"
