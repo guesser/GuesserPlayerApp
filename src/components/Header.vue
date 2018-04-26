@@ -7,11 +7,11 @@
         <img src="../assets/beard.png" height="40" width="40" class="d-inline-block align-top" alt="BV">
         Guesser
       </b-navbar-brand>
-      <b-collapse is-nav id="nav_collapse">
+      <b-collapse is-nav id="nav_collapse" class="header-items">
         <!--Ethereum speed tooltip-->
         <b-navbar-nav>
-          <b-nav-item>
-            <b-btn v-b-tooltip.hover id="eth-network" variant="outline-success">Network Speed</b-btn>
+          <b-nav-item class="eth-network">
+            <b-btn v-b-tooltip.hover id="eth-network"  variant="outline-success">Network Speed</b-btn>
           </b-nav-item>
 
           <!--Search button-->
@@ -106,5 +106,9 @@ export default {
 }
 .signup-header a {
   color: #ff0d73 !important;
+}
+.eth-network {
+}
+.header-items {
 }
 </style>
