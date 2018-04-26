@@ -36,7 +36,7 @@
     </template>
     </notifications>
 
-    <div style="min-height: 83vh">
+    <div style="min-height: 100vh">
     <router-view></router-view>
     </div>
     <Footer/>

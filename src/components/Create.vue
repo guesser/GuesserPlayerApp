@@ -303,6 +303,9 @@ export default {
 </script>
 
 <style lang="scss">
+
+$slider: #ff0d73;
+
 .info-section{
   margin-bottom: 3px;
 }
@@ -340,8 +343,24 @@ export default {
 }
 
 .color-slider {
-  background: #ff0d73;
+  background: $slider;
 }
+.color1-slider {
+  background: lighten($slider, 10%);
+}
+.color2-slider {
+  background: lighten($slider, 16%);
+}
+.color3-slider {
+  background: lighten($slider, 24%);
+}
+.color4-slider {
+  background: lighten($slider, 32%);
+}
+.color5-slider {
+  background: lighten($slider, 40%);
+}
+/*
 .color1-slider {
   background: mix(#3200E8, #ff0d73, 100%);
 }
@@ -357,11 +376,15 @@ export default {
 .color5-slider {
   background: mix(#E86C00, #ff0d73, 100%);
 }
+*/
 .slider-handle {
   background: #EB3874;
 }
 .slider.slider-horizontal .slider-tick-label-container .slider-tick-label {
   color: gray;
+}
+.slider-selection.tick-slider-selection{
+  background: lighten($slider, 30%);
 }
 @media only screen and (max-width: 768px) {
   .slider.slider-horizontal .slider-tick-label-container .slider-tick-label {
