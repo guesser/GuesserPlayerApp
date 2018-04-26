@@ -317,7 +317,6 @@ const GuessHelper = {
     let self = this
 
     return new Promise((resolve, reject) => {
-      console.log(self.address[0])
       self.instance.getCurrentGuessesByAddress.call(
         index,
         self.address[0]
