@@ -68,6 +68,7 @@ export default {
   },
   data () {
     return {
+      userGuesses: [],
       guessesByNumber: [],
       totalGuesses: 0,
       guessIndex: null,
@@ -81,12 +82,12 @@ export default {
       for (var i = 0; i < this.guessesByNumber.length; i++) {
         console.log('Id:', this.guessesByNumber[i].c[0])
         let _index = this.guessesByNumber[i].c[0]
-        if (_index !== 0) { // Guess 0 is the empty one
+        if (_index !== 0 && this.userGuesses.indexOf(_index) === -1) { // Guess 0 is the empty one
           GuessHelper.getGuessFront(_index).then((guess) => {
             let guessTime = this.$moment(guess[5]).subtract(this.$moment(guess[5]).minute(), 'minutes')
             let _eventDuration = this.$moment(guess[6]).unix() - this.$moment(guess[5]).unix()
             if (guessTime.unix() < this.$moment().unix() &&
-              guess[3] !== GuessHelper.address[0]) {
+                guess[3] !== GuessHelper.address[0]) {
               this.guesses.push({
                 'id': _index,
                 'title': guess[0],
@@ -138,6 +139,7 @@ export default {
     },
     getGuessesToValidate () {
       let self = this
+      console.log(this.userGuesses)
 
       this.guesses = [] // Clean the array of showed Guesses
       GuessHelper.getGuessesToValidate(this.loadIndex, this.$moment().unix()).then((_guesses) => {
@@ -150,12 +152,36 @@ export default {
         self.contentLoaded = true
         return err
       })
+    },
+    getUserVotedGuesses (votedIndex) {
+      let self = this
+
+      let endFound = false
+      let called = false
+      GuessHelper.getValidatingGuessesByAddress(votedIndex).then((_events) => {
+        for (var item in _events) {
+          if (_events[item].c[0] !== 0) {
+            if (self.userGuesses.indexOf(_events[item].c[0]) === -1) {
+              self.userGuesses.push(_events[item].c[0])
+            }
+          } else {
+            endFound = true
+            if (called === false) {
+              called = true
+              self.getGuessesToValidate()
+            }
+          }
+        }
+        if (endFound === false) {
+          self.getUserVotedGuesses(votedIndex + 1)
+        }
+      })
     }
   },
   created: function () {
     let self = this
     GuessHelper.init().then(() => {
-      this.getGuessesToValidate()
+      this.getUserVotedGuesses(0)
     }).catch(err => {
       console.log(err)
     })

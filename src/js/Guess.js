@@ -24,6 +24,8 @@ const GuessHelper = {
       self.contract = contract(Guess)
       self.contract.setProvider(window.web3.currentProvider)
 
+      // instantiate by address
+      // var contractInstance = MyContract.at(DEPLOYED_ADDRESS)
       self.contract.deployed().then(instance => {
         self.instance = instance
 
@@ -317,7 +319,6 @@ const GuessHelper = {
     let self = this
 
     return new Promise((resolve, reject) => {
-      console.log(self.address[0])
       self.instance.getCurrentGuessesByAddress.call(
         index,
         self.address[0]

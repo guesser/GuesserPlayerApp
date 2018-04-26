@@ -15,6 +15,7 @@ import Notifications from 'vue-notification'
 import bFormSlider from 'vue-bootstrap-slider'
 import 'bootstrap-slider/dist/css/bootstrap-slider.css'
 import VueCharts from 'vue-chartjs'
+import VueAnalytics from 'vue-analytics'
 
 // Server Libraries
 import axios from 'axios'
@@ -30,6 +31,11 @@ Vue.use(Notifications)
 Vue.use(bFormSlider)
 // Vue.use(VueAxios, axios)
 Vue.use(VueCharts)
+
+Vue.use(VueAnalytics, {
+  id: 'UA-117530387-1',
+  router
+})
 
 Vue.config.productionTip = false
 
