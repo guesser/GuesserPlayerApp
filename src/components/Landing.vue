@@ -11,6 +11,7 @@
                 <h1 style="font-size: calc(1em + 2vw);">Can you predict the outcome</h1>
                 <h1 style="font-size: calc(1em + 2vw);"> of the internet's hottest events?</h1>
                 <h2 style="font-size: calc(1em + 1.5vw); color: gray;">Prove it</h2>
+                <h2 style="font-size: calc(1em + 1.2vw); color: #FF0C67;">Test Guesser beta v.0 on Rinkeby Testnet</h2>
               </b-col>
               <b-col>
                 <b-container class="maket" style="padding: 2%; text-align: center;">

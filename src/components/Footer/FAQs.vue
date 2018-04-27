@@ -35,7 +35,7 @@
             <!--FAQ1-->
             <div>
               <hr>
-              <div variant="outline-primary" v-b-toggle.start1 class="collapse-header">What I need to start?</div>
+              <div variant="outline-primary" v-b-toggle.start1 class="collapse-header">What do I need to start?</div>
               <b-collapse id="start1" class="collapse-text">
                 <p>
                 To start your journey in Guesser beta, you need three things:
@@ -170,7 +170,7 @@
             <!--FAQ10-->
             <div>
               <hr>
-              <div variant="outline-primary" v-b-toggle.bonus1 class="collapse-header">How can I reach the guesser team?</div>
+              <div variant="outline-primary" v-b-toggle.bonus1 class="collapse-header">How can I reach the Guesser team?</div>
               <b-collapse id="bonus1" class="collapse-text">
                 <p>
                 If you have anything to tell us regarding the product, feedback, bugs, partnerships or other opportunities, please reach us at <a href="mailto:team@guesser.io" target="_blank">team@guesser.io</a>.
