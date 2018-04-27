@@ -110,25 +110,7 @@
 
         <!--Times-->
         <br>
-        <br>
-    <b-row align-h="start" style="margin: 0 !important">
-      <b-col cols="12" sm="12" md="6" lg="6" style="padding-left: 0 !important">
-        <p class="info-section">Duration of the event (hours):</p>
-        <b-form-group id="durationTime"
-                      label-for="durationTime">
-          <b-form-input id="durationTime"
-                        class="mb-2 mr-sm-2 mb-sm-0"
-                        type="number"
-                        step="0.1"
-                        v-model="form.durationTime"
-                        placeholder="Duration of the event"
-                        required>
-          </b-form-input>
-          <small style="color:gray">Warning: Longer events than a week can't be validated</small>
-        </b-form-group>
-          </b-col>
-        </b-row>
-        <br>
+       <br>
         <span>Ending date and time: {{updateDate}}</span>
         <br>
         <b-form-slider
@@ -143,6 +125,26 @@
                         @change="changeSlider"
                         />
           <br>
+          <br>
+          <b-row align-h="start" style="margin: 0 !important">
+      <b-col cols="12" sm="12" md="6" lg="6" style="padding-left: 0 !important">
+        <p class="info-section">Waiting time until users can validate (hours):</p>
+        <b-form-group id="durationTime"
+                      label-for="durationTime">
+          <b-form-input id="durationTime"
+                        class="mb-2 mr-sm-2 mb-sm-0"
+                        type="number"
+                        step="0.1"
+                        v-model="form.durationTime"
+                        placeholder="Duration of the event"
+                        required>
+          </b-form-input>
+        </b-form-group>
+          </b-col>
+          <small style="color:gray">Example: You can vote before a basketball game starts, and users can start validating two hours later, when the game has finished.</small>
+          <small style="color:gray">Warning: Longer events than a week can't be validated</small>
+        </b-row>
+     
           <br>
           <b-button type="submit" variant="primary" size='lg'>Create</b-button>
         </b-form>

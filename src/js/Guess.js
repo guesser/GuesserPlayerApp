@@ -25,29 +25,29 @@ const GuessHelper = {
       self.contract.setProvider(window.web3.currentProvider)
 
       // instantiate by address
-      // var contractInstance = MyContract.at(DEPLOYED_ADDRESS)
-      self.contract.deployed().then(instance => {
-        self.instance = instance
+      self.instance = self.contract.at('0xe5a9d3e7a4751eab137e03aaa5c34c72552d4c83')
+      // self.contract.deployed().then(instance => {
+        // self.instance = instance
 
         // Getting the accounts
-        window.web3.eth.getAccounts(function (error, accounts) {
+      window.web3.eth.getAccounts(function (error, accounts) {
           // Getting events
-          self.GuessCreated = self.instance.GuessCreated()
-          self.GuessVoted = self.instance.GuessVoted()
-          self.GuessValidated = self.instance.GuessValidated()
-          self.ProfitsReturned = self.instance.ProfitsReturned()
-          self.TestValue = self.instance.test_value()
+        self.GuessCreated = self.instance.GuessCreated()
+        self.GuessVoted = self.instance.GuessVoted()
+        self.GuessValidated = self.instance.GuessValidated()
+        self.ProfitsReturned = self.instance.ProfitsReturned()
+        self.TestValue = self.instance.test_value()
 
-          if (error) {
-            console.log(error)
-          } else {
-            self.address = accounts
-            resolve()
-          }
-        })
-      }).catch(err => {
-        reject(err)
+        if (error) {
+          console.log(error)
+        } else {
+          self.address = accounts
+          resolve()
+        }
       })
+      // }).catch(err => {
+        // reject(err)
+      // })
     })
   },
 
