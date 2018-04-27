@@ -383,17 +383,17 @@ $slider: #ff0d73;
 }
 */
 .slider-handle {
-    background: #EB3874;
+    background: #EB3874 !important;
 }
 .slider.slider-horizontal .slider-tick-label-container .slider-tick-label {
-    color: gray;
+    color: gray !important;
 }
 .slider-selection.tick-slider-selection{
-    background: lighten($slider, 30%);
+    background: lighten($slider, 30%) !important;
 }
 @media only screen and (max-width: 768px) {
     .slider.slider-horizontal .slider-tick-label-container .slider-tick-label {
-        display: none;
+        display: none !important;
     }
 }
 </style>
