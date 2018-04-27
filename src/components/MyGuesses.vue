@@ -16,7 +16,14 @@
     </notifications>
 
 
+          <b-row align-g="start" style="margin: 0 !important">
+            <b-col cols="12" sm="12" md="6" lg="4" style="padding-left: 0">
+              <h4 style="color: #ff0d73">@{{username}} </h4>
+              <b-card-body class="address-holder" style="overflow:hidden"><small>{{address}}</small></b-card-body>
+            </b-col>
+          </b-row>
 
+    <br>
     <h2>Events I have participated in</h2>
     <br>
     <b-card no-body>
@@ -45,6 +52,8 @@
 
 <script>
 import NetworkHelper from '@/js/NetworkHelper'
+import GuessHelper from '@/js/Guess'
+import ServerHelper from '@/js/ServerHelper'
 
 import CurrentGuesses from './MyGuesses/CurrentGuesses.vue'
 import ValidatingGuesses from './MyGuesses/ValidatingGuesses.vue'
@@ -56,6 +65,8 @@ export default {
   name: 'MyGuesses',
   data () {
     return {
+      address: '0x0000000000000...',
+      username: '',
       tabIndex: 0,
       chartsShow: false
     }
@@ -74,6 +85,13 @@ export default {
       } else {
         return ['bg-light', 'text-info']
       }
+    },
+    getUserName () {
+      ServerHelper.getUser(GuessHelper.address[0]).then((data) => {
+        this.username = data.username
+      }).catch((err) => {
+        return err
+      })
     }
   },
   created: function () {
@@ -81,6 +99,11 @@ export default {
       if (NetworkHelper.state === 'disconnected' ||
           NetworkHelper.state === 'locked') {
         this.$router.push('signup')
+      } else {
+        GuessHelper.init().then(() => {
+          this.address = GuessHelper.address[0]
+          this.getUserName()
+        })
       }
     })
   }
@@ -94,5 +117,11 @@ export default {
 }
 .charts{
   padding: 3% 7%;
+}
+.address-holder{
+  background-color: #a0a0a0;
+  border-radius: 5px;
+  padding: 0.6rem 0.6rem;
+  text-align: center;
 }
 </style>

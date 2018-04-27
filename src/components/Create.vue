@@ -111,6 +111,8 @@
         <!--Times-->
         <br>
         <br>
+    <b-row align-h="start" style="margin: 0 !important">
+      <b-col cols="12" sm="12" md="6" lg="6" style="padding-left: 0 !important">
         <p class="info-section">Duration of the event (hours):</p>
         <b-form-group id="durationTime"
                       label-for="durationTime">
@@ -122,7 +124,10 @@
                         placeholder="Duration of the event"
                         required>
           </b-form-input>
+          <small style="color:gray">Warning: Longer events than a week can't be validated</small>
         </b-form-group>
+          </b-col>
+        </b-row>
         <br>
         <span>Ending date and time: {{updateDate}}</span>
         <br>
