@@ -285,6 +285,6 @@ $primary: #ff0d73;
   margin: 10px 0;
 }
 .row {
-  margin-left: 0;
+  margin-left: 0 !important;
 }
 </style>

@@ -24,7 +24,7 @@
               <!--<a href="" target="blank">roadmap</a><br>-->
               <a href="#faqs" target="_blank">FAQs</a><br>
               <a href="#help" target="_blank">Help & Support</a><br>
-              <a href="https://github.com/carlosgj94/Guesser/tree/master/contracts" target="_blank">Technical</a><br>
+              <a href="https://github.com/carlosgj94/Guesser/" target="_blank">Technical</a><br>
             </span>
           </b-row>
         </b-col>

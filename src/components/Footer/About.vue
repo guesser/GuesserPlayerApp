@@ -136,6 +136,6 @@ $primary: #ff0d73;
   border-radius: 5px;
 }
 .row {
-  margin-left: 0;
+  margin-left: 0 !important;
 }
 </style>
