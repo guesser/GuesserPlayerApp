@@ -105,7 +105,8 @@
             <h1 style="font-size:calc(1em + 2vw);">Who says what really happened?</h1>
             <br>
             <h4 style="font-size:calc(1em + 0.5vw);">
-              Guesser relies on validators staking tokens in order to achieve consensus on what was the true outcome of an event. Validators will be financially rewarded for telling the truth, and punished for lying about a certain result.
+              It’s quite important to know who says what happened at each event. What was the true outcome of the event I participated in? First of all, let’s make clear that validation does not rely on our core team.<br>
+On Guesser Beta v.0, all guessers can validate events by simply voting about the true outcome. This a very simple validation mechanism that we’ve implemented for the Testnet period, while we work on a decentralized and trustless mechanism for event validation for our mainnet release.
             </h4>
           </b-container>
         </b-row>

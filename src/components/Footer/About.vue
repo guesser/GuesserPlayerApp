@@ -68,10 +68,10 @@
               </b-row>
               <!--Tooltips-->
               <b-tooltip target="jose" placement="top">
-      Jose loves breaking the establishment and thinking in super cool ideas. when he is not doing that, he makes his two butlers program by whipping them.
+      Jose loves breaking the establishment and thinking in super cool ideas. When he is not doing that, he makes his two butlers program by whipping them.
               </b-tooltip>
               <b-tooltip target="carlos" placement="top">
-                Our 'evil like the most cute of the kitties' lead contractor.<br>He likes pink color, programming for 12 hours straight and torture his imaginary interns.
+                Our 'evil like the most cute of the kitties' lead contractor.<br>He likes pink color, programming for 12 hours straight and torturing his imaginary interns.
               </b-tooltip>
               <b-tooltip target="pi" placement="top">
                 Pi is our fresh frontend dev who loves to learn, find bugs in Carlos' code and breed Dracula-looking cryptokitties.
