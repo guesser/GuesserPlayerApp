@@ -292,8 +292,8 @@ export default {
       var title = ''
       var text = ''
       if (type === 'success') {
-        title = 'Data ready to sent!'
-        text = 'Ready to sent your prediction, waiting for confirmation!'
+        title = 'Data ready to be sent!'
+        text = 'Ready to send your prediction, waiting for confirmation!'
       } else {
         title = 'Votation error!'
         text = 'Your prediction process failed, try again'

@@ -136,7 +136,7 @@
              :header-bg-variant="eventItem.topic">
       <b-form @submit="voteGuess()">
       <b-form-group id="titleGroup"
-                    label="Amount of other you want to sent:"
+                    label="Amount of ether you want to send:"
                     label-for="amountInput">
         <b-form-input id="amountInput"
                       type="number"

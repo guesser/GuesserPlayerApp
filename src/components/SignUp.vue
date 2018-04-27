@@ -162,8 +162,6 @@ export default {
 
       GuessHelper.signMessage(msgParams).then((signedMsg) => {
         msgParams = JSON.stringify(msgParams)
-        console.log(msgParams)
-        console.log(signedMsg)
         ServerHelper.setUser(msgParams, signedMsg).then((data) => {
           window.location.reload()
         }).catch((err) => {
@@ -184,9 +182,6 @@ export default {
         self.web3State = 'connected'
       }
     })
-  },
-  beforeCreate: function () {
-    let self = this
 
     GuessHelper.init().then(() => {
       self.address = GuessHelper.address[0]
