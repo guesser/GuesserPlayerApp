@@ -1,5 +1,5 @@
-<template>
-  <div style="padding: 100px 0">
+<template >
+  <div  style='padding: 100px 0; background: #FAFAFA;'>
     <!--Body-content-->
     <b-row class="justify-content-md-center wrapper" style>
       <b-col cols="12" sm="11" md="8" lg="7">
@@ -8,10 +8,11 @@
             <h3>Terms of Use</h3>
             <p style="font-style: italic; color: gray;">Last Updated: April 24th, 2018</p>
             <div style="color: gray;">
-              <p>Guesser is a distributed application (“Dapp”) that runs on the Rinkeby Test Network, using specially-developed smart contracts (each, a “Smart Contract”) to enable users to create, vote and validate Events, which can then be visualized on a website that the user can interact with (the “Site”). The Smart Contracts and the Site are collectively referred to in these Terms as the “Dapp”. Using the Dapp, users can participate in events by creating them and voting or validating an outcome.
+              <p>Guesser is a distributed application (“Dapp”) that runs on the Rinkeby Test Network, using specially-developed smart contracts (each, a “Smart Contract”) to enable users to create, vote and validate Events, which can then be visualized on a website that the user can interact with (the “Site”). The Smart Contracts and the Site are collectively referred to in th
+ese Terms as the “Dapp”. Using the Dapp, users can participate in events by creating them and voting or validating an outcome.
               </p>
               <p>
-              Guesser is making the Dapp available to you. Before you use the Dapp, the Smart Contracts, or the Site, however, you will need to agree to these Terms of Use and any terms and conditions incorporated herein by reference (collectively, these “Terms").
+              Guesser is making the Dapp available to you. Before you use the Dapp, the Smart Contracts, or the Site, however, you will need to agree to these Terms of Use and any terms and conditions incorporated herein by reference (collectively, these "Terms").
               </p>
               <p style="text-transform: uppercase;">
               PLEASE READ THESE TERMS CAREFULLY BEFORE USING THE DAPP, THE SMART CONTRACTS, OR THE SITE. THESE TERMS GOVERN YOUR USE OF THE DAPP, THE SMART CONTRACTS, AND THE SITE. WE ARE ONLY WILLING TO MAKE THE DAPP, THE SMART CONTRACTS, AND THE SITE AVAILABLE TO YOU IF YOU ACCEPT ALL OF THESE TERMS. BY USING THE DAPP, THE SMART CONTRACTS, THE SITE, OR ANY PART OF THEM, OR BY CLICKING “I ACCEPT” BELOW OR INDICATING YOUR ACCEPTANCE IN AN ADJOINING BOX, YOU ARE CONFIRMING THAT YOU UNDERSTAND AND AGREE TO BE BOUND BY ALL OF THESE TERMS. IF YOU ARE ACCEPTING THESE TERMS ON BEHALF OF A COMPANY OR OTHER LEGAL ENTITY, YOU REPRESENT THAT YOU HAVE THE LEGAL AUTHORITY TO ACCEPT THESE TERMS ON THAT ENTITY’S BEHALF, IN WHICH CASE “YOU” WILL MEAN THAT ENTITY. IF YOU DO NOT HAVE SUCH AUTHORITY, OR IF YOU DO NOT ACCEPT ALL OF THESE TERMS, THEN WE ARE UNWILLING TO MAKE THE DAPP, THE SMART CONTRACTS, OR THE SITE AVAILABLE TO YOU. IF YOU DO NOT AGREE TO THESE TERMS, YOU MAY NOT ACCESS OR USE THE DAPP, THE SMART CONTRACTS, OR THE SITE.

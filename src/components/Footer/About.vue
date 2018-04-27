@@ -135,4 +135,7 @@ $primary: #ff0d73;
   border: 1px solid $primary;
   border-radius: 5px;
 }
+.row {
+  margin-left: 0;
+}
 </style>

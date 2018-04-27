@@ -284,4 +284,7 @@ $primary: #ff0d73;
 .collapse-text li {
   margin: 10px 0;
 }
+.row {
+  margin-left: 0;
+}
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div style="padding: 100px 0">
+  <div style="padding: 100px 0; background: #FAFAFA;">
     <!--Body-content-->
     <b-row class="justify-content-md-center wrapper" style>
       <b-col cols="12" sm="11" md="8" lg="7">
