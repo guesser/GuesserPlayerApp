@@ -25,7 +25,7 @@ const GuessHelper = {
       self.contract.setProvider(window.web3.currentProvider)
 
       // instantiate by address
-      self.instance = self.contract.at('0xe5a9d3e7a4751eab137e03aaa5c34c72552d4c83')
+      self.instance = self.contract.at('0x2f01348757b273ef2d95d5df76ef795f883b5c1f')
       // self.contract.deployed().then(instance => {
         // self.instance = instance
 

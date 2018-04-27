@@ -264,17 +264,17 @@ contract Guess is DateTime{
   * @param _topic uint256 the genre of the guess we are looking for
     * @return uint256 with top guess of the day
   */
-  function getWeekGuess(bytes32 _topic) public view returns(uint256){
+  function getWeekGuess (bytes32 _topic) public view returns(uint256){
     uint256 _year;
     uint256 _month;
     uint256 _day;
-    
+
     bool found = false;
     uint256 _choosen = 0;
     uint256 _choosenVotes = 0;
     bool _guessFinished;
 
-    for (uint256 d = 0 ; d < 6 ; d++) {
+    for (uint256 d = 0; d < 7; d++) {
     _year = DateTime.getYear(now + d * 86400) * 10000;
     _month = DateTime.getMonth(now + d * 86400) * 100;
     _day = DateTime.getDay(now + d * 86400);
@@ -348,12 +348,12 @@ contract Guess is DateTime{
     uint256 _year;
     uint256 _month;
     uint256 _day;
-    
+
     uint256[10] memory _weekGuesses;
     uint256 _guessesValid = 0;
     uint256 _guessesNumber = 0;
 
-    for (uint256 d = 0 ; d < 6 ; d++) {
+    for (uint256 d = 0; d < 7; d++) {
       _year = DateTime.getYear(_date + d * 86400) * 10000;
       _month = DateTime.getMonth(_date + d * 86400) * 100;
       _day = DateTime.getDay(_date + d * 86400);
