@@ -114,7 +114,7 @@
 
     <!--Page 6-->
     <div class="section">
-      <div class="explainer">
+      <div class="explainer" style="padding-bottom: 0">
         <b-row class="maket" align-h="center">
           <b-container class="maket" style="text-align: center;">
             <h1 style="font-size:calc(1em + 2vw); margin-top: 5%;">
@@ -137,8 +137,56 @@
         </b-row>
       </div>
     </div>
-  </div>
-
+    <!--Page 7-->
+    <div class="section">
+      <div class="explainer" style="padding-top: 0">
+        <b-row class="maket justify-content-md-center" align-h="center">
+          <b-col cols="12" sm="11" md="10" lg="10"> 
+            <div class="team-wrapper">
+              <h2 id="header">Guesser Team</h2>
+              <b-row class="justify-content-md-center">
+                <b-col cols="12" sm="11" md="6" lg="4" style="padding: 1%">
+                  <div v-b-tooltip.hover id="jose" class="team-cards">
+                    <b-img src="static/jose.png" fluid alt="responsive" style="border-radius: 50%; padding: 10px;"/>
+                      <h4>Jose Garay</h4>
+                      <p>Project Lead<br><a href="https://twitter.com/joselfgaray" target="_blank">@joselfgaray</a></p>
+                  </div>
+                    </b-col>
+                    <b-col cols="12" sm="11" md="6" lg="4" style="padding: 1%">
+                      <div v-b-tooltip.hover id="carlos" class="team-cards">
+                        <b-img src="static/charlie.png" fluid alt="responsive" class="team-pictures"/>
+                          <h4>Carlos González</h4>
+                          <p>Tech Lead<br><a href="https://twitter.com/Carlos_molotov" target="_blank">@Carlos_molotov</a></p>
+                      </div>
+                        </b-col>
+                        <b-col cols="12" sm="11" md="6" lg="4" style="padding: 1%">
+                          <div v-b-tooltip.hover id="pi" class="team-cards">
+                            <a href="https://etherscan.io/address/0x686e0306f6714ab42d83d8a22fc66412680dfdfb" target="_blank"><b-img src="static/pi.jpg" v-b-tooltip.hover id="pi.photo" fluid alt="responsive" style="border-radius: 50%; padding: 10px;"/></a>
+                            <h4>Uxío Piñeiro</h4>
+                            <p>Developer<br><a href="https://twitter.com/Pi2Machine" target="_blank">@Pi2Machine</a></p>
+                          </div>
+                              </b-col>
+                        </b-row>
+            </div>
+                    </b-col>
+                </b-row>
+    <!--Tooltips-->
+    <b-tooltip target="jose" placement="top">
+      Jose loves breaking the establishment and thinking in super cool ideas. when he is not doing that, he makes his two butlers program by whipping them.
+    </b-tooltip>
+    <b-tooltip target="carlos" placement="top">
+      Our 'evil like the most cute of the kitties' lead contractor.<br>He likes pink color, programming for 12 hours straight and torture his imaginary interns.
+    </b-tooltip>
+    <b-tooltip target="pi" placement="top">
+Pi is our fresh frontend dev who loves to learn, find bugs in Carlos' code and breed Dracula-looking cryptokitties.
+    </b-tooltip>
+    <b-tooltip target="pi.photo" placement="right">
+      <p style="color: pink;">
+     My last laptop was stolen and I had to work with a borrowed one. If you want to help me you can donate to the address by clicking. Enjoy the platform! 
+      </p>
+    </b-tooltip>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -190,6 +238,13 @@ export default {
 </script>
 
 <style scope lang="scss">
+
+$primary: #ff0d73;
+
+
+#header {
+  color: $primary;
+}
 .explainer {
   padding: 8% 10% 8% 10%;
   width: 100%;
@@ -202,6 +257,21 @@ export default {
 .tipe2 {
   background-color: pink;
   /* background-image: url("/static/beardground.png"); */
+}
+.team-wrapper {
+  margin-top: 20%;
+  text-align: center;
+}
+.team-pictures {
+  width: 100%;
+  padding: 10px;
+  border-radius: 50%;
+  padding: 10px;
+}
+.team-cards {
+  margin: 5% 0 5% 0;
+  border: 1px solid $primary;
+  border-radius: 5px;
 }
 /*.maket {
   background-color: #F333;

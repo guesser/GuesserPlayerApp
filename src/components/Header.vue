@@ -13,18 +13,6 @@
           <b-nav-item class="eth-network">
             <b-btn v-b-tooltip.hover id="eth-network"  variant="outline-success">Network Speed</b-btn>
           </b-nav-item>
-
-          <!--Search button-->
-          <!--<b-nav-item>-->
-          <!--<form class="navbar-form" role="search">-->
-          <!--<div class="input-group">-->
-          <!--<input type="text" class="form-control" placeholder="Search by ID" name="srch-term" id="srch-term" v-model="form._id">-->
-          <!--<div class="input-group-btn">-->
-          <!--<button class="btn btn-default" @click="changeToSearched" type="submit"><i class="material-icons" >search</i></button>-->
-          <!--</div>-->
-          <!--</div>-->
-          <!--</form>-->
-          <!--</b-nav-item>-->
           <SearchInput/>
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto" style="margin-top: 5px">

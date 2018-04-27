@@ -94,25 +94,19 @@
               We may make changes to the Terms from time to time. When we make changes, we will make the updated Terms available on the Dapp and update the “Last Updated” date at the beginning of these Terms accordingly. Please check these Terms periodically for changes. Any changes to the Terms will apply on the date that they are made, and your continued access to or use of the Dapp after the Terms have been updated will constitute your binding acceptance of the updates.  If you do not agree to any revised Terms, you may not access or use the Dapp.
               </p>
               <p style="font-weight: bold">
-              8. Changes to the dapp
-              </p>
-              <p>
-              No comments
-              </p>
-              <p style="font-weight: bold">
-              9. Childrens
+              8. Childrens
               </p>
               <p>
               You affirm that you are over the age of 13, as the Dapp is not intended for children under 13. IF YOU ARE 13 OR OLDER BUT UNDER THE AGE OF 18, OR THE LEGAL AGE OF MAJORITY WHERE YOU RESIDE IF THAT JURISDICTION HAS AN OLDER AGE OF MAJORITY, THEN YOU AGREE TO REVIEW THESE TERMS WITH YOUR PARENT OR GUARDIAN TO MAKE SURE THAT BOTH YOU AND YOUR PARENT OR GUARDIAN UNDERSTAND AND AGREE TO THESE TERMS. YOU AGREE TO HAVE YOUR PARENT OR GUARDIAN REVIEW AND ACCEPT THESE TERMS ON YOUR BEHALF. IF YOU ARE A PARENT OR GUARDIAN AGREEING TO THE TERMS FOR THE BENEFIT OF A CHILD OVER 13, THEN YOU AGREE TO AND ACCEPT FULL RESPONSIBILITY FOR THAT CHILD’S USE OF THE DAPP, INCLUDING ALL FINANCIAL CHARGES AND LEGAL LIABILITY THAT HE OR SHE MAY INCUR.
               </p>
               <p style="font-weight: bold">
-              10. Privacy Policy
+              9. Privacy Policy
               </p>
               <p>
               Our <a href="#privacypolicy">Privacy Policy</a> describes the ways we collect, use, store and disclose your personal information, and is hereby incorporated by this reference into these Terms. You agree to the collection, use, storage, and disclosure of your data in accordance with our <a href="#privacypolicy">Privacy Policy</a>
               </p>
               <p style="font-weight: bold">
-              11. General
+              10. General
               </p>
               <p>
               These Terms constitute the entire legal agreement between you and Guesser, govern your access to and use of the Dapp, and completely replace any prior or contemporaneous agreements between the parties related to your access to or use of the Dapp, whether oral or written. There are no third party beneficiaries to these Terms. The parties are independent contractors, and nothing in these Terms create any agency, partnership, or joint venture. The language in these Terms will be interpreted as to its fair meaning, and not strictly for or against any party. You may not assign any or your rights or obligations under these Terms, whether by operation of law or otherwise, without our prior written consent. We may assign our rights and obligations under these Terms in our sole discretion to an affiliate, or in connection with an acquisition, sale or merger. Should any part of these Terms be held invalid or unenforceable, that portion shall be construed consistent with applicable law and the remaining portions will remain in full force and effect. We will not be liable for any failure or delayed performance of our obligations that result from any condition beyond our reasonable control. You agree that we may provide you with notices (including, without limitation those regarding changes to these Terms) by email or postings on the Dapp. By providing us with your email address, you consent to our using the email address to send you any notices required by law.
