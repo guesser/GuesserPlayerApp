@@ -190,7 +190,7 @@
             <!--FAQ12-->
             <div>
               <hr>
-              <div variant="outline-primary" v-b-toggle.bonus3 class="collapse-header">Can I use a credit card to get funds and play Guesser beta?</div>
+              <div variant="outline-primary" v-b-toggle.bonus3 class="collapse-header">Is Guesser a scam?</div>
               <b-collapse id="bonus3" class="collapse-text">
                 <p>
                 No. Guesser is a fun game built by a <a href="#about" target="_blank">fun team</a>. 
