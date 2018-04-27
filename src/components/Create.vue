@@ -312,58 +312,58 @@ export default {
 $slider: #ff0d73;
 
 .info-section{
-  margin-bottom: 3px;
+    margin-bottom: 3px;
 }
 .row{
-  margin-left: 2% !important;
-  margin-right: 2% !important;
+    margin-left: 2% !important;
+    margin-right: 2% !important;
 }
 .litle-margin{
-  margin: 0% 10%;
-  padding: 3% 0%;
-  max-width: 800px;
+    margin: 0% 10%;
+    padding: 3% 0%;
+    max-width: 800px;
 }
 .btn-primary.dropdown-toggle:focus {
-  box-shadow: 0 0 0 0.2rem #ff0d73 !important;
+    box-shadow: 0 0 0 0.2rem #ff0d73 !important;
 }
 .creation{
-  margin: 5px;
-  border-radius: 2px;
-  border-left: 0px !important;
+    margin: 5px;
+    border-radius: 2px;
+    border-left: 0px !important;
 }
 
 .d-inline-block {
-  display: inline !important;
+    display: inline !important;
 }
 .slider.slider-horizontal {
-  width: 100% !important;
+    width: 100% !important;
 }
 .slider {
-  width: 100% !important;
+    width: 100% !important;
 }
 .slider-tick {
-  display: none;
+    display: none;
 }
 .slider-tick-label {
 }
 
 .color-slider {
-  background: $slider;
+    background: $slider !important;
 }
 .color1-slider {
-  background: lighten($slider, 10%);
+    background: lighten($slider, 10%) !important;
 }
 .color2-slider {
-  background: lighten($slider, 16%);
+    background: lighten($slider, 16%) !important;
 }
 .color3-slider {
-  background: lighten($slider, 24%);
+    background: lighten($slider, 24%) !important;
 }
 .color4-slider {
-  background: lighten($slider, 32%);
+    background: lighten($slider, 32%) !important;
 }
 .color5-slider {
-  background: lighten($slider, 40%);
+    background: lighten($slider, 40%) !important;
 }
 /*
 .color1-slider {
@@ -383,17 +383,17 @@ $slider: #ff0d73;
 }
 */
 .slider-handle {
-  background: #EB3874;
+    background: #EB3874;
 }
 .slider.slider-horizontal .slider-tick-label-container .slider-tick-label {
-  color: gray;
+    color: gray;
 }
 .slider-selection.tick-slider-selection{
-  background: lighten($slider, 30%);
+    background: lighten($slider, 30%);
 }
 @media only screen and (max-width: 768px) {
-  .slider.slider-horizontal .slider-tick-label-container .slider-tick-label {
-    display: none;
-  }
+    .slider.slider-horizontal .slider-tick-label-container .slider-tick-label {
+        display: none;
+    }
 }
 </style>
