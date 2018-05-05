@@ -24,7 +24,9 @@ export default {
   },
   methods: {
     changeToSearched () {
-      window.location = '#search/' + this.form._id
+      this.$router.push({
+        name: 'search', params: { id: this.form._id }
+      })
       console.log('identifier: ', this.form._id)
     }
   }

@@ -75,11 +75,6 @@ export default new Router({
       component: Validation
     },
     {
-      path: '/search',
-      name: 'search',
-      component: Search
-    },
-    {
       path: '/search/:id',
       name: 'search',
       component: Search
