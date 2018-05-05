@@ -68,7 +68,7 @@ export default {
       contentLoaded: true,
       guess: {
         id: '0',
-        url: 'www.guesser.io/#/search?_id=',
+        url: '',
         title: 'Loading...',
         description: 'Loading...',
         topic: 'Crypto',
@@ -95,7 +95,7 @@ export default {
     searchForGuess () {
       let self = this
 
-      self.guessIndex = this.$route.query._id
+      self.guessIndex = this.$route.params.id
       this.contentLoaded = false
       self.guess.id = self.guessIndex
       self.getGuess(self.guessIndex)
@@ -104,7 +104,8 @@ export default {
       self.getOptionsProfits(self.guessIndex)
     },
     generateEventUrl () {
-      this.guess.url += this.guess.id
+      let _url = 'www.guesser.io/#/search/'
+      this.guess.url = _url + this.guess.id
     },
     getGuess (_id) {
       let self = this
@@ -186,7 +187,7 @@ export default {
   beforeUpdate: function () {
     let self = this
 
-    if (!this.guessExists || this.$route.query._id !== this.guess.id) {
+    if (!this.guessExists || this.$route.params.id !== this.guess.id) {
       self.searchForGuess()
     }
   }

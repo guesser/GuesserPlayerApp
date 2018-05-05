@@ -75,7 +75,7 @@ export default {
       votedEventValue: '',
       votedEventUrl: '',
       lastVotedEventId: '',
-      shareUrl: '#/search?_id='
+      shareUrl: '#/search/'
     }
   },
   methods: {

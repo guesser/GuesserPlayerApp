@@ -47,7 +47,7 @@ export default {
       guessVotingFailedAlert: false,
       guess: {
         id: '0',
-        url: 'www.guesser.io/#/search?_id=',
+        url: '',
         title: 'Loading...',
         description: 'Loading...',
         topic: 'Crypto',
@@ -84,7 +84,8 @@ export default {
       this.$refs.paymentModal.show()
     },
     generateEventUrl () {
-      this.guess.url += this.guess.id
+      let _url = 'www.guesser.io/#/search/'
+      this.guess.url = _url + this.guess.id
     },
     getGuess () {
       let self = this

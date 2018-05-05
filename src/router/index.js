@@ -30,6 +30,11 @@ export default new Router({
       component: Home
     },
     {
+      path: '/home/:topic',
+      name: 'home',
+      component: Home
+    },
+    {
       path: '/about',
       name: 'about',
       component: About
@@ -55,11 +60,6 @@ export default new Router({
       component: HelpSupport
     },
     {
-      path: '/home/:topic',
-      name: 'home',
-      component: Home
-    },
-    {
       path: '/create',
       name: 'create',
       component: Create
@@ -76,6 +76,11 @@ export default new Router({
     },
     {
       path: '/search',
+      name: 'search',
+      component: Search
+    },
+    {
+      path: '/search/:id',
       name: 'search',
       component: Search
     },

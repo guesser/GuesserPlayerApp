@@ -48,20 +48,10 @@ export default {
     return {
       userExists: false,
       fixedActive: false,
-      networkStatus: 'Network is faster than ⚡',
-      form: {
-        _id: ''
-      }
+      networkStatus: 'Network is faster than ⚡'
     }
   },
   methods: {
-    changetosearched () {
-      this.$router.push({
-        // path: `/search/${this.form._id}`
-        path: 'search', query: { _id: `${this.form._id}` }
-      })
-      console.log('identifier: ', this.form._id)
-    },
     checkIfUserExists () {
       ServerHelper.getUser(GuessHelper.address[0]).then((data) => {
         this.userExists = true
