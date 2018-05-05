@@ -13,12 +13,13 @@
                          header-text-variant="black"
                          footer-bg-variant="white"
                          footer-border-variant="white"
+          style=" cursor: pointer;"
                          align="center">
-          <div slot="header" @click="showPaymentModal(events[maxCol*n + j].id, maxCol*n + j)">
+          <div slot="header" style=" cursor: pointer;" @click="showPaymentModal(events[maxCol*n + j].id, maxCol*n + j)">
             {{events[maxCol*n + j].title}}
           </div>
           <!--======= BODY =======-->
-          <div id="Body1">
+          <div id="Body1" style=" cursor: pointer;">
               <p class="card-text" @click="showPaymentModal(events[maxCol*n + j].id, maxCol*n + j)">
               <span v-if="descriptionAllow">
                 {{events[maxCol*n + j].description}}<br><br>
@@ -91,7 +92,7 @@
           </div>
 
           <!--======= FOOTER =======-->
-          <div slot="footer">
+          <div slot="footer" style=" cursor: pointer;">
             <!-- Share button and ID -->
             <b-row v-if="shareable" align-h="end" align-v="end" style="color: #ff0d78">
               #{{events[maxCol*n + j].id}}
