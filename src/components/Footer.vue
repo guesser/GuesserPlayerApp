@@ -20,10 +20,10 @@
         <b-col>
           <b-row align-h="center">
             <span class="footer-text">
-              <a href="#about" target="_blank">About</a><br>
+              <a href="#about">About</a><br>
               <!--<a href="" target="blank">roadmap</a><br>-->
-              <a href="#faqs" target="_blank">FAQs</a><br>
-              <a href="#help" target="_blank">Help & Support</a><br>
+              <a href="#faqs">FAQs</a><br>
+              <a href="#help">Help & Support</a><br>
               <a href="https://github.com/carlosgj94/Guesser/" target="_blank">Technical</a><br>
             </span>
           </b-row>
@@ -31,8 +31,8 @@
         <b-col>
           <b-row align-h="center">
             <span class="footer-text">
-              <a href="#termsofuse" target="_blank">Terms of Use</a><br>
-              <a href="#privacypolicy" target="_blank">Privacy Policy</a><br>
+              <a href="#termsofuse">Terms of Use</a><br>
+              <a href="#privacypolicy">Privacy Policy</a><br>
             </span>
           </b-row>
         </b-col>

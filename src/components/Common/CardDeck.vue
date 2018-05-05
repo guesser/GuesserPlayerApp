@@ -13,13 +13,13 @@
                          header-text-variant="black"
                          footer-bg-variant="white"
                          footer-border-variant="white"
-          style=" cursor: pointer;"
+                         v-bind:class="{'hoverhand': buttonsAllow}"
                          align="center">
-          <div slot="header" style=" cursor: pointer;" @click="showPaymentModal(events[maxCol*n + j].id, maxCol*n + j)">
+          <div slot="header" @click="showPaymentModal(events[maxCol*n + j].id, maxCol*n + j)">
             {{events[maxCol*n + j].title}}
           </div>
           <!--======= BODY =======-->
-          <div id="Body1" style=" cursor: pointer;">
+          <div id="Body1">
               <p class="card-text" @click="showPaymentModal(events[maxCol*n + j].id, maxCol*n + j)">
               <span v-if="descriptionAllow">
                 {{events[maxCol*n + j].description}}<br><br>
@@ -377,5 +377,8 @@ export default {
   font-weight: bold;
   color: gray;
   margin: 4%;
+}
+.hoverhand {
+  cursor: pointer;
 }
 </style>
