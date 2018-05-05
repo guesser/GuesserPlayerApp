@@ -16,12 +16,12 @@
     </notifications>
 
 
-          <b-row align-g="start" style="margin: 0 !important">
-            <b-col cols="12" sm="12" md="6" lg="4" style="padding-left: 0">
-              <h4 style="color: #ff0d73">@{{username}} </h4>
-              <b-card-body class="address-holder" style="overflow:hidden"><small>{{address}}</small></b-card-body>
-            </b-col>
-          </b-row>
+          <!-- <b-row align-g="start" style="margin: 0 !important"> -->
+          <!--   <b-col cols="12" sm="12" md="6" lg="4" style="padding-left: 0"> -->
+          <!--     <h4 style="color: #ff0d73">@{{username}} </h4> -->
+          <!--     <b-card-body class="address-holder" style="overflow:hidden"><small>{{address}}</small></b-card-body> -->
+          <!--   </b-col> -->
+          <!-- </b-row> -->
 
     <br>
     <h2>Events I have participated in</h2>
