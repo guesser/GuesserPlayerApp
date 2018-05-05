@@ -73,12 +73,14 @@
       </div>
 
       <!--Address-->
+      <!--
       <b-row align-v="end" align-h="between">
         <b-col v-if="creatorUserName" align-self="end" align-h="start" style="text-align: left">
           By: <span style="color: #ff0d78;">@{{ creatorUserName }}</span>
           <b-btn id="" variant="link" size="sm">
           </b-btn>
         </b-col>
+        -->
 
         <!--Share button and ID-->
         <b-col v-if="shareable" align-self="end" style="color: #ff0d78">
