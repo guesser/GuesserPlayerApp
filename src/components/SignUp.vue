@@ -107,8 +107,8 @@
               You’ll need a safe place to store all of your wins! The perfect place is in a secure wallet like MetaMask. This will also act as your login to the game (no extra password needed).
               </p>
               <hr>
-              <b-button :size="lg" variant="primary">
-                INSTALL METAMASK
+              <b-button href="https://metamask.io" :size="lg" variant="primary">
+                INSTALL METAMASK</a>
               </b-button>
             </b-alert>
           </b-row>
