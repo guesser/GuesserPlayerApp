@@ -49,7 +49,7 @@ export default {
       userExists: true,
       fixedActive: false,
       networkStatus: 'Network is faster than ⚡',
-      userAddress: null
+      userAddress: true
     }
   },
   methods: {
@@ -63,12 +63,17 @@ export default {
     }
   },
   beforeCreate: function () {
-    // let self = this
+    let self = this
 
     GuessHelper.init().then(() => {
       // Uncomment the next if login enabled
       // self.checkIfUserExists()
-      this.userAddress = GuessHelper.address
+      GuessHelper.getAddressRefreshed().then((add) => {
+        if (add === null ||
+            add.length === 0) {
+          self.userAddress = false
+        }
+      })
     })
   }
 }
