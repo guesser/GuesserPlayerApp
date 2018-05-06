@@ -175,7 +175,6 @@ export default {
     let self = this
 
     GuessHelper.init().then(() => {
-      console.log(GuessHelper.address.length)
       if (GuessHelper.address === null || GuessHelper.address.length === 0) {
         self.showMetamask = true
       }
