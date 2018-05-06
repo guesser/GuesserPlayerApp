@@ -25,8 +25,7 @@ export default {
   methods: {
     changeToSearched () {
       this.$router.push({
-        // path: `/search/${this.form._id}`
-        path: 'search', query: { _id: `${this.form._id}` }
+        name: 'search', params: { id: this.form._id }
       })
       console.log('identifier: ', this.form._id)
     }

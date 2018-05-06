@@ -69,7 +69,7 @@ export default {
         let _index = this.currentEvents[i].c[0]
         if (_index !== 0) { // Guess 0 is the empty one
           GuessHelper.getGuessFront(_index).then((guess) => {
-            let _url = 'www.guesser.io/#/search?_id=' + _index
+            let _url = 'www.guesser.io/#/search/' + _index
             let _eventDuration = this.$moment(guess[6]).unix() - this.$moment(guess[5]).unix()
             this.events.push({
               'id': _index,

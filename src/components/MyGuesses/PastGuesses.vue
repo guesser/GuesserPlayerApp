@@ -71,7 +71,7 @@ export default {
         console.log('Id:', _index)
         if (_index !== 0) { // Guess 0 is the empty one
           GuessHelper.getGuessFront(_index).then((guess) => {
-            let _url = 'www.guesser.io/#/search?_id=' + _index
+            let _url = 'www.guesser.io/#/search/' + _index
             this.events.push({
               'id': _index,
               'url': _url,

@@ -88,7 +88,7 @@ export default {
         if (_index !== 0 && _index !== this.guessStar) { // 0 is empy, Highlighted is already shown
           GuessHelper.getGuessFront(_index).then((guess) => {
             if (this.$moment(guess[5]).subtract(this.$moment(guess[5]).minute(), 'minutes').unix() > this.$moment().unix()) {
-              let _url = 'www.guesser.io/#/search?_id=' + _index
+              let _url = 'www.guesser.io/#/search/' + _index
               let _eventDuration = this.$moment(guess[6]).unix() - this.$moment(guess[5]).unix()
               this.guesses.push({
                 'id': _index,

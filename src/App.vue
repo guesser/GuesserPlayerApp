@@ -34,9 +34,15 @@
       </a>
     </template>
     </notifications>
+    <notifications group="creation"
+                   position="top center"
+                   classes="vue-notification creation"
+                   width="320px"
+                   :max="2"
+                   :speed="500" />
 
     <div style="min-height: 100vh">
-    <router-view></router-view>
+      <router-view></router-view>
     </div>
     <Footer/>
     </main>
@@ -69,7 +75,7 @@ export default {
       votedEventValue: '',
       votedEventUrl: '',
       lastVotedEventId: '',
-      shareUrl: '#/search?_id='
+      shareUrl: '#/search/'
     }
   },
   methods: {

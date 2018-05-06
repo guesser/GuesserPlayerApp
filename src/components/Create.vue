@@ -1,12 +1,5 @@
 <template>
   <div class="justify-content-md-center litle-margin">
-    <!--Alert-->
-    <notifications group="creation"
-                   position="top center"
-                   classes="vue-notification creation"
-                   :max="2"
-                   :speed="500" />
-
     <!--Form-->
     <b-form @submit="onSubmit">
       <h2 style="margin-bottom: 2%;"> Create an event </h2>
@@ -110,41 +103,41 @@
 
         <!--Times-->
         <br>
-       <br>
+        <br>
         <span>Ending date and time: {{updateDate}}</span>
         <br>
         <b-form-slider
-                        :v-model='hourValue'
-                        :value='0'
-                        :min='0'
-                        :max='sliderMaxValue'
-                        :step='1'
-                        :ticks='sliderTicks'
-                        :ticks-labels='sliderTicksLabels'
-                        v-bind:rangeHighlights='highlights'
-                        @change="changeSlider"
-                        />
+                   :v-model='hourValue'
+                   :value='0'
+                   :min='0'
+                   :max='sliderMaxValue'
+                   :step='1'
+                   :ticks='sliderTicks'
+                   :ticks-labels='sliderTicksLabels'
+                   v-bind:rangeHighlights='highlights'
+                   @change="changeSlider"
+                   />
           <br>
           <br>
           <b-row align-h="start" style="margin: 0 !important">
-      <b-col cols="12" sm="12" md="6" lg="6" style="padding-left: 0 !important">
-        <p class="info-section">Waiting time until users can validate (hours):</p>
-        <b-form-group id="durationTime"
-                      label-for="durationTime">
-          <b-form-input id="durationTime"
-                        class="mb-2 mr-sm-2 mb-sm-0"
-                        type="number"
-                        step="0.1"
-                        v-model="form.durationTime"
-                        placeholder="Duration of the event"
-                        required>
-          </b-form-input>
-        </b-form-group>
-          </b-col>
-          <small style="color:gray">Example: You can vote before a basketball game starts, and users can start validating two hours later, when the game has finished.</small>
-          <small style="color:gray">Warning: Longer events than a week can't be validated</small>
-        </b-row>
-     
+            <b-col cols="12" sm="12" md="6" lg="6" style="padding-left: 0 !important">
+              <p class="info-section">Waiting time until users can validate (hours):</p>
+              <b-form-group id="durationTime"
+                            label-for="durationTime">
+                <b-form-input id="durationTime"
+                              class="mb-2 mr-sm-2 mb-sm-0"
+                              type="number"
+                              step="0.1"
+                              v-model="form.durationTime"
+                              placeholder="Duration of the event"
+                              required>
+                </b-form-input>
+              </b-form-group>
+            </b-col>
+            <small style="color:gray">Example: You can vote before a basketball game starts, and users can start validating two hours later, when the game has finished.</small>
+            <small style="color:gray">Warning: Longer events than a week can't be validated</small>
+          </b-row>
+
           <br>
           <b-button type="submit" variant="primary" size='lg'>Create</b-button>
         </b-form>
@@ -220,8 +213,8 @@ export default {
       var title = ''
       var text = ''
       if (type === 'success') {
-        title = 'Data ready to sent!'
-        text = 'Ready to sent your event, waiting for confirmation!'
+        title = 'Data ready to be sent!'
+        text = 'Ready to send your event, waiting for confirmation!'
       } else {
         title = 'Creation error!'
         text = 'Event creation failed, try again'
@@ -246,6 +239,7 @@ export default {
       console.log(finalDate.format('[Final:] MMMM D, YYYY [at] H[h]'))
       console.log(validationDate.format('[Validation:] MMMM D, YYYY [at] H[h]'))
       self.show('creation', 'success')
+      window.location.href = '#/home/' + this.form.topic
       GuessHelper.setGuessFront(
         this.form.title,
         this.form.description,
@@ -255,13 +249,11 @@ export default {
         this.form.option1,
         this.form.option2).then(() => {
           console.log('Transaction pending...')
-          /*
           self.form.title = ''
           self.form.description = ''
           self.form.topic = ''
           self.form.option1 = ''
           self.form.option2 = ''
-           */
         }).catch(err => {
           self.show('creation', 'error')
           console.log(err)
@@ -314,58 +306,58 @@ export default {
 $slider: #ff0d73;
 
 .info-section{
-    margin-bottom: 3px;
+  margin-bottom: 3px;
 }
 .row{
-    margin-left: 2% !important;
-    margin-right: 2% !important;
+  margin-left: 2% !important;
+  margin-right: 2% !important;
 }
 .litle-margin{
-    margin: 0% 10%;
-    padding: 3% 0%;
-    max-width: 800px;
+  margin: 0% 10%;
+  padding: 3% 0%;
+  max-width: 800px;
 }
 .btn-primary.dropdown-toggle:focus {
-    box-shadow: 0 0 0 0.2rem #ff0d73 !important;
+  box-shadow: 0 0 0 0.2rem #ff0d73 !important;
 }
 .creation{
-    margin: 5px;
-    border-radius: 2px;
-    border-left: 0px !important;
+  margin: 5px;
+  border-radius: 2px;
+  border-left: 0px !important;
 }
 
 .d-inline-block {
-    display: inline !important;
+  display: inline !important;
 }
 .slider.slider-horizontal {
-    width: 100% !important;
+  width: 100% !important;
 }
 .slider {
-    width: 100% !important;
+  width: 100% !important;
 }
 .slider-tick {
-    display: none;
+  display: none;
 }
 .slider-tick-label {
 }
 
 .color-slider {
-    background: $slider !important;
+  background: $slider !important;
 }
 .color1-slider {
-    background: lighten($slider, 10%) !important;
+  background: lighten($slider, 10%) !important;
 }
 .color2-slider {
-    background: lighten($slider, 16%) !important;
+  background: lighten($slider, 16%) !important;
 }
 .color3-slider {
-    background: lighten($slider, 24%) !important;
+  background: lighten($slider, 24%) !important;
 }
 .color4-slider {
-    background: lighten($slider, 32%) !important;
+  background: lighten($slider, 32%) !important;
 }
 .color5-slider {
-    background: lighten($slider, 40%) !important;
+  background: lighten($slider, 40%) !important;
 }
 /*
 .color1-slider {
@@ -383,19 +375,19 @@ $slider: #ff0d73;
 .color5-slider {
   background: mix(#E86C00, #ff0d73, 100%);
 }
-*/
+ */
 .slider-handle {
-    background: #EB3874 !important;
+  background: #EB3874 !important;
 }
 .slider.slider-horizontal .slider-tick-label-container .slider-tick-label {
-    color: gray !important;
+  color: gray !important;
 }
 .slider-selection.tick-slider-selection{
-    background: lighten($slider, 30%) !important;
+  background: lighten($slider, 30%) !important;
 }
 @media only screen and (max-width: 768px) {
-    .slider.slider-horizontal .slider-tick-label-container .slider-tick-label {
-        display: none !important;
-    }
+  .slider.slider-horizontal .slider-tick-label-container .slider-tick-label {
+    display: none !important;
+  }
 }
 </style>
