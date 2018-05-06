@@ -31,13 +31,6 @@
           <b-col align-self="center" style="padding-left: 0"> 
             <b-row align-h="start" style="margin: 0 !important"> 
               <span>
-                <big>Username:</big>
-              <h4 style="color: #ff0d73">@{{username}} </h4> 
-              </span>
-            </b-row> 
-            <br>
-            <b-row align-h="start" style="margin: 0 !important"> 
-              <span>
                 <big>Address:</big>
               <div class="address-holder" v-clipboard:copy="address" style="overflow:hidden; cursor: pointer"><small>{{address}}</small></div>
               </span>
