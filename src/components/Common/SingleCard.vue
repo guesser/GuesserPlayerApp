@@ -283,10 +283,11 @@ export default {
     }
   },
   beforeCreate: function () {
-    let self = this
+    // let self = this
 
     GuessHelper.init().then(() => {
       // Redo this, this is not asyncronous
+      /*
       self.getUsername(this.eventItem.creator).then((username) => {
         this.creatorUserName = username
       }).catch((err) => {
@@ -297,6 +298,7 @@ export default {
         self.buttonsAllow = false
         return err
       })
+    */
     })
   }
 }

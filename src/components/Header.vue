@@ -46,7 +46,7 @@ export default {
   },
   data: function () {
     return {
-      userExists: false,
+      userExists: true,
       fixedActive: false,
       networkStatus: 'Network is faster than ⚡',
       form: {
@@ -72,10 +72,11 @@ export default {
     }
   },
   beforeCreate: function () {
-    let self = this
+    // let self = this
 
     GuessHelper.init().then(() => {
-      self.checkIfUserExists()
+      // Uncomment the next if login enabled
+      // self.checkIfUserExists()
     })
   }
 }

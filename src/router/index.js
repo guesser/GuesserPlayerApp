@@ -5,7 +5,7 @@ import Home from '@/components/Home'
 import Create from '@/components/Create'
 import Validation from '@/components/Validation'
 import Search from '@/components/Search'
-import SignUp from '@/components/SignUp'
+// import SignUp from '@/components/SignUp'
 import MyGuesses from '@/components/MyGuesses'
 
 /* Documentation */
@@ -64,11 +64,13 @@ export default new Router({
       name: 'create',
       component: Create
     },
+    /*
     {
       path: '/signup',
       name: 'signup',
       component: SignUp
     },
+    */
     {
       path: '/validation',
       name: 'validation',
