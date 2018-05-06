@@ -1,7 +1,10 @@
 <template>
 <b-row align-h="center" align-v="center" class="metamask-alert">
   <b-alert show variant="primary" dismissible>
-    <h4 class="alert-heading">You need to install Metamask extension</h4>
+    <h4 class="alert-heading">You need to
+      <span v-if="locked"> unlock </span>
+      <span v-else> install </span>
+      Metamask extension</h4>
     <p>
       You’ll need a safe place to store all of your wins! The perfect place is in a secure wallet like MetaMask. This will also act as your login to the game (no extra password needed).
     </p>
@@ -15,8 +18,24 @@
 </template>
 
 <script>
+import NetworkHelper from '@/js/NetworkHelper'
+
 export default {
-  name: 'MetamaskAlert'
+  name: 'MetamaskAlert',
+  data () {
+    return {
+      locked: false
+    }
+  },
+  created: function () {
+    let self = this
+    NetworkHelper.init().then(() => {
+      console.log(NetworkHelper.state)
+      if (NetworkHelper.state === 'locked') {
+        self.locked = true
+      }
+    })
+  }
 }
 </script>
 
