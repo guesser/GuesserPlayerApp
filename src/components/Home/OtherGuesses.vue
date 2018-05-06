@@ -131,7 +131,6 @@ export default {
 
       GuessHelper.getEventItemState(_index).then((eventItemState) => {
         self.guesses[_localIndex].eventState = eventItemState
-        console.log('Event:', self.guesses[_localIndex].id, eventItemState)
       }).catch(err => {
         console.log(err)
       })
@@ -183,7 +182,6 @@ export default {
       self.getGuessStar()
       GuessHelper.getGuessesByWeek(this.loadIndex, this.topic, this.$moment().unix()).then((_guesses) => {
         self.guessesByNumber = _guesses
-        console.log(self.guessesByNumber[0].c[0])
         self.printGuesses()
         self.contentLoaded = false
       }).catch(err => {

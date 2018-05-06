@@ -50,24 +50,28 @@
       </b-container>
     </div>
 
+      <MetamaskAlert v-if='showMetamask'/>
   </div>
 </template>
 
 <script>
 import GuessHelper from '@/js/Guess'
-import NetworkHelper from '@/js/NetworkHelper'
+// import NetworkHelper from '@/js/NetworkHelper'
 
 import CardDeck from './Common/CardDeck.vue'
 import Loading from './Loading.vue'
+import MetamaskAlert from './Common/MetamaskAlert.vue'
 
 export default {
   name: 'guessesvalidation',
   components: {
     Loading,
+    MetamaskAlert,
     CardDeck
   },
   data () {
     return {
+      showMetamask: false,
       userGuesses: [],
       guessesByNumber: [],
       totalGuesses: 0,
@@ -80,7 +84,6 @@ export default {
   methods: {
     printGuesses () {
       for (var i = 0; i < this.guessesByNumber.length; i++) {
-        console.log('Id:', this.guessesByNumber[i].c[0])
         let _index = this.guessesByNumber[i].c[0]
         if (_index !== 0 && this.userGuesses.indexOf(_index) === -1) { // Guess 0 is the empty one
           GuessHelper.getGuessFront(_index).then((guess) => {
@@ -139,7 +142,6 @@ export default {
     },
     getGuessesToValidate () {
       let self = this
-      console.log(this.userGuesses)
 
       this.guesses = [] // Clean the array of showed Guesses
       GuessHelper.getGuessesToValidate(this.loadIndex, this.$moment().unix()).then((_guesses) => {
@@ -180,18 +182,26 @@ export default {
   },
   created: function () {
     let self = this
+
     GuessHelper.init().then(() => {
-      this.getUserVotedGuesses(0)
+      if (GuessHelper.address === null || GuessHelper.address.length === 0) {
+        self.showMetamask = true
+        self.getGuessesToValidate()
+      } else {
+        this.getUserVotedGuesses(0)
+      }
     }).catch(err => {
       console.log(err)
     })
 
+    /*
     NetworkHelper.init().then(() => {
       if (NetworkHelper.state === 'disconnected' ||
         NetworkHelper.state === 'locked') {
         self.$router.push('signup')
       }
     })
+    */
   },
   beforeCreated: function () {
     this.contentLoaded = false

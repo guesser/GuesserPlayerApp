@@ -20,7 +20,7 @@
           <b-nav-item v-if='userExists' href="#create">Create</b-nav-item>
           <b-nav-item v-else class="signup-header" href="#signup">SignUp</b-nav-item>
           <b-nav-item href="#validation">Validation</b-nav-item>
-          <b-nav-item href="#myguesses">My Guesses</b-nav-item>
+          <b-nav-item href="#myguesses" v-if='userAddress'>My Guesses</b-nav-item>
         </b-navbar-nav>
 
       </b-collapse>
@@ -48,7 +48,8 @@ export default {
     return {
       userExists: true,
       fixedActive: false,
-      networkStatus: 'Network is faster than ⚡'
+      networkStatus: 'Network is faster than ⚡',
+      userAddress: null
     }
   },
   methods: {
@@ -67,6 +68,7 @@ export default {
     GuessHelper.init().then(() => {
       // Uncomment the next if login enabled
       // self.checkIfUserExists()
+      this.userAddress = GuessHelper.address
     })
   }
 }

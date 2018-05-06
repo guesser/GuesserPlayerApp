@@ -34,15 +34,9 @@
       </a>
     </template>
     </notifications>
-    <notifications group="creation"
-                   position="top center"
-                   classes="vue-notification creation"
-                   width="320px"
-                   :max="2"
-                   :speed="500" />
 
     <div style="min-height: 100vh">
-      <router-view></router-view>
+    <router-view></router-view>
     </div>
     <Footer/>
     </main>
@@ -75,7 +69,7 @@ export default {
       votedEventValue: '',
       votedEventUrl: '',
       lastVotedEventId: '',
-      shareUrl: '#/search/'
+      shareUrl: '#/search?_id='
     }
   },
   methods: {
@@ -112,7 +106,7 @@ export default {
             self.lastEventId = self.newEventId
           }
         } else {
-          console.log(error)
+          return error
         }
       })
 
@@ -131,7 +125,7 @@ export default {
             }
           }
         } else {
-          console.log(error)
+          return error
         }
       })
 
@@ -139,11 +133,13 @@ export default {
         if (!error) {
           console.log('Test Value:', result)
         } else {
-          console.log(error)
+          return error
         }
       })
     }).catch(err => {
-      console.log(err)
+      // console.log(err)
+      console.log('Error App')
+      return err
     })
   }
 }

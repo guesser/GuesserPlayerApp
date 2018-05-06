@@ -21,33 +21,46 @@ const GuessHelper = {
     let self = this
 
     return new Promise(function (resolve, reject) {
-      self.contract = contract(Guess)
-      self.contract.setProvider(window.web3.currentProvider)
+      if (self.instance === null) {
+        self.contract = contract(Guess)
+        self.contract.setProvider(window.web3.currentProvider)
 
-      // instantiate by address
-      self.instance = self.contract.at('0x2f01348757b273ef2d95d5df76ef795f883b5c1f')
-      // self.contract.deployed().then(instance => {
-        // self.instance = instance
+        if (typeof self.contract.currentProvider.sendAsync !== 'function') {
+          self.contract.currentProvider.sendAsync = function () {
+            return self.contract.currentProvider.send.apply(
+              self.contract.currentProvider, arguments
+            )
+          }
+        }
 
-        // Getting the accounts
-      window.web3.eth.getAccounts(function (error, accounts) {
-          // Getting events
+        // instantiate by address
+        self.instance = self.contract.at('0x2f01348757b273ef2d95d5df76ef795f883b5c1f')
+
+        // Getting events
         self.GuessCreated = self.instance.GuessCreated()
         self.GuessVoted = self.instance.GuessVoted()
         self.GuessValidated = self.instance.GuessValidated()
         self.ProfitsReturned = self.instance.ProfitsReturned()
         self.TestValue = self.instance.test_value()
 
-        if (error) {
-          console.log(error)
-        } else {
-          self.address = accounts
-          resolve()
-        }
-      })
-      // }).catch(err => {
+        // self.contract.deployed().then(instance => {
+        // self.instance = instance
+
+        // Getting the accounts
+        window.web3.eth.getAccounts(function (error, accounts) {
+          if (error) {
+            // console.log(error)
+            resolve()
+          } else {
+            self.address = accounts
+            resolve()
+          }
+        })
+        // }).catch(err => {
         // reject(err)
-      // })
+        // })
+      }
+      resolve()
     })
   },
 
@@ -56,7 +69,7 @@ const GuessHelper = {
       if (!error) {
         console.log('No error on creating guess event catcher! See: ', result)
       } else {
-        console.log(error)
+        return error
       }
     })
   },
@@ -66,7 +79,7 @@ const GuessHelper = {
       if (!error) {
         console.log('No error on voting guess event catcher! See: ', result)
       } else {
-        console.log(error)
+        return error
       }
     })
   },
@@ -76,7 +89,7 @@ const GuessHelper = {
       if (!error) {
         console.log('No error on validating guess event catcher! See: ', result)
       } else {
-        console.log(error)
+        return error
       }
     })
   },
@@ -86,7 +99,7 @@ const GuessHelper = {
       if (!error) {
         console.log('No error on returning profit event catcher! See: ', result)
       } else {
-        console.log(error)
+        return error
       }
     })
   },

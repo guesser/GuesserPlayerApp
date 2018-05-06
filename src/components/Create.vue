@@ -141,6 +141,8 @@
           <br>
           <b-button type="submit" variant="primary" size='lg'>Create</b-button>
         </b-form>
+      <MetamaskAlert v-if='showMetamask'/>
+
   </div>
 </template>
 
@@ -148,20 +150,22 @@
 import GuessHelper from '@/js/Guess'
 // import ServerHelper from '@/js/ServerHelper'
 import VueTwitterCounter from 'vue-twitter-counter'
+import MetamaskAlert from './Common/MetamaskAlert.vue'
 
 export default {
   name: 'Create',
   data () {
     return {
+      showMetamask: false,
       value: 0,
       sliderMaxValue: 120,
       sliderTicks: [],
       sliderTicksLabels: [],
       highlights: [{ 'start': 0, 'end': 24, 'class': 'color-slider' },
-        { 'start': 24, 'end': 47, 'class': 'color1-slider' },
-        {'start': 47, 'end': 71, 'class': 'color2-slider'},
-        {'start': 71, 'end': 95, 'class': 'color3-slider'},
-        {'start': 95, 'end': 120, 'class': 'color4-slider'}],
+                   { 'start': 24, 'end': 47, 'class': 'color1-slider' },
+                   {'start': 47, 'end': 71, 'class': 'color2-slider'},
+                   {'start': 71, 'end': 95, 'class': 'color3-slider'},
+                   {'start': 95, 'end': 120, 'class': 'color4-slider'}],
 
       topics: ['Crypto', 'Celebrities', 'Entertainment', 'Gaming', 'Humor', 'News', 'Politics', 'Sports', 'Technology', 'Random'],
       form: {
@@ -283,7 +287,12 @@ export default {
     }
   },
   beforeCreate: function () {
-    GuessHelper.init().catch(err => {
+    let self = this
+    GuessHelper.init().then(() => {
+      if (GuessHelper.address === null || GuessHelper.address.length === 0) {
+        self.showMetamask = true
+      }
+    }).catch(err => {
       console.log(err)
     })
   },
@@ -296,7 +305,8 @@ export default {
     this.updateHighlights()
   },
   components: {
-    VueTwitterCounter
+    VueTwitterCounter,
+    MetamaskAlert
   }
 }
 </script>

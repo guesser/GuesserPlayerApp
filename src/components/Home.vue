@@ -48,7 +48,8 @@ export default {
   },
   data () {
     return {
-      topic: ''
+      topic: '',
+      showMetamask: false
     }
   },
   watch: {
@@ -58,7 +59,6 @@ export default {
   },
   created: function () {
     // let self = this
-
     if (this.$route.params.topic) {
       this.topic = this.$route.params.topic
     } else {

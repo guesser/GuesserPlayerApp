@@ -27,6 +27,7 @@
           </b-container>
         </b-row>
       </b-container>
+      <MetamaskAlert v-if='showMetamask'/>
     </div>
   </div>
 </template>
@@ -34,15 +35,18 @@
 <script>
 import GuessHelper from '@/js/Guess'
 import SingleCard from '../Common/SingleCard.vue'
+import MetamaskAlert from '../Common/MetamaskAlert.vue'
 
 export default {
   name: 'GuessOfTheDay',
   props: ['topic'],
   components: {
-    SingleCard
+    SingleCard,
+    MetamaskAlert
   },
   data () {
     return {
+      showMetamask: false,
       guessVotingAlert: false,
       guessVotingFailedAlert: false,
       guess: {
@@ -102,7 +106,6 @@ export default {
 
         let _eventDuration = this.$moment(guessDay[6]).unix() - this.$moment(guessDay[5]).unix()
         self.guess.eventDuration = this.$moment.duration(_eventDuration, 'seconds').humanize()
-        console.log('EventDuration:', self.guess.eventDuration)
       }).catch(err => {
         console.log(err)
       })
@@ -112,7 +115,6 @@ export default {
 
       GuessHelper.getEventItemState(this.guessIndex).then((eventItemState) => {
         self.guess.eventState = eventItemState
-        console.log('EvenOfTheDay:', self.guess.eventState)
       }).catch(err => {
         console.log(err)
       })
@@ -120,7 +122,6 @@ export default {
     getGuessOfTheDay () { // It's a trap (GuessOfTheWeek)
       let self = this
       GuessHelper.getGuessOfTheWeek(this.topic).then((guessNumber) => {
-        console.log(guessNumber)
         if (guessNumber !== 0) {
           self.guessIndex = guessNumber
           self.guess.id = self.guessIndex
@@ -164,7 +165,7 @@ export default {
         self.guess.option1AmountEth = +(parseFloat(optionsAmount[0]) / 10).toFixed(4)
         self.guess.option2AmountEth = +(parseFloat(+optionsAmount[1]) / 10).toFixed(4)
         self.guess.amountEth = +(parseFloat(optionsAmount[0]) / 10 +
-          parseFloat(optionsAmount[1]) / 10).toFixed(5)
+                                 parseFloat(optionsAmount[1]) / 10).toFixed(5)
       })
     }
   },
@@ -174,6 +175,9 @@ export default {
 
     GuessHelper.init().then(() => {
       self.getGuessOfTheDay()
+      if (GuessHelper.address === null || GuessHelper.address.length === 0) {
+        self.showMetamask = true
+      }
     }).catch(err => {
       console.log(err)
     })

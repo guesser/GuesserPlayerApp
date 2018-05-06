@@ -44,7 +44,8 @@ window.addEventListener('load', function () {
   } else {
     console.log('Web3 injected browser: Fail. You should consider trying MetaMask.')
     // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
-    window.web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
+    // window.web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
+    window.web3 = new Web3(new Web3.providers.HttpProvider('https://rinkeby.infura.io/nUN0uOJg8Oj42XsZBzYq'))
   }
 
   /* eslint-disable no-new */
