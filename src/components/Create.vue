@@ -289,9 +289,12 @@ export default {
   beforeCreate: function () {
     let self = this
     GuessHelper.init().then(() => {
-      if (GuessHelper.address === null || GuessHelper.address.length === 0) {
-        self.showMetamask = true
-      }
+      GuessHelper.getAddressRefreshed().then((add) => {
+        if (add === null ||
+            add.length === 0) {
+          self.showMetamask = true
+        }
+      })
     }).catch(err => {
       console.log(err)
     })

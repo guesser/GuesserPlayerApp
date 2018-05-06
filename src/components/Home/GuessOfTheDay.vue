@@ -1,9 +1,9 @@
 <template>
   <div>
+      <MetamaskAlert v-if='showMetamask'/>
     <!--If events-->
     <div v-if='guessIndex != null'>
       <SingleCard :eventItem="guess"/>
-      <MetamaskAlert v-if='showMetamask'/>
     </div>
 
     <!--If no events-->
@@ -27,7 +27,6 @@
             <b-button href="#create" variant="primary" size="lg">Create</b-button>
           </b-container>
         </b-row>
-      <MetamaskAlert v-if='showMetamask'/>
       </b-container>
     </div>
   </div>
@@ -175,9 +174,12 @@ export default {
     let self = this
 
     GuessHelper.init().then(() => {
-      if (GuessHelper.address === null || GuessHelper.address.length === 0) {
-        self.showMetamask = true
-      }
+      GuessHelper.getAddressRefreshed().then((add) => {
+        if (add === null ||
+            add.length === 0) {
+          self.showMetamask = true
+        }
+      })
       self.getGuessOfTheDay()
     }).catch(err => {
       console.log(err)

@@ -22,6 +22,7 @@ export default {
 
 <style>
   .metamask-alert {
+    z-index: 10;
     position: fixed; 
     bottom: 0;
     left: 10%;

@@ -184,12 +184,15 @@ export default {
     let self = this
 
     GuessHelper.init().then(() => {
-      if (GuessHelper.address === null || GuessHelper.address.length === 0) {
-        self.showMetamask = true
-        self.getGuessesToValidate()
-      } else {
-        this.getUserVotedGuesses(0)
-      }
+      GuessHelper.getAddressRefreshed().then((add) => {
+        if (add === null ||
+            add.length === 0) {
+          self.showMetamask = true
+          self.getGuessesToValidate()
+        } else {
+          this.getUserVotedGuesses(0)
+        }
+      })
     }).catch(err => {
       console.log(err)
     })

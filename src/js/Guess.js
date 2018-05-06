@@ -36,16 +36,6 @@ const GuessHelper = {
         // instantiate by address
         self.instance = self.contract.at('0x2f01348757b273ef2d95d5df76ef795f883b5c1f')
 
-        // Getting events
-        self.GuessCreated = self.instance.GuessCreated()
-        self.GuessVoted = self.instance.GuessVoted()
-        self.GuessValidated = self.instance.GuessValidated()
-        self.ProfitsReturned = self.instance.ProfitsReturned()
-        self.TestValue = self.instance.test_value()
-
-        // self.contract.deployed().then(instance => {
-        // self.instance = instance
-
         // Getting the accounts
         window.web3.eth.getAccounts(function (error, accounts) {
           if (error) {
@@ -56,11 +46,35 @@ const GuessHelper = {
             resolve()
           }
         })
-        // }).catch(err => {
-        // reject(err)
-        // })
+
+        // Getting events
+        self.GuessCreated = self.instance.GuessCreated()
+        self.GuessVoted = self.instance.GuessVoted()
+        self.GuessValidated = self.instance.GuessValidated()
+        self.ProfitsReturned = self.instance.ProfitsReturned()
+        self.TestValue = self.instance.test_value()
+
+        // self.contract.deployed().then(instance => {
+        // self.instance = instance
+      } else {
+        resolve()
       }
-      resolve()
+    })
+  },
+
+  getAddressRefreshed: function () {
+    let self = this
+    return new Promise(function (resolve, reject) {
+      // Getting the accounts
+      window.web3.eth.getAccounts(function (error, accounts) {
+        if (error) {
+          // console.log(error)
+          resolve(null)
+        } else {
+          self.address = accounts
+          resolve(accounts)
+        }
+      })
     })
   },
 
