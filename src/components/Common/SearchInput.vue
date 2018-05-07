@@ -27,7 +27,6 @@ export default {
       this.$router.push({
         name: 'search', params: { id: this.form._id }
       })
-      console.log('identifier: ', this.form._id)
     }
   }
 }

@@ -147,10 +147,9 @@ export default {
       let self = this
 
       GuessHelper.getEventItemState(_id).then((eventItemState) => {
-        console.log('EvenOfTheDay: ', eventItemState)
         self.guess.eventState = eventItemState
       }).catch(err => {
-        console.log(err)
+        return err
       })
     },
     getOptions (_id) {
@@ -187,7 +186,7 @@ export default {
       self.contentLoaded = false
       self.searchForGuess()
     }).catch(err => {
-      console.log(err)
+      return err
     })
     NetworkHelper.init().then(() => {
       if (NetworkHelper.state === 'disconnected' ||

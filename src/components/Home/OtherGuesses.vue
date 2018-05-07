@@ -159,7 +159,7 @@ export default {
           self.guesses[_localIndex].option1AmountEth = +(parseFloat(guess[0]) / 10).toFixed(4)
           self.guesses[_localIndex].option2AmountEth = +(parseFloat(guess[1]) / 10).toFixed(4)
           self.guesses[_localIndex].amountEth = +(parseFloat(guess[0]) / 10 +
-            parseFloat(guess[1]) / 10).toFixed(4)
+                                                  parseFloat(guess[1]) / 10).toFixed(4)
         }
       })
     },
@@ -172,7 +172,8 @@ export default {
           self.guessStar = _guessId
         }
       }).catch(err => {
-        console.log(err)
+        // console.log(err)
+        return err
       })
     },
 
@@ -185,7 +186,7 @@ export default {
         self.printGuesses()
         self.contentLoaded = false
       }).catch(err => {
-        console.log(err)
+        // console.log(err)
         self.contentLoaded = false
         return err
       })
@@ -197,8 +198,9 @@ export default {
       this.getGuessesByWeek()
       this.contentLoaded = true
     }).catch(err => {
-      console.log(err)
+      // console.log(err)
       this.contentLoaded = true
+      return err
     })
   },
 

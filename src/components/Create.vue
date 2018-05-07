@@ -88,7 +88,7 @@
                  v-model='form.option1'
                  maxlength="31"
                  required
-                 placeholder="Outocome1"/>
+                 placeholder="Outcome1"/>
         </b-col>
         <b-col style="padding-right: 0 !important">
           <label class="sr-only" for="option2Input">Outcome2</label>
