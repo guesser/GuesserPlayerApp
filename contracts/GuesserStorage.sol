@@ -203,7 +203,15 @@ contract GuesserStorage is DateTime{
    * @param _address address The description of the Guess
    */
   function pushVoter(uint256 _index, address _address) isOwner external {
-    guesses[_index].voters.push(_address);
+    bool found = false;
+
+    for (uint256 i=0; i < guesses[_index].voters.length; i++) {
+      if (guesses[_index].voters[i] == _address)
+        found = true;
+    }
+
+    if (!found)
+      guesses[_index].voters.push(_address);
   }
 
   /**

@@ -138,7 +138,6 @@ export default {
       })
     }).catch(err => {
       // console.log(err)
-      console.log('Error App')
       return err
     })
   }

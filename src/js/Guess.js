@@ -16,7 +16,8 @@ const GuessHelper = {
 
     return new Promise(function (resolve, reject) {
       if (self.instance === null) {
-        self.contract = contract(Guess)
+        // self.contract = contract(Guess)
+        self.instance = 1
         self.contract.setProvider(window.web3.currentProvider)
 
         if (typeof self.contract.currentProvider.sendAsync !== 'function') {
@@ -28,13 +29,16 @@ const GuessHelper = {
         }
 
         // instantiate by address
-        self.instance = self.contract.at('0x2f01348757b273ef2d95d5df76ef795f883b5c1f')
+        // self.instance = self.contract.at('0x2f01348757b273ef2d95d5df76ef795f883b5c1f')
+
+        // self.contract.deployed().then(instance => {
+        // self.instance = instance
 
         // Getting the accounts
         window.web3.eth.getAccounts(function (error, accounts) {
           if (error) {
             // console.log(error)
-            resolve()
+            reject()
           } else {
             self.address = accounts
             resolve()
@@ -48,8 +52,7 @@ const GuessHelper = {
         self.ProfitsReturned = self.instance.ProfitsReturned()
         self.TestValue = self.instance.test_value()
 
-        // self.contract.deployed().then(instance => {
-        // self.instance = instance
+        // })
       } else {
         resolve()
       }
@@ -122,7 +125,6 @@ const GuessHelper = {
     })
   },
 
->>>>>>> 7a3a92026b1f657e0fdf92cc1f602ae5f92729c9
   setGuessFront: function (
     _title,
     _description,

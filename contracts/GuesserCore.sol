@@ -70,7 +70,7 @@ contract GuesserCore is DateTime {
   * @param _guess uint256 the event to ask for the profits of
     * @return bool the profits the guess asked has
   */
-  function getGuessProfits (uint256 _guess) public view returns (uint256) {
+  function getGuessProfits (uint256 _guess) public view returns (uint128) {
     // Does the guess exists?
     require(_guess <= guesserStorage.getGuessLength() - 1);
 
@@ -78,13 +78,12 @@ contract GuesserCore is DateTime {
       return 0;
     }
 
-    uint256 _profits = 0;
+    uint128 _profits = 0;
     for(uint256 _voterIndex = 0; _voterIndex < guesserStorage.getGuessVotersLength(_guess); _voterIndex++) {
-      // Adding to profits the amount of eth in the first option
+      // Adding to profits the amount of eth
       address _voter = guesserStorage.getGuessVoter(_guess, _voterIndex);
-      _profits += guesserStorage.getGuessVotersOption(_guess, _voter, 1);
-      // Adding to profits the amount of eth in the second option
-      _profits += guesserStorage.getGuessVotersOption(_guess, _voter, 2);
+      _profits += guesserStorage.getGuessVotersOption(_guess, _voter, 1) +
+        guesserStorage.getGuessVotersOption(_guess, _voter, 2);
     }
 
     return _profits;
@@ -96,7 +95,7 @@ contract GuesserCore is DateTime {
     * @param _option uint256 the option you want to check
   * @return bool the profits the guess asked has
   */
-  function getGuessProfitsByOption (uint256 _guess, uint8 _option) public view returns (uint256) {
+  function getGuessProfitsByOption (uint256 _guess, uint8 _option) public view returns (uint128) {
     // Does the guess exists?
     require(_guess <= guesserStorage.getGuessLength() - 1);
     // Is the option valid?
@@ -106,7 +105,7 @@ contract GuesserCore is DateTime {
       return 0;
     }
 
-    uint256 _profits = 0;
+    uint128 _profits = 0;
     address _address;
     for(uint256 _voterIndex = 0; _voterIndex < guesserStorage.getGuessVotersLength(_guess); _voterIndex++) {
       // Option has to be the correct or 3, which means the user voted both options

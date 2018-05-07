@@ -224,22 +224,22 @@ export default {
     },
     waitingTime () {
       let self = this
-      
+
       var waitingTimeTotal = self.eventItem.eventDurationUnformated
       waitingTimeTotal = waitingTimeTotal / 60
       // console.log('Total', waitingTimeTotal)
-      
+
       return waitingTimeTotal
     },
     waitingDone () {
       let self = this
-      
+
       var waitingTimeDone = self.$moment().unix() - self.eventItem.finishingDayUnformated.unix()
       waitingTimeDone = Math.round(waitingTimeDone / 60)
-      
+
       return waitingTimeDone
     },
-    
+
     show (group) {
       this.$notify({
         group
@@ -284,7 +284,7 @@ export default {
   },
   beforeCreate: function () {
     // let self = this
-    
+
     GuessHelper.init().then(() => {
       // Redo this, this is not asyncronous
       /*
