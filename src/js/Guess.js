@@ -1,6 +1,7 @@
 import GuessCore from './GuesserCoreHelper.js'
 import GuessGame from './GuesserGameHelper.js'
 import GuessInputs from './GuesserInputHelper.js'
+import GuessPayments from './GuesserPaymentsHelper.js'
 import MyGuesses from './MyGuesserHelper.js'
 
 const GuessHelper = {
@@ -212,8 +213,8 @@ const GuessHelper = {
   },
 
   voteGuess: function (_guessIndex, _option, ethAmount) { // Option has to be between 1 and 2
-    return GuessInputs.init(this.address).then(() => {
-      return GuessInputs.voteGuess(
+    return GuessPayments.init(this.address).then(() => {
+      return GuessPayments.voteGuess(
         _guessIndex,
         _option,
         ethAmount
@@ -222,8 +223,8 @@ const GuessHelper = {
   },
 
   validateGuess: function (_guessIndex, _option) {
-    return GuessInputs.init(this.address).then(() => {
-      return GuessInputs.validateGuess(
+    return GuessPayments.init(this.address).then(() => {
+      return GuessPayments.validateGuess(
         _guessIndex,
         _option
       )
