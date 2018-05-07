@@ -7,6 +7,18 @@
                    :max="2"
                    width="320px"
                    :speed="800"/>
+    <notifications group="copyAlert"
+                   position="bottom right"
+                   width="120"
+                   :speed="500">
+      <template slot="body" slot-scope="props">
+        <div class="copyAlert">
+          <div class="copyAlert-content">
+            Url copied!
+          </div>
+        </div>
+      </template>
+    </notifications>
 
     <div v-if='contentLoaded'>
       <Loading/>
@@ -68,7 +80,7 @@ export default {
       contentLoaded: true,
       guess: {
         id: '0',
-        url: 'www.guesser.io/#/search?_id=',
+        url: '',
         title: 'Loading...',
         description: 'Loading...',
         topic: 'Crypto',
@@ -95,7 +107,7 @@ export default {
     searchForGuess () {
       let self = this
 
-      self.guessIndex = this.$route.query._id
+      self.guessIndex = this.$route.params.id
       this.contentLoaded = false
       self.guess.id = self.guessIndex
       self.getGuess(self.guessIndex)
@@ -104,7 +116,8 @@ export default {
       self.getOptionsProfits(self.guessIndex)
     },
     generateEventUrl () {
-      this.guess.url += this.guess.id
+      let _url = 'www.guesser.io/#/search/'
+      this.guess.url = _url + this.guess.id
     },
     getGuess (_id) {
       let self = this
@@ -158,10 +171,10 @@ export default {
       let self = this
 
       GuessHelper.getGuessOptionsProfits(_id).then((optionsAmount) => {
-        self.guess.option1AmountEth = parseFloat(optionsAmount[0]).toFixed(4) / 10
-        self.guess.option2AmountEth = parseFloat(optionsAmount[1]).toFixed(4) / 10
-        self.guess.amountEth = parseFloat(optionsAmount[0]).toFixed(4) / 10 +
-          parseFloat(optionsAmount[1]).toFixed(4) / 10
+        self.guess.option1AmountEth = +(parseFloat(optionsAmount[0]) / 10).toFixed(4)
+        self.guess.option2AmountEth = +(parseFloat(optionsAmount[1]) / 10).toFixed(4)
+        self.guess.amountEth = +(parseFloat(optionsAmount[0]) / 10 +
+          parseFloat(optionsAmount[1]) / 10).toFixed(5)
       }).catch(err => {
         return err
       })
@@ -186,7 +199,7 @@ export default {
   beforeUpdate: function () {
     let self = this
 
-    if (!this.guessExists || this.$route.query._id !== this.guess.id) {
+    if (!this.guessExists || this.$route.params.id !== this.guess.id) {
       self.searchForGuess()
     }
   }

@@ -15,21 +15,114 @@ const GuessHelper = {
     let self = this
 
     return new Promise(function (resolve, reject) {
+      if (self.instance === null) {
+        self.contract = contract(Guess)
+        self.contract.setProvider(window.web3.currentProvider)
+
+        if (typeof self.contract.currentProvider.sendAsync !== 'function') {
+          self.contract.currentProvider.sendAsync = function () {
+            return self.contract.currentProvider.send.apply(
+              self.contract.currentProvider, arguments
+            )
+          }
+        }
+
+        // instantiate by address
+        self.instance = self.contract.at('0x2f01348757b273ef2d95d5df76ef795f883b5c1f')
+
+        // Getting the accounts
+        window.web3.eth.getAccounts(function (error, accounts) {
+          if (error) {
+            // console.log(error)
+            resolve()
+          } else {
+            self.address = accounts
+            resolve()
+          }
+        })
+
+        // Getting events
+        self.GuessCreated = self.instance.GuessCreated()
+        self.GuessVoted = self.instance.GuessVoted()
+        self.GuessValidated = self.instance.GuessValidated()
+        self.ProfitsReturned = self.instance.ProfitsReturned()
+        self.TestValue = self.instance.test_value()
+
+        // self.contract.deployed().then(instance => {
+        // self.instance = instance
+      } else {
+        resolve()
+      }
+    })
+  },
+
+  getAddressRefreshed: function () {
+    let self = this
+    return new Promise(function (resolve, reject) {
       // Getting the accounts
       window.web3.eth.getAccounts(function (error, accounts) {
         if (error) {
-          console.log(error)
-          reject(error)
+          // console.log(error)
+          resolve(null)
         } else {
           self.address = accounts
-          resolve()
+          resolve(accounts)
         }
-      }).catch(err => {
-        reject(err)
       })
     })
   },
 
+  CreatedGuessEvent: function () {
+    this.GuessCreated.watch(function (error, result) {
+      if (!error) {
+        console.log('No error on creating guess event catcher! See: ', result)
+      } else {
+        return error
+      }
+    })
+  },
+
+  VotedGuessEvent: function () {
+    this.GuessVoted.watch(function (error, result) {
+      if (!error) {
+        console.log('No error on voting guess event catcher! See: ', result)
+      } else {
+        return error
+      }
+    })
+  },
+
+  ValidatedGuessEvent: function () {
+    this.GuessValidated.watch(function (error, result) {
+      if (!error) {
+        console.log('No error on validating guess event catcher! See: ', result)
+      } else {
+        return error
+      }
+    })
+  },
+
+  ReturnedProfitsEvent: function () {
+    this.ProfitsReturned.watch(function (error, result) {
+      if (!error) {
+        console.log('No error on returning profit event catcher! See: ', result)
+      } else {
+        return error
+      }
+    })
+  },
+
+  TestValue: function () {
+    this.TestValue.watch(function (error, result) {
+      if (!error) {
+        console.log('Test Value: ', result)
+      } else {
+        console.log(error)
+      }
+    })
+  },
+
+>>>>>>> 7a3a92026b1f657e0fdf92cc1f602ae5f92729c9
   setGuessFront: function (
     _title,
     _description,

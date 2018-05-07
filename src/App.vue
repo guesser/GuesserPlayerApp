@@ -2,7 +2,6 @@
   <div>
     <TopBar/>
     <main>
-    <br>
     <!--Alerts-->
     <notifications group="eventAlert"
                    position="bottom right"
@@ -36,7 +35,7 @@
     </template>
     </notifications>
 
-    <div style="min-height: 83vh">
+    <div style="min-height: 100vh">
     <router-view></router-view>
     </div>
     <Footer/>
@@ -107,7 +106,7 @@ export default {
             self.lastEventId = self.newEventId
           }
         } else {
-          console.log(error)
+          return error
         }
       })
 
@@ -126,7 +125,7 @@ export default {
             }
           }
         } else {
-          console.log(error)
+          return error
         }
       })
 
@@ -134,11 +133,13 @@ export default {
         if (!error) {
           console.log('Test Value:', result)
         } else {
-          console.log(error)
+          return error
         }
       })
     }).catch(err => {
-      console.log(err)
+      // console.log(err)
+      console.log('Error App')
+      return err
     })
   }
 }

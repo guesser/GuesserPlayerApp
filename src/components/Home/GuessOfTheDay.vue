@@ -1,8 +1,9 @@
 <template>
   <div>
+      <MetamaskAlert v-if='showMetamask'/>
     <!--If events-->
     <div v-if='guessIndex != null'>
-      <SingleCard :eventItem="guess"/>
+      <SingleCard :eventItem="guess" :buttonsAllow="buttonsAllow"/>
     </div>
 
     <!--If no events-->
@@ -34,20 +35,24 @@
 <script>
 import GuessHelper from '@/js/Guess'
 import SingleCard from '../Common/SingleCard.vue'
+import MetamaskAlert from '../Common/MetamaskAlert.vue'
 
 export default {
   name: 'GuessOfTheDay',
   props: ['topic'],
   components: {
-    SingleCard
+    SingleCard,
+    MetamaskAlert
   },
   data () {
     return {
+      buttonsAllow: true,
+      showMetamask: false,
       guessVotingAlert: false,
       guessVotingFailedAlert: false,
       guess: {
         id: '0',
-        url: 'www.guesser.io/#/search?_id=',
+        url: '',
         title: 'Loading...',
         description: 'Loading...',
         topic: 'Crypto',
@@ -84,7 +89,8 @@ export default {
       this.$refs.paymentModal.show()
     },
     generateEventUrl () {
-      this.guess.url += this.guess.id
+      let _url = 'www.guesser.io/#/search/'
+      this.guess.url = _url + this.guess.id
     },
     getGuess () {
       let self = this
@@ -101,7 +107,6 @@ export default {
 
         let _eventDuration = this.$moment(guessDay[6]).unix() - this.$moment(guessDay[5]).unix()
         self.guess.eventDuration = this.$moment.duration(_eventDuration, 'seconds').humanize()
-        console.log('EventDuration:', self.guess.eventDuration)
       }).catch(err => {
         console.log(err)
       })
@@ -111,7 +116,6 @@ export default {
 
       GuessHelper.getEventItemState(this.guessIndex).then((eventItemState) => {
         self.guess.eventState = eventItemState
-        console.log('EvenOfTheDay:', self.guess.eventState)
       }).catch(err => {
         console.log(err)
       })
@@ -119,7 +123,6 @@ export default {
     getGuessOfTheDay () { // It's a trap (GuessOfTheWeek)
       let self = this
       GuessHelper.getGuessOfTheWeek(this.topic).then((guessNumber) => {
-        console.log(guessNumber)
         if (guessNumber !== 0) {
           self.guessIndex = guessNumber
           self.guess.id = self.guessIndex
@@ -160,10 +163,10 @@ export default {
       let self = this
 
       GuessHelper.getGuessOptionsProfits(this.guessIndex).then((optionsAmount) => {
-        self.guess.option1AmountEth = parseFloat(optionsAmount[0]).toFixed(4) / 10
-        self.guess.option2AmountEth = parseFloat(optionsAmount[1]).toFixed(4) / 10
-        self.guess.amountEth = parseFloat(optionsAmount[0]).toFixed(4) / 10 +
-          parseFloat(optionsAmount[1]).toFixed(4) / 10
+        self.guess.option1AmountEth = +(parseFloat(optionsAmount[0]) / 10).toFixed(4)
+        self.guess.option2AmountEth = +(parseFloat(+optionsAmount[1]) / 10).toFixed(4)
+        self.guess.amountEth = +(parseFloat(optionsAmount[0]) / 10 +
+                                 parseFloat(optionsAmount[1]) / 10).toFixed(5)
       })
     }
   },
@@ -172,6 +175,13 @@ export default {
     let self = this
 
     GuessHelper.init().then(() => {
+      GuessHelper.getAddressRefreshed().then((add) => {
+        if (add === null ||
+            add.length === 0) {
+          self.showMetamask = true
+          self.buttonsAllow = false
+        }
+      })
       self.getGuessOfTheDay()
     }).catch(err => {
       console.log(err)

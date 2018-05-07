@@ -12,8 +12,8 @@ $entertainment-contrast: lighten($entertainment, 40%);
 $gaming: #ED5565;
 $gaming-contrast: #FFCE54;
 
-$humor: #FF00FF;
 $humor-contrast: #CCFF99;
+$humor: darken($humor-contrast, 60%);
 
 $news: #384F5D;
 $news-contrast: lighten($news, 40%);

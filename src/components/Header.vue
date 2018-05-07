@@ -7,32 +7,20 @@
         <img src="../assets/beard.png" height="40" width="40" class="d-inline-block align-top" alt="BV">
         Guesser
       </b-navbar-brand>
-      <b-collapse is-nav id="nav_collapse">
+      <b-collapse is-nav id="nav_collapse" class="header-items">
         <!--Ethereum speed tooltip-->
         <b-navbar-nav>
-          <b-nav-item>
-            <b-btn v-b-tooltip.hover id="eth-network" variant="outline-success">Network Speed</b-btn>
+          <b-nav-item class="eth-network">
+            <b-btn v-b-tooltip.hover id="eth-network"  variant="outline-success">Network Speed</b-btn>
           </b-nav-item>
-
-          <!--Search button-->
-          <b-nav-item>
-            <form class="navbar-form" role="search">
-              <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search by ID" name="srch-term" id="srch-term" v-model="form._id">
-                <div class="input-group-btn">
-                  <button class="btn btn-default" @click="changeToSearched" type="submit"><i class="material-icons" >search</i></button>
-                </div>
-              </div>
-            </form>
-          </b-nav-item>
-
+          <SearchInput/>
         </b-navbar-nav>
-        <b-navbar-nav class="ml-auto">
+        <b-navbar-nav class="ml-auto" style="margin-top: 5px">
           <b-nav-item href="#home">Play</b-nav-item>
           <b-nav-item v-if='userExists' href="#create">Create</b-nav-item>
           <b-nav-item v-else class="signup-header" href="#signup">SignUp</b-nav-item>
           <b-nav-item href="#validation">Validation</b-nav-item>
-          <b-nav-item href="#myguesses">My Guesses</b-nav-item>
+          <b-nav-item href="#myguesses" v-if='userAddress'>My Guesses</b-nav-item>
         </b-navbar-nav>
 
       </b-collapse>
@@ -47,29 +35,24 @@
 </template>
 
 <script>
-import GuessHelper from '@/js/Guess'
-import ServerHelper from '@/js/ServerHelper'
+import GuessHelper from '@/js/Guess.js'
+import ServerHelper from '@/js/ServerHelper.js'
+import SearchInput from './Common/SearchInput.vue'
 
 export default {
   name: 'TopBar',
+  components: {
+    SearchInput
+  },
   data: function () {
     return {
-      userExists: false,
+      userExists: true,
       fixedActive: false,
       networkStatus: 'Network is faster than ⚡',
-      form: {
-        _id: ''
-      }
+      userAddress: true
     }
   },
   methods: {
-    changeToSearched () {
-      this.$router.push({
-        // path: `/search/${this.form._id}`
-        path: 'search', query: { _id: `${this.form._id}` }
-      })
-      console.log('Identifier: ', this.form._id)
-    },
     checkIfUserExists () {
       ServerHelper.getUser(GuessHelper.address[0]).then((data) => {
         this.userExists = true
@@ -83,7 +66,14 @@ export default {
     let self = this
 
     GuessHelper.init().then(() => {
-      self.checkIfUserExists()
+      // Uncomment the next if login enabled
+      // self.checkIfUserExists()
+      GuessHelper.getAddressRefreshed().then((add) => {
+        if (add === null ||
+            add.length === 0) {
+          self.userAddress = false
+        }
+      })
     })
   }
 }
@@ -102,5 +92,9 @@ export default {
 }
 .signup-header a {
   color: #ff0d73 !important;
+}
+.eth-network {
+}
+.header-items {
 }
 </style>

@@ -13,6 +13,7 @@
                          header-text-variant="black"
                          footer-bg-variant="white"
                          footer-border-variant="white"
+                         v-bind:class="{'hoverhand': buttonsAllow}"
                          align="center">
           <div slot="header" @click="showPaymentModal(events[maxCol*n + j].id, maxCol*n + j)">
             {{events[maxCol*n + j].title}}
@@ -91,7 +92,7 @@
           </div>
 
           <!--======= FOOTER =======-->
-          <div slot="footer">
+          <div slot="footer" style=" cursor: pointer;">
             <!-- Share button and ID -->
             <b-row v-if="shareable" align-h="end" align-v="end" style="color: #ff0d78">
               #{{events[maxCol*n + j].id}}
@@ -292,8 +293,8 @@ export default {
       var title = ''
       var text = ''
       if (type === 'success') {
-        title = 'Data ready to sent!'
-        text = 'Ready to sent your prediction, waiting for confirmation!'
+        title = 'Data ready to be sent!'
+        text = 'Ready to send your prediction, waiting for confirmation!'
       } else {
         title = 'Votation error!'
         text = 'Your prediction process failed, try again'
@@ -376,5 +377,8 @@ export default {
   font-weight: bold;
   color: gray;
   margin: 4%;
+}
+.hoverhand {
+  cursor: pointer;
 }
 </style>

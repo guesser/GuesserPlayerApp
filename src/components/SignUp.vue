@@ -107,8 +107,8 @@
               You’ll need a safe place to store all of your wins! The perfect place is in a secure wallet like MetaMask. This will also act as your login to the game (no extra password needed).
               </p>
               <hr>
-              <b-button :size="lg" variant="primary">
-                INSTALL METAMASK
+              <b-button href="https://metamask.io" :size="lg" variant="primary">
+                INSTALL METAMASK</a>
               </b-button>
             </b-alert>
           </b-row>
@@ -162,8 +162,6 @@ export default {
 
       GuessHelper.signMessage(msgParams).then((signedMsg) => {
         msgParams = JSON.stringify(msgParams)
-        console.log(msgParams)
-        console.log(signedMsg)
         ServerHelper.setUser(msgParams, signedMsg).then((data) => {
           window.location.reload()
         }).catch((err) => {
@@ -184,9 +182,6 @@ export default {
         self.web3State = 'connected'
       }
     })
-  },
-  beforeCreate: function () {
-    let self = this
 
     GuessHelper.init().then(() => {
       self.address = GuessHelper.address[0]

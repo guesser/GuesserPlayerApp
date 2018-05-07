@@ -73,12 +73,14 @@
       </div>
 
       <!--Address-->
+      <!--
       <b-row align-v="end" align-h="between">
         <b-col v-if="creatorUserName" align-self="end" align-h="start" style="text-align: left">
           By: <span style="color: #ff0d78;">@{{ creatorUserName }}</span>
           <b-btn id="" variant="link" size="sm">
           </b-btn>
         </b-col>
+        -->
 
         <!--Share button and ID-->
         <b-col v-if="shareable" align-self="end" style="color: #ff0d78">
@@ -136,7 +138,7 @@
              :header-bg-variant="eventItem.topic">
       <b-form @submit="voteGuess()">
       <b-form-group id="titleGroup"
-                    label="Amount of other you want to sent:"
+                    label="Amount of ether you want to send:"
                     label-for="amountInput">
         <b-form-input id="amountInput"
                       type="number"
@@ -222,22 +224,22 @@ export default {
     },
     waitingTime () {
       let self = this
-
+      
       var waitingTimeTotal = self.eventItem.eventDurationUnformated
       waitingTimeTotal = waitingTimeTotal / 60
       // console.log('Total', waitingTimeTotal)
-
+      
       return waitingTimeTotal
     },
     waitingDone () {
       let self = this
-
+      
       var waitingTimeDone = self.$moment().unix() - self.eventItem.finishingDayUnformated.unix()
       waitingTimeDone = Math.round(waitingTimeDone / 60)
-
+      
       return waitingTimeDone
     },
-
+    
     show (group) {
       this.$notify({
         group
@@ -281,11 +283,11 @@ export default {
     }
   },
   beforeCreate: function () {
-    let self = this
-
+    // let self = this
+    
     GuessHelper.init().then(() => {
       // Redo this, this is not asyncronous
-      console.log(this.eventItem.creator)
+      /*
       self.getUsername(this.eventItem.creator).then((username) => {
         this.creatorUserName = username
       }).catch((err) => {
@@ -296,6 +298,7 @@ export default {
         self.buttonsAllow = false
         return err
       })
+    */
     })
   }
 }

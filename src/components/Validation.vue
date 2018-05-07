@@ -50,24 +50,29 @@
       </b-container>
     </div>
 
+      <MetamaskAlert v-if='showMetamask'/>
   </div>
 </template>
 
 <script>
 import GuessHelper from '@/js/Guess'
-import NetworkHelper from '@/js/NetworkHelper'
+// import NetworkHelper from '@/js/NetworkHelper'
 
 import CardDeck from './Common/CardDeck.vue'
 import Loading from './Loading.vue'
+import MetamaskAlert from './Common/MetamaskAlert.vue'
 
 export default {
   name: 'guessesvalidation',
   components: {
     Loading,
+    MetamaskAlert,
     CardDeck
   },
   data () {
     return {
+      showMetamask: false,
+      userGuesses: [],
       guessesByNumber: [],
       totalGuesses: 0,
       guessIndex: null,
@@ -79,14 +84,13 @@ export default {
   methods: {
     printGuesses () {
       for (var i = 0; i < this.guessesByNumber.length; i++) {
-        console.log('Id:', this.guessesByNumber[i].c[0])
         let _index = this.guessesByNumber[i].c[0]
-        if (_index !== 0) { // Guess 0 is the empty one
+        if (_index !== 0 && this.userGuesses.indexOf(_index) === -1) { // Guess 0 is the empty one
           GuessHelper.getGuessFront(_index).then((guess) => {
             let guessTime = this.$moment(guess[5]).subtract(this.$moment(guess[5]).minute(), 'minutes')
             let _eventDuration = this.$moment(guess[6]).unix() - this.$moment(guess[5]).unix()
             if (guessTime.unix() < this.$moment().unix() &&
-              guess[3] !== GuessHelper.address[0]) {
+                guess[3] !== GuessHelper.address[0]) {
               this.guesses.push({
                 'id': _index,
                 'title': guess[0],
@@ -150,22 +154,57 @@ export default {
         self.contentLoaded = true
         return err
       })
+    },
+    getUserVotedGuesses (votedIndex) {
+      let self = this
+
+      let endFound = false
+      let called = false
+      GuessHelper.getValidatingGuessesByAddress(votedIndex).then((_events) => {
+        for (var item in _events) {
+          if (_events[item].c[0] !== 0) {
+            if (self.userGuesses.indexOf(_events[item].c[0]) === -1) {
+              self.userGuesses.push(_events[item].c[0])
+            }
+          } else {
+            endFound = true
+            if (called === false) {
+              called = true
+              self.getGuessesToValidate()
+            }
+          }
+        }
+        if (endFound === false) {
+          self.getUserVotedGuesses(votedIndex + 1)
+        }
+      })
     }
   },
   created: function () {
     let self = this
+
     GuessHelper.init().then(() => {
-      this.getGuessesToValidate()
+      GuessHelper.getAddressRefreshed().then((add) => {
+        if (add === null ||
+            add.length === 0) {
+          self.showMetamask = true
+          self.getGuessesToValidate()
+        } else {
+          this.getUserVotedGuesses(0)
+        }
+      })
     }).catch(err => {
       console.log(err)
     })
 
+    /*
     NetworkHelper.init().then(() => {
       if (NetworkHelper.state === 'disconnected' ||
         NetworkHelper.state === 'locked') {
         self.$router.push('signup')
       }
     })
+    */
   },
   beforeCreated: function () {
     this.contentLoaded = false
@@ -190,5 +229,6 @@ export default {
 .wrapper {
   margin: 0 15% 0 15%;
   padding: 0;
+  padding-top: 20px;
 }
 </style>

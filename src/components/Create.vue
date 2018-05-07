@@ -1,12 +1,5 @@
 <template>
   <div class="justify-content-md-center litle-margin">
-    <!--Alert-->
-    <notifications group="creation"
-                   position="top center"
-                   classes="vue-notification creation"
-                   :max="2"
-                   :speed="500" />
-
     <!--Form-->
     <b-form @submit="onSubmit">
       <h2 style="margin-bottom: 2%;"> Create an event </h2>
@@ -111,36 +104,45 @@
         <!--Times-->
         <br>
         <br>
-        <p class="info-section">Duration of the event (hours):</p>
-        <b-form-group id="durationTime"
-                      label-for="durationTime">
-          <b-form-input id="durationTime"
-                        class="mb-2 mr-sm-2 mb-sm-0"
-                        type="number"
-                        step="0.1"
-                        v-model="form.durationTime"
-                        placeholder="Duration of the event"
-                        required>
-          </b-form-input>
-        </b-form-group>
-        <br>
         <span>Ending date and time: {{updateDate}}</span>
         <br>
         <b-form-slider
-                        :v-model='hourValue'
-                        :value='0'
-                        :min='0'
-                        :max='sliderMaxValue'
-                        :step='1'
-                        :ticks='sliderTicks'
-                        :ticks-labels='sliderTicksLabels'
-                        v-bind:rangeHighlights='highlights'
-                        @change="changeSlider"
-                        />
+                   :v-model='hourValue'
+                   :value='0'
+                   :min='0'
+                   :max='sliderMaxValue'
+                   :step='1'
+                   :ticks='sliderTicks'
+                   :ticks-labels='sliderTicksLabels'
+                   v-bind:rangeHighlights='highlights'
+                   @change="changeSlider"
+                   />
           <br>
+          <br>
+          <b-row align-h="start" style="margin: 0 !important">
+            <b-col cols="12" sm="12" md="6" lg="6" style="padding-left: 0 !important">
+              <p class="info-section">Waiting time until users can validate (hours):</p>
+              <b-form-group id="durationTime"
+                            label-for="durationTime">
+                <b-form-input id="durationTime"
+                              class="mb-2 mr-sm-2 mb-sm-0"
+                              type="number"
+                              step="0.1"
+                              v-model="form.durationTime"
+                              placeholder="Duration of the event"
+                              required>
+                </b-form-input>
+              </b-form-group>
+            </b-col>
+            <small style="color:gray">Example: You can vote before a basketball game starts, and users can start validating two hours later, when the game has finished.</small>
+            <small style="color:gray">Warning: Longer events than a week can't be validated</small>
+          </b-row>
+
           <br>
           <b-button type="submit" variant="primary" size='lg'>Create</b-button>
         </b-form>
+      <MetamaskAlert v-if='showMetamask'/>
+
   </div>
 </template>
 
@@ -148,20 +150,22 @@
 import GuessHelper from '@/js/Guess'
 // import ServerHelper from '@/js/ServerHelper'
 import VueTwitterCounter from 'vue-twitter-counter'
+import MetamaskAlert from './Common/MetamaskAlert.vue'
 
 export default {
   name: 'Create',
   data () {
     return {
+      showMetamask: false,
       value: 0,
       sliderMaxValue: 120,
       sliderTicks: [],
       sliderTicksLabels: [],
       highlights: [{ 'start': 0, 'end': 24, 'class': 'color-slider' },
-        { 'start': 24, 'end': 47, 'class': 'color1-slider' },
-        {'start': 47, 'end': 71, 'class': 'color2-slider'},
-        {'start': 71, 'end': 95, 'class': 'color3-slider'},
-        {'start': 95, 'end': 120, 'class': 'color4-slider'}],
+                   { 'start': 24, 'end': 47, 'class': 'color1-slider' },
+                   {'start': 47, 'end': 71, 'class': 'color2-slider'},
+                   {'start': 71, 'end': 95, 'class': 'color3-slider'},
+                   {'start': 95, 'end': 120, 'class': 'color4-slider'}],
 
       topics: ['Crypto', 'Celebrities', 'Entertainment', 'Gaming', 'Humor', 'News', 'Politics', 'Sports', 'Technology', 'Random'],
       form: {
@@ -213,8 +217,8 @@ export default {
       var title = ''
       var text = ''
       if (type === 'success') {
-        title = 'Data ready to sent!'
-        text = 'Ready to sent your event, waiting for confirmation!'
+        title = 'Data ready to be sent!'
+        text = 'Ready to send your event, waiting for confirmation!'
       } else {
         title = 'Creation error!'
         text = 'Event creation failed, try again'
@@ -239,6 +243,7 @@ export default {
       console.log(finalDate.format('[Final:] MMMM D, YYYY [at] H[h]'))
       console.log(validationDate.format('[Validation:] MMMM D, YYYY [at] H[h]'))
       self.show('creation', 'success')
+      window.location.href = '#/home/' + this.form.topic
       GuessHelper.setGuessFront(
         this.form.title,
         this.form.description,
@@ -248,13 +253,11 @@ export default {
         this.form.option1,
         this.form.option2).then(() => {
           console.log('Transaction pending...')
-          /*
           self.form.title = ''
           self.form.description = ''
           self.form.topic = ''
           self.form.option1 = ''
           self.form.option2 = ''
-           */
         }).catch(err => {
           self.show('creation', 'error')
           console.log(err)
@@ -284,7 +287,15 @@ export default {
     }
   },
   beforeCreate: function () {
-    GuessHelper.init().catch(err => {
+    let self = this
+    GuessHelper.init().then(() => {
+      GuessHelper.getAddressRefreshed().then((add) => {
+        if (add === null ||
+            add.length === 0) {
+          self.showMetamask = true
+        }
+      })
+    }).catch(err => {
       console.log(err)
     })
   },
@@ -297,12 +308,16 @@ export default {
     this.updateHighlights()
   },
   components: {
-    VueTwitterCounter
+    VueTwitterCounter,
+    MetamaskAlert
   }
 }
 </script>
 
 <style lang="scss">
+
+$slider: #ff0d73;
+
 .info-section{
   margin-bottom: 3px;
 }
@@ -340,8 +355,24 @@ export default {
 }
 
 .color-slider {
-  background: #ff0d73;
+  background: $slider !important;
 }
+.color1-slider {
+  background: lighten($slider, 10%) !important;
+}
+.color2-slider {
+  background: lighten($slider, 16%) !important;
+}
+.color3-slider {
+  background: lighten($slider, 24%) !important;
+}
+.color4-slider {
+  background: lighten($slider, 32%) !important;
+}
+.color5-slider {
+  background: lighten($slider, 40%) !important;
+}
+/*
 .color1-slider {
   background: mix(#3200E8, #ff0d73, 100%);
 }
@@ -357,15 +388,19 @@ export default {
 .color5-slider {
   background: mix(#E86C00, #ff0d73, 100%);
 }
+ */
 .slider-handle {
-  background: #EB3874;
+  background: #EB3874 !important;
 }
 .slider.slider-horizontal .slider-tick-label-container .slider-tick-label {
-  color: gray;
+  color: gray !important;
+}
+.slider-selection.tick-slider-selection{
+  background: lighten($slider, 30%) !important;
 }
 @media only screen and (max-width: 768px) {
   .slider.slider-horizontal .slider-tick-label-container .slider-tick-label {
-    display: none;
+    display: none !important;
   }
 }
 </style>

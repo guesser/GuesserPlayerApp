@@ -71,7 +71,7 @@ export default {
         console.log('Id:', _index)
         if (_index !== 0) { // Guess 0 is the empty one
           GuessHelper.getGuessFront(_index).then((guess) => {
-            let _url = 'www.guesser.io/#/search?_id=' + _index
+            let _url = 'www.guesser.io/#/search/' + _index
             this.events.push({
               'id': _index,
               'url': _url,
@@ -129,10 +129,10 @@ export default {
       let self = this
 
       GuessHelper.getGuessOptionsProfits(eventIndex).then((optionsAmount) => {
-        self.events[arrIndex].option1AmountEth = parseFloat(optionsAmount[0]).toFixed(4) / 10
-        self.events[arrIndex].option2AmountEth = parseFloat(optionsAmount[1]).toFixed(4) / 10
-        self.events[arrIndex].amountEth = parseFloat(optionsAmount[0]).toFixed(4) / 10 +
-          parseFloat(optionsAmount[1]).toFixed(4) / 10
+        self.events[arrIndex].option1AmountEth = +(parseFloat(optionsAmount[0]) / 10).toFixed(4)
+        self.events[arrIndex].option2AmountEth = +(parseFloat(optionsAmount[1]) / 10).toFixed(4)
+        self.events[arrIndex].amountEth = +(parseFloat(optionsAmount[0]) / 10 +
+                                            parseFloat(optionsAmount[1]) / 10).toFixed(4)
       })
     },
 

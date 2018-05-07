@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="padding: 20px; margin-bottom: 200px">
     <!--Alert-->
     <notifications group="voteAlert"
                    position="top center"
@@ -37,7 +37,7 @@
 import TopicList from './Home/TopicList.vue'
 import GuessOfTheDay from './Home/GuessOfTheDay.vue'
 import OtherGuesses from './Home/OtherGuesses.vue'
-import NetworkHelper from '@/js/NetworkHelper'
+// import NetworkHelper from '@/js/NetworkHelper'
 
 export default {
   name: 'home',
@@ -48,7 +48,8 @@ export default {
   },
   data () {
     return {
-      topic: ''
+      topic: '',
+      showMetamask: false
     }
   },
   watch: {
@@ -57,20 +58,22 @@ export default {
     }
   },
   created: function () {
-    let self = this
-
+    // let self = this
     if (this.$route.params.topic) {
       this.topic = this.$route.params.topic
     } else {
       this.topic = 'Crypto'
     }
 
+    // Uncomment if login enabled
+    /*
     NetworkHelper.init().then(() => {
       if (NetworkHelper.state === 'disconnected' ||
           NetworkHelper.state === 'locked') {
         self.$router.push('signup')
       }
     })
+    */
   }
 }
 </script>
