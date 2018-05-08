@@ -3,6 +3,11 @@ pragma solidity ^0.4.23;
 import "./GuesserCore.sol";
 
 contract GuesserPayments is GuesserCore {
+  //Constants
+  uint32 constant CREATOR_FEE = 100;
+  uint32 constant VALIDATOR_FEE = 200;
+  uint32 constant GUESSER_FEE = 100;
+
   //Events
   event GuessVoted(uint256 index,
                    uint8 option,
@@ -124,7 +129,7 @@ contract GuesserPayments is GuesserCore {
   /**
   * @dev Function that returns the profit to the voters
   * @param _guess uint256 the event to ask for the profits of
-    */
+  */
   function returnProfits (uint256 _guess) private {
     // Does the guess exists?
     require(_guess < guesserStorage.getGuessLength());
@@ -142,9 +147,22 @@ contract GuesserPayments is GuesserCore {
 
     // If there is only one voter (even in both sides)
     if (guesserStorage.getGuessVotersLength(_guess) == 1) {
-      returnProfitsOnlyOneVoter(_guess);
-      return;
-    } else {
+      uint128 _profits = getGuessProfits(_guess);
+      // Return profits to voters
+      guesserStorage.getGuessVoter(_guess, 0).transfer(
+          _profits-(_profits/(CREATOR_FEE + VALIDATOR_FEE + GUESSER_FEE))
+                                                      );
+      // Return Profits to validators
+      guesserStorage.getGuessValidator(_guess, 0).transfer(
+                      _profits/VALIDATOR_FEE);
+      // Return profits to creator
+      guesserStorage.getGuessCreator(_guess).transfer(
+                      _profits/CREATOR_FEE);
+
+      guesserStorage.setGuessProfitsReturned(_guess, true);
+      emit ProfitsReturned(_guess);
+      return; // End of the execution
+    } else { // More than one voter
       // If there is only one side of the votes, they are instantly the winners
       if (guesserStorage.getGuessOptionVotes(_guess, 2) == 0 ) {
         _winner = 1; // The winner is the first one
@@ -195,6 +213,7 @@ contract GuesserPayments is GuesserCore {
                            );
       uint256 _final = ((_totalProfits * 10) * percentage);
       // WARNING: Only will work with non contracts addresses
+      // Return Profits to voters
       guesserStorage.getGuessVoter(_guess, _voterIndex).transfer(_final/index); //Error
     }
   }
@@ -202,11 +221,18 @@ contract GuesserPayments is GuesserCore {
   function returnProfitsOnlyOneVoter (uint256 _guess) private {
     require(guesserStorage.getGuessVotersLength(_guess) == 1);
 
-    address _onlyVoter = guesserStorage.getGuessVoter(_guess, 0);
-    uint256 _profits = guesserStorage.getGuessVotersOption(_guess, _onlyVoter, 1) +
-      guesserStorage.getGuessVotersOption(_guess, _onlyVoter, 2);
+    uint128 _profits = getGuessProfits(_guess);
+    // Return profits to voters
+    guesserStorage.getGuessVoter(_guess, 0).transfer(
+        _profits-(_profits/(CREATOR_FEE + VALIDATOR_FEE + GUESSER_FEE))
+                                                    );
+    // Return Profits to validators
+    guesserStorage.getGuessValidator(_guess, 0).transfer(
+                    _profits/VALIDATOR_FEE);
+    // Return profits to creator
+    // guesserStorage.getGuessCreator(_guess).transfer(
+    //                _profits/CREATOR_FEE);
 
-    _onlyVoter.transfer(_profits); //Error
     guesserStorage.setGuessProfitsReturned(_guess, true);
     emit ProfitsReturned(_guess);
   }

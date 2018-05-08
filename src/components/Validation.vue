@@ -51,11 +51,30 @@
     </div>
 
       <MetamaskAlert v-if='showMetamask'/>
+
+      <!-- Events notifications -->
+      <notifications group="validatedEventAlert"
+                   position="bottom center"
+                   :max="1"
+                   width="320px"
+                   :speed="1000">
+      <template slot="body" slot-scope="props">
+        <a :href="validatedEventUrl" style="text-decoration:none">
+          <div class="vue-notification">
+            <h5>Event validated!</h5>
+            <span>Event #{{validatedEventId}}: '{{validatedEventTitle}}'
+              <br>You have staked {{validateddEventValue}} eth to Outcome: {{validatedEventOutcomeName}}
+            </span>
+          </div>
+        </a>
+      </template>
+    </notifications>
   </div>
 </template>
 
 <script>
 import GuessHelper from '@/js/Guess'
+import GuessPaymentsHelper from '@/js/GuesserPaymentsHelper'
 // import NetworkHelper from '@/js/NetworkHelper'
 
 import CardDeck from './Common/CardDeck.vue'
@@ -78,7 +97,13 @@ export default {
       guessIndex: null,
       guesses: [],
       contentLoaded: false,
-      loadIndex: 0
+      loadIndex: 0,
+      // Event data
+      validatedEventId: 0,
+      validatedEventTitle: '',
+      validatedEventUrl: '',
+      validatedEventValue: '',
+      validatedEventOutcomeName: ''
     }
   },
   methods: {
@@ -178,6 +203,12 @@ export default {
           self.getUserVotedGuesses(votedIndex + 1)
         }
       })
+    },
+    showEventAlert (_group) {
+      // TODO: Catch the id and the topic of the event
+      this.$notify({
+        group: _group
+      })
     }
   },
   created: function () {
@@ -192,6 +223,26 @@ export default {
         } else {
           this.getUserVotedGuesses(0)
         }
+
+        // Event watcher
+        GuessPaymentsHelper.init(add).then(() => {
+          GuessPaymentsHelper.GuessValidated.watch(function (error, result) {
+            if (!error) {
+              console.log(result)
+              self.validatedEventUrl = ''
+              self.validatedEventId = result.args.index.c[0]
+              self.validatedEventTitle = result.args.title
+              self.validatedEventUrl = self.shareUrl + self.validatedEventId
+
+              if (self.validatedEventId !== self.lastValidatedEventId) {
+                self.showEventAlert('validatedEventAlert')
+                self.lastValidatedEventId = self.validatedEventId
+              }
+            } else {
+              return error
+            }
+          })
+        })
       })
     }).catch(err => {
       console.log(err)

@@ -67,7 +67,6 @@ export default {
     printEvents () {
       for (var i in this.currentEvents) {
         let _index = this.currentEvents[i].c[0]
-        console.log(_index)
         if (_index !== 0) { // Guess 0 is the empty one
           GuessHelper.getGuessFront(_index).then((guess) => {
             let _url = 'www.guesser.io/#/search/' + _index
@@ -108,9 +107,8 @@ export default {
 
       GuessHelper.getEventItemState(_index).then((eventItemState) => {
         self.events[_localIndex].eventState = eventItemState
-        // console.log('Event:', self.events[_localIndex].id, eventItemState)
       }).catch(err => {
-        console.log(err)
+        return err
       })
     },
 
@@ -123,7 +121,7 @@ export default {
         self.events[arrIndex].option2votes = event[3].c[0]
         self.events[arrIndex].votes = event[2].c[0] + event[3].c[0]
       }).catch(err => {
-        console.log(err)
+        return err
       })
     },
 
@@ -153,7 +151,7 @@ export default {
     GuessHelper.init().then(() => {
       this.getCurrentGuessesByAddress()
     }).catch(err => {
-      console.log(err)
+      return err
     })
   },
   watch: {

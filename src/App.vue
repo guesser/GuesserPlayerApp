@@ -23,16 +23,16 @@
                    :max="1"
                    width="320px"
                    :speed="1000">
-    <template slot="body" slot-scope="props">
-      <a :href="votedEventUrl" style="text-decoration:none">
-        <div class="vue-notification votedAlert">
-          <h5>Event Voted!</h5>
-          <span>Event #{{votedEventId}}: '{{votedEventTitle}}'
-            <br>You have staked {{votedEventValue}} eth to Outcome: {{votedEventOutcomeName}}
-          </span>
-        </div>
-      </a>
-    </template>
+      <template slot="body" slot-scope="props">
+        <a :href="votedEventUrl" style="text-decoration:none">
+          <div class="vue-notification votedAlert">
+            <h5>Event Voted!</h5>
+            <span>Event #{{votedEventId}}: '{{votedEventTitle}}'
+              <br>You have staked {{votedEventValue}} eth to Outcome: {{votedEventOutcomeName}}
+            </span>
+          </div>
+        </a>
+      </template>
     </notifications>
 
     <div style="min-height: 100vh">
@@ -45,6 +45,8 @@
 
 <script>
 import GuessHelper from '@/js/Guess'
+import GuessInputHelper from '@/js/GuesserInputHelper'
+import GuessPaymentsHelper from '@/js/GuesserPaymentsHelper'
 
 // Vue components
 import TopBar from './components/Header.vue'
@@ -93,52 +95,45 @@ export default {
     let self = this
     GuessHelper.init().then(() => {
       // Getting the events ready
-      GuessHelper.GuessCreated.watch(function (error, result) {
-        if (!error) {
-          self.newEventUrl = ''
-          self.newEventId = result.args.index.c[0]
-          self.newEventTitle = result.args.title
-          self.newEventTopic = window.web3.utils.hexToUtf8(result.args.topic)
-          self.newEventUrl = self.shareUrl + self.newEventId
+      GuessInputHelper.init(GuessHelper.address).then(() => {
+        GuessInputHelper.GuessCreated.watch(function (error, result) {
+          if (!error) {
+            self.newEventUrl = ''
+            self.newEventId = result.args.index.c[0]
+            self.newEventTitle = result.args.title
+            self.newEventTopic = window.web3.utils.hexToUtf8(result.args.topic)
+            self.newEventUrl = self.shareUrl + self.newEventId
 
-          if (self.newEventId !== self.lastEventId) {
-            self.showEventAlert('eventAlert')
-            self.lastEventId = self.newEventId
-          }
-        } else {
-          return error
-        }
-      })
-
-      GuessHelper.GuessVoted.watch(function (error, result) {
-        if (!error) {
-          if (GuessHelper.address[0].toUpperCase() === result.args.user.toUpperCase()) {
-            self.votedEventId = result.args.index.c[0]
-            self.votedEventTitle = result.args.title
-            self.votedEventOutcomeName = result.args.optionName
-            self.votedEventValue = result.args.value.c[0] / 10000
-            self.votedEventUrl = self.shareUrl + self.votedEventId
-
-            if (self.votedEventId !== self.lastVotedEventId) {
-              self.showEventAlert('votedEventAlert')
-              self.lastVotedEventId = self.votedEventId
+            if (self.newEventId !== self.lastEventId) {
+              self.showEventAlert('eventAlert')
+              self.lastEventId = self.newEventId
             }
+          } else {
+            return error
           }
-        } else {
-          return error
-        }
+        })
       })
 
-      GuessHelper.TestValue.watch(function (error, result) {
-        if (!error) {
-          console.log('Test Value:', result)
-        } else {
-          return error
-        }
+      GuessPaymentsHelper.init(GuessHelper.address).then(() => {
+        GuessPaymentsHelper.GuessVoted.watch(function (error, result) {
+          if (!error) {
+            if (GuessHelper.address[0].toUpperCase() === result.args.user.toUpperCase()) {
+              self.votedEventId = result.args.index.c[0]
+              self.votedEventTitle = result.args.title
+              self.votedEventOutcomeName = result.args.optionName
+              self.votedEventValue = result.args.value.c[0] / 10000
+              self.votedEventUrl = self.shareUrl + self.votedEventId
+
+              if (self.votedEventId !== self.lastVotedEventId) {
+                self.showEventAlert('votedEventAlert')
+                self.lastVotedEventId = self.votedEventId
+              }
+            }
+          } else {
+            return error
+          }
+        })
       })
-    }).catch(err => {
-      // console.log(err)
-      return err
     })
   }
 }

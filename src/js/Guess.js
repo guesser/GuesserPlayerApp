@@ -19,6 +19,7 @@ const GuessHelper = {
       if (self.instance === null) {
         // self.contract = contract(Guess)
         self.instance = 1
+        /*
         self.contract.setProvider(window.web3.currentProvider)
 
         if (typeof self.contract.currentProvider.sendAsync !== 'function') {
@@ -28,6 +29,7 @@ const GuessHelper = {
             )
           }
         }
+        */
 
         // instantiate by address
         // self.instance = self.contract.at('0x2f01348757b273ef2d95d5df76ef795f883b5c1f')
@@ -45,14 +47,6 @@ const GuessHelper = {
             resolve()
           }
         })
-
-        // Getting events
-        self.GuessCreated = self.instance.GuessCreated()
-        self.GuessVoted = self.instance.GuessVoted()
-        self.GuessValidated = self.instance.GuessValidated()
-        self.ProfitsReturned = self.instance.ProfitsReturned()
-        self.TestValue = self.instance.test_value()
-
         // })
       } else {
         resolve()
@@ -73,56 +67,6 @@ const GuessHelper = {
           resolve(accounts)
         }
       })
-    })
-  },
-
-  CreatedGuessEvent: function () {
-    this.GuessCreated.watch(function (error, result) {
-      if (!error) {
-        console.log('No error on creating guess event catcher! See: ', result)
-      } else {
-        return error
-      }
-    })
-  },
-
-  VotedGuessEvent: function () {
-    this.GuessVoted.watch(function (error, result) {
-      if (!error) {
-        console.log('No error on voting guess event catcher! See: ', result)
-      } else {
-        return error
-      }
-    })
-  },
-
-  ValidatedGuessEvent: function () {
-    this.GuessValidated.watch(function (error, result) {
-      if (!error) {
-        console.log('No error on validating guess event catcher! See: ', result)
-      } else {
-        return error
-      }
-    })
-  },
-
-  ReturnedProfitsEvent: function () {
-    this.ProfitsReturned.watch(function (error, result) {
-      if (!error) {
-        console.log('No error on returning profit event catcher! See: ', result)
-      } else {
-        return error
-      }
-    })
-  },
-
-  TestValue: function () {
-    this.TestValue.watch(function (error, result) {
-      if (!error) {
-        console.log('Test Value: ', result)
-      } else {
-        console.log(error)
-      }
     })
   },
 
@@ -241,7 +185,6 @@ const GuessHelper = {
 
   getCurrentGuessesByAddress: function (index) {
     return this.getAddressRefreshed().then((addresses) => {
-      console.log(addresses)
       return MyGuesses.init(addresses).then(() => {
         return MyGuesses.getCurrentGuessesByAddress(index).catch((err) => {
           return err
