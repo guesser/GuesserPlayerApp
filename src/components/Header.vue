@@ -16,7 +16,7 @@
           <SearchInput/>
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto" style="margin-top: 5px">
-          <b-nav-item href="#home">Play</b-nav-item>
+          <b-nav-item href="#play">Play</b-nav-item>
           <b-nav-item v-if='userExists' href="#create">Create</b-nav-item>
           <b-nav-item v-else class="signup-header" href="#signup">SignUp</b-nav-item>
           <b-nav-item href="#validation">Validation</b-nav-item>

@@ -89,7 +89,7 @@ export default {
       this.$refs.paymentModal.show()
     },
     generateEventUrl () {
-      let _url = 'www.guesser.io/#/search/'
+      let _url = 'www.guesser.io/#/event/'
       this.guess.url = _url + this.guess.id
     },
     getGuess () {

@@ -243,7 +243,7 @@ export default {
       console.log(finalDate.format('[Final:] MMMM D, YYYY [at] H[h]'))
       console.log(validationDate.format('[Validation:] MMMM D, YYYY [at] H[h]'))
       self.show('creation', 'success')
-      window.location.href = '#/home/' + this.form.topic
+      window.location.href = '#/play/' + this.form.topic
       GuessHelper.setGuessFront(
         this.form.title,
         this.form.description,
