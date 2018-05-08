@@ -25,12 +25,12 @@ export default new Router({
       component: Landing
     },
     {
-      path: '/home',
+      path: '/play',
       name: 'home',
       component: Home
     },
     {
-      path: '/home/:topic',
+      path: '/play/:topic',
       name: 'home',
       component: Home
     },
@@ -77,7 +77,7 @@ export default new Router({
       component: Validation
     },
     {
-      path: '/search/:id',
+      path: '/event/:id',
       name: 'search',
       component: Search
     },
