@@ -45,7 +45,7 @@
     <h2>Events I have participated in</h2>
     <br>
     <b-card no-body>
-      <b-tabs card v-model="tabIndex">
+      <b-tabs v-model="tabIndex">
         <b-tab title="Current Events" :title-link-class="linkClass(0)">
           <CurrentGuesses/>
         </b-tab>
@@ -55,7 +55,7 @@
         <b-tab title="Past events" :title-link-class="linkClass(2)">
           <PastGuesses/>
         </b-tab>
-        <b-tab title="Created events" :title-link-class="linkClass(3)">
+        <b-tab class="" title="Created events" :title-link-class="linkClass(3)" title-link-class="end">
           <CreatedGuesses/>
         </b-tab>
       </b-tabs>
@@ -164,5 +164,8 @@ $avatarback: #ff0d73;
   padding-bottom: 8px;
   border-radius: 10px;
   background: $avatarback;
+}
+.end {
+  position: inherit;
 }
 </style>

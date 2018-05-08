@@ -218,25 +218,6 @@ contract GuesserPayments is GuesserCore {
     }
   }
 
-  function returnProfitsOnlyOneVoter (uint256 _guess) private {
-    require(guesserStorage.getGuessVotersLength(_guess) == 1);
-
-    uint128 _profits = getGuessProfits(_guess);
-    // Return profits to voters
-    guesserStorage.getGuessVoter(_guess, 0).transfer(
-        _profits-(_profits/(CREATOR_FEE + VALIDATOR_FEE + GUESSER_FEE))
-                                                    );
-    // Return Profits to validators
-    guesserStorage.getGuessValidator(_guess, 0).transfer(
-                    _profits/VALIDATOR_FEE);
-    // Return profits to creator
-    // guesserStorage.getGuessCreator(_guess).transfer(
-    //                _profits/CREATOR_FEE);
-
-    guesserStorage.setGuessProfitsReturned(_guess, true);
-    emit ProfitsReturned(_guess);
-  }
-
   //Withdrawing funds
   function withdrawVotesEth (uint256 _amount, uint256 _ownerIndex) isOwner public {
     require (votesEthAmount > _amount);
