@@ -68,7 +68,7 @@ export default {
     printEvents () {
       for (var i in this.currentEvents) {
         let _index = this.currentEvents[i].c[0]
-        console.log('Id:', _index)
+        // console.log('Id:', _index)
         if (_index !== 0) { // Guess 0 is the empty one
           GuessHelper.getGuessFront(_index).then((guess) => {
             let _url = 'www.guesser.io/#/search/' + _index

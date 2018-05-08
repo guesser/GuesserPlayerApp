@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import NetworkHelper from '@/js/NetworkHelper'
+// import NetworkHelper from '@/js/NetworkHelper'
 import GuessHelper from '@/js/Guess'
 import ServerHelper from '@/js/ServerHelper'
 
@@ -117,6 +117,12 @@ export default {
     }
   },
   created: function () {
+    GuessHelper.init().then(() => {
+      GuessHelper.getAddressRefreshed().then((addresses) => {
+        this.address = addresses[0]
+      })
+    })
+    /*
     NetworkHelper.init().then(() => {
       if (NetworkHelper.state === 'disconnected' ||
         NetworkHelper.state === 'locked') {
@@ -128,6 +134,7 @@ export default {
         })
       }
     })
+    */
   }
 }
 </script>

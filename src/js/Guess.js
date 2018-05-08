@@ -240,9 +240,12 @@ const GuessHelper = {
   },
 
   getCurrentGuessesByAddress: function (index) {
-    return MyGuesses.init(this.address).then(() => {
-      return MyGuesses.getCurrentGuessesByAddress(index).catch((err) => {
-        return err
+    return this.getAddressRefreshed().then((addresses) => {
+      console.log(addresses)
+      return MyGuesses.init(addresses).then(() => {
+        return MyGuesses.getCurrentGuessesByAddress(index).catch((err) => {
+          return err
+        })
       })
     })
   },
