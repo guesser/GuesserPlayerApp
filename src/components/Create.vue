@@ -253,11 +253,13 @@ export default {
         this.form.option1,
         this.form.option2).then(() => {
           console.log('Transaction pending...')
+          /*
           self.form.title = ''
           self.form.description = ''
           self.form.topic = ''
           self.form.option1 = ''
           self.form.option2 = ''
+          */
         }).catch(err => {
           self.show('creation', 'error')
           console.log(err)

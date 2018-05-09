@@ -34,9 +34,9 @@
 </template>
 
 <script>
-import TopicList from './Home/TopicList.vue'
-import GuessOfTheDay from './Home/GuessOfTheDay.vue'
-import OtherGuesses from './Home/OtherGuesses.vue'
+import TopicList from './Play/TopicList.vue'
+import GuessOfTheDay from './Play/GuessOfTheDay.vue'
+import OtherGuesses from './Play/OtherGuesses.vue'
 // import NetworkHelper from '@/js/NetworkHelper'
 
 export default {
