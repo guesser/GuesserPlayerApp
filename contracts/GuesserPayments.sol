@@ -216,7 +216,7 @@ contract GuesserPayments is GuesserCore {
                            _totalWinnersProfits,
                            _precision
                            );
-      uint256 _final = ((_totalProfits * 10) * percentage);
+     uint256 _final = (((_totalProfits-(_totalProfits/(CREATOR_FEE + VALIDATOR_FEE + GUESSER_FEE)))  * 10) * percentage);
       // WARNING: Only will work with non contracts addresses
       // Return Profits to voters
       guesserStorage.getGuessVoter(_guess, _voterIndex).transfer(_final/index);
@@ -236,6 +236,7 @@ contract GuesserPayments is GuesserCore {
 
   // Change fees
   // Getters
+  /*
   function getCreatorFee () public returns (uint32) {
     return CREATOR_FEE;
   }
@@ -247,7 +248,6 @@ contract GuesserPayments is GuesserCore {
   function getGuesserFee () public returns (uint32) {
     return GUESSER_FEE;
   }
-    /*
   // Setters
   function setCreatorFee (uint32 _newFee) isOwner public {
     CREATOR_FEE = _newFee;
