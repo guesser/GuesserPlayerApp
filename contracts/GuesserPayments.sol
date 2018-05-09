@@ -3,10 +3,10 @@ pragma solidity ^0.4.23;
 import "./GuesserCore.sol";
 
 contract GuesserPayments is GuesserCore {
-  //Constants
-  uint32 constant CREATOR_FEE = 100;
-  uint32 constant VALIDATOR_FEE = 200;
-  uint32 constant GUESSER_FEE = 100;
+  // Semi Constants
+  uint32 CREATOR_FEE = 100;
+  uint32 VALIDATOR_FEE = 200;
+  uint32 GUESSER_FEE = 100;
 
   //Events
   event GuessVoted(uint256 index,
@@ -18,12 +18,12 @@ contract GuesserPayments is GuesserCore {
   event GuessValidated(uint256 guess, uint8 option, address sender);
   event ProfitsReturned(uint256 guess);
 
-  uint256 votesEthAmount = 0;
-  uint256 validationEthAmount = 0;
-
   // The current owners
   mapping(address => bool) accessAllowed;
   address[] access;
+
+  // Guesser Funds
+  uint128 guesserFunds = 0;
 
   constructor (address _address) GuesserCore (_address) public {
     accessAllowed[msg.sender] = true;
@@ -64,8 +64,6 @@ contract GuesserPayments is GuesserCore {
     }
     // Option profits by address
     guesserStorage.setGuessVoterOption(_guess, msg.sender, _option, uint128(msg.value));
-    votesEthAmount += msg.value;
-
 
     guesserStorage.pushGuessesByAddress(msg.sender, _guess);
 
@@ -119,7 +117,6 @@ contract GuesserPayments is GuesserCore {
       guesserStorage.increaseValidation(_guess, 2, 1);
     }
     validations += 1;
-    validationEthAmount += msg.value;
     if (validations == half) {
       returnProfits(_guess);
     }
@@ -131,37 +128,32 @@ contract GuesserPayments is GuesserCore {
   * @param _guess uint256 the event to ask for the profits of
   */
   function returnProfits (uint256 _guess) private {
+    uint256 _votersLength = guesserStorage.getGuessVotersLength(_guess);
+    uint256 _validatorsLength = guesserStorage.getGuessValidatorsLength(_guess);
     // Does the guess exists?
     require(_guess < guesserStorage.getGuessLength());
     // Is the date due?
     require(DateTime.dateDue(guesserStorage.getGuessFinalDate(_guess)) == true);
     // Has anybody voted in the guess?
-    require(guesserStorage.getGuessVotersLength(_guess) > 0);
+    require( _votersLength > 0);
     // Has anybody validated the guess?
-    require(guesserStorage.getGuessValidatorsLength(_guess) > 0);
+    require(_validatorsLength > 0);
     // Have the profits already been returned
     require(guesserStorage.getGuessProfitsReturned(_guess) == false);
 
 
     uint8 _winner = getGuessWinner(_guess);
+    uint128 _totalProfits = getGuessProfits(_guess);
 
     // If there is only one voter (even in both sides)
-    if (guesserStorage.getGuessVotersLength(_guess) == 1) {
-      uint128 _profits = getGuessProfits(_guess);
+    if (_votersLength == 1) {
       // Return profits to voters
       guesserStorage.getGuessVoter(_guess, 0).transfer(
-          _profits-(_profits/(CREATOR_FEE + VALIDATOR_FEE + GUESSER_FEE))
+                                                       _totalProfits-(_totalProfits/(CREATOR_FEE + VALIDATOR_FEE + GUESSER_FEE))
                                                       );
       // Return Profits to validators
       guesserStorage.getGuessValidator(_guess, 0).transfer(
-                      _profits/VALIDATOR_FEE);
-      // Return profits to creator
-      guesserStorage.getGuessCreator(_guess).transfer(
-                      _profits/CREATOR_FEE);
-
-      guesserStorage.setGuessProfitsReturned(_guess, true);
-      emit ProfitsReturned(_guess);
-      return; // End of the execution
+                                                           _totalProfits/VALIDATOR_FEE);
     } else { // More than one voter
       // If there is only one side of the votes, they are instantly the winners
       if (guesserStorage.getGuessOptionVotes(_guess, 2) == 0 ) {
@@ -170,20 +162,33 @@ contract GuesserPayments is GuesserCore {
         _winner = 2; // The winner is the second one
       }
 
-      uint128 _totalProfits = getGuessProfits(_guess);
       uint128 _totalWinnersProfits = getGuessProfitsByOption(_guess, _winner);
-      for(uint256 _voterIndex = 0; _voterIndex < guesserStorage.getGuessVotersLength(_guess); _voterIndex++) {
+      for(uint256 _voterIndex = 0; _voterIndex < _votersLength; _voterIndex++) {
         returnVoterProfits(_guess,
                            _voterIndex,
                            _totalProfits,
                            _totalWinnersProfits,
                            _winner);
       }
+      for(uint256 _validatorIndex = 0; _validatorIndex < _validatorsLength; _validatorIndex++) {
+        guesserStorage.getGuessValidator(_guess, _validatorIndex).transfer(_totalProfits/_validatorsLength);
+      }
 
-      guesserStorage.setGuessProfitsReturned(_guess, true);
-      // Release the event
-      emit ProfitsReturned(_guess);
+      // returnValidatorsProfits(_guess, _totalProfits, _validatorsLength);
+
     }
+
+    // Return common profits
+    // Return profits to creator
+    guesserStorage.getGuessCreator(_guess).transfer(
+                                                    _totalProfits/CREATOR_FEE);
+
+    //Guesser profit
+    guesserFunds += _totalProfits/GUESSER_FEE;
+
+    guesserStorage.setGuessProfitsReturned(_guess, true);
+    // Release the event
+    emit ProfitsReturned(_guess);
   }
 
   function returnVoterProfits (uint256 _guess,
@@ -211,23 +216,49 @@ contract GuesserPayments is GuesserCore {
                            _totalWinnersProfits,
                            _precision
                            );
-      uint256 _final = ((_totalProfits * 10) * percentage);
+     uint256 _final = (((_totalProfits-(_totalProfits/(CREATOR_FEE + VALIDATOR_FEE + GUESSER_FEE)))  * 10) * percentage);
       // WARNING: Only will work with non contracts addresses
       // Return Profits to voters
-      guesserStorage.getGuessVoter(_guess, _voterIndex).transfer(_final/index); //Error
+      guesserStorage.getGuessVoter(_guess, _voterIndex).transfer(_final/index);
     }
   }
 
+
   //Withdrawing funds
-  function withdrawVotesEth (uint256 _amount, uint256 _ownerIndex) isOwner public {
-    require (votesEthAmount > _amount);
-
-    access[_ownerIndex].transfer(_amount);
-  }
-
   function withdrawValidationEth (uint256 _amount, uint256 _ownerIndex) isOwner public {
-    require (validationEthAmount > _amount);
-
     access[_ownerIndex].transfer(_amount);
   }
+
+  function getGuesserFunds () public returns (uint128) {
+    return guesserFunds;
+  }
+
+
+  // Change fees
+  // Getters
+  /*
+  function getCreatorFee () public returns (uint32) {
+    return CREATOR_FEE;
+  }
+
+  function getValidatorFee () public returns (uint32) {
+    return VALIDATOR_FEE;
+  }
+
+  function getGuesserFee () public returns (uint32) {
+    return GUESSER_FEE;
+  }
+  // Setters
+  function setCreatorFee (uint32 _newFee) isOwner public {
+    CREATOR_FEE = _newFee;
+  }
+
+  function setValidatorFee (uint32 _newFee) isOwner public {
+    VALIDATOR_FEE = _newFee;
+  }
+
+  function setGuesserFee (uint32 _newFee) isOwner public {
+    GUESSER_FEE = _newFee;
+  }
+    */
 }
