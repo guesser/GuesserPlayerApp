@@ -12,23 +12,28 @@
                    position="bottom right"
                    width="120"
                    :speed="500">
-      <template slot="body" slot-scope="props">
-        <div class="copyAlert">
-          <div class="copyAlert-content">
-            Url copied!
-          </div>
+    <template slot="body" slot-scope="props">
+      <div class="copyAlert">
+        <div class="copyAlert-content">
+          Url copied!
         </div>
-      </template>
+      </div>
+    </template>
     </notifications>
 
     <div class='topics'>
       <TopicList/>
     </div>
     <div class='guesses'>
-      <h2 style="font-size:calc(1em + 2vw);">The <b>{{topic}}</b> event of the week!</h2>
-      <GuessOfTheDay :topic="topic"/>
-      <br>
-      <OtherGuesses :topic="topic"/>
+      <div v-if="topic == 'Home'">
+        <HomePage/>
+      </div>
+      <div v-else>
+        <h2 style="font-size:calc(1em + 2vw);">The <b>{{topic}}</b> event of the week!</h2>
+        <GuessOfTheDay :topic="topic"/>
+        <br>
+        <OtherGuesses :topic="topic"/>
+      </div>
     </div>
   </div>
 </template>
@@ -37,12 +42,14 @@
 import TopicList from './Play/TopicList.vue'
 import GuessOfTheDay from './Play/GuessOfTheDay.vue'
 import OtherGuesses from './Play/OtherGuesses.vue'
+import HomePage from './Play/Home.vue'
 // import NetworkHelper from '@/js/NetworkHelper'
 
 export default {
-  name: 'home',
+  name: 'play',
   components: {
     TopicList,
+    HomePage,
     GuessOfTheDay,
     OtherGuesses
   },
@@ -62,7 +69,7 @@ export default {
     if (this.$route.params.topic) {
       this.topic = this.$route.params.topic
     } else {
-      this.topic = 'Crypto'
+      this.topic = 'Home'
     }
 
     // Uncomment if login enabled
@@ -73,35 +80,35 @@ export default {
         self.$router.push('signup')
       }
     })
-    */
+     */
   }
 }
 </script>
 
 <style>
 .topics{
-    width: 20%;
-    float: left;
-    padding-right: 10px;
-    padding-left: 1.5%;
-    position: -webkit-sticky;
-    position: sticky;
-    top: 5px;
+  width: 20%;
+  float: left;
+  padding-right: 10px;
+  padding-left: 1.5%;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 5px;
 }
 .guesses{
-    width: 60%;
-    min-width: 220px;
-    margin-left: 25%;
-    position: relative;
+  width: 60%;
+  min-width: 220px;
+  margin-left: 25%;
+  position: relative;
 }
 
 @media screen and (max-width: 600px) {
-    .topics {
-    }
-    .guesses {
-        margin-left:20%;
-        width: 77%;
-    }
+  .topics {
+  }
+  .guesses {
+    margin-left:20%;
+    width: 77%;
+  }
 }
 
 .pink{
@@ -112,9 +119,9 @@ export default {
   padding:0;
 }
 .voteAlert {
-    margin: 5px;
-    font-size: 0.7rem;
-    border-radius: 2px;
-    border-left: 0px !important;
+  margin: 5px;
+  font-size: 0.7rem;
+  border-radius: 2px;
+  border-left: 0px !important;
 }
 </style>
