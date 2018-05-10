@@ -14,11 +14,9 @@
 
     <div v-if="totalGuesses != 0">
       <CardDeck :events="guesses"
-         :maxCol="1"
-         :headerBG="true"
-         :peopleBar="true"
-         :descriptionAllow="true"
-         :ethBar="true"/>
+         :maxCol="2"
+         :headerBg="true"
+         :descriptionAllow="true"/>
     </div>
 
     <!--If no events-->
@@ -53,7 +51,7 @@
 <script>
 import GuessHelper from '@/js/Guess'
 import Loading from '../Loading.vue'
-import CardDeck from '../Common/CardDeck.vue'
+import CardDeck from '../Common/SpecialCards.vue'
 
 export default {
   name: 'homepage',
