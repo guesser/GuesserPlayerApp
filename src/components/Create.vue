@@ -190,6 +190,7 @@ export default {
   },
   methods: {
     updateHighlights () {
+      // TODO: Test org mode
       let endDay = 23 - this.$moment().format('H')
       this.highlights = []
       this.sliderTicks = []

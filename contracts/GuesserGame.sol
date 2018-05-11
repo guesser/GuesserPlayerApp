@@ -189,24 +189,27 @@ contract GuesserGame is GuesserCore {
     require(_guessesLength > _index*10);
 
     // Check the range is inside the length
-    uint8 _guessNumber = 0;
-    uint8 _guessesValid = 0;
-    uint256[10] memory _todayGuesses;
-    uint256 i = 0;
-    while (_guessNumber<10 && i<_guessesLength) {
-      // if (guesses[_guesses[i]].topic == _topic && _guesses[i] != _todayGuess) {
+    uint256[] memory _guesses;
+    uint256 j;
+    for (uint256 i = 0; i < _guessesLength; i++) {
       uint256 _guess = guesserStorage.getGuessByDay(_year + _month + _day, i);
       if (guesserStorage.getGuessTopic(_guess) == _topic) {
-        _guessesValid++;
-        if(_guessesValid > _index*10) {
-        _todayGuesses[_guessNumber] = _guess;
-        _guessNumber++;
+
+        j = i;
+        while (j > 0 && _guesses[j - 1] > _guess) {
+          _guesses[j] = _guesses[j - 1];
+          j--;
         }
+        _guesses[j] = _guess;
       }
-      i++;
     }
 
-    return _todayGuesses;
+    // Creating the returning array
+    uint256[10] memory _finalGuesses;
+    for (j = 0; j < 10; j++) {
+      _finalGuesses[j] = _guesses[_index + j];
+    }
+    return _finalGuesses;
   }
 
   /**
@@ -244,7 +247,7 @@ contract GuesserGame is GuesserCore {
     }
 
     return _weekGuesses;
-  }
+   }
 
   /* @dev Function that returns a list of Guesses to validate
   * @param _index uint256 Index of the list, If you want the 10 last or the second 10 last Guesses
