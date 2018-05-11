@@ -24,19 +24,19 @@
         <b-row align-h="between">
           <b-col align-self="center">
             <span v-if="loadIndex == 0">
-              <h3>Looks like you haven't created any event!</h3>
+              <h3 style="font-size:calc(1em + 1vw);">Looks like you haven't created any event!</h3>
             </span>
             <span v-else>
-              <h3>Looks like you haven't created more events!</h3>
+              <h3 style="font-size:calc(1em + 1vw);">Looks like you haven't created more events!</h3>
             </span>
-            <h5>Feel like creating one?</h5>
+            <h5 style="font-size:calc(0.8em + 0.8vw);">Feel like creating one?</h5>
+            <br>
+          <b-button href="#create" variant="primary" size="lg">Create event</b-button>
           </b-col>
           <b-col>
-            <img src="static/beard-hold.png" style="width: 70%;" alt=":'("/>
+            <br>
+            <img src="static/beard-hold.png" style="width: 70%; min-width: 100px" alt=":'("/>
           </b-col>
-        </b-row>
-        <b-row>
-          <b-button href="#create" variant="primary" size="lg">Create event</b-button>
         </b-row>
       </b-container>
 

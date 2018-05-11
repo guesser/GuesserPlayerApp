@@ -244,7 +244,7 @@ export default {
       console.log(finalDate.format('[Final:] MMMM D, YYYY [at] H[h]'))
       console.log(validationDate.format('[Validation:] MMMM D, YYYY [at] H[h]'))
       self.show('creation', 'success')
-      window.location.href = '#/play/' + this.form.topic
+      // window.location.href = '#/play/' + this.form.topic
       GuessHelper.setGuessFront(
         this.form.title,
         this.form.description,
@@ -254,11 +254,13 @@ export default {
         this.form.option1,
         this.form.option2).then(() => {
           console.log('Transaction pending...')
+          /*
           self.form.title = ''
           self.form.description = ''
           self.form.topic = ''
           self.form.option1 = ''
           self.form.option2 = ''
+          */
         }).catch(err => {
           self.show('creation', 'error')
           console.log(err)

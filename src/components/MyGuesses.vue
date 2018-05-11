@@ -21,41 +21,39 @@
     <b-row align-g="start" style="margin: 0 !important"> 
       <b-col style="padding-left: 0"> 
         <b-row style="margin: 0 !important"> 
-          <b-col cols="12" sm="6" md="3" lg="3" style="padding-left: 0"> 
+          <b-col cols="12" sm="6" md="3" lg="3" style="padding-left: 0; margin-bottom: 20px"> 
             <b-row class="justify-content-md-center">
               <span class="avatar">
               <qrcode :value="address" :options="{ foreground: color1, background: color2, size: 150 }"></qrcode>
               </span>
             </b-row>
           </b-col> 
-          <b-col align-self="center" style="padding-left: 0"> 
+          <b-col align-self="center" style="padding-left: 0; margin-bottom: 20px"> 
             <b-row align-h="start" style="margin: 0 !important"> 
               <span>
                 <big>Address:</big>
-              <div class="address-holder" v-clipboard:copy="address" style="overflow:hidden; cursor: pointer"><small>{{address}}</small></div>
+              <div class="address-holder" v-clipboard:copy="address" style="overflow:hidden; cursor: pointer; max-width: 80vw"><small>{{address}}</small></div>
               </span>
             </b-row> 
           </b-col> 
         </b-row> 
       </b-col> 
     </b-row> 
-
-    <br>
     <br>
     <h2>Events I have participated in</h2>
     <br>
     <b-card no-body>
       <b-tabs v-model="tabIndex">
-        <b-tab title="Current Events" :title-link-class="linkClass(0)">
+        <b-tab class="wrapper10" title="Current Events" :title-link-class="linkClass(0)">
           <CurrentGuesses/>
         </b-tab>
-        <b-tab title="Events being validated" :title-link-class="linkClass(1)">
+        <b-tab class="wrapper10" title="Events being validated" :title-link-class="linkClass(1)">
           <ValidatingGuesses/>
         </b-tab>
-        <b-tab title="Past events" :title-link-class="linkClass(2)">
+        <b-tab class="wrapper10" title="Past events" :title-link-class="linkClass(2)">
           <PastGuesses/>
         </b-tab>
-        <b-tab class="" title="Created events" :title-link-class="linkClass(3)" title-link-class="end">
+        <b-tab class="wrapper10" title="Created events" :title-link-class="linkClass(3)" title-link-class="end">
           <CreatedGuesses/>
         </b-tab>
       </b-tabs>
@@ -147,6 +145,9 @@ $avatarback: #ff0d73;
 .margin{
   margin: 0% 10%;
   padding: 2% 0%;
+}
+.wrapper10{
+  padding: 15px 2%;
 }
 .charts{
   padding: 3% 7%;
