@@ -25,7 +25,7 @@ contract GuesserGame is GuesserCore {
     return (guesserStorage.getGuessTitle(_index),
             guesserStorage.getGuessDescription(_index),
             guesserStorage.getGuessTopic(_index),
-            guesserStorage.getGuessCreator(_index),
+           e; guesserStorage.getGuessCreator(_index),
             guesserStorage.getGuessStartingDate(_index),
             guesserStorage.getGuessFinalDate(_index),
             guesserStorage.getGuessValidationDate(_index)
@@ -196,7 +196,7 @@ contract GuesserGame is GuesserCore {
       if (guesserStorage.getGuessTopic(_guess) == _topic) {
 
         j = i;
-        while (j > 0 && _guesses[j - 1] > _guess) {
+        while (j > 0 && guesserStorage.getGuessOptionVotesTotal(_guesses[j - 1]) > guesserStorage.getGuessOptionVotesTotal(_guess)) {
           _guesses[j] = _guesses[j - 1];
           j--;
         }
