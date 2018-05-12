@@ -236,13 +236,9 @@ export default {
       let self = this
 
       let finalDate = self.$moment().subtract(self.$moment().minute(), 'minutes').add(self.hourValue + 1, 'hours')
-      console.log(self.form.durationTime)
       let _durationTime = Math.ceil(self.form.durationTime)
-      console.log('Duration:', _durationTime, 'hours')
 
       var validationDate = self.$moment(finalDate).add(_durationTime, 'hours')
-      console.log(finalDate.format('[Final:] MMMM D, YYYY [at] H[h]'))
-      console.log(validationDate.format('[Validation:] MMMM D, YYYY [at] H[h]'))
       self.show('creation', 'success')
       // window.location.href = '#/play/' + this.form.topic
       GuessHelper.setGuessFront(

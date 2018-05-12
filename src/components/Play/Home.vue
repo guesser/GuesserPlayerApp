@@ -73,7 +73,6 @@ export default {
       this.guesses = []
       for (var i = 0; i < this.guessesByNumber.length; i++) {
         let _index = this.guessesByNumber[i]
-        console.log(_index)
 
         if (_index !== 0) { // 0 is empy, Highlighted is already shown
           GuessHelper.getGuessFront(_index).then((guess) => {
@@ -162,7 +161,6 @@ export default {
         GuessHelper.getGuessOfTheWeek(this.topics[i]).then((_guessId) => {
           if (_guessId !== 0) {
             self.guessesByNumber.push(_guessId)
-            console.log('Id:', _guessId)
           }
           _topics += 1
           // console.log('Topicin:', _topics)
@@ -172,7 +170,6 @@ export default {
           }
         }).catch(err => {
           _topics += 1
-          console.log('Topicout:', _topics)
           if (_topics === 7) {
             self.printGuesses()
           }
@@ -181,12 +178,10 @@ export default {
           return err
         })
       }
-      console.log(self.guessesByNumber)
     }
   },
   mounted: function () {
     GuessHelper.init().then(() => {
-      console.log('init')
       this.contentLoaded = true
       this.getStarGuesses()
     }).catch(err => {

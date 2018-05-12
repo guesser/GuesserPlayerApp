@@ -25,7 +25,7 @@ contract GuesserGame is GuesserCore {
     return (guesserStorage.getGuessTitle(_index),
             guesserStorage.getGuessDescription(_index),
             guesserStorage.getGuessTopic(_index),
-           e; guesserStorage.getGuessCreator(_index),
+            guesserStorage.getGuessCreator(_index),
             guesserStorage.getGuessStartingDate(_index),
             guesserStorage.getGuessFinalDate(_index),
             guesserStorage.getGuessValidationDate(_index)
@@ -180,23 +180,19 @@ contract GuesserGame is GuesserCore {
     * @param _date uint256 the date of the guesses we want
   * @return A uint256[10] the top guesses of the day
   */
-  function getGuessesByDate(uint256 _index, bytes32 _topic, uint256 _date) public view returns(uint256[10]){
-    uint32 _year = DateTime.getYear(_date) * 10000;
-    uint32 _month = DateTime.getMonth(_date) * 100;
-    uint32 _day = DateTime.getDay(_date);
-    uint256 _guessesLength = guesserStorage.getGuessByDayLength(_year + _month + _day);
-
-    require(_guessesLength > _index*10);
+  function getGuessesByDate(uint256 _index, bytes32 _topic, uint32 _date) public view returns(uint256[10]){
+    uint256 _guessesLength = guesserStorage.getGuessByDayLength(_date);
 
     // Check the range is inside the length
-    uint256[] memory _guesses;
+    // require(_guessesLength > (_index * 10) + 10);
+
+    uint256[10] memory _guesses;
     uint256 j;
     for (uint256 i = 0; i < _guessesLength; i++) {
-      uint256 _guess = guesserStorage.getGuessByDay(_year + _month + _day, i);
+      uint256 _guess = guesserStorage.getGuessByDay(_date, i);
       if (guesserStorage.getGuessTopic(_guess) == _topic) {
-
         j = i;
-        while (j > 0 && guesserStorage.getGuessOptionVotesTotal(_guesses[j - 1]) > guesserStorage.getGuessOptionVotesTotal(_guess)) {
+        while (j > 0 && guesserStorage.getGuessOptionVotesTotal(_guesses[j - 1]) < guesserStorage.getGuessOptionVotesTotal(_guess)) {
           _guesses[j] = _guesses[j - 1];
           j--;
         }
@@ -206,8 +202,8 @@ contract GuesserGame is GuesserCore {
 
     // Creating the returning array
     uint256[10] memory _finalGuesses;
-    for (j = 0; j < 10; j++) {
-      _finalGuesses[j] = _guesses[_index + j];
+    for (j = 0; j < _guesses.length && j < 10; j++) {
+        _finalGuesses[j] = _guesses[(_index * 10) + j];
     }
     return _finalGuesses;
   }
@@ -225,22 +221,40 @@ contract GuesserGame is GuesserCore {
     uint32 _day;
 
     uint256[10] memory _weekGuesses;
+    uint256[10] memory _dayGuesses;
     uint256 _guessesValid = 0;
     uint256 _guessesNumber = 0;
 
+    _year = DateTime.getYear(_date) * 10000;
+    _month = DateTime.getMonth(_date) * 100;
+    _day = DateTime.getDay(_date);
+    _weekGuesses = getGuessesByDate(0, _topic, (_year + _month + _day));
+
+    return _weekGuesses;
+    // For each day of the week
     for (uint32 d = 0 ; d < 6 ; d++) {
       _year = DateTime.getYear(_date + d * 86400) * 10000;
       _month = DateTime.getMonth(_date + d * 86400) * 100;
       _day = DateTime.getDay(_date + d * 86400);
-      uint256 _guessesLength = guesserStorage.getGuessByDayLength(_year + _month + _day);
+      _dayGuesses = getGuessesByDate(0, _topic, (_year + _month + _day)); // The guesses of the day are already ordered
 
-      for(uint256 i=0; i < _guessesLength && _guessesNumber < 10; i++) {
-        uint256 _guess = guesserStorage.getGuessByDay(_year + _month + _day, i);
-        if (guesserStorage.getGuessTopic(_guess) == _topic) {
-            _guessesValid++;
-          if(_guessesValid > _index*10) {
-              _weekGuesses[_guessesNumber] = _guess;
-              _guessesNumber++;
+      // For each Guess in the day
+      for(uint32 i=0; i < 10; i++) {
+        for(uint32 j=0; j < 10; j++) {
+          if (_weekGuesses[j] == 0 ||
+          guesserStorage.getGuessOptionVotesTotal(_dayGuesses[i]) > guesserStorage.getGuessOptionVotesTotal(_weekGuesses[j])) {
+            // Move all the array until 0 is found
+            uint32 _pos = j;
+            while (j < 9) {
+              _weekGuesses[j+1] = _weekGuesses[j];
+              j++;
+            }
+            // Inserting the new element
+            _weekGuesses[_pos] = _dayGuesses[i];
+            j++;
+          } else if (j == 9) {
+            i = 10;
+            j = 10;
           }
         }
       }
@@ -255,7 +269,7 @@ contract GuesserGame is GuesserCore {
   */
   function getGuessesToValidate (uint256 _index, uint32 _date) public view returns (uint256[10]) {
     // TODO: Control the date limits
-    uint32 _year; 
+    uint32 _year;
     uint32 _month;
     uint32 _day;
 

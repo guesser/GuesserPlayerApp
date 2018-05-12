@@ -82,6 +82,7 @@ export default {
   methods: {
     printGuesses () {
       this.guesses = []
+      console.log(this.guessesByNumber)
       for (var i = 0; i < this.guessesByNumber.length; i++) {
         let _index = this.guessesByNumber[i].c[0]
 
