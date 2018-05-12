@@ -230,9 +230,8 @@ contract GuesserGame is GuesserCore {
     _day = DateTime.getDay(_date);
     _weekGuesses = getGuessesByDate(0, _topic, (_year + _month + _day));
 
-    return _weekGuesses;
     // For each day of the week
-    for (uint32 d = 0 ; d < 6 ; d++) {
+    for (uint32 d = 1 ; d < 6 ; d++) {
       _year = DateTime.getYear(_date + d * 86400) * 10000;
       _month = DateTime.getMonth(_date + d * 86400) * 100;
       _day = DateTime.getDay(_date + d * 86400);
@@ -240,18 +239,19 @@ contract GuesserGame is GuesserCore {
 
       // For each Guess in the day
       for(uint32 i=0; i < 10; i++) {
+        if (_dayGuesses[i] != 0)
         for(uint32 j=0; j < 10; j++) {
-          if (_weekGuesses[j] == 0 ||
-          guesserStorage.getGuessOptionVotesTotal(_dayGuesses[i]) > guesserStorage.getGuessOptionVotesTotal(_weekGuesses[j])) {
-            // Move all the array until 0 is found
+            if (guesserStorage.getGuessOptionVotesTotal(_dayGuesses[i]) >= guesserStorage.getGuessOptionVotesTotal(_weekGuesses[j])) {
             uint32 _pos = j;
-            while (j < 9) {
-              _weekGuesses[j+1] = _weekGuesses[j];
-              j++;
+            j = 9;
+            while (j > _pos) {
+              if (_weekGuesses[j-1] != 0)
+                _weekGuesses[j] = _weekGuesses[j - 1];
+              j--;
             }
+            j=10;
             // Inserting the new element
             _weekGuesses[_pos] = _dayGuesses[i];
-            j++;
           } else if (j == 9) {
             i = 10;
             j = 10;
