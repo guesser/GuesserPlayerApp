@@ -220,18 +220,12 @@ contract GuesserGame is GuesserCore {
     uint32 _month;
     uint32 _day;
 
-    uint256[10] memory _weekGuesses;
+    uint256[50] memory _weekGuesses;
     uint256[10] memory _dayGuesses;
-    uint256 _guessesValid = 0;
-    uint256 _guessesNumber = 0;
-
-    _year = DateTime.getYear(_date) * 10000;
-    _month = DateTime.getMonth(_date) * 100;
-    _day = DateTime.getDay(_date);
-    _weekGuesses = getGuessesByDate(0, _topic, (_year + _month + _day));
+    uint32 _pos;
 
     // For each day of the week
-    for (uint32 d = 1 ; d < 6 ; d++) {
+    for (uint32 d = 0 ; d < 6 ; d++) {
       _year = DateTime.getYear(_date + d * 86400) * 10000;
       _month = DateTime.getMonth(_date + d * 86400) * 100;
       _day = DateTime.getDay(_date + d * 86400);
@@ -260,7 +254,11 @@ contract GuesserGame is GuesserCore {
       }
     }
 
-    return _weekGuesses;
+    // Creating the returning array
+    for (j = 0; j < 10; j++) {
+        _dayGuesses[j] = _weekGuesses[(_index * 10) + j];
+    }
+    return _dayGuesses;
    }
 
   /* @dev Function that returns a list of Guesses to validate
