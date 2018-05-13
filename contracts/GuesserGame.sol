@@ -242,7 +242,7 @@ contract GuesserGame is GuesserCore {
         if (_dayGuesses[i] != 0)
         for(uint32 j=0; j < 10; j++) {
             if (guesserStorage.getGuessOptionVotesTotal(_dayGuesses[i]) >= guesserStorage.getGuessOptionVotesTotal(_weekGuesses[j])) {
-            uint32 _pos = j;
+            _pos = j;
             j = 9;
             while (j > _pos) {
               if (_weekGuesses[j-1] != 0)
