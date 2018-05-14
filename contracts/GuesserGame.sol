@@ -186,7 +186,7 @@ contract GuesserGame is GuesserCore {
     // Check the range is inside the length
     // require(_guessesLength > (_index * 10) + 10);
 
-    uint256[10] memory _guesses;
+    uint256[] memory _guesses = new uint256[](_guessesLength);
     uint256 j;
     for (uint256 i = 0; i < _guessesLength; i++) {
       uint256 _guess = guesserStorage.getGuessByDay(_date, i);
@@ -216,6 +216,7 @@ contract GuesserGame is GuesserCore {
   * @return A uint256[10] the top guesses of the next 7 days
   */
   function getGuessesByWeek(uint256 _index, bytes32 _topic, uint32 _date) public view returns(uint256[10]){
+    require (_index < 5);
     uint32 _year;
     uint32 _month;
     uint32 _day;
@@ -234,21 +235,23 @@ contract GuesserGame is GuesserCore {
       // For each Guess in the day
       for(uint32 i=0; i < 10; i++) {
         if (_dayGuesses[i] != 0)
-        for(uint32 j=0; j < 10; j++) {
-            if (guesserStorage.getGuessOptionVotesTotal(_dayGuesses[i]) >= guesserStorage.getGuessOptionVotesTotal(_weekGuesses[j])) {
+        for(uint32 j=0; j < 50; j++) {
+          if (_weekGuesses[j] != 0 ||
+              guesserStorage.getGuessOptionVotesTotal(_dayGuesses[i]) >= guesserStorage.getGuessOptionVotesTotal(_weekGuesses[j])) {
             _pos = j;
-            j = 9;
+            j = 49;
             while (j > _pos) {
               if (_weekGuesses[j-1] != 0)
                 _weekGuesses[j] = _weekGuesses[j - 1];
               j--;
             }
-            j=10;
             // Inserting the new element
             _weekGuesses[_pos] = _dayGuesses[i];
-          } else if (j == 9) {
+            // Ending the loop
+            j=50;
+          } else if (j == 49) {
             i = 10;
-            j = 10;
+            j = 50;
           }
         }
       }
