@@ -103,7 +103,6 @@ export default {
               this.printOptionsProfits(_index, this.totalGuesses)
               this.printEventState(_index, this.totalGuesses)
               this.totalGuesses += 1
-              this.contentLoaded = false
             }
           }).catch(err => {
             console.log(err)
@@ -135,7 +134,9 @@ export default {
           self.guesses[_localIndex].option2votes = guess[3].c[0]
           self.guesses[_localIndex].votes = guess[2].c[0] + guess[3].c[0]
         }
+        self.contentLoaded = false
       }).catch(err => {
+        self.contentLoaded = false
         console.log(err)
       })
     },
