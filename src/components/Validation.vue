@@ -221,6 +221,14 @@ export default {
           self.showMetamask = true
           self.getGuessesToValidate()
         } else {
+          window.web3.eth.net.getId().then(netId => {
+            switch (netId) {
+              case 4:
+                break
+              default:
+                self.showMetamask = true
+            }
+          })
           this.getUserVotedGuesses(0)
         }
 
@@ -228,7 +236,6 @@ export default {
         GuessPaymentsHelper.init(add).then(() => {
           GuessPaymentsHelper.GuessValidated.watch(function (error, result) {
             if (!error) {
-              console.log(result)
               self.validatedEventUrl = ''
               self.validatedEventId = result.args.index.c[0]
               self.validatedEventTitle = result.args.title

@@ -180,6 +180,16 @@ export default {
             add.length === 0) {
           self.showMetamask = true
           self.buttonsAllow = false
+        } else {
+          // Checking if the user is connected to the right network
+          window.web3.eth.net.getId().then(netId => {
+            switch (netId) {
+              case 4:
+                break
+              default:
+                self.showMetamask = true
+            }
+          })
         }
       })
       self.getGuessOfTheDay()

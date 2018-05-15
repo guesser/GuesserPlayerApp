@@ -1,5 +1,6 @@
 <template>
   <div class="justify-content-md-center margin">
+    <MetamaskAlert v-if='showMetamask'/>
 
     <!--Alert-->
     <notifications group="copyAlert"
@@ -18,27 +19,27 @@
 
     <h2>Profile</h2>
     <br>
-    <b-row align-g="start" style="margin: 0 !important"> 
-      <b-col style="padding-left: 0"> 
-        <b-row style="margin: 0 !important"> 
-          <b-col cols="12" sm="6" md="3" lg="3" style="padding-left: 0; margin-bottom: 20px"> 
+    <b-row align-g="start" style="margin: 0 !important">
+      <b-col style="padding-left: 0">
+        <b-row style="margin: 0 !important">
+          <b-col cols="12" sm="6" md="3" lg="3" style="padding-left: 0; margin-bottom: 20px">
             <b-row class="justify-content-md-center">
               <span class="avatar">
               <qrcode :value="address" :options="{ foreground: color1, background: color2, size: 150 }"></qrcode>
               </span>
             </b-row>
-          </b-col> 
-          <b-col align-self="center" style="padding-left: 0; margin-bottom: 20px"> 
-            <b-row align-h="start" style="margin: 0 !important"> 
+          </b-col>
+          <b-col align-self="center" style="padding-left: 0; margin-bottom: 20px">
+            <b-row align-h="start" style="margin: 0 !important">
               <span>
                 <big>Address:</big>
               <div class="address-holder" v-clipboard:copy="address" style="overflow:hidden; cursor: pointer; max-width: 80vw"><small>{{address}}</small></div>
               </span>
-            </b-row> 
-          </b-col> 
-        </b-row> 
-      </b-col> 
-    </b-row> 
+            </b-row>
+          </b-col>
+        </b-row>
+      </b-col>
+    </b-row>
     <br>
     <h2>Events I have participated in</h2>
     <br>
@@ -77,6 +78,7 @@ import PastGuesses from './MyGuesses/PastGuesses.vue'
 import CreatedGuesses from './MyGuesses/CreatedGuesses.vue'
 import Charts from './MyGuesses/Charts.vue'
 import Qrcode from '@xkeshi/vue-qrcode'
+import MetamaskAlert from './Common/MetamaskAlert.vue'
 
 export default {
   name: 'MyGuesses',
@@ -87,10 +89,12 @@ export default {
       tabIndex: 0,
       chartsShow: false,
       color1: 'white',
-      color2: '#ff0d73'
+      color2: '#ff0d73',
+      showMetamask: false
     }
   },
   components: {
+    MetamaskAlert,
     CurrentGuesses,
     ValidatingGuesses,
     PastGuesses,
@@ -115,9 +119,25 @@ export default {
     }
   },
   created: function () {
+    let self = this
+
     GuessHelper.init().then(() => {
       GuessHelper.getAddressRefreshed().then((addresses) => {
-        this.address = addresses[0]
+        if (addresses === null ||
+            addresses.length === 0) {
+          self.showMetamask = true
+          self.address = addresses[0]
+        } else {
+          // Checking if the user is connected to the right network
+          window.web3.eth.net.getId().then(netId => {
+            switch (netId) {
+              case 4:
+                break
+              default:
+                self.showMetamask = true
+            }
+          })
+        }
       })
     })
     /*

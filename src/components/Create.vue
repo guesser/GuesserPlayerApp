@@ -292,6 +292,15 @@ export default {
         if (add === null ||
             add.length === 0) {
           self.showMetamask = true
+        } else {
+          window.web3.eth.net.getId().then(netId => {
+            switch (netId) {
+              case 4:
+                break
+              default:
+                self.showMetamask = true
+            }
+          })
         }
       })
     }).catch(err => {
