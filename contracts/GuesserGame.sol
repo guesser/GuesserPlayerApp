@@ -236,7 +236,7 @@ contract GuesserGame is GuesserCore {
       for(uint32 i=0; i < 10; i++) {
         if (_dayGuesses[i] != 0)
         for(uint32 j=0; j < 50; j++) {
-          if (_weekGuesses[j] != 0 ||
+          if (_weekGuesses[j] == 0 ||
               guesserStorage.getGuessOptionVotesTotal(_dayGuesses[i]) >= guesserStorage.getGuessOptionVotesTotal(_weekGuesses[j])) {
             _pos = j;
             j = 49;
@@ -279,19 +279,23 @@ contract GuesserGame is GuesserCore {
     uint8 _guessNumber = 0;
     uint64 _guessesValid = 0;
 
-    for (uint8 d = 8 ; d > 0 ; d--) {
-      _year = DateTime.getYear(_date - (d - 1) * 86400) * 100000;
-      _month = DateTime.getMonth(_date - (d - 1) * 86400) * 100000;
-      _day = DateTime.getDay(_date - (d - 1) * 86400) * 100000;
+    for (uint8 d = 8; d > 0; d--) {
+      _year = DateTime.getYear(_date - (d - 1) * 86400) * 10000;
+      _month = DateTime.getMonth(_date - (d - 1) * 86400) * 100;
+      _day = DateTime.getDay(_date - (d - 1) * 86400);
       uint256 _guessesLength = guesserStorage.getGuessByDayLength(_year + _month + _day);
 
-      for(uint64 i=0; i < _guessesLength && _guessNumber < 10; i++) {
+      for(uint64 i=0; i < _guessesLength; i++) {
         uint256 _guess = guesserStorage.getGuessByDay(_year + _month + _day, i);
         if (getEventItemState(_guess) == 'validating') {
           _guessesValid++;
           if(_guessesValid > _index*10) {
             _validationGuesses[_guessNumber] = _guess;
             _guessNumber++;
+
+            // Return?
+            if (_guessNumber == 10)
+              return _validationGuesses;
           }
         }
       }

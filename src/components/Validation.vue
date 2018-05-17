@@ -63,7 +63,7 @@
           <div class="vue-notification">
             <h5>Event validated!</h5>
             <span>Event #{{validatedEventId}}: '{{validatedEventTitle}}'
-              <br>You have staked {{validateddEventValue}} eth to Outcome: {{validatedEventOutcomeName}}
+              <br>You have staked {{validatedEventValue}} eth to Outcome: {{validatedEventOutcomeName}}
             </span>
           </div>
         </a>
@@ -108,6 +108,7 @@ export default {
   },
   methods: {
     printGuesses () {
+      this.guesses = []
       for (var i = 0; i < this.guessesByNumber.length; i++) {
         let _index = this.guessesByNumber[i].c[0]
         if (_index !== 0 && this.userGuesses.indexOf(_index) === -1) { // Guess 0 is the empty one
@@ -171,7 +172,6 @@ export default {
       this.guesses = [] // Clean the array of showed Guesses
       GuessHelper.getGuessesToValidate(this.loadIndex, this.$moment().unix()).then((_guesses) => {
         self.guessesByNumber = _guesses
-        // console.log(_guesses)
         self.printGuesses()
         self.contentLoaded = true
       }).catch(err => {
@@ -227,9 +227,10 @@ export default {
                 break
               default:
                 self.showMetamask = true
+                self.getGuessesToValidate()
             }
+            this.getUserVotedGuesses(0)
           })
-          this.getUserVotedGuesses(0)
         }
 
         // Event watcher
@@ -237,8 +238,8 @@ export default {
           GuessPaymentsHelper.GuessValidated.watch(function (error, result) {
             if (!error) {
               self.validatedEventUrl = ''
-              self.validatedEventId = result.args.index.c[0]
-              self.validatedEventTitle = result.args.title
+              self.validatedEventId = result.args.guess.c[0]
+              self.validatedEventTitle = 'The option voted was: ' + result.args.option.c[8]
               self.validatedEventUrl = self.shareUrl + self.validatedEventId
 
               if (self.validatedEventId !== self.lastValidatedEventId) {

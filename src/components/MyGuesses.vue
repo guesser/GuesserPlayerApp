@@ -123,6 +123,7 @@ export default {
 
     GuessHelper.init().then(() => {
       GuessHelper.getAddressRefreshed().then((addresses) => {
+        self.address = addresses[0]
         if (addresses === null ||
             addresses.length === 0) {
           self.showMetamask = true
