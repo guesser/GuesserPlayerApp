@@ -195,7 +195,7 @@ export default {
             endFound = true
             if (called === false) {
               called = true
-              self.getGuessesToValidate()
+              // self.getGuessesToValidate()
             }
           }
         }
