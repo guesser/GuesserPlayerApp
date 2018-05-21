@@ -64,7 +64,7 @@
                       {{events[maxCol*n + j].option2}} - {{ events[maxCol*n + j].option2votes }}
                     </b-progress-bar>
                   </b-progress>
-                  <small>Total: {{events[maxCol*n + j].votes}} people</small>
+                  <small>Total: {{events[maxCol*n + j].votes}} votes</small>
                 </div>
 
                 <!--Amount of eth in each option-->
@@ -174,7 +174,7 @@
             {{events[arrayIndex].option2}} - {{ events[arrayIndex].option2votes }}
           </b-progress-bar>
         </b-progress>
-        <small>Total: {{events[arrayIndex].votes}} people</small>
+        <small>Total: {{events[arrayIndex].votes}} votes</small>
 
         <!--Amount of eth in each option-->
         <br>

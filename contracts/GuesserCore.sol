@@ -34,17 +34,16 @@ contract GuesserCore is DateTime {
       guesserStorage.getGuessOptionValidation(_index, 2);
     uint256 _half = (_votes/2) + 1;
 
-    if (DateTime.dateDue(guesserStorage.getGuessFinalDate(_index)) == false)
+    if (!DateTime.dateDue(guesserStorage.getGuessFinalDate(_index)))
       _state = "voting";
     else if (DateTime.dateDue(guesserStorage.getGuessFinalDate(_index)) &&
-             DateTime.dateDue(guesserStorage.getGuessValidationDate(_index)) == false &&
+             !DateTime.dateDue(guesserStorage.getGuessValidationDate(_index)) &&
              _votes != 0)
       _state = "waiting";
-    else if(DateTime.dateDue(guesserStorage.getGuessValidationDate(_index)) == true &&
+    else if(DateTime.dateDue(guesserStorage.getGuessValidationDate(_index)) &&
             _validations < _half && _votes != 0)
             _state = "validating";
-    else if((DateTime.dateDue(guesserStorage.getGuessValidationDate(_index)) == true &&
-            _validations >= _half) || _votes == 0)
+    else
       _state = "passed";
 
     return _state;
