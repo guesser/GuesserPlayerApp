@@ -2,12 +2,15 @@ pragma solidity ^0.4.23;
 
 import "./DateTime.sol";
 import "./GuesserStorage.sol";
+import "./libraries/SafeMath.sol";
 
 /**
  * @title GuesserCore
  * @dev GuessCore contract to vote and create events in the Guesser platform.
  */
 contract GuesserCore is DateTime {
+  using SafeMath for uint; // Using the safe math library
+
   GuesserStorage guesserStorage;
 
   /**

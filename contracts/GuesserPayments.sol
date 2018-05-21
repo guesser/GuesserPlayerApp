@@ -106,7 +106,7 @@ contract GuesserPayments is GuesserCore {
     uint128 votes = guesserStorage.getGuessOptionVotes(_guess, 1) + guesserStorage.getGuessOptionVotes(_guess, 2);
 
     // Enough validations
-    uint128 half = (vote/2) + 1;
+    uint128 half = (votes/2) + 1;
     require(validations < half);
 
     guesserStorage.setGuessValidatorOption(_guess, msg.sender, _option);
@@ -229,7 +229,7 @@ contract GuesserPayments is GuesserCore {
     access[_ownerIndex].transfer(_amount);
   }
 
-  function getGuesserFunds () public returns (uint128) {
+  function getGuesserFunds () public view returns (uint128) {
     return guesserFunds;
   }
 
