@@ -52,8 +52,8 @@ contract GuesserGame is GuesserCore {
 
     if (DateTime.dateDue(guesserStorage.getGuessValidationDate(_index)) == true) {
       // Enough validations
-      uint256 half = (((((_votes1 + _votes2) * 10) / 2) - (((_votes1 + _votes2) * 10) / 2) % 10) / 10) + 1; // Divide by 2
-      if (_validation1 + _validation2 < half) {
+      uint256 _half = ((_votes1 + _votes2)/2) + 1;
+      if (_validation1 + _validation2 < _half) {
         _votes1 = 0;
         _votes2 = 0;
         _validation1 = 0;
@@ -78,11 +78,11 @@ contract GuesserGame is GuesserCore {
   function getGuessOptionsProfits (uint256 _index) public view returns (uint256, uint256) {
     uint256 validations = guesserStorage.getGuessOptionValidation(_index, 1) +
       guesserStorage.getGuessOptionValidation(_index, 2);
-    uint256 votes = guesserStorage.getGuessOptionVotes(_index, 1) +
+    uint256 _votes = guesserStorage.getGuessOptionVotes(_index, 1) +
       guesserStorage.getGuessOptionVotes(_index, 2);
 
-    uint256 half = ((((votes * 10) / 2) - ((votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
-    if (DateTime.dateDue(guesserStorage.getGuessValidationDate(_index)) == true && validations < half) {
+    uint256 _half = (_votes/2) + 1;
+    if (DateTime.dateDue(guesserStorage.getGuessValidationDate(_index)) == true && validations < _half) {
         return (
                 0,
                 0

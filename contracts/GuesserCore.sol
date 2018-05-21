@@ -29,7 +29,7 @@ contract GuesserCore is DateTime {
       guesserStorage.getGuessOptionVotes(_index, 2);
     uint256 _validations = guesserStorage.getGuessOptionValidation(_index, 1) +
       guesserStorage.getGuessOptionValidation(_index, 2);
-    uint256 _half = ((((_votes * 10) / 2) - ((_votes * 10) / 2) % 10) / 10) + 1; // Divide by 2
+    uint256 _half = (_votes/2) + 1;
 
     if (DateTime.dateDue(guesserStorage.getGuessFinalDate(_index)) == false)
       _state = "voting";
