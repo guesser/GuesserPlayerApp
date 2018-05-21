@@ -102,12 +102,12 @@ contract GuesserPayments is GuesserCore {
     // Has the validator voted the guess?
     require(guesserStorage.getGuessVotersOption(_guess, msg.sender, 0) == uint256(0x0));
 
-    uint128 validations = guesserStorage.getGuessOptionValidation(_guess, 1) + guesserStorage.getGuessOptionValidation(_guess, 2);
-    uint128 votes = guesserStorage.getGuessOptionVotes(_guess, 1) + guesserStorage.getGuessOptionVotes(_guess, 2);
+    uint128 _validations = guesserStorage.getGuessOptionValidation(_guess, 1) + guesserStorage.getGuessOptionValidation(_guess, 2);
+    uint128 _votes = guesserStorage.getGuessOptionVotes(_guess, 1) + guesserStorage.getGuessOptionVotes(_guess, 2);
 
     // Enough validations
-    uint128 half = (votes/2) + 1;
-    require(validations < half);
+    uint128 _half = (_votes/2) + 1;
+    require(_validations < _half);
 
     guesserStorage.setGuessValidatorOption(_guess, msg.sender, _option);
     guesserStorage.pushValidators(_guess, msg.sender);
@@ -116,8 +116,8 @@ contract GuesserPayments is GuesserCore {
     } else {
       guesserStorage.increaseValidation(_guess, 2, 1);
     }
-    validations += 1;
-    if (validations == half) {
+    _validations += 1;
+    if (_validations == _half) {
       returnProfits(_guess);
     }
     emit GuessValidated(_guess, _option, msg.sender);
