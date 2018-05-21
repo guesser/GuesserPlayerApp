@@ -32,7 +32,6 @@ export default {
   created: function () {
     let self = this
     NetworkHelper.init().then(() => {
-      console.log(NetworkHelper.state)
       if (NetworkHelper.state === 'locked') {
         self.locked = true
       } else {
