@@ -10,16 +10,16 @@
                     style="margin-bottom: 0;">
         <b-form-input id="titleInput"
                       type="text"
-                      maxlength="31"
+                      maxlength="60"
                       placeholder="Short and clear name of the event"
                       v-model="form.title"
                       required>
         </b-form-input>
         <b-row style="padding-top: 3px" align-h="end">
-          <vue-twitter-counter :current-length="31 - remchar2"
+          <vue-twitter-counter :current-length="60 - remchar2"
                                         safe="#ff66ff"
-                                        :danger-at='31'
-                                        :warnLength='5'
+                                        :danger-at='60'
+                                        :warnLength='20'
                                         animate
                                         round>
           </vue-twitter-counter>
@@ -281,7 +281,7 @@ export default {
     remchar2 () {
       let self = this
 
-      var charactersremaining = 31 - self.form.title.length
+      var charactersremaining = 60 - self.form.title.length
       return charactersremaining
     }
   },
