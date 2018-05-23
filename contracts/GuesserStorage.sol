@@ -41,6 +41,7 @@ contract GuesserStorage is DateTime{
   // Example: 19940831
   mapping (address => uint256[]) guessesByAddress; // Storing the guesses by their voters
   mapping (address => uint256[]) guessesCreatedByAddress; // Storing the guesses by their creators
+  mapping (address => uint256[]) validationsByAddress; // Storing the guesses by their validators
 
   // The current owners
   mapping(address => bool) accessAllowed;
@@ -231,6 +232,7 @@ contract GuesserStorage is DateTime{
    */
   function pushValidators(uint256 _index, address _address) isOwner external {
     guesses[_index].validators.push(_address);
+    validationsByAddress[_address].push(_index);
   }
 
   /**
@@ -508,6 +510,10 @@ contract GuesserStorage is DateTime{
    */
   function getGuessesCreatedByAddress(address _address, uint256 _index) isOwner external view returns (uint256) {
     return guessesCreatedByAddress[_address][_index];
+  }
+
+  function getValidationsByAddress (address _address) isOwner external view returns (uint256[]) {
+    return validationsByAddress[_address];
   }
 
 }

@@ -303,4 +303,9 @@ contract GuesserGame is GuesserCore {
 
     return _validationGuesses;
   }
+
+  function getValidationsByAddress (address _address) public view returns (uint256[]) {
+    return guesserStorage.getValidationsByAddress(_address);
+  }
+
 }

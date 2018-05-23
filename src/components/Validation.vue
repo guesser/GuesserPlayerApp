@@ -203,6 +203,27 @@ export default {
           self.getUserVotedGuesses(votedIndex + 1)
         }
       })
+
+      // The guesses the user has already validated
+      // TODO: Uncomment this
+      GuessHelper.getValidatedGuessesByAddress(votedIndex).then((_events) => {
+        for (var item in _events) {
+          if (_events[item].c[0] !== 0) {
+            if (self.userGuesses.indexOf(_events[item].c[0]) === -1) {
+              self.userGuesses.push(_events[item].c[0])
+            }
+          } else {
+            endFound = true
+            if (called === false) {
+              called = true
+              // self.getGuessesToValidate()
+            }
+          }
+        }
+        if (endFound === false) {
+          self.getUserVotedGuesses(votedIndex + 1)
+        }
+      })
     },
     showEventAlert (_group) {
       // TODO: Catch the id and the topic of the event

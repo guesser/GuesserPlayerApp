@@ -175,6 +175,14 @@ const GuessHelper = {
     })
   },
 
+  getValidatedGuessesByAddress: function (index) {
+    return GuessGame.init(this.address).then(() => {
+      return GuessGame.getValidationsByAddress(this.address).catch((err) => {
+        return err
+      })
+    })
+  },
+
   getGuessesToValidate: function (index, date) {
     return GuessGame.init().then(() => {
       return GuessGame.getGuessesToValidate(index, date).catch((err) => {
