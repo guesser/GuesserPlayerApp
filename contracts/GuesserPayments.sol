@@ -155,27 +155,15 @@ contract GuesserPayments is GuesserCore {
       guesserStorage.getGuessValidator(_guess, 0).transfer(
                                                            _totalProfits/VALIDATOR_FEE);
     } else { // More than one voter
-      // If there is only one side of the votes, they are instantly the winners
-      if (guesserStorage.getGuessOptionVotes(_guess, 2) == 0 ) {
-        _winner = 1; // The winner is the first one
-      } else if (guesserStorage.getGuessOptionVotes(_guess, 1) == 0) {
-        _winner = 2; // The winner is the second one
-      }
-
-      uint128 _totalWinnersProfits = getGuessProfitsByOption(_guess, _winner);
       for(uint256 _voterIndex = 0; _voterIndex < _votersLength; _voterIndex++) {
         returnVoterProfits(_guess,
                            _voterIndex,
                            _totalProfits,
-                           _totalWinnersProfits,
                            _winner);
       }
       for(uint256 _validatorIndex = 0; _validatorIndex < _validatorsLength; _validatorIndex++) {
         guesserStorage.getGuessValidator(_guess, _validatorIndex).transfer(_totalProfits/_validatorsLength);
       }
-
-      // returnValidatorsProfits(_guess, _totalProfits, _validatorsLength);
-
     }
 
     // Return common profits
@@ -194,32 +182,25 @@ contract GuesserPayments is GuesserCore {
   function returnVoterProfits (uint256 _guess,
                                uint256 _voterIndex,
                                uint128 _totalProfits,
-                               uint128 _totalWinnersProfits,
                                uint8 _winner) private {
-    uint256 percentage; // The percentage of the win a person has
-    address person = guesserStorage.getGuessVoter(_guess, _voterIndex);
+    address _person = guesserStorage.getGuessVoter(_guess, _voterIndex);
     uint128 _personOption = guesserStorage.getGuessVotersOption(
                                                                 _guess,
-                                                                person,
+                                                                _person,
                                                                 0);
     if (_personOption == uint128(_winner) || _personOption == uint128(3)) {
-      uint256 index = 10;
-      uint256 _precision = 0;
-      while (_totalProfits*100 > index) {
-        index = index * 10;
-        _precision++;
-      }
       // Check if the user voted the winner option or both options (3)
-      // Get the percentage of the person in the winner option
-      percentage = percent(
-                           _personOption,
-                           _totalWinnersProfits,
-                           _precision
-                           );
-     uint256 _final = (((_totalProfits-(_totalProfits/(CREATOR_FEE + VALIDATOR_FEE + GUESSER_FEE)))  * 10) * percentage);
+
+      // Amount of eth the address has bet
+      uint128 _addressAmount = guesserStorage.getGuessVotersOption(
+                                                                   _guess,
+                                                                   _person,
+                                                                   _winner);
+      uint256 _percentage = uint256((_totalProfits * 100) / _addressAmount) / 100;
+      uint256 _final = (((_totalProfits-(_totalProfits/(CREATOR_FEE + VALIDATOR_FEE + GUESSER_FEE)))  * 10) * _percentage);
       // WARNING: Only will work with non contracts addresses
       // Return Profits to voters
-      guesserStorage.getGuessVoter(_guess, _voterIndex).transfer(_final/index);
+      guesserStorage.getGuessVoter(_guess, _voterIndex).transfer(_final);
     }
   }
 
