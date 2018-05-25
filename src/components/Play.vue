@@ -1,6 +1,7 @@
 <template>
   <div style="padding: 20px; margin-bottom: 200px">
     <!--Alert-->
+    <MetamaskAlert v-if='showMetamask'/>
     <notifications group="voteAlert"
                    position="top center"
                    classes="vue-notification voteAlert"
@@ -39,10 +40,12 @@
 </template>
 
 <script>
+import GuessHelper from '@/js/Guess'
 import TopicList from './Play/TopicList.vue'
 import GuessOfTheDay from './Play/GuessOfTheDay.vue'
 import OtherGuesses from './Play/OtherGuesses.vue'
 import HomePage from './Play/Home.vue'
+import MetamaskAlert from './Common/MetamaskAlert.vue'
 // import NetworkHelper from '@/js/NetworkHelper'
 
 export default {
@@ -50,6 +53,7 @@ export default {
   components: {
     TopicList,
     HomePage,
+    MetamaskAlert,
     GuessOfTheDay,
     OtherGuesses
   },
@@ -64,14 +68,37 @@ export default {
       this.topic = this.$route.params.topic
     }
   },
+
   created: function () {
-    // let self = this
+    let self = this
+
     if (this.$route.params.topic) {
       this.topic = this.$route.params.topic
     } else {
       this.topic = 'Home'
     }
 
+    GuessHelper.init().then(() => {
+      GuessHelper.getAddressRefreshed().then((add) => {
+        if (add === null ||
+            add.length === 0) {
+          self.showMetamask = true
+          self.buttonsAllow = false
+        } else {
+          // Checking if the user is connected to the right network
+          window.web3.eth.net.getId().then(netId => {
+            switch (netId) {
+              case 4:
+                break
+              default:
+                self.showMetamask = true
+            }
+          })
+        }
+      })
+    }).catch(err => {
+      console.log(err)
+    })
     // Uncomment if login enabled
     /*
     NetworkHelper.init().then(() => {

@@ -1,6 +1,5 @@
 <template>
   <div>
-      <MetamaskAlert v-if='showMetamask'/>
     <!--If events-->
     <div v-if='guessIndex != null'>
       <SingleCard :eventItem="guess" :buttonsAllow="buttonsAllow"/>
@@ -35,14 +34,12 @@
 <script>
 import GuessHelper from '@/js/Guess'
 import SingleCard from '../Common/SingleCard.vue'
-import MetamaskAlert from '../Common/MetamaskAlert.vue'
 
 export default {
   name: 'GuessOfTheDay',
   props: ['topic'],
   components: {
-    SingleCard,
-    MetamaskAlert
+    SingleCard
   },
   data () {
     return {
