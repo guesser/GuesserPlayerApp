@@ -5,8 +5,8 @@ import "./GuesserCore.sol";
 contract GuesserPayments is GuesserCore {
   // Semi Constants
   uint32 CREATOR_FEE = 100;
-  uint32 VALIDATOR_FEE = 200;
-  uint32 GUESSER_FEE = 100;
+  uint32 VALIDATOR_FEE = 50;
+  uint32 GUESSER_FEE = 500;
 
   //Events
   event GuessVoted(uint256 index,
@@ -144,6 +144,7 @@ contract GuesserPayments is GuesserCore {
 
     uint8 _winner = getGuessWinner(_guess);
     uint128 _totalProfits = getGuessProfits(_guess);
+    uint128 _totalWinnersProfits = getGuessProfitsByOption(_guess, _winner);
 
     // If there is only one voter (even in both sides)
     if (_votersLength == 1) {
@@ -156,13 +157,15 @@ contract GuesserPayments is GuesserCore {
                                                            _totalProfits/VALIDATOR_FEE);
     } else { // More than one voter
       for(uint256 _voterIndex = 0; _voterIndex < _votersLength; _voterIndex++) {
+
         returnVoterProfits(_guess,
                            _voterIndex,
                            _totalProfits,
+                           _totalWinnersProfits,
                            _winner);
       }
       for(uint256 _validatorIndex = 0; _validatorIndex < _validatorsLength; _validatorIndex++) {
-        guesserStorage.getGuessValidator(_guess, _validatorIndex).transfer(_totalProfits/_validatorsLength);
+        guesserStorage.getGuessValidator(_guess, _validatorIndex).transfer(_totalProfits/(_validatorsLength * VALIDATOR_FEE));
       }
     }
 
@@ -182,6 +185,7 @@ contract GuesserPayments is GuesserCore {
   function returnVoterProfits (uint256 _guess,
                                uint256 _voterIndex,
                                uint128 _totalProfits,
+                               uint128 _totalWinnersProfits,
                                uint8 _winner) private {
     address _person = guesserStorage.getGuessVoter(_guess, _voterIndex);
     uint128 _personOption = guesserStorage.getGuessVotersOption(
@@ -196,8 +200,8 @@ contract GuesserPayments is GuesserCore {
                                                                    _guess,
                                                                    _person,
                                                                    _winner);
-      uint256 _percentage = uint256((_totalProfits * 100) / _addressAmount) / 100;
-      uint256 _final = (((_totalProfits-(_totalProfits/(CREATOR_FEE + VALIDATOR_FEE + GUESSER_FEE)))  * 10) * _percentage);
+      uint256 _percentage = uint256((_totalWinnersProfits * 10) / _addressAmount) / 10;
+      uint256 _final = uint256((_totalProfits-(_totalProfits/(CREATOR_FEE + VALIDATOR_FEE + GUESSER_FEE))) / _percentage);
       // WARNING: Only will work with non contracts addresses
       // Return Profits to voters
       guesserStorage.getGuessVoter(_guess, _voterIndex).transfer(_final);
