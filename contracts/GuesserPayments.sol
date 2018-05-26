@@ -6,7 +6,7 @@ contract GuesserPayments is GuesserCore {
   // Semi Constants
   uint32 CREATOR_FEE = 100;
   uint32 VALIDATOR_FEE = 50;
-  uint32 GUESSER_FEE = 500;
+  uint32 GUESSER_FEE = 50;
 
   //Events
   event GuessVoted(uint256 index,
@@ -150,29 +150,28 @@ contract GuesserPayments is GuesserCore {
     if (_votersLength == 1) {
       // Return profits to voters
       guesserStorage.getGuessVoter(_guess, 0).transfer(
-                                                       _totalProfits-(_totalProfits/(CREATOR_FEE + VALIDATOR_FEE + GUESSER_FEE))
-                                                      );
-      // Return Profits to validators
-      guesserStorage.getGuessValidator(_guess, 0).transfer(
-                                                           _totalProfits/VALIDATOR_FEE);
+                                                       uint256(_totalProfits-(
+                                                       (_totalProfits / CREATOR_FEE) +
+                                                       (_totalProfits / VALIDATOR_FEE) +
+                                                       (_totalProfits / GUESSER_FEE)
+                                                                              )));
     } else { // More than one voter
       for(uint256 _voterIndex = 0; _voterIndex < _votersLength; _voterIndex++) {
-
         returnVoterProfits(_guess,
                            _voterIndex,
                            _totalProfits,
                            _totalWinnersProfits,
                            _winner);
       }
-      for(uint256 _validatorIndex = 0; _validatorIndex < _validatorsLength; _validatorIndex++) {
-        guesserStorage.getGuessValidator(_guess, _validatorIndex).transfer(_totalProfits/(_validatorsLength * VALIDATOR_FEE));
-      }
     }
 
     // Return common profits
+    // Return profits for the validator/s
+    for(uint256 _validatorIndex = 0; _validatorIndex < _validatorsLength; _validatorIndex++) {
+      guesserStorage.getGuessValidator(_guess, _validatorIndex).transfer(_totalProfits/(_validatorsLength * VALIDATOR_FEE));
+    }
     // Return profits to creator
-    guesserStorage.getGuessCreator(_guess).transfer(
-                                                    _totalProfits/CREATOR_FEE);
+    guesserStorage.getGuessCreator(_guess).transfer(_totalProfits/CREATOR_FEE);
 
     //Guesser profit
     guesserFunds += _totalProfits/GUESSER_FEE;
@@ -192,19 +191,22 @@ contract GuesserPayments is GuesserCore {
                                                                 _guess,
                                                                 _person,
                                                                 0);
+    // Check if the user voted the winner option or both options (3)
     if (_personOption == uint128(_winner) || _personOption == uint128(3)) {
-      // Check if the user voted the winner option or both options (3)
-
       // Amount of eth the address has bet
       uint128 _addressAmount = guesserStorage.getGuessVotersOption(
                                                                    _guess,
                                                                    _person,
                                                                    _winner);
       uint256 _percentage = uint256((_totalWinnersProfits * 10) / _addressAmount) / 10;
-      uint256 _final = uint256((_totalProfits-(_totalProfits/(CREATOR_FEE + VALIDATOR_FEE + GUESSER_FEE))) / _percentage);
+      uint256 _final = uint256(_totalProfits-(
+                                               (_totalProfits / CREATOR_FEE) +
+                                               (_totalProfits / VALIDATOR_FEE) +
+                                               (_totalProfits / GUESSER_FEE)
+                                ) / _percentage);
       // WARNING: Only will work with non contracts addresses
       // Return Profits to voters
-      guesserStorage.getGuessVoter(_guess, _voterIndex).transfer(_final);
+      _person.transfer(_final);
     }
   }
 

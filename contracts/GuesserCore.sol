@@ -69,11 +69,11 @@ contract GuesserCore is DateTime {
   /* @dev Function that tells you the profits a Guess has
   * @dev Get the profits a guess has in its vault
   * @param _guess uint256 the event to ask for the profits of
-    * @return bool the profits the guess asked has
+  * @return bool the profits the guess asked has
   */
   function getGuessProfits (uint256 _guess) public view returns (uint128) {
     // Does the guess exists?
-    require(_guess <= guesserStorage.getGuessLength() - 1);
+    require(_guess < guesserStorage.getGuessLength());
 
     if (guesserStorage.getGuessVotersLength(_guess) == 0) {
       return 0;
@@ -93,7 +93,7 @@ contract GuesserCore is DateTime {
   /* @dev Function that tells you the profits of an option in a guess
   * @dev Get the profits a guess has in its vault
   * @param _guess uint256 the event to ask for the profits of
-    * @param _option uint256 the option you want to check
+  * @param _option uint256 the option you want to check
   * @return bool the profits the guess asked has
   */
   function getGuessProfitsByOption (uint256 _guess, uint8 _option) public view returns (uint128) {
@@ -121,6 +121,7 @@ contract GuesserCore is DateTime {
   }
 
   function getGuessWinner (uint256 _guess) public view returns (uint8) {
+    // TODO: If there is a match, add one more validator
     if (guesserStorage.getGuessOptionValidation(_guess, 1) > guesserStorage.getGuessOptionValidation(_guess, 2)) {
       return 1; // The winner is the first one
     } else {

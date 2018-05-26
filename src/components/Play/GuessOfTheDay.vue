@@ -175,6 +175,14 @@ export default {
     let self = this
 
     GuessHelper.init().then(() => {
+      window.web3.eth.getBalance('0xe817dedf69b016cd321cfad479f272bf0cbad24d', function (error, result) {
+        if (error) {
+          console.log(error)
+        } else {
+          console.log(window.web3.utils.fromWei(result))
+        }
+      })
+
       GuessHelper.getAddressRefreshed().then((add) => {
         if (add === null ||
             add.length === 0) {
