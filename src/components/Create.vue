@@ -10,16 +10,16 @@
                     style="margin-bottom: 0;">
         <b-form-input id="titleInput"
                       type="text"
-                      maxlength="31"
+                      maxlength="60"
                       placeholder="Short and clear name of the event"
                       v-model="form.title"
                       required>
         </b-form-input>
         <b-row style="padding-top: 3px" align-h="end">
-          <vue-twitter-counter :current-length="31 - remchar2"
+          <vue-twitter-counter :current-length="60 - remchar2"
                                         safe="#ff66ff"
-                                        :danger-at='31'
-                                        :warnLength='5'
+                                        :danger-at='60'
+                                        :warnLength='20'
                                         animate
                                         round>
           </vue-twitter-counter>
@@ -88,7 +88,7 @@
                  v-model='form.option1'
                  maxlength="31"
                  required
-                 placeholder="Outocome1"/>
+                 placeholder="Outcome1"/>
         </b-col>
         <b-col style="padding-right: 0 !important">
           <label class="sr-only" for="option2Input">Outcome2</label>
@@ -190,6 +190,7 @@ export default {
   },
   methods: {
     updateHighlights () {
+      // TODO: Test org mode
       let endDay = 23 - this.$moment().format('H')
       this.highlights = []
       this.sliderTicks = []
@@ -235,15 +236,11 @@ export default {
       let self = this
 
       let finalDate = self.$moment().subtract(self.$moment().minute(), 'minutes').add(self.hourValue + 1, 'hours')
-      console.log(self.form.durationTime)
       let _durationTime = Math.ceil(self.form.durationTime)
-      console.log('Duration:', _durationTime, 'hours')
 
       var validationDate = self.$moment(finalDate).add(_durationTime, 'hours')
-      console.log(finalDate.format('[Final:] MMMM D, YYYY [at] H[h]'))
-      console.log(validationDate.format('[Validation:] MMMM D, YYYY [at] H[h]'))
       self.show('creation', 'success')
-      window.location.href = '#/home/' + this.form.topic
+      // window.location.href = '#/play/' + this.form.topic
       GuessHelper.setGuessFront(
         this.form.title,
         this.form.description,
@@ -253,11 +250,13 @@ export default {
         this.form.option1,
         this.form.option2).then(() => {
           console.log('Transaction pending...')
+          /*
           self.form.title = ''
           self.form.description = ''
           self.form.topic = ''
           self.form.option1 = ''
           self.form.option2 = ''
+          */
         }).catch(err => {
           self.show('creation', 'error')
           console.log(err)
@@ -282,7 +281,7 @@ export default {
     remchar2 () {
       let self = this
 
-      var charactersremaining = 31 - self.form.title.length
+      var charactersremaining = 60 - self.form.title.length
       return charactersremaining
     }
   },
@@ -293,6 +292,15 @@ export default {
         if (add === null ||
             add.length === 0) {
           self.showMetamask = true
+        } else {
+          window.web3.eth.net.getId().then(netId => {
+            switch (netId) {
+              case 4:
+                break
+              default:
+                self.showMetamask = true
+            }
+          })
         }
       })
     }).catch(err => {

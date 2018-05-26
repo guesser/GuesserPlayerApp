@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Landing from '@/components/Landing'
-import Home from '@/components/Home'
+import Play from '@/components/Play'
 import Create from '@/components/Create'
 import Validation from '@/components/Validation'
 import Search from '@/components/Search'
@@ -25,14 +25,14 @@ export default new Router({
       component: Landing
     },
     {
-      path: '/home',
-      name: 'home',
-      component: Home
+      path: '/play',
+      name: 'play',
+      component: Play
     },
     {
-      path: '/home/:topic',
-      name: 'home',
-      component: Home
+      path: '/play/:topic',
+      name: 'play',
+      component: Play
     },
     {
       path: '/about',
@@ -77,7 +77,7 @@ export default new Router({
       component: Validation
     },
     {
-      path: '/search/:id',
+      path: '/event/:id',
       name: 'search',
       component: Search
     },

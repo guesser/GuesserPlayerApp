@@ -46,7 +46,7 @@
               {{eventItem.option2}} - {{ eventItem.option2votes }}
             </b-progress-bar>
           </b-progress>
-          <small>Total: {{eventItem.votes}} people</small>
+          <small>Total: {{eventItem.votes}} votes</small>
         </div>
 
         <!--Amount of eth in each option-->

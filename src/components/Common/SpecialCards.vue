@@ -2,32 +2,44 @@
   <div>
     <span v-for="n in counter1">
       <b-card-group deck class="mb-3">
+        <!--<b-card-->
+                         <!--v-for="j in counter2"-->
+                         <!--:key="j"-->
+                         <!--v-if="events[maxCol*n + j]"-->
+                         <!--:border-variant="events[maxCol*n + j].topic"-->
+                         <!--header-tag="header"-->
+                         <!--:header-bg-variant="bgVariant(events[maxCol*n + j].topic)"-->
+                         <!--:header-border-variant="events[maxCol*n + j].topic"-->
+                         <!--:bg-variant="events[maxCol*n +j].topic"-->
+                         <!--header-text-variant="black"-->
+                         <!--:footer-bg-variant="events[maxCol*n + j].topic"-->
+                         <!--v-bind:class="{'hoverhand': buttonsAllow}"-->
+                         <!--align="center">-->
         <b-card
                          v-for="j in counter2"
                          :key="j"
                          v-if="events[maxCol*n + j]"
                          :border-variant="events[maxCol*n + j].topic"
                          header-tag="header"
-                         :header-bg-variant="bgVariant(events[maxCol*n + j].topic)"
-                         :header-border-variant="events[maxCol*n +j].topic"
-                         header-text-variant="black"
-                         footer-bg-variant="white"
-                         footer-border-variant="white"
+                         :bg-variant="events[maxCol*n +j].topic"
                          v-bind:class="{'hoverhand': buttonsAllow}"
                          align="center">
           <div slot="header" @click="showPaymentModal(events[maxCol*n + j].id, maxCol*n + j)">
-            {{events[maxCol*n + j].title}}
+            <h4>{{events[maxCol*n + j].title}}</h4>
+            <small> {{events[maxCol*n + j].topic}}</small>
           </div>
           <!--======= BODY =======-->
           <div id="Body1">
               <p class="card-text" @click="showPaymentModal(events[maxCol*n + j].id, maxCol*n + j)">
-              <span v-if="descriptionAllow">
+              <span v-if="descriptionAllow" style="font-size: calc(0.5em + 0.5vw)">
                 {{events[maxCol*n + j].description}}<br><br>
               </span>
+              <span style="font-size: calc(0.4em + 0.5vw)">
               Created at: <b>{{events[maxCol*n + j].startingDay}}</b>
               <br>
               Voting open until: <b>{{events[maxCol*n + j].finishingDay}}</b>
               <br>
+              </span>
               <span v-if="events[maxCol*n + j].eventState == 'voting'">
                 <small>Validation starts after: <b>{{events[maxCol*n + j].eventDuration}}</b></small>
               </span>
@@ -64,7 +76,7 @@
                       {{events[maxCol*n + j].option2}} - {{ events[maxCol*n + j].option2votes }}
                     </b-progress-bar>
                   </b-progress>
-                  <small>Total: {{events[maxCol*n + j].votes}} votes</small>
+                  <small>Total: {{events[maxCol*n + j].votes}} people</small>
                 </div>
 
                 <!--Amount of eth in each option-->
@@ -108,12 +120,12 @@
               <div v-if="mode === 1 && events[maxCol*n + j].eventState != 'validating'">
                 <b-button style="margin: 2px 20px"
                           @click="showPaymentModal(events[maxCol*n + j].id, maxCol*n +j)"
-                          variant="outline-pink" size="sm">
+                          variant="guesser" size="md">
                   {{events[maxCol*n +j].option1}}
                 </b-button>
                 <b-button style="margin: 2px 20px"
                           @click="showPaymentModal(events[maxCol*n + j].id, maxCol*n + j)"
-                          variant="outline-magenta" size="sm">
+                          variant="guesser" size="md">
                   {{events[maxCol*n +j].option2}}
                 </b-button>
               </div>
@@ -174,7 +186,7 @@
             {{events[arrayIndex].option2}} - {{ events[arrayIndex].option2votes }}
           </b-progress-bar>
         </b-progress>
-        <small>Total: {{events[arrayIndex].votes}} votes</small>
+        <small>Total: {{events[arrayIndex].votes}} people</small>
 
         <!--Amount of eth in each option-->
         <br>
@@ -362,7 +374,80 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped lang="scss">
+
+/*Colors*/
+$crypto: #F29100;
+$crypto-contrast: lighten(#F0D215, 25%);
+
+$celebrities: #9D27B0;
+$celebrities-contrast: lighten($celebrities, 40%);
+
+$entertainment: #0086ED;
+$entertainment-contrast: lighten($entertainment, 40%);
+
+$gaming: #ED5565;
+$gaming-contrast: #FFCE54;
+
+$humor-contrast: #CCFF99;
+$humor: darken($humor-contrast, 60%);
+
+$news: #384F5D;
+$news-contrast: lighten($news, 40%);
+
+$politics: #000000;
+$politics-contrast: #DCEBEF;
+
+$sports: #EBB400;
+$sports-contrast: #FFFFFF;
+
+$technology-contrast: #BCBCBC;
+$technology: #000000;
+
+$random-contrast: #D9414C;
+$random: lighten(#FDDF6D, 10%);
+
+$gradient: 7%;
+
+.bg-Crypto {
+  background: linear-gradient(45deg, lighten($crypto-contrast, $gradient), darken($crypto-contrast, $gradient));
+}
+.bg-Celebrities {
+  background: linear-gradient(45deg, lighten($celebrities-contrast, $gradient), darken($celebrities-contrast, $gradient));
+}
+.bg-Entertainment {
+  background: linear-gradient(45deg, lighten($entertainment-contrast, $gradient), darken($entertainment-contrast, $gradient));
+}
+.bg-Gaming {
+  background: linear-gradient(45deg, lighten($gaming-contrast, $gradient), darken($gaming-contrast, $gradient));
+}
+.bg-Humor {
+  background: linear-gradient(45deg, lighten($humor-contrast, $gradient), darken($humor-contrast, $gradient));
+}
+.bg-News {
+  background: linear-gradient(45deg, lighten($news-contrast, $gradient), darken($news-contrast, $gradient));
+}
+.bg-Politics {
+  background: linear-gradient(45deg, lighten($politics-contrast, $gradient), darken($politics-contrast, $gradient));
+}
+.bg-Sports {
+  background: linear-gradient(45deg, lighten($sports-contrast, $gradient), darken($sports-contrast, $gradient));
+}
+.bg-Technology {
+  background: linear-gradient(45deg, lighten($technology-contrast, $gradient), darken($technology-contrast, $gradient));
+}
+.bg-Random {
+  background: linear-gradient(45deg, lighten($random-contrast, $gradient), darken($random-contrast, $gradient));
+}
+
+.card-header {
+  border: none;
+  background-color: transparent;
+}
+.card-footer {
+  border: none;
+  background-color: transparent;
+}
 .absolute-center {
   margin: auto;
   text-align: center;

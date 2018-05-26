@@ -116,7 +116,7 @@ export default {
       self.getOptionsProfits(self.guessIndex)
     },
     generateEventUrl () {
-      let _url = 'www.guesser.io/#/search/'
+      let _url = 'www.guesser.io/#/event/'
       this.guess.url = _url + this.guess.id
     },
     getGuess (_id) {
@@ -147,10 +147,9 @@ export default {
       let self = this
 
       GuessHelper.getEventItemState(_id).then((eventItemState) => {
-        console.log('EvenOfTheDay: ', eventItemState)
         self.guess.eventState = eventItemState
       }).catch(err => {
-        console.log(err)
+        return err
       })
     },
     getOptions (_id) {
@@ -187,7 +186,7 @@ export default {
       self.contentLoaded = false
       self.searchForGuess()
     }).catch(err => {
-      console.log(err)
+      return err
     })
     NetworkHelper.init().then(() => {
       if (NetworkHelper.state === 'disconnected' ||

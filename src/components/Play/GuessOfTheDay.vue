@@ -1,9 +1,8 @@
 <template>
   <div>
-      <MetamaskAlert v-if='showMetamask'/>
     <!--If events-->
     <div v-if='guessIndex != null'>
-      <SingleCard :eventItem="guess"/>
+      <SingleCard :eventItem="guess" :buttonsAllow="buttonsAllow"/>
     </div>
 
     <!--If no events-->
@@ -35,17 +34,16 @@
 <script>
 import GuessHelper from '@/js/Guess'
 import SingleCard from '../Common/SingleCard.vue'
-import MetamaskAlert from '../Common/MetamaskAlert.vue'
 
 export default {
   name: 'GuessOfTheDay',
   props: ['topic'],
   components: {
-    SingleCard,
-    MetamaskAlert
+    SingleCard
   },
   data () {
     return {
+      buttonsAllow: true,
       showMetamask: false,
       guessVotingAlert: false,
       guessVotingFailedAlert: false,
@@ -88,7 +86,7 @@ export default {
       this.$refs.paymentModal.show()
     },
     generateEventUrl () {
-      let _url = 'www.guesser.io/#/search/'
+      let _url = 'www.guesser.io/#/event/'
       this.guess.url = _url + this.guess.id
     },
     getGuess () {
@@ -174,10 +172,29 @@ export default {
     let self = this
 
     GuessHelper.init().then(() => {
+      window.web3.eth.getBalance('0xe817dedf69b016cd321cfad479f272bf0cbad24d', function (error, result) {
+        if (error) {
+          console.log(error)
+        } else {
+          console.log(window.web3.utils.fromWei(result))
+        }
+      })
+
       GuessHelper.getAddressRefreshed().then((add) => {
         if (add === null ||
             add.length === 0) {
           self.showMetamask = true
+          self.buttonsAllow = false
+        } else {
+          // Checking if the user is connected to the right network
+          window.web3.eth.net.getId().then(netId => {
+            switch (netId) {
+              case 4:
+                break
+              default:
+                self.showMetamask = true
+            }
+          })
         }
       })
       self.getGuessOfTheDay()

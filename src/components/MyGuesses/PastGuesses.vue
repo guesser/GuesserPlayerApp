@@ -24,20 +24,19 @@
         <b-row align-h="between">
           <b-col align-self="center">
             <span v-if="loadIndex == 0">
-              <h3>Looks like you haven't participated in any finished event!</h3>
+              <h3 style="font-size:calc(1em + 1vw);">Looks like you haven't participated in any finished event!</h3>
             </span>
             <span v-else>
-              <h3>Looks like you haven't participated in more finished events!</h3>
+              <h3 style="font-size:calc(1em + 1vw);">Looks like you haven't participated in more finished events!</h3>
             </span>
-            <h5>You could start guessing now</h5>
+            <h5 style="font-size:calc(0.8em + 0.8vw);">You could start guessing now</h5>
             <br>
             <b-button href="#home" variant="primary" size="lg">Guess events</b-button>
           </b-col>
           <b-col>
-            <img src="static/beard-hold.png" style="width: 60%;" alt=":'("/>
+            <br>
+            <img src="static/beard-hold.png" style="width: 60%; min-width: 100px" alt=":'("/>
           </b-col>
-        </b-row>
-        <b-row>
         </b-row>
       </b-container>
 
@@ -68,10 +67,10 @@ export default {
     printEvents () {
       for (var i in this.currentEvents) {
         let _index = this.currentEvents[i].c[0]
-        console.log('Id:', _index)
+        // console.log('Id:', _index)
         if (_index !== 0) { // Guess 0 is the empty one
           GuessHelper.getGuessFront(_index).then((guess) => {
-            let _url = 'www.guesser.io/#/search/' + _index
+            let _url = 'www.guesser.io/#/event/' + _index
             this.events.push({
               'id': _index,
               'url': _url,

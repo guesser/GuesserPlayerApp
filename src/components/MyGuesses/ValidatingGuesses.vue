@@ -24,20 +24,19 @@
         <b-row align-h="between">
           <b-col align-self="center">
             <span v-if="loadIndex == 0">
-              <h3>Looks like any of your guessed events is being validated!</h3>
+              <h3 style="font-size:calc(1em + 1vw);">Looks like any of your guessed events is being validated!</h3>
             </span>
             <span v-else>
-              <h3>Looks like any more of your guessed events is being validated!</h3>
+              <h3 style="font-size:calc(1em + 1vw);">Looks like any more of your guessed events is being validated!</h3>
             </span>
             <br>
             <b-button href="#home" variant="primary" size="lg">Guess events</b-button>
           </b-col>
           <b-col>
-            <img src="static/beard-hold.png" style="width: 60%;" alt=":'("/>         
+            <br>
+            <img src="static/beard-hold.png" style="width: 60%; min-width: 100px" alt=":'("/>         
           </b-col>
         </b-row>
-        <b-row>
-        </b-row>    
       </b-container>
 
     </div>
@@ -69,7 +68,7 @@ export default {
         let _index = this.currentEvents[i].c[0]
         if (_index !== 0) { // Guess 0 is the empty one
           GuessHelper.getGuessFront(_index).then((guess) => {
-            let _url = 'www.guesser.io/#/search/' + _index
+            let _url = 'www.guesser.io/#/event/' + _index
             let _eventDuration = this.$moment(guess[6]).unix() - this.$moment(guess[5]).unix()
             this.events.push({
               'id': _index,

@@ -1,5 +1,8 @@
-import contract from 'truffle-contract'
-import Guess from '@contracts/Guess.json'
+import GuessCore from './GuesserCoreHelper.js'
+import GuessGame from './GuesserGameHelper.js'
+import GuessInputs from './GuesserInputHelper.js'
+import GuessPayments from './GuesserPaymentsHelper.js'
+import MyGuesses from './MyGuesserHelper.js'
 
 const GuessHelper = {
 
@@ -9,20 +12,14 @@ const GuessHelper = {
 
   address: null,
 
-  GuessCreated: null,
-
-  GuessVoted: null,
-
-  GuessValidated: null,
-
-  ProfitsReturned: null,
-
   init: function () {
     let self = this
 
     return new Promise(function (resolve, reject) {
       if (self.instance === null) {
-        self.contract = contract(Guess)
+        // self.contract = contract(Guess)
+        self.instance = 1
+        /*
         self.contract.setProvider(window.web3.currentProvider)
 
         if (typeof self.contract.currentProvider.sendAsync !== 'function') {
@@ -32,30 +29,25 @@ const GuessHelper = {
             )
           }
         }
+        */
 
         // instantiate by address
-        self.instance = self.contract.at('0x2f01348757b273ef2d95d5df76ef795f883b5c1f')
+        // self.instance = self.contract.at('0x2f01348757b273ef2d95d5df76ef795f883b5c1f')
+
+        // self.contract.deployed().then(instance => {
+        // self.instance = instance
 
         // Getting the accounts
         window.web3.eth.getAccounts(function (error, accounts) {
           if (error) {
             // console.log(error)
-            resolve()
+            reject()
           } else {
             self.address = accounts
             resolve()
           }
         })
-
-        // Getting events
-        self.GuessCreated = self.instance.GuessCreated()
-        self.GuessVoted = self.instance.GuessVoted()
-        self.GuessValidated = self.instance.GuessValidated()
-        self.ProfitsReturned = self.instance.ProfitsReturned()
-        self.TestValue = self.instance.test_value()
-
-        // self.contract.deployed().then(instance => {
-        // self.instance = instance
+        // })
       } else {
         resolve()
       }
@@ -78,56 +70,6 @@ const GuessHelper = {
     })
   },
 
-  CreatedGuessEvent: function () {
-    this.GuessCreated.watch(function (error, result) {
-      if (!error) {
-        console.log('No error on creating guess event catcher! See: ', result)
-      } else {
-        return error
-      }
-    })
-  },
-
-  VotedGuessEvent: function () {
-    this.GuessVoted.watch(function (error, result) {
-      if (!error) {
-        console.log('No error on voting guess event catcher! See: ', result)
-      } else {
-        return error
-      }
-    })
-  },
-
-  ValidatedGuessEvent: function () {
-    this.GuessValidated.watch(function (error, result) {
-      if (!error) {
-        console.log('No error on validating guess event catcher! See: ', result)
-      } else {
-        return error
-      }
-    })
-  },
-
-  ReturnedProfitsEvent: function () {
-    this.ProfitsReturned.watch(function (error, result) {
-      if (!error) {
-        console.log('No error on returning profit event catcher! See: ', result)
-      } else {
-        return error
-      }
-    })
-  },
-
-  TestValue: function () {
-    this.TestValue.watch(function (error, result) {
-      if (!error) {
-        console.log('Test Value: ', result)
-      } else {
-        console.log(error)
-      }
-    })
-  },
-
   setGuessFront: function (
     _title,
     _description,
@@ -136,280 +78,157 @@ const GuessHelper = {
     _validationDate,
     _option1,
     _option2) {
-    let self = this
-
-    return new Promise((resolve, reject) => {
-      self.instance.setGuess(
+    return GuessInputs.init(this.address).then(() => {
+      console.log('Title: ', _title)
+      return GuessInputs.setGuessFront(
         _title,
         _description,
-        window.web3.utils.asciiToHex(_topic),
+        _topic,
         _finalDate,
         _validationDate,
         _option1,
-        _option2,
-        {from: self.address[0], gas: 600000} // TODO: Gas forced to high #WARNING
-      ).then(() => {
-        resolve()
-      }).catch(err => {
-        reject(err)
-      })
+        _option2
+      )
     })
   },
 
   getGuessFront: function (index) {
-    let self = this
-
-    return new Promise((resolve, reject) => {
-      self.instance.getGuess.call(
-        index
-      ).then(guess => {
-        resolve([
-          guess[0], // title
-          guess[1], // description
-          window.web3.utils.hexToUtf8(guess[2]), // topic
-          guess[3], // creator
-          new Date(guess[4].c[0] * 1000), // the day it started
-          new Date(guess[5].c[0] * 1000), // the final voting date
-          new Date(guess[6].c[0] * 1000) // the validation start date
-        ])
-      }).catch(err => {
-        reject(err)
+    return GuessGame.init().then(() => {
+      return GuessGame.getGuessFront(index).catch((err) => {
+        return err
       })
     })
   },
 
   getGuessOptions: function (index) {
-    let self = this
-
-    return new Promise((resolve, reject) => {
-      self.instance.getGuessOptions.call(
-        index,
-        {from: self.address[0]}
-      ).then(guess => {
-        resolve([
-          guess[0], // option1
-          guess[1], // option2
-          guess[2], // option1Votes
-          guess[3], // option2Votes
-          guess[4], // option1Validation
-          guess[5] // option2Validation
-        ])
-      }).catch(err => {
-        reject(err)
+    return GuessGame.init().then(() => {
+      return GuessGame.getGuessOptions(index).catch((err) => {
+        return err
       })
     })
   },
 
   getGuessOptionsProfits: function (index) {
-    let self = this
-
-    return new Promise((resolve, reject) => {
-      self.instance.getGuessOptionsProfits.call(
-        index,
-        {from: self.address[0]}
-      ).then(guess => {
-        resolve([
-          window.web3.utils.fromWei(guess[0].c[0].toString(), 'Kwei'), // amount of eth in the 1 option
-          window.web3.utils.fromWei(guess[1].c[0].toString(), 'Kwei') // amount of eth in the 2 option
-        ])
-      }).catch(err => {
-        reject(err)
+    return GuessGame.init().then(() => {
+      return GuessGame.getGuessOptionsProfits(index).catch((err) => {
+        return err
       })
     })
   },
 
   getGuessOfTheDay: function (topic) {
-    let self = this
-
-    return new Promise((resolve, reject) => {
-      self.instance.getTodayGuess.call(
-        window.web3.utils.toHex(topic)
-      ).then(_guessIndex => {
-        resolve(_guessIndex.c[0])
-      }).catch(err => {
-        reject(err)
+    return GuessGame.init().then(() => {
+      return GuessGame.getGuessOfTheDay(topic).catch((err) => {
+        return err
       })
     })
   },
 
   getGuessOfTheWeek: function (topic) {
-    let self = this
-
-    return new Promise((resolve, reject) => {
-      self.instance.getWeekGuess.call(
-        window.web3.utils.toHex(topic)
-      ).then(_guessIndex => {
-        resolve(_guessIndex.c[0])
-      }).catch(err => {
-        reject(err)
+    return GuessGame.init().then(() => {
+      return GuessGame.getGuessOfTheWeek(topic).catch((err) => {
+        return err
       })
     })
   },
 
   getGuessesByDate: function (index, topic, date) {
-    let self = this
-
-    return new Promise((resolve, reject) => {
-      self.instance.getGuessesByDate.call(
-        index,
-        window.web3.utils.toHex(topic),
-        date
-      ).then(_guessesIndex => {
-        resolve(_guessesIndex)
-      }).catch(err => {
-        reject(err)
+    return GuessGame.init().then(() => {
+      return GuessGame.getGuessesByDate(index, topic, date).catch((err) => {
+        return err
       })
     })
   },
 
   getGuessesByWeek: function (index, topic, date) {
-    let self = this
-
-    return new Promise((resolve, reject) => {
-      self.instance.getGuessesByWeek.call(
-        index,
-        window.web3.utils.toHex(topic),
-        date
-      ).then(_guessesIndex => {
-        resolve(_guessesIndex)
-      }).catch(err => {
-        reject(err)
+    return GuessGame.init().then(() => {
+      return GuessGame.getGuessesByWeek(index, topic, date).catch((err) => {
+        return err
       })
     })
   },
 
   getGuessesNumber: function () {
-    let self = this
-
-    return new Promise((resolve, reject) => {
-      self.instance.getGuessesLength.call(
-      ).then(number => {
-        resolve(number)
-      }).catch(err => {
-        reject(err)
+    return GuessCore.init().then(() => {
+      return GuessGame.getGuessesNumber().catch((err) => {
+        return err
       })
     })
   },
 
   voteGuess: function (_guessIndex, _option, ethAmount) { // Option has to be between 1 and 2
-    let self = this
-
-    ethAmount = 10 * (ethAmount / 10)
-    return new Promise((resolve, reject) => {
-      console.log(self.address[0])
-      self.instance.voteGuess(
+    return GuessPayments.init(this.address).then(() => {
+      return GuessPayments.voteGuess(
         _guessIndex,
         _option,
-        {from: self.address[0],
-          value: window.web3.utils.toWei(ethAmount.toString(), 'ether'),
-          gas: 6385875} // TODO: Gas forced
-      ).then(() => {
-        resolve()
-      }).catch(err => {
-        reject(err)
-      })
+        ethAmount
+      )
     })
   },
 
   validateGuess: function (_guessIndex, _option) {
-    let self = this
-
-    return new Promise((resolve, reject) => {
-      self.instance.validateGuess(
+    return GuessPayments.init(this.address).then(() => {
+      return GuessPayments.validateGuess(
         _guessIndex,
-        _option,
-        {from: self.address[0], gas: 6385876} // TODO: Gas forced again
-      ).then(() => {
-        resolve()
-      }).catch(err => {
-        reject(err)
+        _option
+      )
+    })
+  },
+
+  getValidatedGuessesByAddress: function (index) {
+    return GuessGame.init(this.address).then(() => {
+      return GuessGame.getValidationsByAddress(this.address).catch((err) => {
+        return err
       })
     })
   },
 
   getGuessesToValidate: function (index, date) {
-    let self = this
-
-    return new Promise((resolve, reject) => {
-      self.instance.getGuessesToValidate.call(
-        index,
-        date
-      ).then(guessesIndex => {
-        resolve(guessesIndex)
-      }).catch(err => {
-        reject(err)
+    return GuessGame.init().then(() => {
+      return GuessGame.getGuessesToValidate(index, date).catch((err) => {
+        return err
       })
     })
   },
 
   getCurrentGuessesByAddress: function (index) {
-    let self = this
-
-    return new Promise((resolve, reject) => {
-      self.instance.getCurrentGuessesByAddress.call(
-        index,
-        self.address[0]
-      ).then(addressEvents => {
-        resolve(addressEvents)
-      }).catch(err => {
-        reject(err)
+    return this.getAddressRefreshed().then((addresses) => {
+      return MyGuesses.init(addresses).then(() => {
+        return MyGuesses.getCurrentGuessesByAddress(index).catch((err) => {
+          return err
+        })
       })
     })
   },
 
   getValidatingGuessesByAddress: function (index) {
-    let self = this
-
-    return new Promise((resolve, reject) => {
-      self.instance.getValidatingGuessesByAddress.call(
-        index,
-        self.address[0]
-      ).then(addressEvents => {
-        resolve(addressEvents)
-      }).catch(err => {
-        reject(err)
+    return MyGuesses.init(this.address).then(() => {
+      return MyGuesses.getValidatingGuessesByAddress(index).catch((err) => {
+        return err
       })
     })
   },
 
   getPastGuessesByAddress: function (index) {
-    let self = this
-
-    return new Promise((resolve, reject) => {
-      self.instance.getPastGuessesByAddress.call(
-        index,
-        self.address[0]
-      ).then(addressEvents => {
-        resolve(addressEvents)
-      }).catch(err => {
-        reject(err)
+    return MyGuesses.init(this.address).then(() => {
+      return MyGuesses.getPastGuessesByAddress(index).catch((err) => {
+        return err
       })
     })
   },
 
   getCreatedGuessesByAddress: function (index) {
-    let self = this
-
-    return new Promise((resolve, reject) => {
-      self.instance.getCreatedGuessesByAddress.call(
-        index,
-        self.address[0]
-      ).then(addressEvents => {
-        resolve(addressEvents)
-      }).catch(err => {
-        reject(err)
+    return MyGuesses.init(this.address).then(() => {
+      return MyGuesses.getCreatedGuessesByAddress(index).catch((err) => {
+        return err
       })
     })
   },
 
   getEventItemState: function (index) {
-    let self = this
-
-    return new Promise((resolve, reject) => {
-      self.instance.getEventItemState.call(index).then((eventItemState) => {
-        resolve(window.web3.utils.hexToUtf8(eventItemState)) // topic
-      }).catch(err => {
-        reject(err)
+    return GuessCore.init().then(() => {
+      return GuessCore.getEventItemState(index).catch((err) => {
+        return err
       })
     })
   },

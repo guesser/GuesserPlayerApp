@@ -6,7 +6,6 @@ const NetworkHelper = {
 
     return new Promise(function (resolve, reject) {
       self.web3Connected = window.web3.currentProvider.connected
-      console.log('Web3:', self.web3Connected)
       if (window.web3.currentProvider.connected === undefined) {
         self.state = 'locked'
       } else {

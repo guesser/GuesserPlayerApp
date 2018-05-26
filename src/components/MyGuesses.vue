@@ -1,5 +1,6 @@
 <template>
   <div class="justify-content-md-center margin">
+    <MetamaskAlert v-if='showMetamask'/>
 
     <!--Alert-->
     <notifications group="copyAlert"
@@ -18,44 +19,42 @@
 
     <h2>Profile</h2>
     <br>
-    <b-row align-g="start" style="margin: 0 !important"> 
-      <b-col style="padding-left: 0"> 
-        <b-row style="margin: 0 !important"> 
-          <b-col cols="12" sm="6" md="3" lg="3" style="padding-left: 0"> 
+    <b-row align-g="start" style="margin: 0 !important">
+      <b-col style="padding-left: 0">
+        <b-row style="margin: 0 !important">
+          <b-col cols="12" sm="6" md="3" lg="3" style="padding-left: 0; margin-bottom: 20px">
             <b-row class="justify-content-md-center">
               <span class="avatar">
               <qrcode :value="address" :options="{ foreground: color1, background: color2, size: 150 }"></qrcode>
               </span>
             </b-row>
-          </b-col> 
-          <b-col align-self="center" style="padding-left: 0"> 
-            <b-row align-h="start" style="margin: 0 !important"> 
+          </b-col>
+          <b-col align-self="center" style="padding-left: 0; margin-bottom: 20px">
+            <b-row align-h="start" style="margin: 0 !important">
               <span>
                 <big>Address:</big>
-              <div class="address-holder" v-clipboard:copy="address" style="overflow:hidden; cursor: pointer"><small>{{address}}</small></div>
+              <div class="address-holder" v-clipboard:copy="address" style="overflow:hidden; cursor: pointer; max-width: 80vw"><small>{{address}}</small></div>
               </span>
-            </b-row> 
-          </b-col> 
-        </b-row> 
-      </b-col> 
-    </b-row> 
-
-    <br>
+            </b-row>
+          </b-col>
+        </b-row>
+      </b-col>
+    </b-row>
     <br>
     <h2>Events I have participated in</h2>
     <br>
     <b-card no-body>
-      <b-tabs card v-model="tabIndex">
-        <b-tab title="Current Events" :title-link-class="linkClass(0)">
+      <b-tabs v-model="tabIndex">
+        <b-tab class="wrapper10" title="Current Events" :title-link-class="linkClass(0)">
           <CurrentGuesses/>
         </b-tab>
-        <b-tab title="Events being validated" :title-link-class="linkClass(1)">
+        <b-tab class="wrapper10" title="Events being validated" :title-link-class="linkClass(1)">
           <ValidatingGuesses/>
         </b-tab>
-        <b-tab title="Past events" :title-link-class="linkClass(2)">
+        <b-tab class="wrapper10" title="Past events" :title-link-class="linkClass(2)">
           <PastGuesses/>
         </b-tab>
-        <b-tab title="Created events" :title-link-class="linkClass(3)">
+        <b-tab class="wrapper10" title="Created events" :title-link-class="linkClass(3)" title-link-class="end">
           <CreatedGuesses/>
         </b-tab>
       </b-tabs>
@@ -69,7 +68,7 @@
 </template>
 
 <script>
-import NetworkHelper from '@/js/NetworkHelper'
+// import NetworkHelper from '@/js/NetworkHelper'
 import GuessHelper from '@/js/Guess'
 import ServerHelper from '@/js/ServerHelper'
 
@@ -79,6 +78,7 @@ import PastGuesses from './MyGuesses/PastGuesses.vue'
 import CreatedGuesses from './MyGuesses/CreatedGuesses.vue'
 import Charts from './MyGuesses/Charts.vue'
 import Qrcode from '@xkeshi/vue-qrcode'
+import MetamaskAlert from './Common/MetamaskAlert.vue'
 
 export default {
   name: 'MyGuesses',
@@ -89,10 +89,12 @@ export default {
       tabIndex: 0,
       chartsShow: false,
       color1: 'white',
-      color2: '#ff0d73'
+      color2: '#ff0d73',
+      showMetamask: false
     }
   },
   components: {
+    MetamaskAlert,
     CurrentGuesses,
     ValidatingGuesses,
     PastGuesses,
@@ -117,6 +119,29 @@ export default {
     }
   },
   created: function () {
+    let self = this
+
+    GuessHelper.init().then(() => {
+      GuessHelper.getAddressRefreshed().then((addresses) => {
+        self.address = addresses[0]
+        if (addresses === null ||
+            addresses.length === 0) {
+          self.showMetamask = true
+          self.address = addresses[0]
+        } else {
+          // Checking if the user is connected to the right network
+          window.web3.eth.net.getId().then(netId => {
+            switch (netId) {
+              case 4:
+                break
+              default:
+                self.showMetamask = true
+            }
+          })
+        }
+      })
+    })
+    /*
     NetworkHelper.init().then(() => {
       if (NetworkHelper.state === 'disconnected' ||
         NetworkHelper.state === 'locked') {
@@ -128,6 +153,7 @@ export default {
         })
       }
     })
+    */
   }
 }
 </script>
@@ -140,6 +166,9 @@ $avatarback: #ff0d73;
 .margin{
   margin: 0% 10%;
   padding: 2% 0%;
+}
+.wrapper10{
+  padding: 15px 2%;
 }
 .charts{
   padding: 3% 7%;
@@ -157,5 +186,8 @@ $avatarback: #ff0d73;
   padding-bottom: 8px;
   border-radius: 10px;
   background: $avatarback;
+}
+.end {
+  position: inherit;
 }
 </style>

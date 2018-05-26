@@ -24,19 +24,19 @@
         <b-row align-h="between">
           <b-col align-self="center">
             <span v-if="loadIndex == 0">
-            <h3>Looks like you haven't participated in any current event yet!</h3>
+            <h3 style="font-size:calc(1em + 1vw);">Looks like you haven't participated in any current event yet!</h3>
             </span>
             <span v-else>
-              <h3>Looks like you haven't participated in more current events yet!</h3>
+              <h3 style="font-size:calc(1em + 1vw);">Looks like you haven't participated in more current events yet!</h3>
             </span>
-            <h5>Feel like taking a guess?</h5>
+            <h5 style="font-size:calc(0.8em + 0.8vw);">Feel like taking a guess?</h5>
+            <br>
+          <b-button href="#home" variant="primary" size="lg">Guess events</b-button>
           </b-col>
           <b-col>
-            <img src="static/beard-hold.png" style="width: 70%;" alt=":'("/>
+            <br>
+            <img src="static/beard-hold.png" style="width: 70%; min-width: 100px" alt=":'("/>
           </b-col>
-        </b-row>
-        <b-row>
-          <b-button href="#home" variant="primary" size="lg">Guess events</b-button>
         </b-row>
       </b-container>
 
@@ -69,7 +69,7 @@ export default {
         let _index = this.currentEvents[i].c[0]
         if (_index !== 0) { // Guess 0 is the empty one
           GuessHelper.getGuessFront(_index).then((guess) => {
-            let _url = 'www.guesser.io/#/search/' + _index
+            let _url = 'www.guesser.io/#/event/' + _index
             let _eventDuration = this.$moment(guess[6]).unix() - this.$moment(guess[5]).unix()
             this.events.push({
               'id': _index,
@@ -107,9 +107,8 @@ export default {
 
       GuessHelper.getEventItemState(_index).then((eventItemState) => {
         self.events[_localIndex].eventState = eventItemState
-        // console.log('Event:', self.events[_localIndex].id, eventItemState)
       }).catch(err => {
-        console.log(err)
+        return err
       })
     },
 
@@ -122,7 +121,7 @@ export default {
         self.events[arrIndex].option2votes = event[3].c[0]
         self.events[arrIndex].votes = event[2].c[0] + event[3].c[0]
       }).catch(err => {
-        console.log(err)
+        return err
       })
     },
 
@@ -138,19 +137,21 @@ export default {
     },
 
     getCurrentGuessesByAddress () {
-      GuessHelper.getCurrentGuessesByAddress(this.loadIndex).then((_events) => {
-        this.currentEvents = _events
-        this.printEvents()
+      let self = this
+
+      GuessHelper.getCurrentGuessesByAddress(this.loadIndex).then((events) => {
+        self.currentEvents = events
+        self.printEvents()
       }).catch((err) => {
         return err
       })
     }
   },
-  beforeCreate: function () {
+  created: function () {
     GuessHelper.init().then(() => {
       this.getCurrentGuessesByAddress()
     }).catch(err => {
-      console.log(err)
+      return err
     })
   },
   watch: {

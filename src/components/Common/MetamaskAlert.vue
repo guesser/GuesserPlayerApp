@@ -3,6 +3,7 @@
   <b-alert show variant="primary" dismissible>
     <h4 class="alert-heading">You need to
       <span v-if="locked"> unlock </span>
+      <span v-else-if="notRinkeby"> select Rinkeby net in </span>
       <span v-else> install </span>
       Metamask extension</h4>
     <p>
@@ -24,15 +25,25 @@ export default {
   name: 'MetamaskAlert',
   data () {
     return {
-      locked: false
+      locked: false,
+      notRinkeby: false
     }
   },
   created: function () {
     let self = this
     NetworkHelper.init().then(() => {
-      console.log(NetworkHelper.state)
       if (NetworkHelper.state === 'locked') {
         self.locked = true
+      } else {
+        // Checking if the user is connected to the right network
+        window.web3.eth.net.getId().then(netId => {
+          switch (netId) {
+            case 4:
+              break
+            default:
+              self.notRinkeby = true
+          }
+        })
       }
     })
   }

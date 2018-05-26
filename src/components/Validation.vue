@@ -51,11 +51,30 @@
     </div>
 
       <MetamaskAlert v-if='showMetamask'/>
+
+      <!-- Events notifications -->
+      <notifications group="validatedEventAlert"
+                   position="bottom center"
+                   :max="1"
+                   width="320px"
+                   :speed="1000">
+      <template slot="body" slot-scope="props">
+        <a :href="validatedEventUrl" style="text-decoration:none">
+          <div class="vue-notification">
+            <h5>Event validated!</h5>
+            <span>Event #{{validatedEventId}}: '{{validatedEventTitle}}'
+              <br>You have staked {{validatedEventValue}} eth to Outcome: {{validatedEventOutcomeName}}
+            </span>
+          </div>
+        </a>
+      </template>
+    </notifications>
   </div>
 </template>
 
 <script>
 import GuessHelper from '@/js/Guess'
+import GuessPaymentsHelper from '@/js/GuesserPaymentsHelper'
 // import NetworkHelper from '@/js/NetworkHelper'
 
 import CardDeck from './Common/CardDeck.vue'
@@ -78,11 +97,18 @@ export default {
       guessIndex: null,
       guesses: [],
       contentLoaded: false,
-      loadIndex: 0
+      loadIndex: 0,
+      // Event data
+      validatedEventId: 0,
+      validatedEventTitle: '',
+      validatedEventUrl: '',
+      validatedEventValue: '',
+      validatedEventOutcomeName: ''
     }
   },
   methods: {
     printGuesses () {
+      this.guesses = []
       for (var i = 0; i < this.guessesByNumber.length; i++) {
         let _index = this.guessesByNumber[i].c[0]
         if (_index !== 0 && this.userGuesses.indexOf(_index) === -1) { // Guess 0 is the empty one
@@ -146,7 +172,6 @@ export default {
       this.guesses = [] // Clean the array of showed Guesses
       GuessHelper.getGuessesToValidate(this.loadIndex, this.$moment().unix()).then((_guesses) => {
         self.guessesByNumber = _guesses
-        // console.log(_guesses)
         self.printGuesses()
         self.contentLoaded = true
       }).catch(err => {
@@ -170,13 +195,40 @@ export default {
             endFound = true
             if (called === false) {
               called = true
-              self.getGuessesToValidate()
+              // self.getGuessesToValidate()
             }
           }
         }
         if (endFound === false) {
           self.getUserVotedGuesses(votedIndex + 1)
         }
+      })
+
+      // The guesses the user has already validated
+      // TODO: Uncomment this
+      GuessHelper.getValidatedGuessesByAddress(votedIndex).then((_events) => {
+        for (var item in _events) {
+          if (_events[item].c[0] !== 0) {
+            if (self.userGuesses.indexOf(_events[item].c[0]) === -1) {
+              self.userGuesses.push(_events[item].c[0])
+            }
+          } else {
+            endFound = true
+            if (called === false) {
+              called = true
+              // self.getGuessesToValidate()
+            }
+          }
+        }
+        if (endFound === false) {
+          self.getUserVotedGuesses(votedIndex + 1)
+        }
+      })
+    },
+    showEventAlert (_group) {
+      // TODO: Catch the id and the topic of the event
+      this.$notify({
+        group: _group
       })
     }
   },
@@ -190,8 +242,36 @@ export default {
           self.showMetamask = true
           self.getGuessesToValidate()
         } else {
-          this.getUserVotedGuesses(0)
+          window.web3.eth.net.getId().then(netId => {
+            switch (netId) {
+              case 4:
+                break
+              default:
+                self.showMetamask = true
+                self.getGuessesToValidate()
+            }
+            this.getUserVotedGuesses(0)
+          })
         }
+
+        // Event watcher
+        GuessPaymentsHelper.init(add).then(() => {
+          GuessPaymentsHelper.GuessValidated.watch(function (error, result) {
+            if (!error) {
+              self.validatedEventUrl = ''
+              self.validatedEventId = result.args.guess.c[0]
+              self.validatedEventTitle = 'The option voted was: ' + result.args.option.c[8]
+              self.validatedEventUrl = self.shareUrl + self.validatedEventId
+
+              if (self.validatedEventId !== self.lastValidatedEventId) {
+                self.showEventAlert('validatedEventAlert')
+                self.lastValidatedEventId = self.validatedEventId
+              }
+            } else {
+              return error
+            }
+          })
+        })
       })
     }).catch(err => {
       console.log(err)
