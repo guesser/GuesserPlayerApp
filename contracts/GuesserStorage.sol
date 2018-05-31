@@ -32,7 +32,7 @@ contract GuesserStorage is DateTime{
     uint128 option2Votes;
     uint64 option1Validation; // Number of validations an option has
     uint64 option2Validation;
-    bool profitsReturned; // Has the guess returned the profits?
+    mapping(address => bool) profitsReturned; // Has the guess returned the profits?
   }
 
   GuessStruct[] guesses; // Data structure to store all the guesses in the platform
@@ -58,22 +58,21 @@ contract GuesserStorage is DateTime{
     address[] memory _validators;
     GuessStruct memory _guess = GuessStruct({
       title: '',
-          description: '',
-          topic: '',
-          creator: 0x00000000000000000000000000000000,
-          voters: _voters,
-          validators: _validators,
-          startingDate: uint32(now),
-          finalDate: 0,
-          validationDate: 0,
-          option1: '',
-          option2: '',
-          option1Votes: 0,
-          option2Votes: 0,
-          option1Validation: 0,
-          option2Validation: 0,
-          profitsReturned: false
-          });
+      description: '',
+      topic: '',
+      creator: 0x00000000000000000000000000000000,
+      voters: _voters,
+      validators: _validators,
+      startingDate: uint32(now),
+      finalDate: 0,
+      validationDate: 0,
+      option1: '',
+      option2: '',
+      option1Votes: 0,
+      option2Votes: 0,
+      option1Validation: 0,
+      option2Validation: 0
+    });
     guesses.push(_guess);
   }
 
@@ -110,7 +109,7 @@ contract GuesserStorage is DateTime{
       description: "",
       topic: "",
       creator: _creator,
-          voters: _voters,
+      voters: _voters,
       validators: _validators,
       startingDate: uint32(now),
       finalDate: _finalDate,
@@ -120,8 +119,7 @@ contract GuesserStorage is DateTime{
       option1Votes: 0,
       option2Votes: 0,
       option1Validation: 0,
-      option2Validation: 0,
-      profitsReturned: false
+      option2Validation: 0
     });
     uint256 _len = guesses.push(_guess) -1; // Adds the new struct and return its position
     uint32 _year = DateTime.getYear(_finalDate) * 10000;
@@ -183,8 +181,8 @@ contract GuesserStorage is DateTime{
    * @param _index uint256 The description of the Guess
    * @param _state bool The description of the Guess
    */
-  function setGuessProfitsReturned (uint256 _index, bool _state) isOwner external {
-    guesses[_index].profitsReturned = _state;
+  function setGuessProfitsReturned (uint256 _index, address _address,bool _state) isOwner external {
+    guesses[_index].profitsReturned[_address] = _state;
   }
 
   /**
@@ -414,8 +412,8 @@ contract GuesserStorage is DateTime{
    * @param _index uint256 The guess your are asking about
    * @return bool The final date of the guess
    */
-  function getGuessProfitsReturned (uint256 _index) isOwner external view returns (bool) {
-    return guesses[_index].profitsReturned;
+  function getGuessProfitsReturned (uint256 _index, address _address) isOwner external view returns (bool) {
+    return guesses[_index].profitsReturned[_address];
   }
 
   /**

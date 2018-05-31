@@ -117,9 +117,6 @@ contract GuesserPayments is GuesserCore {
       guesserStorage.increaseValidation(_guess, 2, 1);
     }
     _validations += 1;
-    if (_validations == _half) {
-      returnProfits(_guess);
-    }
     emit GuessValidated(_guess, _option, msg.sender);
   }
 
@@ -127,87 +124,53 @@ contract GuesserPayments is GuesserCore {
   * @dev Function that returns the profit to the voters
   * @param _guess uint256 the event to ask for the profits of
   */
-  function returnProfits (uint256 _guess) private {
-    uint256 _votersLength = guesserStorage.getGuessVotersLength(_guess);
-    uint256 _validatorsLength = guesserStorage.getGuessValidatorsLength(_guess);
+  function returnProfits (uint256 _guess) external {
     // Does the guess exists?
     require(_guess < guesserStorage.getGuessLength());
     // Is the date due?
-    require(DateTime.dateDue(guesserStorage.getGuessFinalDate(_guess)) == true);
-    // Has anybody voted in the guess?
-    require( _votersLength > 0);
-    // Has anybody validated the guess?
-    require(_validatorsLength > 0);
-    // Have the profits already been returned
-    require(guesserStorage.getGuessProfitsReturned(_guess) == false);
+    require(getEventItemState(_guess) == "passed");
+    // Have the profits already been returned to this address
+    require(guesserStorage.getGuessProfitsReturned(_guess, msg.sender) == false);
 
-
+    uint256 _amountToSend = 0;
     uint8 _winner = getGuessWinner(_guess);
-    uint128 _totalProfits = getGuessProfits(_guess);
-    uint128 _totalWinnersProfits = getGuessProfitsByOption(_guess, _winner);
+    uint256 _totalProfits = getGuessProfits(_guess);
 
-    // If there is only one voter (even in both sides)
-    if (_votersLength == 1) {
-      // Return profits to voters
-      guesserStorage.getGuessVoter(_guess, 0).transfer(
-                                                       uint256(_totalProfits-(
-                                                       (_totalProfits / CREATOR_FEE) +
-                                                       (_totalProfits / VALIDATOR_FEE) +
-                                                       (_totalProfits / GUESSER_FEE)
-                                                                              )));
-    } else { // More than one voter
-      for(uint256 _voterIndex = 0; _voterIndex < _votersLength; _voterIndex++) {
-        returnVoterProfits(_guess,
-                           _voterIndex,
-                           _totalProfits,
-                           _totalWinnersProfits,
-                           _winner);
-      }
-    }
+    uint128 _validationOption = guesserStorage.getGuessValidatorsOption(
+                                                                        _guess,
+                                                                        msg.sender
+                                                                        );
+    uint128 _votingOption = guesserStorage.getGuessVotersOption(_guess, msg.sender, 0);
 
-    // Return common profits
-    // Return profits for the validator/s
-    for(uint256 _validatorIndex = 0; _validatorIndex < _validatorsLength; _validatorIndex++) {
-      guesserStorage.getGuessValidator(_guess, _validatorIndex).transfer(_totalProfits/(_validatorsLength * VALIDATOR_FEE));
-    }
-    // Return profits to creator
-    guesserStorage.getGuessCreator(_guess).transfer(_totalProfits/CREATOR_FEE);
-
-    //Guesser profit
-    guesserFunds += _totalProfits/GUESSER_FEE;
-
-    guesserStorage.setGuessProfitsReturned(_guess, true);
-    // Release the event
-    emit ProfitsReturned(_guess);
-  }
-
-  function returnVoterProfits (uint256 _guess,
-                               uint256 _voterIndex,
-                               uint128 _totalProfits,
-                               uint128 _totalWinnersProfits,
-                               uint8 _winner) private {
-    address _person = guesserStorage.getGuessVoter(_guess, _voterIndex);
-    uint128 _personOption = guesserStorage.getGuessVotersOption(
-                                                                _guess,
-                                                                _person,
-                                                                0);
-    // Check if the user voted the winner option or both options (3)
-    if (_personOption == uint128(_winner) || _personOption == uint128(3)) {
-      // Amount of eth the address has bet
+    // Check if address voted the event
+    if (_votingOption == _winner || _votingOption == 3) {
+      uint256 _validatorsLength = guesserStorage.getGuessValidatorsLength(_guess);
+      uint128 _totalWinnersProfits = getGuessProfitsByOption(_guess, _winner);
       uint128 _addressAmount = guesserStorage.getGuessVotersOption(
                                                                    _guess,
-                                                                   _person,
+                                                                   msg.sender,
                                                                    _winner);
       uint256 _percentage = uint256((_totalWinnersProfits * 10) / _addressAmount) / 10;
-      uint256 _final = uint256(_totalProfits-(
+      _amountToSend += uint256(_totalProfits-(
                                                (_totalProfits / CREATOR_FEE) +
                                                (_totalProfits / VALIDATOR_FEE) +
                                                (_totalProfits / GUESSER_FEE)
                                 ) / _percentage);
-      // WARNING: Only will work with non contracts addresses
-      // Return Profits to voters
-      _person.transfer(_final);
+    } else if (_validationOption == _winner) {
+      // Check if address validated the event
+      // Check if the address validated the correct option
+      _amountToSend += _totalProfits/(_validatorsLength * VALIDATOR_FEE);
     }
+
+    // Check if address created the event
+    if (guesserStorage.getGuessCreator(_guess) == msg.sender) {
+      _amountToSend += _totalProfits/CREATOR_FEE;
+    }
+
+    if (_amountToSend != 0) {
+      msg.sender.transfer(_amountToSend);
+    }
+    guesserStorage.setGuessProfitsReturned(_guess, msg.sender, true);
   }
 
 
