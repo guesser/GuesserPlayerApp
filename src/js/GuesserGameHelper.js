@@ -156,6 +156,7 @@ const GuesserGameHelper = {
       })
     })
   },
+
   getValidationsByAddress: function (address) {
     let self = this
 
@@ -164,6 +165,20 @@ const GuesserGameHelper = {
         address
       ).then(validatedGuesses => {
         resolve(validatedGuesses)
+      }).catch(err => {
+        reject(err)
+      })
+    })
+  },
+
+  getGuessProfitsReturned: function (event) {
+    let self = this
+
+    return new Promise((resolve, reject) => {
+      self.instance.getValidationsByAddress.call(
+        event
+      ).then(validatedGuesses => {
+        resolve(profitsReturned)
       }).catch(err => {
         reject(err)
       })
