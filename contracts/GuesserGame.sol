@@ -304,8 +304,19 @@ contract GuesserGame is GuesserCore {
     return _validationGuesses;
   }
 
+  /* @dev Function that returns a list of the guesses an address has already validated
+  * @param _address address The address from what we want to know the guesses
+  * @return uint256[] a list with the validated
+  */
   function getValidationsByAddress (address _address) public view returns (uint256[]) {
     return guesserStorage.getValidationsByAddress(_address);
   }
 
+  /* @dev Function that returns if an address had his profits returned
+  * @param _guess uint256 The guess we want to check
+  * @return bool if the profits have been returned already or not
+  */
+  function getGuessProfitsReturned (uint256 _guess) public view returns (bool) {
+    return guesserStorage.getGuessProfitsReturned(_guess, msg.sender);
+  }
 }
