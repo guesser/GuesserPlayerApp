@@ -140,6 +140,14 @@
               <b-button style="margin: 2px 20px" disabled
                         variant="outline-secondary"
                         size="sm">{{events[maxCol*n +j].option2}}</b-button>
+                      <div v-if="events[maxCol*n + j].profitsReturned == false">
+                        <b-button style="margin: 2px 20px"
+                                  @click="returnProfits(events[maxCol*n + j].id)"
+                                  variant="outline-magenta"
+                                  size="sm">
+                  {{events[maxCol*n + j].option2}}
+                </b-button>
+                      </div>
             </div>
           </div>
 
@@ -347,10 +355,16 @@ export default {
         this.showVoteAlert('voteAlert', 'error')
       })
     },
-    validateGuess (_index, _option) { // Option has to be 1 or 2
+    validateGuess (index, option) { // Option has to be 1 or 2
       // let self = this
-      console.log(_index)
-      GuessHelper.validateGuess(_index, _option).then(() => {
+      GuessHelper.validateGuess(index, option).then(() => {
+        console.log('Transaction pending...')
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    returnProfits (index) {
+      GuessHelper.returnProfits(index).then(() => {
         console.log('Transaction pending...')
       }).catch(err => {
         console.log(err)

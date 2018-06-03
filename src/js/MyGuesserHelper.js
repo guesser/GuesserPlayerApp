@@ -83,6 +83,20 @@ const MyGuessesHelper = {
         reject(err)
       })
     })
+  },
+
+  getGuessProfitsReturned: function (event) {
+    let self = this
+
+    return new Promise((resolve, reject) => {
+      self.instance.getGuessAddressProfitsReturned.call(
+        event
+      ).then(profitsReturned => {
+        resolve(profitsReturned)
+      }).catch(err => {
+        reject(err)
+      })
+    })
   }
 }
 export default MyGuessesHelper

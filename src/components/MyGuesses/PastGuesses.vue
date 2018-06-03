@@ -5,8 +5,8 @@
         <div v-if="(totalEvents != 0 && loadIndex == 0) || loadIndex != 0">
           <b-row align-v="center" align-h="center">
             <b-button-toolbar key-nav>
-              <b-button @click="loadIndex--" variant="primary" class="nav-button">&laquo</b-button>
-              <b-button @click="loadIndex++" variant="primary" class="nav-button">&raquo</b-button>
+              <b-button v-click="loadIndex--" variant="primary" class="nav-button">&laquo</b-button>
+              <b-button v-click="loadIndex++" variant="primary" class="nav-button">&raquo</b-button>
             </b-button-toolbar>
           </b-row>
         </div>
@@ -14,10 +14,11 @@
     </b-row>
 
     <div v-if="totalEvents > 0">
-      <CardDeck :events="events"
-         :peopleBar="true"
-         :ethBar="true"
-         :buttonsAllow="false"/>
+      <CardDeck
+         v-bind:events="events"
+         v-bind:peopleBar="true"
+         v-bind:ethBar="true"
+         v-bind:buttonsAllow="false"/>
     </div>
     <div v-else>
       <b-container class="" style="">
@@ -30,11 +31,11 @@
               <h3 style="font-size:calc(1em + 1vw);">Looks like you haven't participated in more finished events!</h3>
             </span>
             <h5 style="font-size:calc(0.8em + 0.8vw);">You could start guessing now</h5>
-            <br>
+            <br/>
             <b-button href="#home" variant="primary" size="lg">Guess events</b-button>
           </b-col>
           <b-col>
-            <br>
+            <br/>
             <img src="static/beard-hold.png" style="width: 60%; min-width: 100px" alt=":'("/>
           </b-col>
         </b-row>
@@ -88,10 +89,12 @@ export default {
               'option2votes': 'Loading...',
               'option1AmountEth': 'loading...',
               'option2AmountEth': 'loading...',
-              'amountEth': 'Loading...'
+              'amountEth': 'Loading...',
+              'profitsReturned': true
             })
             this.printEventsOptions(_index, this.totalEvents)
             this.getOptionsProfits(_index, this.totalEvents)
+            this.profitsReturned(_index, this.totalEvents)
             this.printEventState(_index, this.totalEvents)
             this.totalEvents++
           }).catch((err) => {
@@ -132,6 +135,14 @@ export default {
         self.events[arrIndex].option2AmountEth = +(parseFloat(optionsAmount[1]) / 10).toFixed(4)
         self.events[arrIndex].amountEth = +(parseFloat(optionsAmount[0]) / 10 +
                                             parseFloat(optionsAmount[1]) / 10).toFixed(4)
+      })
+    },
+
+    profitsReturned (eventIndex, arrIndex) {
+      let self = this
+
+      GuessHelper.getGuessAddressProfitsReturned(eventIndex).then((profitsReturned) => {
+        self.events[arrIndex].profitsReturned = profitsReturned
       })
     },
 

@@ -95,4 +95,12 @@ contract MyGuesses is GuesserCore {
 
     return _firstEvents;
   }
+
+/* @dev Function that returns if an address had his profits returned
+  * @param _guess uint256 The guess we want to check
+  * @return bool if the profits have been returned already or not
+  */
+  function getGuessAddressProfitsReturned (uint256 _guess) public view returns (bool) {
+    return guesserStorage.getGuessProfitsReturned(_guess, msg.sender);
+  }
 }

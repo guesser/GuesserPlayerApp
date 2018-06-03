@@ -156,22 +156,30 @@ const GuessHelper = {
     })
   },
 
-  voteGuess: function (_guessIndex, _option, ethAmount) { // Option has to be between 1 and 2
+  voteGuess: function (guessIndex, option, ethAmount) { // Option has to be between 1 and 2
     return GuessPayments.init(this.address).then(() => {
       return GuessPayments.voteGuess(
-        _guessIndex,
-        _option,
+        guessIndex,
+        option,
         ethAmount
       )
     })
   },
 
-  validateGuess: function (_guessIndex, _option) {
+  validateGuess: function (guessIndex, option) {
     return GuessPayments.init(this.address).then(() => {
       return GuessPayments.validateGuess(
-        _guessIndex,
-        _option
+        guessIndex,
+        option
       )
+    })
+  },
+
+  returnProfits: function (index) {
+    return GuessPayments.init(this.address).then(() => {
+      return GuessPayments.returnProfits(index).catch((err) => {
+        return err
+      })
     })
   },
 
@@ -220,6 +228,14 @@ const GuessHelper = {
   getCreatedGuessesByAddress: function (index) {
     return MyGuesses.init(this.address).then(() => {
       return MyGuesses.getCreatedGuessesByAddress(index).catch((err) => {
+        return err
+      })
+    })
+  },
+
+  getGuessAddressProfitsReturned: function (index) {
+    return MyGuesses.init(this.address).then(() => {
+      return MyGuesses.getGuessAddressProfitsReturned(index).catch((err) => {
         return err
       })
     })
