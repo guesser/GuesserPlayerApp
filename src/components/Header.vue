@@ -19,7 +19,7 @@
           <b-nav-item href="#play/Home">Play</b-nav-item>
           <b-nav-item v-if='userExists' href="#create">Create</b-nav-item>
           <b-nav-item v-else class="signup-header" href="#signup">SignUp</b-nav-item>
-          <b-nav-item href="#validation">Validation</b-nav-item>
+          <!-- <b-nav-item href="#validation">Validation</b-nav-item> -->
           <b-nav-item href="#myguesses" v-if='userAddress'>My Guesses</b-nav-item>
         </b-navbar-nav>
 
