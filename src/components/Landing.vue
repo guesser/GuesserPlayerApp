@@ -10,7 +10,7 @@
               <b-col lg="10" align-self="end" style="text-align: left;">
                 <h2 style="font-size: calc(1em + 1.0vw); color: black;">Hi there!</h2>
                 <h2 style="font-size: calc(1em + 0.4vw); color: gray;">
-                  Welcome to the <a href='guesser.org'>Guesser</a> Proof-of-Concept, an interface where you’ll be able to create bets and play at those created by others. Keep in mind that <b style="color:black">this is an outdated PoC version</b> live on the Rinkeby testnet, so you might face bugs or errors that aren’t fixed.
+                  Welcome to the <a href='https://guesser.org'>Guesser</a> Proof-of-Concept, an interface where you’ll be able to create bets and play at those created by others. Keep in mind that <b style="color:black">this is an outdated PoC version</b> live on the Rinkeby testnet, so you might face bugs or errors that aren’t fixed.
                <br/>
                <br/>
                We are currently focused on building the peer to peer betting protocol and incentive network anyone will be able to use to play, create bets, curate bets, or build a betting product on Ethereum.  
